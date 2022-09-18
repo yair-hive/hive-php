@@ -2,9 +2,8 @@
 use Phppot\DataSource;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
-require_once 'DataSource.php';
-$db = new DataSource();
-$conn = $db->getConnection();
+include_once 'mysql/mysql_conf.php';
+$connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
 require_once ('./vendor/autoload.php');
 
 if (isset($_POST["import"])) {
@@ -31,33 +30,23 @@ if (isset($_POST["import"])) {
         for ($i = 0; $i <= $sheetCount; $i ++) {
             $first_name = "";
             if (isset($spreadSheetAry[$i][0])) {
-                $first_name = mysqli_real_escape_string($conn, $spreadSheetAry[$i][0]);
+                $first_name = mysqli_real_escape_string($connection, $spreadSheetAry[$i][0]);
             }
             $last_name = "";
             if (isset($spreadSheetAry[$i][1])) {
-                $last_name = mysqli_real_escape_string($conn, $spreadSheetAry[$i][1]);
+                $last_name = mysqli_real_escape_string($connection, $spreadSheetAry[$i][1]);
             }
             $guest_group = "";
             if (isset($spreadSheetAry[$i][2])) {
-                $guest_group = mysqli_real_escape_string($conn, $spreadSheetAry[$i][2]);
+                $guest_group = mysqli_real_escape_string($connection, $spreadSheetAry[$i][2]);
             }
 
             if (! empty($first_name) || ! empty($last_name) || !empty($guest_group)) {
-                $query = "insert into guests(first_name,last_name,guest_group) values(?,?,?)";
-                $paramType = "sss";
-                $paramArray = array(
-                    $first_name,
-                    $last_name,
-                    $guest_group
-                );
-                $insertId = $db->insert($query, $paramType, $paramArray);
-                // $query = "insert into tbl_info(name,description) values('" . $name . "','" . $description . "')";
-                // $result = mysqli_query($conn, $query);
-
-                if (! empty($insertId)) {
+                $query_string = "INSERT INTO guests(first_name,last_name,guest_group) VALUES('{$first_name}', '{$last_name}', '{$guest_group}')";
+                if(mysqli_query($connection, $query_string)){
                     $type = "success";
                     $message = "Excel Data Imported into the Database";
-                } else {
+                }else{
                     $type = "error";
                     $message = "Problem in Importing Excel Data";
                 }
@@ -162,8 +151,9 @@ div#response.display-block {
 
 
 <?php
-$sqlSelect = "SELECT * FROM guests";
-$result = $db->select($sqlSelect);
+$query_string = "SELECT * FROM guests";
+$results = mysqli_query($connection, $query_string);
+$result = mysqli_fetch_all($results, MYSQLI_ASSOC);
 if (! empty($result)) {
     ?>
 
