@@ -1,1 +1,1 @@
-פריוקט לימודי
+run composer install
