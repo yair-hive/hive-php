@@ -17,7 +17,7 @@ function addMap(rowsNumber, colsNumber, edit){
     mapContainer.appendChild(map)
 }
 
-function addSeat(row_num, col_num, id, guest_id){
+function addSeat(row_num, col_num, id, guest_id, seat_num){
     var seat_location = document.querySelector('.row-'+row_num+'.col-'+col_num)
     var num_box = document.createElement('div')
     var name_box = document.createElement('div')
@@ -25,8 +25,10 @@ function addSeat(row_num, col_num, id, guest_id){
     name_box.classList.add('name_box')
     seat_location.classList.remove('cell')
     seat_location.classList.add('seat')
-    $(seat_location).attr('seat_id', id)
-    $(seat_location).attr('guest_id', guest_id)
+    $(name_box).attr('seat_id', id)
+    $(num_box).attr('seat_id', id)
+    $(num_box).text(seat_num)
+    $(name_box).attr('guest_id', guest_id)
     $(name_box).text(guest_id)
     seat_location.append(num_box)
     seat_location.append(name_box)

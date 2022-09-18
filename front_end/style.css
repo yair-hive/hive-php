@@ -39,6 +39,8 @@ input{
 .num_box, .name_box{
     width: 120px;
     height: 25px;
+    text-align: center;
+    font-size: 15px;
 }
 .num_box{
     border-radius: 0.25rem 0.25rem 0 0;
@@ -47,8 +49,6 @@ input{
 .name_box{
     background-color: rgba(105, 90, 205, 0.277);
     border-radius: 0 0 0.25rem 0.25rem;
-    text-align: center;
-    font-size: 15px;
 }
 #topBar{
     background-color: chartreuse;

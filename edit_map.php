@@ -23,7 +23,7 @@
                     const map_and_details = JSON.parse(msg)
                     addMap(map_and_details.map.rows_number, map_and_details.map.columns_number)
                     for(let seat of map_and_details.seats){
-                        addSeat(seat.row_num, seat.col_num, seat.id, seat.guest_id)
+                        addSeat(seat.row_num, seat.col_num, seat.id, seat.guest_id, seat.seat_number)
                     }
                     $('#sub').click(function(){
                         get_seat_string(map_and_details.map.id)
@@ -36,20 +36,20 @@
                 data: "action=get_guests_names",
                 success: function(msg){
                     var guests_list = JSON.parse(msg)
-                    document.querySelectorAll('.seat').forEach(function(seat){
-                        var seat_guest_id = $(seat).attr('guest_id')
+                    document.querySelectorAll('.name_box').forEach(function(box){
+                        var seat_guest_id = $(box).attr('guest_id')
                         for(var corrent of guests_list){
                             if(corrent.id == seat_guest_id){
-                                $(seat).attr('guest_name', corrent.name)
-                                $(seat).attr('guest_group', corrent.group)
-                                $(seat).children('.name_box').text(corrent.name)
-                                $(seat).children('.name_box').addClass('guest_group_'+corrent.group)
-                                console.log($(seat).children('.name_box').attr('class'))
+                                $(box).attr('guest_name', corrent.name)
+                                $(box).attr('guest_group', corrent.group)
+                                $(box).text(corrent.name)
+                                $(box).addClass('guest_group_'+corrent.group)
+                                console.log($(box).attr('class'))
                                 
                                 
                             }
                         }
-                        $(seat).click(function(){
+                        $(box).click(function(){
                             var br = document.createElement('br')
                             var input_fild = document.createElement('input')
                             var search_button = document.createElement('button')
@@ -97,10 +97,38 @@
                                 }                                
                             })
                         })
-                    })                    
-                }
-            });
-        });
+                    }) 
+                    document.querySelectorAll('.num_box').forEach(function(box){
+                        $(box).click(function(){
+                            var br = document.createElement('br')
+                            var input_fild = document.createElement('input')
+                            var search_button = document.createElement('button')
+                            $(search_button).text('search')
+                            $(search_button).attr('id', 'search_button')
+                            $(input_fild).attr('type', 'input_fild')
+                            $(input_fild).attr('id', 'input_fild')
+                            $('#mneu').text(this.classList.value)
+                            $('#mneu').append(br)
+                            $('#mneu').append(input_fild)
+                            $('#mneu').append(search_button)
+                            var selected_seat_class = $(this).attr('seat_id')
+                            $(search_button).click(function(){
+                                var input_num = $('#input_fild').val()
+                                console.log(input_num)
+                                $.ajax({
+                                    type: "POST", 
+                                    url: "api.php",
+                                    data: "action=add_seat_number&seat_id="+selected_seat_class+"&seat_number="+input_num,
+                                    success:function(msg){
+                                        alert(msg)
+                                    }
+                                })
+                            })                                        
+                        })
+                    })
+                }                                
+            })
+        })
     </script>
 
     <title> hive | </title>
