@@ -15,19 +15,43 @@
             const parsedUrl = new URL(window.location.href)
             const map_name = parsedUrl.searchParams.get("map_name")
             $('title').append(map_name)
+            // $.ajax({
+            //     type: "POST", 
+            //     url: "api.php",
+            //     data: "action=get_map_and_details&map_name="+map_name,
+            //     success: function(msg){
+            //         var map_and_details = JSON.parse(msg)
+            //         var map = map_and_details.map
+            //         addMap(map)
+            //         for(let seat of map_and_details.seats){
+            //             addSeat(seat)
+            //         }
+            //         $('#sub').click(function(){
+            //             get_seat_string(map_and_details.map.id)
+            //         })
+            //     }
+            // });
             $.ajax({
                 type: "POST", 
                 url: "api.php",
-                data: "action=get_map_and_details&map_name="+map_name,
+                data: "action=get_map&map_name="+map_name,
                 success: function(msg){
-                    const map_and_details = JSON.parse(msg)
-                    addMap(map_and_details.map.rows_number, map_and_details.map.columns_number)
-                    for(let seat of map_and_details.seats){
-                        addSeat(seat.row_num, seat.col_num, seat.id, seat.guest_id, seat.seat_number)
-                    }
+                    var map = JSON.parse(msg)
+                    addMap(map)
                     $('#sub').click(function(){
-                        get_seat_string(map_and_details.map.id)
+                        get_seat_string(map.id)
                     })
+                }
+            });
+            $.ajax({
+                type: "POST", 
+                url: "api.php",
+                data: "action=get_seats&map_name="+map_name,
+                success: function(msg){
+                    var seats = JSON.parse(msg)
+                    for(let seat of seats){
+                        addSeat(seat)
+                    }
                 }
             });
             $.ajax({
@@ -36,96 +60,8 @@
                 data: "action=get_guests_names",
                 success: function(msg){
                     var guests_list = JSON.parse(msg)
-                    document.querySelectorAll('.name_box').forEach(function(box){
-                        var seat_guest_id = $(box).attr('guest_id')
-                        for(var corrent of guests_list){
-                            if(corrent.id == seat_guest_id){
-                                $(box).attr('guest_name', corrent.name)
-                                $(box).attr('guest_group', corrent.group)
-                                $(box).text(corrent.name)
-                                $(box).addClass('guest_group_'+corrent.group)
-                                console.log($(box).attr('class'))
-                                
-                                
-                            }
-                        }
-                        $(box).click(function(){
-                            var br = document.createElement('br')
-                            var input_fild = document.createElement('input')
-                            var search_button = document.createElement('button')
-                            $(search_button).text('search')
-                            $(search_button).attr('id', 'search_button')
-                            $(input_fild).attr('type', 'input_fild')
-                            $(input_fild).attr('id', 'input_fild')
-                            $('#mneu').text(this.classList.value)
-                            $('#mneu').append(br)
-                            $('#mneu').append(input_fild)
-                            $('#mneu').append(search_button)
-                            var selected_seat_class = $(this).attr('seat_id')
-                            var match_list_ele = document.createElement('ul')
-                            $(match_list_ele).attr('id', 'match_list_ele')
-                            $('#mneu').append(match_list_ele)
-                            $('#input_fild').on('input', function(){
-                                $('#match_list_ele').text('')
-                                var search_str = '^'+$('#input_fild').val()
-                                var input_str = $('#input_fild').val()
-                                if(input_str.length != 0){
-                                    var search_reg = new RegExp(search_str); 
-                                    for(var corrent of guests_list){
-                                        if(search_reg.test(corrent.name)){
-                                            var match_li = document.createElement('li') 
-                                            $(match_li).html(corrent.name+' | <span class="group_name">'+corrent.group+'</span>')
-                                            $(match_li).attr('guest_id', corrent.id)
-                                            $(match_li).attr('guest_group', corrent.group)
-                                            $(match_li).attr('guest_name', corrent.name)
-                                            $(match_li).click(function(){
-                                                var selected_guest_id = $(this).attr('guest_id')
-                                                $('#input_fild').val($(this).attr('guest_name'))
-                                                alert(selected_guest_id+' && '+selected_seat_class)
-                                                $.ajax({
-                                                    type: "POST", 
-                                                    url: "api.php",
-                                                    data: "action=create_belong&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class,
-                                                    success:function(msg){
-                                                        alert(msg)
-                                                    }
-                                                })
-                                            })                                        
-                                            $('#match_list_ele').append(match_li)
-                                        }
-                                    }
-                                }                                
-                            })
-                        })
-                    }) 
-                    document.querySelectorAll('.num_box').forEach(function(box){
-                        $(box).click(function(){
-                            var br = document.createElement('br')
-                            var input_fild = document.createElement('input')
-                            var search_button = document.createElement('button')
-                            $(search_button).text('search')
-                            $(search_button).attr('id', 'search_button')
-                            $(input_fild).attr('type', 'input_fild')
-                            $(input_fild).attr('id', 'input_fild')
-                            $('#mneu').text(this.classList.value)
-                            $('#mneu').append(br)
-                            $('#mneu').append(input_fild)
-                            $('#mneu').append(search_button)
-                            var selected_seat_class = $(this).attr('seat_id')
-                            $(search_button).click(function(){
-                                var input_num = $('#input_fild').val()
-                                console.log(input_num)
-                                $.ajax({
-                                    type: "POST", 
-                                    url: "api.php",
-                                    data: "action=add_seat_number&seat_id="+selected_seat_class+"&seat_number="+input_num,
-                                    success:function(msg){
-                                        alert(msg)
-                                    }
-                                })
-                            })                                        
-                        })
-                    })
+                    add_guest_details(guests_list)
+                    add_num_box_ev()
                 }                                
             })
         })
@@ -137,9 +73,9 @@
     <div id="topBar"></div>
     <div id="mainBord">
         <div id="mapContainer"></div>
-        <div id='sub'> submit </div>
-        <div id='guests'> guests names </div>
     </div>
-    <div id="mneu"></div>
+    <div id="mneu">
+        <div id='sub'> submit </div>
+    </div>
     </body>
 </html>
