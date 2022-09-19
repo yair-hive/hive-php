@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: ספטמבר 18, 2022 בזמן 10:48 AM
+-- Generation Time: ספטמבר 19, 2022 בזמן 03:56 PM
 -- גרסת שרת: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -32,6 +32,26 @@ CREATE TABLE `belong` (
   `guest` int(11) NOT NULL,
   `seat` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- אינדקסים לטבלה `belong`
+--
+ALTER TABLE `belong`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `belong`
+--
+ALTER TABLE `belong`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

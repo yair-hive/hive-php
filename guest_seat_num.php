@@ -13,7 +13,34 @@
                 url: "api.php",
                 data: "action=get_guest_seat_num",
                 success: function(msg){
-                    $('#mainBord').html(msg);
+                    belongs_list = JSON.parse(msg)
+                    console.log(belongs_list)
+                    var list_table = document.createElement('table')
+                    var tr = document.createElement('tr')
+                    var th_seat_num = document.createElement('th')
+                    var th_guest_first_name = document.createElement('th')
+                    var th_guest_last_name = document.createElement('th')                        
+                    $(th_seat_num).text('seat number')
+                    $(th_guest_first_name).text('guest first name')
+                    $(th_guest_last_name).text('guest last name') 
+                    $(tr).append(th_seat_num)
+                    $(tr).append(th_guest_first_name)
+                    $(tr).append(th_guest_last_name)  
+                    $(list_table).append(tr)
+                    for(let bel of belongs_list){
+                        var tr = document.createElement('tr')
+                        var td_seat_num = document.createElement('td')
+                        var td_guest_first_name = document.createElement('td')
+                        var td_guest_last_name = document.createElement('td')                        
+                        $(td_seat_num).text(bel.seat_num)
+                        $(td_guest_first_name).text(bel.guest_first_name)
+                        $(td_guest_last_name).text(bel.guest_last_name)                        
+                        $(tr).append(td_seat_num)
+                        $(tr).append(td_guest_first_name)
+                        $(tr).append(td_guest_last_name)                       
+                        $(list_table).append(tr)
+                    }
+                    $('#mainBord').append(list_table)
                 }
             });
         });

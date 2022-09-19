@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: יולי 24, 2022 בזמן 10:06 AM
+-- Generation Time: ספטמבר 19, 2022 בזמן 04:06 PM
 -- גרסת שרת: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -31,7 +31,8 @@ CREATE TABLE `seats` (
   `id` int(11) NOT NULL,
   `belong` int(11) NOT NULL,
   `row_num` int(11) NOT NULL,
-  `col_num` int(11) NOT NULL
+  `col_num` int(11) NOT NULL,
+  `seat_number` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

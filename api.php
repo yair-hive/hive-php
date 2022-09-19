@@ -216,24 +216,22 @@ if(!empty($_POST['action'])){
                 $seats_results = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
             }
-            $list = array();
-            foreach($belong_results as $bel){
+            foreach($belong_results as $i => $bel){
                 foreach($guests_results as $guest){                    
                     if($guest['id'] == $bel['guest']){
-                        $list[$guest['first_name'].' '.$guest['last_name']] = $bel['seat'];
+                        $belong_results[$i]['guest_first_name'] = $guest['first_name'];
+                        $belong_results[$i]['guest_last_name'] = $guest['last_name'];
                     }
                 }
             }
-            print_r($list);
-            $list_b = array();
-            foreach($list as $guest_name => $it){
+            foreach($belong_results as $i => $bel){
                 foreach($seats_results as $seat){
-                    if($it == $seat){
-                        $list_b[$guest_name] = $seat['seat_number'];
+                    if($seat['id'] == $bel['seat']){
+                        $belong_results[$i]['seat_num'] = $seat['seat_number'];
                     }
                 }
             }
-            $list_json = json_encode($list_b);
+            $list_json = json_encode($belong_results);
             print_r($list_json);
             break;
     }

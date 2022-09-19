@@ -81,6 +81,24 @@ input{
     padding: 20px;
     background-color: violet;
 }
+table {
+    border: 3px solid black;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+th {
+    background-color: gray;
+    color: white;
+    padding: 10px;
+    font-size: 15px;
+}
+td { 
+    border: 1px solid black;
+    padding: 20px;
+    background-color: rgb(120, 154, 216);
+    font-size: 20px;
+}
 .guest_group_ב{
     background-color: rgba(212, 83, 135, 0.686);
 }
