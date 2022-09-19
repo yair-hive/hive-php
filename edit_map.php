@@ -15,55 +15,9 @@
             const parsedUrl = new URL(window.location.href)
             const map_name = parsedUrl.searchParams.get("map_name")
             $('title').append(map_name)
-            // $.ajax({
-            //     type: "POST", 
-            //     url: "api.php",
-            //     data: "action=get_map_and_details&map_name="+map_name,
-            //     success: function(msg){
-            //         var map_and_details = JSON.parse(msg)
-            //         var map = map_and_details.map
-            //         addMap(map)
-            //         for(let seat of map_and_details.seats){
-            //             addSeat(seat)
-            //         }
-            //         $('#sub').click(function(){
-            //             get_seat_string(map_and_details.map.id)
-            //         })
-            //     }
-            // });
-            $.ajax({
-                type: "POST", 
-                url: "api.php",
-                data: "action=get_map&map_name="+map_name,
-                success: function(msg){
-                    var map = JSON.parse(msg)
-                    addMap(map)
-                    $('#sub').click(function(){
-                        get_seat_string(map.id)
-                    })
-                }
-            });
-            $.ajax({
-                type: "POST", 
-                url: "api.php",
-                data: "action=get_seats&map_name="+map_name,
-                success: function(msg){
-                    var seats = JSON.parse(msg)
-                    for(let seat of seats){
-                        addSeat(seat)
-                    }
-                }
-            });
-            $.ajax({
-                type: "POST", 
-                url: "api.php",
-                data: "action=get_guests_names",
-                success: function(msg){
-                    var guests_list = JSON.parse(msg)
-                    add_guest_details(guests_list)
-                    add_num_box_ev()
-                }                                
-            })
+            get_map(map_name)
+            get_seats(map_name)
+            get_guests_names()
         })
     </script>
 

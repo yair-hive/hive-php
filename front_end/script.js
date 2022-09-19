@@ -148,7 +148,6 @@ function add_num_box_ev(){
             var selected_seat_class = $(this).attr('seat_id')
             $(search_button).click(function(){
                 var input_num = $('#input_fild').val()
-                console.log(input_num)
                 $.ajax({
                     type: "POST", 
                     url: "api.php",
@@ -159,5 +158,47 @@ function add_num_box_ev(){
                 })
             })                                        
         })
+    })
+}
+
+function get_map(map_name){
+    $.ajax({
+        type: "POST", 
+        url: "api.php",
+        data: "action=get_map&map_name="+map_name,
+        success: function(msg){
+            var map = JSON.parse(msg)
+            addMap(map)
+            $('#sub').click(function(){
+                get_seat_string(map.id)
+            })
+        }
+    });
+}
+
+function get_seats(map_name){
+    $.ajax({
+        type: "POST", 
+        url: "api.php",
+        data: "action=get_seats&map_name="+map_name,
+        success: function(msg){
+            var seats = JSON.parse(msg)
+            for(let seat of seats){
+                addSeat(seat)
+            }
+        }
+    });
+}
+
+function get_guests_names(){
+    $.ajax({
+        type: "POST", 
+        url: "api.php",
+        data: "action=get_guests_names",
+        success: function(msg){
+            var guests_list = JSON.parse(msg)
+            add_guest_details(guests_list)
+            add_num_box_ev()
+        }                                
     })
 }
