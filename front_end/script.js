@@ -172,16 +172,18 @@ function get_map(map_name){
         }
     };
       
-    fetch('api.php', options)
+    return fetch('api.php', options)
     .then((response) => {
         return response.json();
     })
-    .then((map) => {
-        addMap(map)
-        $('#sub').click(function(){
-            get_seat_string(map.id)
-        })
+}
+
+function get_map_callbeck(map){
+    addMap(map)
+    $('#sub').click(function(){
+        get_seat_string(map.id)
     })
+    return 'ok'
 }
 
 function get_seats(map_name){
@@ -195,15 +197,17 @@ function get_seats(map_name){
         }
     };
       
-    fetch('api.php', options)
+    return fetch('api.php', options)
     .then((response) => {
         return response.json();
     })
-    .then((seats) => {
-        for(let seat of seats){
-            addSeat(seat)
-        }
-    })
+}
+
+function get_seats_callback(seats){
+    for(let seat of seats){
+        addSeat(seat)
+    }
+    return 'ok'
 }
 
 function get_guests_names(){
@@ -217,13 +221,14 @@ function get_guests_names(){
         }
     };
       
-    fetch('api.php', options)
+    return fetch('api.php', options)
     .then((response) => {
         return response.json();
     })
-    .then((guests_list) => {
-        add_guest_details(guests_list)
-        add_num_box_ev()
-        }
-    )
+}
+
+function get_guests_names_callback(guests_list){
+    add_guest_details(guests_list)
+    add_num_box_ev()
+    return 'ok'
 }

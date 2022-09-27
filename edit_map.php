@@ -11,13 +11,16 @@
     <script src="front_end/script.js"></script>
     <script src="front_end/viselect.js"></script>
     <script type="text/javascript"> 
-        $(document).ready(function(){
+        $(document).ready(async function(){
             const parsedUrl = new URL(window.location.href)
             const map_name = parsedUrl.searchParams.get("map_name")
             $('title').append(map_name)
-            get_map(map_name)
-            get_seats(map_name)
-            get_guests_names()
+            var map = await get_map(map_name)
+            await get_map_callbeck(map)
+            var seats = await get_seats(map_name)
+            await get_seats_callback(seats)
+            var guests_list = await get_guests_names()
+            await get_guests_names_callback(guests_list)
         })
     </script>
 
