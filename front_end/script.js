@@ -82,7 +82,7 @@ function add_the_menu(){
     return main_div
 }
 
-function search_match_li(input_str, guests_list){
+function search_match_li(input_str, guests_list, selected_seat_class){
     var search_str = '^'+input_str
     var match_list_ele = document.createElement('ul')
     $(match_list_ele).attr('id', 'match_list_ele')
@@ -135,7 +135,7 @@ function add_guest_details(guests_list){
             var selected_seat_class = $(this).attr('seat_id')
             $('#input_fild').on('input', function(){
                 input_str = $('#input_fild').val()
-                $('#mneu').append(search_match_li(input_str, guests_list))                               
+                $('#mneu').append(search_match_li(input_str, guests_list, selected_seat_class))                               
             })
         })
     }) 
@@ -162,43 +162,68 @@ function add_num_box_ev(){
 }
 
 function get_map(map_name){
-    $.ajax({
-        type: "POST", 
-        url: "api.php",
-        data: "action=get_map&map_name="+map_name,
-        success: function(msg){
-            var map = JSON.parse(msg)
-            addMap(map)
-            $('#sub').click(function(){
-                get_seat_string(map.id)
-            })
+    const options = {
+        method: 'POST',
+        body: "action=get_map&map_name="+map_name,
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
-    });
+    };
+      
+    fetch('api.php', options)
+    .then((response) => {
+        return response.json();
+    })
+    .then((map) => {
+        addMap(map)
+        $('#sub').click(function(){
+            get_seat_string(map.id)
+        })
+    })
 }
 
 function get_seats(map_name){
-    $.ajax({
-        type: "POST", 
-        url: "api.php",
-        data: "action=get_seats&map_name="+map_name,
-        success: function(msg){
-            var seats = JSON.parse(msg)
-            for(let seat of seats){
-                addSeat(seat)
-            }
+    const options = {
+        method: 'POST',
+        body: "action=get_seats&map_name="+map_name,
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
-    });
+    };
+      
+    fetch('api.php', options)
+    .then((response) => {
+        return response.json();
+    })
+    .then((seats) => {
+        for(let seat of seats){
+            addSeat(seat)
+        }
+    })
 }
 
 function get_guests_names(){
-    $.ajax({
-        type: "POST", 
-        url: "api.php",
-        data: "action=get_guests_names",
-        success: function(msg){
-            var guests_list = JSON.parse(msg)
-            add_guest_details(guests_list)
-            add_num_box_ev()
-        }                                
+    const options = {
+        method: 'POST',
+        body: "action=get_guests_names",
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+      
+    fetch('api.php', options)
+    .then((response) => {
+        return response.json();
     })
+    .then((guests_list) => {
+        add_guest_details(guests_list)
+        add_num_box_ev()
+        }
+    )
 }
