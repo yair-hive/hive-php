@@ -14,7 +14,7 @@
                 url: "api.php",
                 data: "action=create_map&"+$('#create_map_form').serialize(),
                 success: function(msg){
-                    alert(msg);
+                    window.location.replace('index.php')
                 }
             });
             })

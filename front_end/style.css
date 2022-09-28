@@ -65,7 +65,7 @@ input{
     justify-content: center;
 }
 #mainBord{
-    overflow: scroll;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;

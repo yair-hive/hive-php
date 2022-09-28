@@ -14,6 +14,13 @@
                 data: "action=get_all_maps",
                 success: function(msg){
                     $('#mainBord').html(msg);
+                    var a_link = document.createElement('a')
+                    a_link.setAttribute('href', 'create_map.php')
+                    var sub = document.createElement('div')
+                    sub.setAttribute('id', 'sub')
+                    $(sub).text('add map')
+                    $(a_link).append(sub)
+                    $('#mainBord').append(a_link)
                 }
             });
         });

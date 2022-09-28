@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@viselect/vanilla/lib/viselect.cjs.js"></script>
     <script src="front_end/script.js"></script>
     <script src="front_end/viselect.js"></script>
+    <script src="front_end/drag-to-scroll.js"></script>   
     <script type="text/javascript"> 
         $(document).ready(async function(){
             const parsedUrl = new URL(window.location.href)
