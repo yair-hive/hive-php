@@ -22,6 +22,7 @@
             await get_seats_callback(seats)
             var guests_list = await get_guests_names()
             await get_guests_names_callback(guests_list)
+            set_num()
         })
     </script>
 
@@ -31,7 +32,10 @@
     <div id="topBar"></div>
     <div id="mainBord"></div>
     <div id="mneu">
-        <div id='sub'> submit </div>
+        <div id='sub' class='sub'> submit </div>
+        <div id='sub_1' class='sub'> submit 1 </div>
+        <div id='sub_2' class='sub'> submit 2 </div>
+        <div id='sub_3' class='sub'> submit 3 </div>
     </div>
 </body>
 </html>

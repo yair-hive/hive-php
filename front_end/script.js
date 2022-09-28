@@ -9,6 +9,7 @@ function addMap(map, edit){
             cell.classList.add(`row-${rowsCounter}`)
             cell.classList.add(`col-${colsCounter}`)
             cell.classList.add('cell')
+            cell.classList.add('cell_s')
             map_ele.appendChild(cell)
         }
     }
@@ -230,4 +231,35 @@ function get_guests_names_callback(guests_list){
     add_guest_details(guests_list)
     add_num_box_ev()
     return 'ok'
+}
+
+function set_num(){
+    $('#sub_1').click(function(){
+        var cells = document.querySelectorAll('.cell')
+        for(let cell of cells){
+            $(cell).addClass('cell_2')
+            $(cell).removeClass('cell')
+        }
+        var cells = document.querySelectorAll('.seat')
+        for(let cell of cells){
+            $(cell).addClass('cell')
+        }
+        selection.resolveSelectables()
+    })
+    $('#sub_2').click(function(){
+        var selected = selection.getSelection()
+        console.log(selected)
+    })
+    $('#sub_3').click(function(){
+        var seats = document.querySelectorAll('.seat')
+        for(let seat of seats){
+            $(seat).removeClass('cell')
+        }
+        var cells = document.querySelectorAll('.cell_2')
+        for(let cell of cells){
+            $(cell).addClass('cell')
+            $(cell).removeClass('cell_2')
+        }
+        selection.resolveSelectables()
+    })
 }
