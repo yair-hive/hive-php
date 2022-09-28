@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Attach the handler
 
     document.addEventListener("keydown", function(e){
-        console.log(e.key)
         if(e.key == 'g'){
             ele.addEventListener('mousedown', mouseDownHandler);
             selection.disable()

@@ -253,12 +253,13 @@ function set_num(){
         var most_t = 100000
         for(let s of selected){
             for(let class_n of s.classList){
-                let r_str = '^col-[0-9]'
+                let r_str = '^col-[0-9]+'
                 let reg_ex = new RegExp(r_str)
                 if(reg_ex.test(class_n)){
-                    let r_str = '[0-9]'
+                    let r_str = '[0-9]+'
                     let reg_ex = new RegExp(r_str)
                     let col_num = class_n.match(reg_ex)
+                    var most_l = Number(most_l)                   
                     if(col_num < most_l){
                         most_l = col_num[0]
                     }
@@ -267,19 +268,21 @@ function set_num(){
         }
         for(let s of selected){
             for(let class_n of s.classList){
-                let r_str = '^row-[0-9]'
+                let r_str = '^row-[0-9]+'
                 let reg_ex = new RegExp(r_str)
                 if(reg_ex.test(class_n)){
-                    let r_str = '[0-9]'
+                    let r_str = '[0-9]+'
                     let reg_ex = new RegExp(r_str)
                     let col_num = class_n.match(reg_ex)
+                    most_t = Number(most_t)
                     if(col_num < most_t){
                         most_t = col_num[0]
                     }
                 }
             }
         }
-        console.log(most_l+' op '+most_t)
+        
+        console.log('col '+most_l+' op '+'row '+most_t)
     })
     $('#sub_3').click(function(){
         var seats = document.querySelectorAll('.seat')

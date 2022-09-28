@@ -33,9 +33,9 @@
     <div id="mainBord"></div>
     <div id="mneu">
         <div id='sub' class='sub'> submit </div>
-        <div id='sub_1' class='sub'> submit 1 </div>
-        <div id='sub_2' class='sub'> submit 2 </div>
-        <div id='sub_3' class='sub'> submit 3 </div>
+        <div id='sub_1' class='sub'> chenge th selection </div>
+        <div id='sub_2' class='sub'> do the action </div>
+        <div id='sub_3' class='sub'> restart the selection </div>
     </div>
 </body>
 </html>
