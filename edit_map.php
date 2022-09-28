@@ -29,9 +29,7 @@
 </head>
 <body>
     <div id="topBar"></div>
-    <div id="mainBord">
-        <div id="mapContainer"></div>
-    </div>
+    <div id="mainBord"></div>
     <div id="mneu">
         <div id='sub'> submit </div>
     </div>

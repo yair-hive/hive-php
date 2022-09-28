@@ -1,5 +1,5 @@
 function addMap(map, edit){
-    const mapContainer = document.getElementById('mapContainer')
+    const mapContainer = document.getElementById('mainBord')
     const map_ele = document.createElement('div')
     map_ele.setAttribute('id', 'map')
     map_ele.classList.add('map')
@@ -29,7 +29,7 @@ function get_seat_string(map_id){
         url: "api.php",
         data: "action=add_seats&map_id="+map_id+"&seat_list="+selectedString,
         success: function(msg){
-            alert(msg)
+            location.reload();
         }
     });
 }
@@ -98,13 +98,12 @@ function search_match_li(input_str, guests_list, selected_seat_class){
                 $(match_li).click(function(){
                     var selected_guest_id = $(this).attr('guest_id')
                     $('#input_fild').val($(this).attr('guest_name'))
-                    alert(selected_guest_id+' && '+selected_seat_class)
                     $.ajax({
                         type: "POST", 
                         url: "api.php",
                         data: "action=create_belong&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class,
                         success:function(msg){
-                            alert(msg)
+                            location.reload();
                         }
                     })
                 })                                        
@@ -153,7 +152,7 @@ function add_num_box_ev(){
                     url: "api.php",
                     data: "action=add_seat_number&seat_id="+selected_seat_class+"&seat_number="+input_num,
                     success:function(msg){
-                        alert(msg)
+                        location.reload();
                     }
                 })
             })                                        
