@@ -44,12 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if(e.key == 'g'){
             ele.addEventListener('mousedown', mouseDownHandler);
             selection.disable()
-        }else{
-            selection.enable()
         }
     })
     document.addEventListener("keyup", function(){
         ele.removeEventListener('mousedown', mouseDownHandler);
+        selection.enable()
     })
 });
 
