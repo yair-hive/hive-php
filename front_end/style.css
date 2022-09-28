@@ -67,6 +67,7 @@ input{
 #mainBord{
     overflow: auto;
     padding: 20px;
+    display: flex;
     background-color: coral;
 }
 #edit_form{

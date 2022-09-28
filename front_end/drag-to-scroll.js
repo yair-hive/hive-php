@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
     const ele = document.getElementById('mainBord');
-    ele.style.cursor = 'grab';
 
     let pos = { top: 0, left: 0, x: 0, y: 0 };
 
@@ -39,5 +38,18 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // Attach the handler
-    ele.addEventListener('mousedown', mouseDownHandler);
+
+    document.addEventListener("keydown", function(e){
+        console.log(e.key)
+        if(e.key == 'g'){
+            ele.addEventListener('mousedown', mouseDownHandler);
+            selection.disable()
+        }else{
+            selection.enable()
+        }
+    })
+    document.addEventListener("keyup", function(){
+        ele.removeEventListener('mousedown', mouseDownHandler);
+    })
 });
+
