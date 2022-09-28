@@ -251,6 +251,8 @@ function set_num(){
         var new_arr = new Array()
         var most_l = 100000
         var most_t = 100000
+        var most_b = 0
+        var most_r = 0
         for(let s of selected){
             for(let class_n of s.classList){
                 let r_str = '^col-[0-9]+'
@@ -259,9 +261,13 @@ function set_num(){
                     let r_str = '[0-9]+'
                     let reg_ex = new RegExp(r_str)
                     let col_num = class_n.match(reg_ex)
-                    var most_l = Number(most_l)                   
+                    var most_l = Number(most_l) 
+                    var most_r = Number(most_r)                  
                     if(col_num < most_l){
                         most_l = col_num[0]
+                    }
+                    if(col_num > most_r){
+                        most_r = col_num[0]
                     }
                 }
             }
@@ -273,16 +279,40 @@ function set_num(){
                 if(reg_ex.test(class_n)){
                     let r_str = '[0-9]+'
                     let reg_ex = new RegExp(r_str)
-                    let col_num = class_n.match(reg_ex)
+                    let row_num = class_n.match(reg_ex)
                     most_t = Number(most_t)
-                    if(col_num < most_t){
-                        most_t = col_num[0]
+                    most_b = Number(most_b)
+                    if(row_num < most_t){
+                        most_t = row_num[0]
+                    }
+                    if(row_num > most_b){
+                        most_b = row_num[0]
                     }
                 }
             }
         }
-        
         console.log('col '+most_l+' op '+'row '+most_t)
+        console.log('col '+most_r+' op '+'row '+most_b)
+        var col_group_name = prompt('Please enter number')
+        col_group_name = Number(col_group_name)
+        for(let i = most_t; i <= most_b; i++){
+            let seats = document.querySelectorAll('.row-'+i+'.selected')
+            seats.forEach(function(seat){
+                var box = $(seat).children('.num_box')
+                box.text(col_group_name)
+                var selected_seat_class = box.attr('seat_id')
+                console.log(selected_seat_class)
+                $.ajax({
+                    type: "POST", 
+                    url: "api.php",
+                    data: "action=add_seat_number&seat_id="+selected_seat_class+"&seat_number="+col_group_name,
+                    success:function(msg){
+                        location.reload();
+                    }
+                })            
+                col_group_name = col_group_name +1
+            })           
+        }
     })
     $('#sub_3').click(function(){
         var seats = document.querySelectorAll('.seat')
