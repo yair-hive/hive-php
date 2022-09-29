@@ -221,6 +221,7 @@ if(!empty($_POST['action'])){
                     if($guest['id'] == $bel['guest']){
                         $belong_results[$i]['guest_first_name'] = $guest['first_name'];
                         $belong_results[$i]['guest_last_name'] = $guest['last_name'];
+                        $belong_results[$i]['guest_group'] = $guest['guest_group'];
                     }
                 }
             }
