@@ -4,6 +4,23 @@ $filename = 'maps.sql';
 // MySQL host
 include_once 'mysql_conf.php';
 
+// Create connection
+$conn = new mysqli(DB_HOST ,DB_USER ,DB_PASS);
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Create database
+$sql = "CREATE DATABASE hive";
+if ($conn->query($sql) === TRUE) {
+  echo "Database created successfully  <br />";
+} else {
+  echo "Error creating database: " . $conn->error;
+}
+
+$conn->close();
+
 // Connect to MySQL server
 $link = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);   
 
