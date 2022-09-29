@@ -83,7 +83,7 @@ function add_the_menu(){
     return main_div
 }
 
-function search_match_li(input_str, guests_list, selected_seat_class){
+function search_match_li(input_str, guests_list, selected_seat_class, map_name){
     var search_str = '^'+input_str
     var match_list_ele = document.createElement('ul')
     $(match_list_ele).attr('id', 'match_list_ele')
@@ -102,7 +102,7 @@ function search_match_li(input_str, guests_list, selected_seat_class){
                     $.ajax({
                         type: "POST", 
                         url: "api.php",
-                        data: "action=create_belong&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class,
+                        data: "action=create_belong&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_name="+map_name,
                         success:function(msg){
                             location.reload();
                         }
@@ -115,7 +115,7 @@ function search_match_li(input_str, guests_list, selected_seat_class){
     return match_list_ele
 }
 
-function add_guest_details(guests_list){
+function add_guest_details(guests_list, map_name){
     document.querySelectorAll('.name_box').forEach(function(box){
         var seat_guest_id = $(box).attr('guest_id')
         for(var corrent of guests_list){
@@ -135,7 +135,7 @@ function add_guest_details(guests_list){
             var selected_seat_class = $(this).attr('seat_id')
             $('#input_fild').on('input', function(){
                 input_str = $('#input_fild').val()
-                $('#mneu').append(search_match_li(input_str, guests_list, selected_seat_class))                               
+                $('#mneu').append(search_match_li(input_str, guests_list, selected_seat_class, map_name))                               
             })
         })
     }) 
@@ -227,8 +227,8 @@ function get_guests_names(){
     })
 }
 
-function get_guests_names_callback(guests_list){
-    add_guest_details(guests_list)
+function get_guests_names_callback(guests_list, map_name){
+    add_guest_details(guests_list, map_name)
     add_num_box_ev()
     return 'ok'
 }

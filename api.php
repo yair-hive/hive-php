@@ -138,9 +138,15 @@ if(!empty($_POST['action'])){
             break;
         case 'create_belong':
             $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
+            $map_name = $_POST['map_name'];  
+            $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
+            if($result = mysqli_query($connection, $query_string)){
+                $map_results = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            }
+            $map_id = $map_results['id'];
             $seat_id = $_POST['seat_id'];
             $guest_id = $_POST['guest_id'];
-            $query_string = "INSERT INTO belong(guest, seat) VALUES('{$guest_id }', '{$seat_id}')";
+            $query_string = "INSERT INTO belong(guest, seat, map_belong) VALUES('{$guest_id }', '{$seat_id}', '{$map_id}')";
             if(!mysqli_query($connection, $query_string)){
                 echo 'sql error';
             }else{
@@ -203,7 +209,13 @@ if(!empty($_POST['action'])){
             break;
         case 'get_guest_seat_num':
             $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
-            $query_string = "SELECT * FROM belong";
+            $map_name = $_POST['map_name'];  
+            $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
+            if($result = mysqli_query($connection, $query_string)){
+                $map_results = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            }
+            $map_id = $map_results['id'];
+            $query_string = "SELECT * FROM belong WHERE map_belong = '{$map_id}'";
             if($result = mysqli_query($connection, $query_string)){
                 $belong_results = mysqli_fetch_all($result, MYSQLI_ASSOC);
             }

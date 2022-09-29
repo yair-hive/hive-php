@@ -8,10 +8,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="text/javascript"> 
         $(document).ready(function(){
+            const parsedUrl = new URL(window.location.href)
+            const map_name = parsedUrl.searchParams.get("map_name")
             $.ajax({
                 type: "POST", 
                 url: "api.php",
-                data: "action=get_guest_seat_num",
+                data: "action=get_guest_seat_num&map_name="+map_name,
                 success: function(msg){
                     belongs_list = JSON.parse(msg)
                     console.log(belongs_list)

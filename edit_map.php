@@ -21,7 +21,7 @@
             var seats = await get_seats(map_name)
             await get_seats_callback(seats)
             var guests_list = await get_guests_names()
-            await get_guests_names_callback(guests_list)
+            await get_guests_names_callback(guests_list, map_name)
             set_num()
         })
     </script>
