@@ -1,5 +1,8 @@
 <?php 
+use Phppot\DataSource;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 include_once 'mysql/mysql_conf.php';
+require_once ('./vendor/autoload.php');
 
 function get_seat_as_array($seat_string){
     $respons = array();
@@ -283,5 +286,13 @@ if(!empty($_POST['action'])){
             $seats_results_json = json_encode($seats_results);
             print_r($seats_results_json);
             break;
-    }
+    case 'export_to_exel':
+        $htmlString = $_POST['htmlString'];
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
+        $spreadsheet = $reader->loadFromString($htmlString);
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+        $writer->save('uploads/write.xls'); 
+        break;
+        }
 }

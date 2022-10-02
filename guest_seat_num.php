@@ -18,6 +18,7 @@
                     belongs_list = JSON.parse(msg)
                     console.log(belongs_list)
                     var list_table = document.createElement('table')
+                    $(list_table).attr('id', 'list_table')
                     var tr = document.createElement('tr')
                     var th_seat_num = document.createElement('th')
                     var th_guest_first_name = document.createElement('th')
@@ -51,6 +52,19 @@
                     $('#mainBord').append(list_table)
                 }
             });
+            $('#export').click(function(){
+                var html_string = $(list_table).html()
+                $.ajax({
+                    type: "POST", 
+                    url: "api.php",
+                    data: "action=export_to_exel&htmlString="+html_string,
+                    success: function(msg){
+                        window.location.href = "http://localhost/hive-php/uploads/write.xls";
+                        console.log('pp')
+                    }
+                })
+            })
+
         });
     </script>
     <title> hive | maps </title>
@@ -58,6 +72,8 @@
 <body>
     <div id="topBar"></div>
     <div id="mainBord"></div>
-    <div id="mneu"></div>
+    <div id="mneu">
+        <div id='export' class='sub'> export </div>
+    </div>
 </body>
 </html>
