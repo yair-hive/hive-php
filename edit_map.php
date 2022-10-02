@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="front_end/style.css">
     <link rel="stylesheet" href="front_end/viselect.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@viselect/vanilla/lib/viselect.cjs.js"></script>
+    <script src="front_end/lib/jquery.min.js"></script>
+    <script src="front_end/lib/viselect.cjs.js"></script>
     <script src="front_end/script.js"></script>
     <script src="front_end/viselect.js"></script>
     <script src="front_end/drag-to-scroll.js"></script>   
