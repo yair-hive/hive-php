@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: ספטמבר 19, 2022 בזמן 03:56 PM
+-- Generation Time: אוקטובר 02, 2022 בזמן 06:59 PM
 -- גרסת שרת: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -30,7 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `belong` (
   `id` int(11) NOT NULL,
   `guest` int(11) NOT NULL,
-  `seat` int(11) NOT NULL
+  `seat` int(11) NOT NULL,
+  `map_belong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
