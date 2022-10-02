@@ -23,6 +23,7 @@
             var guests_list = await get_guests_names()
             await get_guests_names_callback(guests_list, map_name)
             set_num()
+            $('#sub_4').attr('href', 'http://localhost/hive-php/guest_seat_num.php?map_name='+map_name)
         })
     </script>
 
@@ -36,6 +37,7 @@
         <div id='sub_1' class='sub'> chenge th selection </div>
         <div id='sub_2' class='sub'> do the action </div>
         <div id='sub_3' class='sub'> restart the selection </div>
+        <a id='sub_4'><div class='sub'> דוחו"ת </div></a>
     </div>
 </body>
 </html>

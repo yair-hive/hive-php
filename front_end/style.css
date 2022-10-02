@@ -100,9 +100,33 @@ td {
     background-color: rgb(120, 154, 216);
     font-size: 20px;
 }
+.guest_group_א{
+    background-color: rgba(117, 224, 119, 0.715);
+}
 .guest_group_ב{
     background-color: rgba(212, 83, 135, 0.686);
 }
-.guest_group_א{
-    background-color: rgba(117, 224, 119, 0.715);
+.guest_group_ג{
+    background-color: rgba(83, 177, 20, 0.715);
+}
+.guest_group_קיבוץ{
+    background-color: rgba(119, 39, 95, 0.715);
+}
+.guest_group_קיבוץ_א{
+    background-color: rgba(147, 78, 194, 0.715);
+}
+.guest_group_קיבוץ_ב{
+    background-color: rgba(25, 78, 177, 0.715);
+}
+.guest_group_קיבוץ_ג{
+    background-color: rgba(192, 190, 57, 0.715);
+}
+.guest_group_קיבוץ_ד{
+    background-color: rgba(226, 38, 38, 0.715);
+}
+.guest_group_שנה_א{
+    background-color: rgba(55, 194, 78, 0.534);
+}
+.guest_group_אברכים{
+    background-color: rgba(72, 110, 212, 0.651);
 }

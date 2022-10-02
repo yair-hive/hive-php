@@ -123,6 +123,7 @@ function add_guest_details(guests_list, map_name){
                 $(box).attr('guest_name', corrent.name)
                 $(box).attr('guest_group', corrent.group)
                 $(box).text(corrent.name)
+                corrent.group = corrent.group.replace(" ","_");
                 $(box).addClass('guest_group_'+corrent.group)
                 console.log($(box).attr('class'))
                 
