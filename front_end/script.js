@@ -120,6 +120,8 @@ function add_guest_details(guests_list, map_name){
         var seat_guest_id = $(box).attr('guest_id')
         for(var corrent of guests_list){
             if(corrent.id == seat_guest_id){
+                if(corrent.name.length > 15)
+                box.style.fontSize = '11px';
                 $(box).attr('guest_name', corrent.name)
                 $(box).attr('guest_group', corrent.group)
                 $(box).text(corrent.name)

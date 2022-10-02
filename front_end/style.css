@@ -79,6 +79,7 @@ input{
     margin: 20px;
 }
 #mneu{
+    overflow: auto;
     padding: 20px;
     background-color: violet;
 }
