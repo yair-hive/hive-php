@@ -138,6 +138,7 @@ function add_guest_details(guests_list, map_name){
             var selected_seat_class = $(this).attr('seat_id')
             $('#input_fild').on('input', function(){
                 input_str = $('#input_fild').val()
+                $('#mneu').children('ul').text(' ')
                 $('#mneu').append(search_match_li(input_str, guests_list, selected_seat_class, map_name))                               
             })
         })
@@ -330,3 +331,6 @@ function set_num(){
         selection.resolveSelectables()
     })
 }
+$('#topBar').click(function(){
+    $('#mneu').html("<div id='sub' class='sub'> submit </div><div id='sub_1' class='sub'> chenge th selection </div><div id='sub_2' class='sub'> do the action </div><div id='sub_3' class='sub'> restart the selection </div><a id='sub_4'><div class='sub'> דוחות </div></a>")
+})
