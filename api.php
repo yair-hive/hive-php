@@ -155,6 +155,12 @@ if(!empty($_POST['action'])){
                 $query_string = "DELETE FROM belong WHERE guest='{$guest_id}'";
                 mysqli_query($connection, $query_string);
             }
+            $query_string = "SELECT * FROM belong WHERE seat='{$seat_id}'";
+            $result = mysqli_query($connection, $query_string);
+            if(mysqli_num_rows($result) != 0){
+                $query_string = "DELETE FROM belong WHERE seat='{$seat_id}'";
+                mysqli_query($connection, $query_string);
+            }
             $query_string = "INSERT INTO belong(guest, seat, map_belong) VALUES('{$guest_id }', '{$seat_id}', '{$map_id}')";
             if(!mysqli_query($connection, $query_string)){
                 echo 'sql error';
