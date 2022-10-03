@@ -347,8 +347,12 @@ function test_1(){
         var list_width_over = 50
         var list_width_over_d = list_width_over / 2
         $(box).click(function(){
+            var input_fild = document.createElement('input')
+            $(input_fild).attr('id', 'input_fild_2')
             console.log('k')
             $('#mainBord').append(list_ele)
+            $('#mainBord').append(input_fild)
+            $('#input_fild_2').addClass('name_box')            
             function offsetCalculate(){
                 $('#list_ele').css({
                     'position': 'absolute',
@@ -356,6 +360,14 @@ function test_1(){
                     'top':parent.top + parent_height,
                     'left': parent.left - list_width_over_d
                 });
+                $('#input_fild_2').css({
+                    'position': 'absolute',
+                    'width': parent_width, 
+                    'top':parent.top,
+                    'left': parent.left,
+                    'margin': 0,
+                    'padding': 0
+                })
             }
             offsetCalculate();
             $(window).resize(function(){
