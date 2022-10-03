@@ -22,7 +22,6 @@
             await get_seats_callback(seats)
             var guests_list = await get_guests_names()
             await get_guests_names_callback(guests_list, map_name)
-            test_1()
             set_num()
             $('#sub_4').attr('href', 'http://localhost/hive-php/guest_seat_num.php?map_name='+map_name)
         })
