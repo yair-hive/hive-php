@@ -334,3 +334,34 @@ function set_num(){
 $('#topBar').click(function(){
     $('#mneu').html("<div id='sub' class='sub'> submit </div><div id='sub_1' class='sub'> chenge th selection </div><div id='sub_2' class='sub'> do the action </div><div id='sub_3' class='sub'> restart the selection </div><a id='sub_4'><div class='sub'> דוחות </div></a>")
 })
+
+function test_1(){
+    var list_ele = document.createElement('div')
+    $(list_ele).attr('id', 'list_ele')
+    $(list_ele).addClass('sub_test')
+    $(list_ele).text('sub')
+    document.querySelectorAll('.name_box').forEach(function(box){
+        var parent = box.getBoundingClientRect()
+        var parent_width = box.offsetWidth
+        var parent_height = box.offsetHeight
+        var list_width_over = 50
+        var list_width_over_d = list_width_over / 2
+        $(box).click(function(){
+            console.log('k')
+            $('#mainBord').append(list_ele)
+            function offsetCalculate(){
+                $('#list_ele').css({
+                    'position': 'absolute',
+                    'width': parent_width + list_width_over, 
+                    'top':parent.top + parent_height,
+                    'left': parent.left - list_width_over_d
+                });
+            }
+            offsetCalculate();
+            $(window).resize(function(){
+                offsetCalculate();
+            });
+        })
+    })
+}
+
