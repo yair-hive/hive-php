@@ -1,4 +1,5 @@
 <?php 
+header("Access-Control-Allow-Origin: *");
 use Phppot\DataSource;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 include_once 'mysql/mysql_conf.php';
