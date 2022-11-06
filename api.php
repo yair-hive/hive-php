@@ -24,6 +24,19 @@ function get_seat_as_array($seat_string){
 
 if(!empty($_POST['action'])){
     switch($_POST['action']){
+        case 'get_maps':
+            $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
+            $query_string = "SELECT map_name FROM maps";
+            if($result = mysqli_query($connection, $query_string)){
+                $results = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                $new_results_array = array();
+                foreach($results as $row){
+                    $new_results_array[] = $row['map_name'];
+                }
+                $json_results = json_encode($new_results_array);
+                print_r($json_results);
+            }
+            break;           
         case 'get_all_maps':
             $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
             $query_string = "SELECT map_name FROM maps";
