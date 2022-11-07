@@ -1,5 +1,5 @@
 import { get_map, get_seats, get_guests_names } from "./api.js"
-import {add_map, add_seat, add_menu, add_match_list, add_match_menu} from "./elements.js"
+import {add_map, add_seat, add_match_list, add_match_menu} from "./elements.js"
 
 
 function get_seat_string(map_id){
@@ -15,18 +15,6 @@ function get_seat_string(map_id){
         data: "action=add_seats&map_id="+map_id+"&seat_list="+selectedString,
         success: function(msg){
             location.reload();
-        }
-    });
-}
-
-function formSend(map_id){
-    var seats_list = document.forms['add_seats']['seats_list'].value
-    $.ajax({
-        type: "POST", 
-        url: "api.php",
-        data: "action=add_seats&map_id="+map_id+"&seat_list="+seats_list,
-        success: function(msg){
-            alert(msg)
         }
     });
 }

@@ -39,21 +39,6 @@ export const add_seat = (seat)=>{
     seat_location.append(name_box)
 }
 
-export const add_menu = ()=>{
-    var main_div = document.createElement('div')
-    var br = document.createElement('br')
-    var input_fild = document.createElement('input')
-    var search_button = document.createElement('button')
-    $(search_button).text('search')
-    $(search_button).attr('id', 'search_button')
-    $(input_fild).attr('type', 'input_fild')
-    $(input_fild).attr('id', 'input_fild')
-    $(main_div).append(br)
-    $(main_div).append(input_fild)
-    $(main_div).append(search_button)
-    return main_div
-}
-
 export const add_match_list = (input_str, guests_list, selected_seat_class, map_name)=>{
     var search_str = '^'+input_str
     var match_list_ele = document.createElement('ul')
