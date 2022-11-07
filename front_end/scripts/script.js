@@ -54,44 +54,6 @@ function add_guest_details(guests_list, map_name){
         })
     }) 
 }
-function add_num_box_ev(){
-    document.querySelectorAll('.num_box').forEach(function(box){
-        $(box).click(function(){
-            $('#mneu').text(this.classList.value)
-            $('#mneu').append(add_menu())
-            var selected_seat_class = $(this).attr('seat_id')
-            $(search_button).click(function(){
-                var input_num = $('#input_fild').val()
-                $.ajax({
-                    type: "POST", 
-                    url: "api.php",
-                    data: "action=add_seat_number&seat_id="+selected_seat_class+"&seat_number="+input_num,
-                    success:function(msg){
-                        location.reload();
-                    }
-                })
-            })                                        
-        })
-    })
-}
-
-function get_map_callbeck(map){
-    add_map(map)
-    return 'ok'
-}
-
-function get_seats_callback(seats){
-    for(let seat of seats){
-        add_seat(seat)
-    }
-    return 'ok'
-}
-
-function get_guests_names_callback(guests_list, map_name){
-    add_guest_details(guests_list, map_name)
-    add_num_box_ev()
-    return 'ok'
-}
 
 function set_num(){
     $('#sub_1').click(function(){
@@ -187,9 +149,6 @@ function set_num(){
         selection.resolveSelectables()
     })
 }
-$('#topBar').click(function(){
-    $('#mneu').html("<div id='sub' class='sub'> submit </div><div id='sub_1' class='sub'> chenge th selection </div><div id='sub_2' class='sub'> do the action </div><div id='sub_3' class='sub'> restart the selection </div><a id='sub_4'><div class='sub'> דוחות </div></a>")
-})
 
 $(document).ready(async function(){
     const parsedUrl = new URL(window.location.href)
@@ -202,7 +161,7 @@ $(document).ready(async function(){
         add_seat(seat)
     }
     var guests_list = await get_guests_names()
-    await get_guests_names_callback(guests_list, map_name)
+    add_guest_details(guests_list, map_name)
     set_num()
     $('#sub').click(function(){
         get_seat_string(map.id)
