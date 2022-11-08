@@ -36,7 +36,7 @@
             <input type='text' name='columns_number'> 
             <br /> 
         <form>
-        <div id='sub'> submit </div> 
+        <div id='sub' class='hive-button'> צור </div> 
     </div>
     <div id="mneu"></div>
     <script src="front_end/script.js"></script>
