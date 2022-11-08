@@ -44,7 +44,7 @@ if(!empty($_POST['action'])){
                 $results = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 $new_results_array = array();
                 foreach($results as $row){
-                    $new_results_array[] = "<a href='edit_map.php?map_name=".$row['map_name']."'>".$row['map_name']."</a>";
+                    $new_results_array[] = "<a href='edit_map.html?map_name=".$row['map_name']."'>".$row['map_name']."</a>";
                 }
                 $results_to_string = implode(" </li><li> ", $new_results_array);
                 echo "<ul><li>".$results_to_string."</li></ul>";
