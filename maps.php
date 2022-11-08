@@ -18,6 +18,7 @@
                     a_link.setAttribute('href', 'create_map.php')
                     var sub = document.createElement('div')
                     sub.setAttribute('id', 'sub')
+                    sub.classList.add('hive-button')
                     $(sub).text('add map')
                     $(a_link).append(sub)
                     $('#mainBord').append(a_link)
