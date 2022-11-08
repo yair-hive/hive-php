@@ -137,12 +137,18 @@ td {
     font-size: 40px;
     background-color: rgb(130, 101, 211);
 }
-.cell.selected, .seat.selected {
+.cell.selected{
     border-style: solid;
     border-width: 0.1px;
     border-color: #7a8392;
     background: #555b66;
-  }
+}
+.seat.selected {
+    border-style: solid;
+    background-color: #4f90f2;
+    border-width: 0.5px;
+    border-color: #ffffff;
+}
     
 .selection-area {
     background: #4f90f22d;
