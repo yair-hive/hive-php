@@ -105,22 +105,24 @@ export const onClick_add_seat_number = ()=>{
 }
 
 export const onClick_outside = (event)=>{
-    if(selection.getSelection().length !== 0){
-        if(!event.target.classList.contains('hive-button')){
-            if(selectables === 'cells'){
-                if(!event.target.classList.contains('cell')){
-                    selection.clearSelection()
-                    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+    if(!event.ctrlKey && !event.metaKey){
+        if(selection.getSelection().length !== 0){
+            if(!event.target.classList.contains('hive-button')){
+                if(selectables === 'cells'){
+                    if(!event.target.classList.contains('cell')){
+                        selection.clearSelection()
+                        document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+                    }
                 }
-            }
-            if(selectables === 'seats'){
-                if(!event.target.classList.contains('name_box')){
-                    selection.clearSelection()
-                    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
-                }
-                if(!event.target.classList.contains('num_box')){
-                    selection.clearSelection()
-                    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+                if(selectables === 'seats'){
+                    if(!event.target.classList.contains('name_box')){
+                        selection.clearSelection()
+                        document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+                    }
+                    if(!event.target.classList.contains('num_box')){
+                        selection.clearSelection()
+                        document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+                    }
                 }
             }
         }
