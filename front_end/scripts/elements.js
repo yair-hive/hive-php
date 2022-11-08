@@ -70,6 +70,8 @@ export const add_match_list = (input_str, guests_list, selected_seat_class, map_
     return match_list_ele
 }
 export const add_match_menu = (guests_list, selected_seat_class, map_name, box)=>{
+    if(document.getElementById('list_ele')) document.getElementById('list_ele').remove()
+    if(document.getElementById('input_fild_2')) document.getElementById('input_fild_2').remove()
     var list_ele = document.createElement('div')
     $(list_ele).attr('id', 'list_ele')
     $(list_ele).addClass('sub_test')   
@@ -79,8 +81,8 @@ export const add_match_menu = (guests_list, selected_seat_class, map_name, box)=
     var list_width_over = 60
     var list_width_over_d = list_width_over / 2
     var input_fild = document.createElement('input')
+    input_fild.style.border = "none";
     $(input_fild).attr('id', 'input_fild_2')
-    $(input_fild).focus()
     $('#mainBord').append(list_ele)
     $('#mainBord').append(input_fild)
     $('#input_fild_2').addClass('name_box')            
@@ -105,6 +107,7 @@ export const add_match_menu = (guests_list, selected_seat_class, map_name, box)=
     $(window).resize(function(){
         offsetCalculate();
     });
+    $(input_fild).focus()
     $('#input_fild_2').on('input', function(){
         var input_str = $('#input_fild_2').val()
         $('#list_ele').children('ul').text(' ')
