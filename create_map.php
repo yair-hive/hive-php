@@ -23,7 +23,10 @@
     <title> hive | add map </title>
 </head>
 <body>
-    <div id="topBar"></div>
+    <div id="topBar">
+        <a href="http://localhost/hive-php/maps.php" class="hive-button"> מפות </a>
+        <a href="http://localhost/hive-php/import_guests.php" class="hive-button"> ייבא בחורים </a>
+    </div>
     <div id="mainBord">
         <form id='create_map_form'>
             <label for="map_name"> שם המפה </label>
