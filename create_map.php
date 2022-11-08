@@ -26,13 +26,16 @@
     <div id="topBar"></div>
     <div id="mainBord">
         <form id='create_map_form'>
-            <label for="map_name"> map name </label>
+            <label for="map_name"> שם המפה </label>
+            <br />
             <input type='text' name='map_name'>  
             <br />
-            <label for="rows_number"> rows number </label>
+            <label for="rows_number"> מספר שורות </label>
+            <br />
             <input type='text' name='rows_number'>
             <br />
-            <label for="columns_number"> columns_number </label>
+            <label for="columns_number"> מספר טורים </label>
+            <br />
             <input type='text' name='columns_number'> 
             <br /> 
         <form>
