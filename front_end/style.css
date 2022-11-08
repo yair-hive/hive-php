@@ -14,7 +14,12 @@ body{
     grid-template-columns: 80% 20%;
 }
 input{
+    z-index: 10;
     margin: 7px;
+}
+input:focus{
+    border: none;
+    outline: none;
 }
 .hive-button{
     border-radius: 5px;
@@ -34,6 +39,7 @@ input{
     background-color: #7a93b9;
 }
 .sub_test {
+    z-index: 10;
     text-align: center;
     font-size: 11px;
     font-weight: bold;
@@ -100,6 +106,7 @@ input{
     margin: 20px;
 }
 #mneu{
+    z-index: 20;
     overflow: auto;
     padding: 20px;
     background-color: violet;
@@ -123,6 +130,7 @@ td {
     font-size: 20px;
 }
 #topBar{
+    z-index: 20;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -103,10 +103,28 @@ export const add_match_menu = (guests_list, selected_seat_class, map_name, box)=
             'padding': 0
         })
     }
+    function srollOffsetCalculate(event){
+        $('#list_ele').css({
+            'position': 'absolute',
+            'width': parent_width + list_width_over, 
+            'top':parent.top + parent_height - event.target.scrollTop,
+            'left': parent.left - list_width_over_d - event.target.scrollLeft,
+            'overflow': 'auto'
+        });
+        $('#input_fild_2').css({
+            'position': 'absolute',
+            'width': parent_width, 
+            'top':parent.top - event.target.scrollTop,
+            'left': parent.left - event.target.scrollLeft,
+            'margin': 0,
+            'padding': 0
+        })
+    }
     offsetCalculate();
     $(window).resize(function(){
         offsetCalculate();
     });
+    document.getElementById('mainBord').addEventListener('scroll', srollOffsetCalculate)
     $(input_fild).focus()
     $('#input_fild_2').on('input', function(){
         var input_str = $('#input_fild_2').val()
