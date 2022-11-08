@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="front_end/style.css">
     <script src="front_end/lib/jquery.min.js"></script>
     <script src="front_end/lib/viselect.cjs.js"></script>
-    <script src="front_end/scripts/script.js" type='module'></script>
+    <script src="front_end/scripts/script.js" type='module' defer></script>
     <script src="front_end/scripts/viselect.js"></script>
     <script src="front_end/scripts/drag-to-scroll.js"></script>  
 

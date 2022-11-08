@@ -74,9 +74,12 @@ input{
 }
 #mainBord{
     overflow: auto;
-    padding: 20px;
-    display: flex;
     background-color: coral;
+}
+.map_container{
+    user-select: none;
+    padding: 30px;
+    display: inline-block;
 }
 #edit_form{
     display: flex;

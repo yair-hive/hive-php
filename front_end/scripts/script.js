@@ -1,5 +1,5 @@
-import { get_map, get_seats, get_guests_names } from "./api.js"
-import {add_map, add_seat, add_match_list, add_match_menu} from "./elements.js"
+import { get_map, get_seats, get_guests_names, post_seat_number, post_seats } from "./api.js"
+import {add_map, add_seat, add_match_list, add_match_menu, add_guest_details} from "./elements.js"
 
 
 function get_seat_string(map_id){
@@ -9,38 +9,7 @@ function get_seat_string(map_id){
         selectedArray.push(element.classList)
     });
     var selectedString = selectedArray.join(' *|* ')
-    $.ajax({
-        type: "POST", 
-        url: "api.php",
-        data: "action=add_seats&map_id="+map_id+"&seat_list="+selectedString,
-        success: function(msg){
-            location.reload();
-        }
-    });
-}
-
-function add_guest_details(guests_list, map_name){
-    document.querySelectorAll('.name_box').forEach(function(box){
-        var seat_guest_id = $(box).attr('guest_id')
-        for(var corrent of guests_list){
-            if(corrent.id == seat_guest_id){
-                if(corrent.name.length > 15)
-                box.style.fontSize = '11px';
-                $(box).attr('guest_name', corrent.name)
-                $(box).attr('guest_group', corrent.group)
-                $(box).text(corrent.name)
-                corrent.group = corrent.group.replace(" ","_");
-                $(box).addClass('guest_group_'+corrent.group)
-                console.log($(box).attr('class'))
-                
-                
-            }
-        }
-        $(box).click(function(){
-            var selected_seat_class = $(this).attr('seat_id')
-            add_match_menu(guests_list, selected_seat_class, map_name, box)
-        })
-    }) 
+    post_seats(map_id, selectedString)
 }
 
 function set_num(){
@@ -112,14 +81,7 @@ function set_num(){
                 box.text(col_group_name)
                 var selected_seat_class = box.attr('seat_id')
                 console.log(selected_seat_class)
-                $.ajax({
-                    type: "POST", 
-                    url: "api.php",
-                    data: "action=add_seat_number&seat_id="+selected_seat_class+"&seat_number="+col_group_name,
-                    success:function(msg){
-                        location.reload();
-                    }
-                })            
+                post_seat_number(selected_seat_class, col_group_name)          
                 col_group_name = col_group_name +1
             })           
         }
@@ -138,7 +100,7 @@ function set_num(){
     })
 }
 
-$(document).ready(async function(){
+const load_content = async function(){
     const parsedUrl = new URL(window.location.href)
     const map_name = parsedUrl.searchParams.get("map_name")
     $('title').append(map_name)
@@ -155,5 +117,7 @@ $(document).ready(async function(){
         get_seat_string(map.id)
     })
     $('#sub_4').attr('href', 'http://localhost/hive-php/guest_seat_num.php?map_name='+map_name)
-})
+}
+load_content()
+
 
