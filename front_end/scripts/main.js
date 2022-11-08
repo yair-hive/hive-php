@@ -1,4 +1,5 @@
 import { get_map, get_seats, get_guests_names } from "./api.js"
+import { dragToScroll } from "./drag-to-scroll.js"
 import {add_map, add_seat, add_guest_details} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats } from "./eventListeners.js"
 import { create_selection } from "./scripts.js"
@@ -25,6 +26,7 @@ const load_content = async function(){
     document.getElementById('add_seats').addEventListener('click', onClick_add_seats)
     document.getElementById('add_seat_number').addEventListener('click', onClick_add_seat_number)
     document.addEventListener('mousedown', onClick_outside)
+    dragToScroll()
 }
 load_content()
 
