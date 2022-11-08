@@ -2,7 +2,10 @@ import { post_seat_number, post_seats } from "./api.js"
 import { convert_seats } from "./scripts.js"
 import { selection } from "./main.js"
 
+var selectables = 'cells'
+
 export const onClick_select_seats = ()=>{
+    selectables = 'seats'
     document.getElementById('select_seats').style.backgroundColor = 'tomato'
     document.getElementById('select_cells').style.backgroundColor = 'gray'
     selection.clearSelection()
@@ -19,6 +22,7 @@ export const onClick_select_seats = ()=>{
 }
 
 export const onClick_select_cells = ()=>{
+    selectables = 'cells'
     document.getElementById('select_cells').style.backgroundColor = 'tomato'
     document.getElementById('select_seats').style.backgroundColor = 'gray'
     selection.clearSelection()
@@ -96,5 +100,26 @@ export const onClick_add_seat_number = ()=>{
             post_seat_number(selected_seat_class, col_group_name)          
             col_group_name = col_group_name +1
         })           
+    }
+}
+
+export const onClick_outside = (event)=>{
+    if(selection.getSelection().length !== 0){
+        if(selectables === 'cells'){
+            if(!event.target.classList.contains('cell')){
+                selection.clearSelection()
+                document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+            }
+        }
+        if(selectables === 'seats'){
+            if(!event.target.classList.contains('name_box')){
+                selection.clearSelection()
+                document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+            }
+            if(!event.target.classList.contains('num_box')){
+                selection.clearSelection()
+                document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+            }
+        }
     }
 }
