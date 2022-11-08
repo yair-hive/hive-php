@@ -38,10 +38,11 @@ export const onClick_select_cells = ()=>{
     selection.resolveSelectables()
 }
 
-export const onClick_add_seats = ()=>{
+export const onClick_add_seats = (event)=>{
     var selected = selection.getSelection()
     var seat_string = convert_seats(selected)
-    post_seats(map.id, seat_string)
+    var map_id = event.target.getAttribute('map_id')
+    post_seats(map_id, seat_string)
 }
 
 export const onClick_add_seat_number = ()=>{
@@ -105,20 +106,22 @@ export const onClick_add_seat_number = ()=>{
 
 export const onClick_outside = (event)=>{
     if(selection.getSelection().length !== 0){
-        if(selectables === 'cells'){
-            if(!event.target.classList.contains('cell')){
-                selection.clearSelection()
-                document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+        if(!event.target.classList.contains('hive-button')){
+            if(selectables === 'cells'){
+                if(!event.target.classList.contains('cell')){
+                    selection.clearSelection()
+                    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+                }
             }
-        }
-        if(selectables === 'seats'){
-            if(!event.target.classList.contains('name_box')){
-                selection.clearSelection()
-                document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
-            }
-            if(!event.target.classList.contains('num_box')){
-                selection.clearSelection()
-                document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+            if(selectables === 'seats'){
+                if(!event.target.classList.contains('name_box')){
+                    selection.clearSelection()
+                    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+                }
+                if(!event.target.classList.contains('num_box')){
+                    selection.clearSelection()
+                    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+                }
             }
         }
     }

@@ -18,6 +18,8 @@ const load_content = async function(){
     var guests_list = await get_guests_names()
     selection.resolveSelectables()
     add_guest_details(guests_list, map_name)
+    document.getElementById('add_seats').setAttribute('map_id', map.id)
+    document.getElementById('add_seat_number').setAttribute('map_id', map.id)
     document.getElementById('select_seats').addEventListener('click', onClick_select_seats)
     document.getElementById('select_cells').addEventListener('click', onClick_select_cells)
     document.getElementById('add_seats').addEventListener('click', onClick_add_seats)
