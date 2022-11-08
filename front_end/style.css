@@ -8,6 +8,13 @@ html, body{
     font-size: 13px;
     font-family: 'Open Sans', sans-serif;
 }
+a{
+    font-size: 20px;
+    color: white;
+}
+a:hover{
+    color: yellow;
+}
 body{
     display: grid;
     grid-template-rows: 8% 92%;
