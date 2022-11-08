@@ -31,7 +31,7 @@ input{
     background-color: rgb(119, 224, 224);
 }
 .hive-button:hover{
-    color: sienna;
+    background-color: #7a93b9;
 }
 .sub_test {
     text-align: center;
@@ -137,7 +137,7 @@ td {
     background: #4f90f22d;
     border: 1px solid #4f90f2;
 }
-.hive-switch{
+.hive-switch, .hive-switch:hover{
     background-color: violet;
     padding: 0px;
     display: flex;
@@ -152,6 +152,9 @@ td {
     font-size: 15px;
     padding: 0;
     margin: 0;
+}
+.hive-switch > div:hover{
+    color: white;
 }
 #select_seats{
     background-color: gray;
