@@ -17,6 +17,7 @@ input{
     margin: 7px;
 }
 .hive-button{
+    border-radius: 5px;
     user-select: none;
     cursor: pointer;
     height: 30px;
@@ -27,7 +28,7 @@ input{
     font-weight: bold;
     padding: 10px;
     margin: 10px;
-    background-color: aqua;
+    background-color: rgb(119, 224, 224);
 }
 .hive-button:hover{
     color: sienna;
@@ -51,7 +52,8 @@ input{
     height: 50px;
     margin: 2.5px;
     border-radius: 0.25rem;
-    background: #aaccff;
+    background: #344052;
+    color: azure;
 }
 .group_name{
     color: rgb(124, 116, 116);
@@ -64,10 +66,10 @@ input{
 }
 .num_box{
     border-radius: 0.25rem 0.25rem 0 0;
-    background-color: rgba(0, 128, 128, 0.44);
+    background-color: rgba(76, 129, 129, 0.8);
 }
 .name_box{
-    background-color: rgba(105, 90, 205, 0.277);
+    background-color: rgba(146, 136, 209, 0.8);
     border-radius: 0 0 0.25rem 0.25rem;
 }
 #topBar{
@@ -82,7 +84,7 @@ input{
 }
 #mainBord{
     overflow: auto;
-    background-color: coral;
+    background-color: rgb(54, 48, 45);
 }
 .map_container{
     user-select: none;
@@ -125,7 +127,7 @@ td {
     align-items: center;
     justify-content: center;
     font-size: 40px;
-    background-color: yellowgreen;
+    background-color: rgb(130, 101, 211);
 }
 .cell.selected, .seat.selected {
     background: #5f9efc;
@@ -136,6 +138,7 @@ td {
     border: 1px solid #4f90f2;
 }
 .hive-switch{
+    background-color: violet;
     padding: 0px;
     display: flex;
     align-items: stretch;
@@ -175,7 +178,7 @@ td {
   ::-webkit-scrollbar-thumb:hover {
     background: #555; 
   }
-  
+
 .guest_group_א{
     background-color: rgba(117, 224, 119, 0.715);
 }
