@@ -138,7 +138,10 @@ td {
     background-color: rgb(130, 101, 211);
 }
 .cell.selected, .seat.selected {
-    background: #5f9efc;
+    border-style: solid;
+    border-width: 0.1px;
+    border-color: #7a8392;
+    background: #555b66;
   }
     
 .selection-area {
