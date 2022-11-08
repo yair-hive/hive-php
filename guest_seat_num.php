@@ -70,10 +70,13 @@
     <title> hive | maps </title>
 </head>
 <body>
-    <div id="topBar"></div>
+    <div id="topBar">
+        <a href="http://localhost/hive-php/maps.php" class="hive-button"> maps </a>
+        <a href="http://localhost/hive-php/import_guests.php" class="hive-button"> import guests </a>
+    </div>
     <div id="mainBord"></div>
     <div id="mneu">
-        <div id='export' class='sub'> export </div>
+        <div id='export' class='hive-button'> export </div>
     </div>
 </body>
 </html>

@@ -13,7 +13,7 @@ export const add_map = (map, edit)=>{
             cell.classList.add(`row-${rowsCounter}`)
             cell.classList.add(`col-${colsCounter}`)
             cell.classList.add('cell')
-            cell.classList.add('cell_s')
+            cell.classList.add('selectable')
             map_ele.appendChild(cell)
         }
     }
@@ -30,6 +30,7 @@ export const add_seat = (seat)=>{
     num_box.classList.add('num_box')
     name_box.classList.add('name_box')
     seat_location.classList.remove('cell')
+    seat_location.classList.remove('selectable')
     seat_location.classList.add('seat')
     $(name_box).attr('seat_id', seat.id)
     $(num_box).attr('seat_id', seat.id)
@@ -121,10 +122,7 @@ export const add_guest_details = (guests_list, map_name)=>{
                 $(box).attr('guest_group', corrent.group)
                 $(box).text(corrent.name)
                 corrent.group = corrent.group.replace(" ","_");
-                $(box).addClass('guest_group_'+corrent.group)
-                console.log($(box).attr('class'))
-                
-                
+                $(box).addClass('guest_group_'+corrent.group)                
             }
         }
         $(box).click(function(){

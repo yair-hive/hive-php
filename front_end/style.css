@@ -16,14 +16,21 @@ body{
 input{
     margin: 7px;
 }
-.sub, #sub{
+.hive-button{
+    user-select: none;
+    cursor: pointer;
+    height: 30px;
+    text-decoration: none;
+    color: black;
     text-align: center;
     font-size: 20px;
     font-weight: bold;
-    padding: 7px;
     padding: 10px;
-    background-color: aqua;
     margin: 10px;
+    background-color: aqua;
+}
+.hive-button:hover{
+    color: rgb(45, 104, 160);
 }
 .sub_test {
     text-align: center;
@@ -38,7 +45,7 @@ input{
     grid-template-rows: repeat(var(--map-rows), 55px);
     grid-template-columns: repeat(var(--map-cols), 125px);
 }
-.seat, .cell_s{
+.cell, .seat{
     width: 120px;
     height: 50px;
     margin: 2.5px;
@@ -118,6 +125,35 @@ td {
     justify-content: center;
     font-size: 40px;
     background-color: yellowgreen;
+}
+.cell.selected, .seat.selected {
+    background: #5f9efc;
+  }
+    
+.selection-area {
+    background: #4f90f22d;
+    border: 1px solid #4f90f2;
+}
+.hive-switch{
+    padding: 0px;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+}
+.hive-switch > div{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+}
+#select_seats{
+    background-color: gray;
+}
+#select_cells{
+    background-color: tomato;
 }
 .guest_group_א{
     background-color: rgba(117, 224, 119, 0.715);

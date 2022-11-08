@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="front_end/style.css">
+    <script src="front_end/lib/jquery.min.js"></script>
+    <script src="front_end/scripts/main.js" type='module' defer></script>
+    <script src="front_end/scripts/drag-to-scroll.js"></script>  
+    <script defer>
+        const parsedUrl = new URL(window.location.href)
+        const map_name = parsedUrl.searchParams.get("map_name")
+    </script>
+    <title> hive | </title>
+</head>
+<body>
+    <div id="topBar">
+        <a href="http://localhost/hive-php/maps.php" class="hive-button"> מפות </a>
+        <a href="http://localhost/hive-php/import_guests.php" class="hive-button"> ייבא בחורים </a>
+    </div>
+    <div id="mainBord"></div>
+    <div id="mneu">
+        <div class="hive-switch hive-button">
+            <div id='select_seats' class='hive-button'> בחר כיסאות </div>
+            <div id='select_cells' class='hive-button'> בחר תאים </div>
+        </div>
+        <div id='add_seats' class='hive-button'> הוסף כיסאות </div>
+        <div id='add_seat_number' class='hive-button'> הוסף מספרי כיסאות </div>
+        <div onclick="location.href='http://localhost/hive-php/guest_seat_num.php?map_name='+map_name" class='hive-button'> דוחו"ת </div>
+    </div>
+</body>
+</html>
