@@ -21,7 +21,7 @@ a:hover{
 body{
     display: grid;
     grid-template-rows: 8% 92%;
-    grid-template-columns: 80% 20%;
+    grid-template-columns: 88% 12%;
 }
 input{
     z-index: 10;
@@ -57,7 +57,7 @@ input:focus{
     background-color: rgb(202, 248, 248);
     border-radius: 3px;
     box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.3);
-    height: 300px;
+    max-height: 200px;
 }
 .map{
     display: grid;
