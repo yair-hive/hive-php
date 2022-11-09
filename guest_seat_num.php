@@ -71,8 +71,8 @@
 </head>
 <body>
     <div id="topBar">
-        <a href="http://localhost/hive-php/maps.php" class="hive-button"> maps </a>
-        <a href="http://localhost/hive-php/import_guests.php" class="hive-button"> import guests </a>
+        <a href="http://localhost/hive-php/maps.html" class="hive-button"> מפות </a>
+        <a href="http://localhost/hive-php/import_guests.php" class="hive-button"> ייבא בחורים </a>
     </div>
     <div id="mainBord"></div>
     <div id="mneu">

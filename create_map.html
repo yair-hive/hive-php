@@ -14,7 +14,7 @@
                 url: "api.php",
                 data: "action=create_map&"+$('#create_map_form').serialize(),
                 success: function(msg){
-                    window.location.replace('maps.php')
+                    window.location.replace('maps.html')
                 }
             });
             })
@@ -24,8 +24,8 @@
 </head>
 <body>
     <div id="topBar">
-        <a href="http://localhost/hive-php/maps.php" class="hive-button"> מפות </a>
-        <a href="http://localhost/hive-php/import_guests.php" class="hive-button"> ייבא בחורים </a>
+        <a href="http://localhost/hive-php/maps.html" class="hive-button"> מפות </a>
+        <a href="http://localhost/hive-php/import_guests.html" class="hive-button"> ייבא בחורים </a>
     </div>
     <div id="mainBord">
         <form id='create_map_form'>
