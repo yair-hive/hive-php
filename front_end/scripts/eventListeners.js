@@ -6,6 +6,8 @@ var selectables = 'cells'
 
 export const onClick_select_seats = ()=>{
     selectables = 'seats'
+    document.getElementById('add_seats').style.display = 'none'
+    document.getElementById('add_seat_number').style.display = 'block'
     document.getElementById('select_seats').style.backgroundColor = 'tomato'
     document.getElementById('select_cells').style.backgroundColor = 'gray'
     selection.clearSelection()
@@ -23,6 +25,8 @@ export const onClick_select_seats = ()=>{
 
 export const onClick_select_cells = ()=>{
     selectables = 'cells'
+    document.getElementById('add_seats').style.display = 'block'
+    document.getElementById('add_seat_number').style.display = 'none'
     document.getElementById('select_cells').style.backgroundColor = 'tomato'
     document.getElementById('select_seats').style.backgroundColor = 'gray'
     selection.clearSelection()
