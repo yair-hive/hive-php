@@ -329,7 +329,6 @@ if(!empty($_POST['action'])){
                 'text/xlsx',
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             ];
-            print_r($_FILES);
             if (in_array($_FILES["file"]["type"], $allowedFileType)) {
                 $respons = [];
         
@@ -374,6 +373,7 @@ if(!empty($_POST['action'])){
             }
             $respons_json = json_encode($respons);
             print_r($respons_json);
+            header("Location: import_guests.html");
             break;
         default:
             print("hgdodgo");
