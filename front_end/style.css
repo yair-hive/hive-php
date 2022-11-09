@@ -49,7 +49,7 @@ input:focus{
 .hive-button:hover{
     background-color: #7a93b9;
 }
-.sub_test {
+.drop_down {
     z-index: 10;
     text-align: center;
     font-size: 11px;
@@ -59,16 +59,16 @@ input:focus{
     box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.3);
     max-height: 200px;
 }
-.sub_test > ul{
+.drop_down > ul{
     margin: 0;
     list-style: none;
 }
-.sub_test > ul > li{
+.drop_down > ul > li{
     font-size: 14px;
     padding: 10px 0 10px 0;
     list-style: none;
 }
-.sub_test > ul > li:hover{
+.drop_down > ul > li:hover{
     background-color: #4f90f275;
 }
 .map{

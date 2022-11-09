@@ -31,3 +31,25 @@ export const convert_seats = (selected)=>{
     });
     return selectedArray.join(' *|* ')
 }
+export const offsetCalculate = (box)=>{
+    var parent = box.getBoundingClientRect()
+    var parent_width = box.offsetWidth
+    var parent_height = box.offsetHeight
+    var list_width_over = 60
+    var list_width_over_d = list_width_over / 2
+    $('#name_box_input').css({
+        'position': 'absolute',
+        'width': parent_width, 
+        'top':parent.top,
+        'left': parent.left,
+        'margin': 0,
+        'padding': 0
+    })
+    $('#drop_down').css({
+        'position': 'absolute',
+        'width': parent_width + list_width_over, 
+        'top':parent.top + parent_height,
+        'left': parent.left - list_width_over_d,
+        'overflow': 'auto'
+    });
+}

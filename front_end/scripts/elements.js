@@ -1,4 +1,5 @@
 import { create_belong } from "./api.js"
+import { offsetCalculate } from "./scripts.js"
 
 export const add_map = (map, edit)=>{
     const main_bord = document.getElementById('mainBord')
@@ -44,96 +45,65 @@ export const add_seat = (seat)=>{
     seat_location.append(num_box)
     seat_location.append(name_box)
 }
-
-export const add_match_list = (input_str, guests_list, selected_seat_class, map_name)=>{
+export const add_match_list_items = (input_str, guests_list)=>{
+    var match_list = []
     var search_str = '^'+input_str
-    var match_list_ele = document.createElement('ul')
-    $(match_list_ele).attr('id', 'match_list_ele')
     if(input_str.length != 0){
         var search_reg = new RegExp(search_str)
         for(var corrent of guests_list){
             if(search_reg.test(corrent.name)){
-                var match_li = document.createElement('li') 
-                $(match_li).html(corrent.name+' | <span class="group_name">'+corrent.group+'</span>')
-                $(match_li).addClass('match_list')
-                $(match_li).attr('guest_id', corrent.id)
-                $(match_li).attr('guest_group', corrent.group)
-                $(match_li).attr('guest_name', corrent.name)
-                $(match_li).click(function(){
-                    var selected_guest_id = $(this).attr('guest_id')
-                    $('#input_fild').val($(this).attr('guest_name'))
-                    console.log('gg')
-                    create_belong(selected_guest_id, selected_seat_class, map_name)
-                })                                        
-                $(match_list_ele).append(match_li)
+                match_list.push(corrent)
             }
         }
     }
-    return match_list_ele
+    return match_list
 }
-export const add_match_menu = (guests_list, selected_seat_class, map_name, box)=>{
-    if(document.getElementById('list_ele')) document.getElementById('list_ele').remove()
-    if(document.getElementById('input_fild_2')) document.getElementById('input_fild_2').remove()
-    $(box).text('')
-    var list_ele = document.createElement('div')
-    $(list_ele).attr('id', 'list_ele')
-    $(list_ele).addClass('sub_test')   
-    var parent = box.getBoundingClientRect()
-    var parent_width = box.offsetWidth
-    var parent_height = box.offsetHeight
-    var list_width_over = 60
-    var list_width_over_d = list_width_over / 2
+export const add_match_list = (input_str, guests_list, selected_seat_class, map_name)=>{
+    var match_drop_down = document.createElement('ul')
+    $(match_drop_down).attr('id', 'match_drop_down')
+    for(let corrent of add_match_list_items(input_str, guests_list)){
+        var match_li = document.createElement('li') 
+        $(match_li).html(corrent.name+' | <span class="group_name">'+corrent.group+'</span>')
+        $(match_li).addClass('match_list')
+        $(match_li).attr('guest_id', corrent.id)
+        $(match_li).attr('guest_group', corrent.group)
+        $(match_li).attr('guest_name', corrent.name)
+        $(match_li).click(function(){
+            var selected_guest_id = $(this).attr('guest_id')
+            $('#name_box_input').val($(this).attr('guest_name'))
+            create_belong(selected_guest_id, selected_seat_class, map_name)
+        })                                        
+        $(match_drop_down).append(match_li)
+    }
+    return match_drop_down
+}
+export const add_name_box_input = (box)=>{
     var input_fild = document.createElement('input')
     input_fild.style.border = "none";
-    $(input_fild).attr('id', 'input_fild_2')
+    $(input_fild).attr('id', 'name_box_input')
     $(input_fild).val($(box).attr('guest_name'))
-    $('#mainBord').append(list_ele)
-    $('#mainBord').append(input_fild)
-    $('#input_fild_2').addClass('name_box')            
-    function offsetCalculate(){
-        $('#list_ele').css({
-            'position': 'absolute',
-            'width': parent_width + list_width_over, 
-            'top':parent.top + parent_height,
-            'left': parent.left - list_width_over_d,
-            'overflow': 'auto'
-        });
-        $('#input_fild_2').css({
-            'position': 'absolute',
-            'width': parent_width, 
-            'top':parent.top,
-            'left': parent.left,
-            'margin': 0,
-            'padding': 0
-        })
-    }
-    function srollOffsetCalculate(event){
-        $('#list_ele').css({
-            'position': 'absolute',
-            'width': parent_width + list_width_over, 
-            'top':parent.top + parent_height - event.target.scrollTop,
-            'left': parent.left - list_width_over_d - event.target.scrollLeft,
-            'overflow': 'auto'
-        });
-        $('#input_fild_2').css({
-            'position': 'absolute',
-            'width': parent_width, 
-            'top':parent.top - event.target.scrollTop,
-            'left': parent.left - event.target.scrollLeft,
-            'margin': 0,
-            'padding': 0
-        })
-    }
-    offsetCalculate();
-    $(window).resize(function(){
-        offsetCalculate();
-    });
-    document.getElementById('mainBord').addEventListener('scroll', srollOffsetCalculate)
-    $(input_fild).focus()
-    $('#input_fild_2').on('input', function(){
-        var input_str = $('#input_fild_2').val()
-        $('#list_ele').children('ul').text(' ')
-        $('#list_ele').append(add_match_list(input_str, guests_list, selected_seat_class, map_name))                               
+    $(input_fild).addClass('name_box')
+    return input_fild
+}
+export const add_drop_down = ()=>{
+    var drop_down = document.createElement('div')
+    $(drop_down).attr('id', 'drop_down')
+    $(drop_down).addClass('drop_down')   
+    return drop_down
+}
+export const add_match_menu = (guests_list, selected_seat_class, map_name, box)=>{
+    if(document.getElementById('drop_down')) document.getElementById('drop_down').remove()
+    if(document.getElementById('name_box_input')) document.getElementById('name_box_input').remove()
+    $('#mainBord').append(add_drop_down())
+    $('#mainBord').append(add_name_box_input(box))         
+    offsetCalculate(box);
+    window.addEventListener('resize', ()=> offsetCalculate(box))
+    document.getElementById('mainBord').addEventListener('scroll', ()=> offsetCalculate(box))
+    $('#name_box_input').focus()
+    $('#name_box_input').on('input', function(){
+        var input_str = $('#name_box_input').val()
+        $('#drop_down').children('ul').text(' ')
+        $('#drop_down').append(add_match_list(input_str, guests_list, selected_seat_class, map_name))                               
     })
 }
 export const add_guest_details = (guests_list, map_name)=>{
@@ -152,6 +122,7 @@ export const add_guest_details = (guests_list, map_name)=>{
         }
         $(box).click(function(){
             var selected_seat_class = $(this).attr('seat_id')
+            $(box).text('')
             add_match_menu(guests_list, selected_seat_class, map_name, box)
         })
     }) 
