@@ -21,7 +21,7 @@ a:hover{
 body{
     display: grid;
     grid-template-rows: 8% 92%;
-    grid-template-columns: 88% 12%;
+    grid-template-columns: 85% 15%;
 }
 input{
     z-index: 10;
