@@ -60,22 +60,16 @@ input:focus{
     max-height: 200px;
 }
 .sub_test > ul{
-    display: flex;
-    align-items: stretch;
-    justify-content: stretch;
-    flex-direction: column;
     margin: 0;
     list-style: none;
 }
 .sub_test > ul > li{
-    width: 100%;
-    border-top: 1px solid #344052;
     font-size: 14px;
     padding: 10px 0 10px 0;
     list-style: none;
 }
 .sub_test > ul > li:hover{
-    background-color: #4f90f2;
+    background-color: #4f90f275;
 }
 .map{
     display: grid;
