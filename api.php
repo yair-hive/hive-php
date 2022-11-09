@@ -322,60 +322,61 @@ if(!empty($_POST['action'])){
             break;
         case 'import_guests':
             $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
-            if (isset($_POST["import"])) {
-
-                $allowedFileType = [
-                    'application/vnd.ms-excel',
-                    'text/xls',
-                    'text/xlsx',
-                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-                ];
             
-                if (in_array($_FILES["file"]["type"], $allowedFileType)) {
-                    $respons = [];
-            
-                    $targetPath = 'uploads/' . $_FILES['file']['name'];
-                    move_uploaded_file($_FILES['file']['tmp_name'], $targetPath);
-            
-                    $Reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-            
-                    $spreadSheet = $Reader->load($targetPath);
-                    $excelSheet = $spreadSheet->getActiveSheet();
-                    $spreadSheetAry = $excelSheet->toArray();
-                    $sheetCount = count($spreadSheetAry);
-            
-                    for ($i = 0; $i <= $sheetCount; $i ++) {
-                        $first_name = "";
-                        if (isset($spreadSheetAry[$i][0])) {
-                            $first_name = mysqli_real_escape_string($connection, $spreadSheetAry[$i][0]);
-                        }
-                        $last_name = "";
-                        if (isset($spreadSheetAry[$i][1])) {
-                            $last_name = mysqli_real_escape_string($connection, $spreadSheetAry[$i][1]);
-                        }
-                        $guest_group = "";
-                        if (isset($spreadSheetAry[$i][2])) {
-                            $guest_group = mysqli_real_escape_string($connection, $spreadSheetAry[$i][2]);
-                        }
-            
-                        if (! empty($first_name) || ! empty($last_name) || !empty($guest_group)) {
-                            $query_string = "INSERT INTO guests(first_name,last_name,guest_group) VALUES('{$first_name}', '{$last_name}', '{$guest_group}')";
-                            if(mysqli_query($connection, $query_string)){
-                                $respons['type'] = "success";
-                                $respons['message'] = "Excel Data Imported into the Database";
-                            }else{
-                                $respons['type'] = "error";
-                                $respons['message'] = "Problem in Importing Excel Data";
-                            }
+            $allowedFileType = [
+                'application/vnd.ms-excel',
+                'text/xls',
+                'text/xlsx',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            ];
+            print_r($_FILES);
+            if (in_array($_FILES["file"]["type"], $allowedFileType)) {
+                $respons = [];
+        
+                $targetPath = 'uploads/' . $_FILES['file']['name'];
+                move_uploaded_file($_FILES['file']['tmp_name'], $targetPath);
+        
+                $Reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        
+                $spreadSheet = $Reader->load($targetPath);
+                $excelSheet = $spreadSheet->getActiveSheet();
+                $spreadSheetAry = $excelSheet->toArray();
+                $sheetCount = count($spreadSheetAry);
+        
+                for ($i = 0; $i <= $sheetCount; $i ++) {
+                    $first_name = "";
+                    if (isset($spreadSheetAry[$i][0])) {
+                        $first_name = mysqli_real_escape_string($connection, $spreadSheetAry[$i][0]);
+                    }
+                    $last_name = "";
+                    if (isset($spreadSheetAry[$i][1])) {
+                        $last_name = mysqli_real_escape_string($connection, $spreadSheetAry[$i][1]);
+                    }
+                    $guest_group = "";
+                    if (isset($spreadSheetAry[$i][2])) {
+                        $guest_group = mysqli_real_escape_string($connection, $spreadSheetAry[$i][2]);
+                    }
+        
+                    if (! empty($first_name) || ! empty($last_name) || !empty($guest_group)) {
+                        $query_string = "INSERT INTO guests(first_name,last_name,guest_group) VALUES('{$first_name}', '{$last_name}', '{$guest_group}')";
+                        if(mysqli_query($connection, $query_string)){
+                            $respons['type'] = "success";
+                            $respons['message'] = "Excel Data Imported into the Database";
+                        }else{
+                            $respons['type'] = "error";
+                            $respons['message'] = "Problem in Importing Excel Data";
                         }
                     }
-                } else {
-                    $respons['type'] = "error";
-                    $respons['message'] = "Invalid File Type. Upload Excel File.";
                 }
-                $respons_json = json_encode($respons);
-                print_r($respons_json);
-            }            
+            } else {
+                $respons['type'] = "error";
+                $respons['message'] = "Invalid File Type. Upload Excel File.";
+            }
+            $respons_json = json_encode($respons);
+            print_r($respons_json);
             break;
-        }            
+        default:
+            print("hgdodgo");
+            break;
+    }            
 }
