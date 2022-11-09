@@ -111,8 +111,10 @@ export const onClick_add_seat_number = ()=>{
 export const onClick_outside = (event)=>{
     if(!event.target.classList.contains('name_box')){
         if(!event.target.classList.contains('sub_test')){
-            if(document.getElementById('list_ele')) document.getElementById('list_ele').remove()
-            if(document.getElementById('input_fild_2')) document.getElementById('input_fild_2').remove()
+            if(!event.target.classList.contains('match_list_it')){
+                if(document.getElementById('list_ele')) document.getElementById('list_ele').remove()
+                if(document.getElementById('input_fild_2')) document.getElementById('input_fild_2').remove()
+            }
         }
     }
     if(!event.ctrlKey && !event.metaKey){

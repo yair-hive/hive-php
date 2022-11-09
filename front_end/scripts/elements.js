@@ -55,12 +55,14 @@ export const add_match_list = (input_str, guests_list, selected_seat_class, map_
             if(search_reg.test(corrent.name)){
                 var match_li = document.createElement('li') 
                 $(match_li).html(corrent.name+' | <span class="group_name">'+corrent.group+'</span>')
+                $(match_li).addClass('match_list')
                 $(match_li).attr('guest_id', corrent.id)
                 $(match_li).attr('guest_group', corrent.group)
                 $(match_li).attr('guest_name', corrent.name)
                 $(match_li).click(function(){
                     var selected_guest_id = $(this).attr('guest_id')
                     $('#input_fild').val($(this).attr('guest_name'))
+                    console.log('gg')
                     create_belong(selected_guest_id, selected_seat_class, map_name)
                 })                                        
                 $(match_list_ele).append(match_li)
@@ -72,6 +74,7 @@ export const add_match_list = (input_str, guests_list, selected_seat_class, map_
 export const add_match_menu = (guests_list, selected_seat_class, map_name, box)=>{
     if(document.getElementById('list_ele')) document.getElementById('list_ele').remove()
     if(document.getElementById('input_fild_2')) document.getElementById('input_fild_2').remove()
+    $(box).text('')
     var list_ele = document.createElement('div')
     $(list_ele).attr('id', 'list_ele')
     $(list_ele).addClass('sub_test')   
@@ -83,6 +86,7 @@ export const add_match_menu = (guests_list, selected_seat_class, map_name, box)=
     var input_fild = document.createElement('input')
     input_fild.style.border = "none";
     $(input_fild).attr('id', 'input_fild_2')
+    $(input_fild).val($(box).attr('guest_name'))
     $('#mainBord').append(list_ele)
     $('#mainBord').append(input_fild)
     $('#input_fild_2').addClass('name_box')            
