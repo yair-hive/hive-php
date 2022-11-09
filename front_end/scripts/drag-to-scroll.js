@@ -42,7 +42,7 @@ export const dragToScroll = ()=>{
     // Attach the handler
 
     document.addEventListener("keydown", function(e){
-        if(e.key == 'g'){
+        if(e.key == 'g' || e.key == 'ע'){
             ele.addEventListener('mousedown', mouseDownHandler);
             selection.disable()
         }
