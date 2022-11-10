@@ -12,7 +12,7 @@
             const map_name = parsedUrl.searchParams.get("map_name")
             $.ajax({
                 type: "POST", 
-                url: "api.php",
+                url: "http://localhost/hive-php/api.php",
                 data: "action=get_guest_seat_num&map_name="+map_name,
                 success: function(msg){
                     belongs_list = JSON.parse(msg)
@@ -56,7 +56,7 @@
                 var html_string = $(list_table).html()
                 $.ajax({
                     type: "POST", 
-                    url: "api.php",
+                    url: "http://localhost/hive-php/api.php",
                     data: "action=export_to_exel&htmlString="+html_string,
                     success: function(msg){
                         window.location.href = "http://localhost/hive-php/uploads/write.xls";

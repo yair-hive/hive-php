@@ -26,7 +26,7 @@ export const get_seats = (map_name)=>{
         }
     };
       
-    return fetch('api.php', options)
+    return fetch(api_url, options)
     .then((response) => {
         return response.json();
     })
@@ -43,7 +43,7 @@ export const get_guests_names = ()=>{
         }
     };
       
-    return fetch('api.php', options)
+    return fetch(api_url, options)
     .then((response) => {
         return response.json();
     })
@@ -58,7 +58,7 @@ export const post_seat_number = (seat_id, seat_number)=>{
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
     }
-    return fetch('api.php', options)
+    return fetch(api_url, options)
     .then((response) => {
         location.reload();
     })
@@ -74,7 +74,7 @@ export const create_belong = (selected_guest_id, selected_seat_class, map_name)=
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
     }
-    return fetch('api.php', options)
+    return fetch(api_url, options)
     .then((response) => {
         location.reload();
     })
@@ -89,7 +89,7 @@ export const post_seats = (map_id, selectedString)=>{
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
     }
-    return fetch('api.php', options)
+    return fetch(api_url, options)
     .then((response) => {
         location.reload();
     })

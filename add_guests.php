@@ -11,7 +11,7 @@
             $('#sub').click(function(){
                 $.ajax({
                 type: "POST", 
-                url: "api.php",
+                url: "http://localhost/hive-php/api.php",
                 data: "action=add_guests&"+$('#add_guest_form').serialize(),
                 success: function(msg){
                     alert(msg);
