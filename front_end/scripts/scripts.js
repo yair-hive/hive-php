@@ -23,7 +23,6 @@ export const create_selection = ()=>{
     })
     return selection
 }
-
 export const convert_seats = (selected)=>{
     var selectedArray = []
     selected.forEach(element => {
@@ -52,4 +51,60 @@ export const offsetCalculate = (box)=>{
         'left': parent.left - list_width_over_d,
         'overflow': 'auto'
     });
+}
+
+export class DragToScroll {
+    constructor(){
+        this.mouseDownHandler = this.mouseDownHandler.bind(this)
+        this.mouseMoveHandler = this.mouseMoveHandler.bind(this)
+        this.mouseUpHandler = this.mouseMoveHandler.bind(this)
+        this.disable = this.disable.bind(this)
+        this.enable = this.enable.bind(this)
+    }
+    ele = document.getElementById('mainBord');
+
+    pos = { top: 0, left: 0, x: 0, y: 0 };
+
+    mouseDownHandler(e) {
+        this.ele.style.cursor = 'grabbing';
+        this.ele.style.userSelect = 'none';
+
+        this.pos = {
+            left: this.ele.scrollLeft,
+            top: this.ele.scrollTop,
+            // Get the current mouse position
+            x: e.clientX,
+            y: e.clientY,
+        };
+
+        document.addEventListener('mousemove', this.mouseMoveHandler);
+        document.addEventListener('mouseup', this.mouseUpHandler);
+    };
+
+    mouseMoveHandler(e) {
+        // How far the mouse has been moved
+        const dx = e.clientX - this.pos.x;
+        const dy = e.clientY - this.pos.y;
+
+        // Scroll the element
+        this.ele.scrollTop = this.pos.top - dy;
+        this.ele.scrollLeft = this.pos.left - dx;
+    };
+
+    mouseUpHandler() {
+        this.ele.style.removeProperty('cursor');
+        this.ele.style.removeProperty('user-select');
+        document.removeEventListener('mousemove', this.mouseMoveHandler);
+        document.removeEventListener('mouseup', this.mouseUpHandler);
+    };
+    disable(){
+        this.ele.removeEventListener('mousedown', this.mouseDownHandler);
+        this.ele.style.removeProperty('cursor');
+        this.ele.style.removeProperty('user-select');
+        document.removeEventListener('mousemove', this.mouseMoveHandler);
+        document.removeEventListener('mouseup', this.mouseUpHandler);
+    }
+    enable(){
+        this.ele.addEventListener('mousedown', this.mouseDownHandler);        
+    }
 }

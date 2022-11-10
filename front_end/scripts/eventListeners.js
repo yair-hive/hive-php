@@ -1,6 +1,6 @@
 import { post_seat_number, post_seats } from "./api.js"
 import { convert_seats } from "./scripts.js"
-import { selection } from "./main.js"
+import { dragToScroll, selection } from "./main.js"
 
 var selectables = 'cells'
 
@@ -139,4 +139,14 @@ export const onClick_outside = (event)=>{
             }
         }
     }
+}
+export const onKeyBordDown = (e)=>{
+    if(e.key == 'g' || e.key == 'ע'){
+        dragToScroll.enable()    
+        selection.disable()
+    }
+}
+export const onKeyBordUp = ()=>{
+    dragToScroll.disable()    
+    selection.enable()
 }

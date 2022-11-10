@@ -24,26 +24,28 @@ export const add_map = (map, edit)=>{
     main_bord.appendChild(map_container)
 }
 
-export const add_seat = (seat)=>{
-    var seat_location = document.querySelector('.row-'+seat.row_num+'.col-'+seat.col_num)
-    var num_box = document.createElement('div')
-    var name_box = document.createElement('div')
-    num_box.classList.add('num_box')
-    name_box.classList.add('name_box')
-    seat_location.classList.remove('cell')
-    seat_location.classList.remove('selectable')
-    seat_location.classList.add('seat')
-    $(name_box).attr('seat_id', seat.id)
-    $(num_box).attr('seat_id', seat.id)
-    $(num_box).addClass('row-'+seat.row_num)
-    $(num_box).addClass('col-'+seat.col_num)
-    $(name_box).addClass('row-'+seat.row_num)
-    $(name_box).addClass('col-'+seat.col_num)
-    $(num_box).text(seat.seat_number)
-    $(name_box).attr('guest_id', seat.guest_id)
-    $(name_box).text(seat.guest_id)
-    seat_location.append(num_box)
-    seat_location.append(name_box)
+export const add_seats = (seats)=>{
+    for(let seat of seats){
+        var seat_location = document.querySelector('.row-'+seat.row_num+'.col-'+seat.col_num)
+        var num_box = document.createElement('div')
+        var name_box = document.createElement('div')
+        num_box.classList.add('num_box')
+        name_box.classList.add('name_box')
+        seat_location.classList.remove('cell')
+        seat_location.classList.remove('selectable')
+        seat_location.classList.add('seat')
+        $(name_box).attr('seat_id', seat.id)
+        $(num_box).attr('seat_id', seat.id)
+        $(num_box).addClass('row-'+seat.row_num)
+        $(num_box).addClass('col-'+seat.col_num)
+        $(name_box).addClass('row-'+seat.row_num)
+        $(name_box).addClass('col-'+seat.col_num)
+        $(num_box).text(seat.seat_number)
+        $(name_box).attr('guest_id', seat.guest_id)
+        $(name_box).text(seat.guest_id)
+        seat_location.append(num_box)
+        seat_location.append(name_box)
+    }
 }
 export const add_match_list_items = (input_str, guests_list)=>{
     var match_list = []
