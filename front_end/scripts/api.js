@@ -83,7 +83,4 @@ export const post_seats = (map_id, selectedString)=>{
         }
     }
     return fetch(api_url, options)
-    .then((response) => {
-        location.reload();
-    })
 }

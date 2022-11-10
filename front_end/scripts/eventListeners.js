@@ -1,6 +1,7 @@
 import { post_seat_number, post_seats, create_belong } from "./api.js"
 import { convert_seats } from "./scripts.js"
 import { dragToScroll, selection } from "./main.js"
+import { add_seats } from "./elements.js"
 
 var selectables = 'cells'
 
@@ -43,8 +44,12 @@ export const onClick_select_cells = ()=>{
 export const onClick_add_seats = (event)=>{
     var selected = selection.getSelection()
     var seat_string = convert_seats(selected)
+    var seats = []
+    selected.forEach(e => seats.push({row_num: e.getAttribute('row'), col_num: e.getAttribute('col')}))
+    add_seats(seats)
     var map_id = document.getElementById('map').getAttribute('map_id')
     post_seats(map_id, seat_string)
+    .then(()=> {selection.clearSelection(); document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))})
 }
 export const onClick_add_seat_number = ()=>{
     var selected = selection.getSelection()

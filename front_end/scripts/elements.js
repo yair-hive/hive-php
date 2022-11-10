@@ -10,6 +10,8 @@ export const add_map = (map)=>{
     for(var rowsCounter = 1; rowsCounter <= map.rows_number; rowsCounter++){
         for(var colsCounter = 1; colsCounter <= map.columns_number; colsCounter++){
             var cell = document.createElement('div')
+            cell.setAttribute('row', rowsCounter)
+            cell.setAttribute('col', colsCounter)
             cell.classList.add(`row-${rowsCounter}`)
             cell.classList.add(`col-${colsCounter}`)
             cell.classList.add('cell')
