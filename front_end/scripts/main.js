@@ -22,6 +22,8 @@ get_map(map_name).then(map => {
 .then((guests) => {add_guest(guests, map_name); guests_data = guests})
 .then(()=>{
     selection.resolveSelectables()
+    document.getElementById('loader').style.display = 'none'
+    document.getElementById('loader-container').style.display = 'none'
     document.getElementById('select_seats').addEventListener('click', onClick_select_seats)
     document.getElementById('select_cells').addEventListener('click', onClick_select_cells)
     document.getElementById('add_seats').addEventListener('click', onClick_add_seats)
