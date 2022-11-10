@@ -25,10 +25,10 @@
                     $(list_table).append(tr)
                     for(let bel of belongs_list){ 
                         var tr = $('<tr>')
-                        .append($('<tr>').text(bel.seat_num))
-                        .append($('<tr>').text(bel.guest_group)) 
-                        .append($('<tr>').text(bel.guest_first_name))
-                        .append($('<tr>').text(bel.guest_last_name))                      
+                        .append($('<td>').text(bel.seat_num))
+                        .append($('<td>').text(bel.guest_group)) 
+                        .append($('<td>').text(bel.guest_first_name))
+                        .append($('<td>').text(bel.guest_last_name))                      
                         $(list_table).append(tr)
                     }
                     $('#mainBord').append(list_table)
