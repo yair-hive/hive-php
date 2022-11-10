@@ -168,6 +168,10 @@ export const onKeyBordDown = (event)=>{
         dragToScroll.enable()    
         selection.disable()
     }
+    if(event.ctrlKey || event.metaKey){
+        const map_container = document.querySelector('.map_container')
+        if(event.key === ' ') map_container.style.transform = `scale(1)`;        
+    }
 }
 export const onKeyBordUp = ()=>{
     dragToScroll.disable()    

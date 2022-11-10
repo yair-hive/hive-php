@@ -52,7 +52,21 @@ export const offsetCalculate = (box)=>{
         'overflow': 'auto'
     });
 }
-
+let scale = 1
+export const zoom = (event)=>{
+    if(event.ctrlKey || event.metaKey){
+        const map_container = document.querySelector('.map_container')
+        event.preventDefault();
+        
+        scale += event.deltaY * -0.0005;
+        
+        // Restrict scale
+        scale = Math.min(Math.max(.125, scale), 4);
+        
+        // Apply scale transform
+        map_container.style.transform = `scale(${scale})`;
+    }
+}
 export class DragToScroll {
     constructor(){
         this.mouseDownHandler = this.mouseDownHandler.bind(this)

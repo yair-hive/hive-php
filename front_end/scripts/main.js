@@ -1,7 +1,7 @@
 import { get_map, get_seats, get_guests_names } from "./api.js"
 import {add_map, add_seats, add_guest} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
-import { create_selection, DragToScroll} from "./scripts.js"
+import { create_selection, DragToScroll, zoom} from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
 
 export const selection = create_selection()
@@ -31,6 +31,7 @@ get_map(map_name).then(map => {
     document.addEventListener('mousedown', onClick_outside)
     document.addEventListener("keydown", onKeyBordDown)
     document.addEventListener("keyup", onKeyBordUp)
+    document.getElementById('mainBord').addEventListener('wheel', zoom)
     document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target)))
 })
 
