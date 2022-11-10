@@ -28,20 +28,22 @@
     <title> hive | import guests </title>
 </head>
 <body>
-    <div id="topBar">
-		<a href="http://localhost/hive-php/maps.html" class="hive-button"> מפות </a>
-        <a href="http://localhost/hive-php/import_guests.html" class="hive-button"> ייבא בחורים </a>
+	<div id="content">
+		<div id="topBar">
+			<a href="http://localhost/hive-php/maps.html" class="hive-button"> מפות </a>
+			<a href="http://localhost/hive-php/import_guests.html" class="hive-button"> ייבא בחורים </a>
+		</div>
+		<div id="mainBord">
+			<form id='import_guests_form' action="http://localhost/hive-php/api.php" method="post" name="frmExcelImport" id="frmExcelImport" enctype="multipart/form-data">
+				<input type="hidden" name="action" value="import_guests">
+				<label>Choose Excel File</label> 
+				<br />
+				<input type="file" name="file" id="file" accept=".xls,.xlsx">
+				<br />
+				<div type="submit" id="submit" name="import" class="hive-button" onClick="this.parentNode.submit()">Import</div>	
+			</form>
+		</div>
+		<div id="mneu"></div>
 	</div>
-    <div id="mainBord">
-		<form id='import_guests_form' action="http://localhost/hive-php/api.php" method="post" name="frmExcelImport" id="frmExcelImport" enctype="multipart/form-data">
-			<input type="hidden" name="action" value="import_guests">
-			<label>Choose Excel File</label> 
-			<br />
-			<input type="file" name="file" id="file" accept=".xls,.xlsx">
-			<br />
-			<div type="submit" id="submit" name="import" class="hive-button" onClick="this.parentNode.submit()">Import</div>	
-		</form>
-	</div>
-    <div id="mneu"></div>
 </body>
 </html>
