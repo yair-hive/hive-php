@@ -142,22 +142,26 @@ input:focus{
     background-color: violet;
 }
 table {
+    margin: 15px;
     border: 3px solid black;
     text-align: center;
     border-collapse: collapse;
     table-layout: fixed;
 }
 th {
+    border: 1px solid black;
     background-color: gray;
     color: white;
     padding: 10px;
     font-size: 15px;
+    height: 20px;
 }
 td { 
     border: 1px solid black;
-    padding: 20px;
+    padding: 5px;
     background-color: rgb(120, 154, 216);
     font-size: 20px;
+    height: 20px;
 }
 #topBar{
     z-index: 20;
