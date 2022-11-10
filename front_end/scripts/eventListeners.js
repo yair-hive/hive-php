@@ -43,12 +43,11 @@ export const onClick_select_cells = ()=>{
 export const onClick_add_seats = (event)=>{
     var selected = selection.getSelection()
     var seat_string = convert_seats(selected)
-    var map_id = event.target.getAttribute('map_id')
+    var map_id = document.getElementById('map').getAttribute('map_id')
     post_seats(map_id, seat_string)
 }
 export const onClick_add_seat_number = ()=>{
     var selected = selection.getSelection()
-    var new_arr = new Array()
     var most_l = 100000
     var most_t = 100000
     var most_b = 0
@@ -99,10 +98,12 @@ export const onClick_add_seat_number = ()=>{
             var box = $(seat).children('.num_box')
             box.text(col_group_name)
             var selected_seat_class = box.attr('seat_id')
-            post_seat_number(selected_seat_class, col_group_name)          
+            post_seat_number(selected_seat_class, col_group_name)     
             col_group_name = col_group_name +1
         })           
     }
+    selection.clearSelection()
+    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
 }
 export const onClick_outside = (event)=>{
     if(!event.target.classList.contains('name_box')){
@@ -137,14 +138,28 @@ export const onClick_outside = (event)=>{
     }
 }
 export const onClick_match_list_item = (event)=>{
-    var guest = event.target.getAttribute('guest_id')
-    var seat = event.target.getAttribute('seat')
-    var map = event.target.getAttribute('map')
-    document.getElementById('name_box_input').value = event.target.getAttribute('guest_name')
-    create_belong(guest, seat, map)
+    var map = document.getElementById('map').getAttribute('map_name')
+    var guest_id = event.target.getAttribute('guest_id')
+    var seat_id = event.target.getAttribute('seat')
+    var name_box = document.querySelector(`.name_box[seat_id="${seat_id}"]`)
+    var guest = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
+    var guest_name = guest.getAttribute('guest_name')
+    var guest_group = guest.getAttribute('guest_group')
+    var other_seat = document.querySelector(`.name_box[guest_name="${guest_name}"]`)
+    if(other_seat) {
+        other_seat.removeAttribute('guest_group')
+        other_seat.removeAttribute('guest_name')
+        other_seat.textContent = ''
+    }
+    name_box.setAttribute('guest_name', guest_name)
+    name_box.setAttribute('guest_group', guest_group)
+    name_box.textContent = guest_name    
+    document.getElementById('drop_down').remove()
+    document.getElementById('name_box_input').remove()
+    create_belong(guest_id, seat_id, map)
 }
-export const onKeyBordDown = (e)=>{
-    if(e.key == 'g' || e.key == 'ע'){
+export const onKeyBordDown = (event)=>{
+    if(event.key == 'g' || event.key == 'ע'){
         dragToScroll.enable()    
         selection.disable()
     }

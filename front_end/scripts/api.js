@@ -59,10 +59,6 @@ export const post_seat_number = (seat_id, seat_number)=>{
         }
     }
     return fetch(api_url, options)
-    .then((response) => {
-        location.reload();
-    })
-
 }
 export const create_belong = (selected_guest_id, selected_seat_class, map_name)=>{
     const options = {
@@ -75,9 +71,6 @@ export const create_belong = (selected_guest_id, selected_seat_class, map_name)=
         }
     }
     return fetch(api_url, options)
-    .then((response) => {
-        location.reload();
-    })
 }
 export const post_seats = (map_id, selectedString)=>{
     const options = {
