@@ -31,7 +31,7 @@
                         .append($('<td>').text(bel.guest_last_name))                      
                         $(list_table).append(tr)
                     }
-                    $('#mainBord').append(list_table)
+                    $('#table-container').append(list_table)
                 }
             });
             $('#export').click(function(){
@@ -56,7 +56,9 @@
             <a href="http://localhost/hive-php/maps.html" class="hive-button"> מפות </a>
             <a href="http://localhost/hive-php/import_guests.php" class="hive-button"> ייבא בחורים </a>
         </div>
-        <div id="mainBord"></div>
+        <div id="mainBord">
+            <div id="table-container"></div>
+        </div>
         <div id="mneu">
             <div id='export' class='hive-button'> export </div>
         </div>
