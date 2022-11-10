@@ -1,7 +1,7 @@
-import { create_belong } from "./api.js"
+import { onClick_match_list_item } from "./eventListeners.js"
 import { offsetCalculate } from "./scripts.js"
 
-export const add_map = (map, edit)=>{
+export const add_map = (map)=>{
     const main_bord = document.getElementById('mainBord')
     const map_container = document.createElement("div")
     map_container.classList.add('map_container')
@@ -23,7 +23,6 @@ export const add_map = (map, edit)=>{
     map_container.appendChild(map_ele)
     main_bord.appendChild(map_container)
 }
-
 export const add_seats = (seats)=>{
     for(let seat of seats){
         var seat_location = document.querySelector('.row-'+seat.row_num+'.col-'+seat.col_num)
@@ -47,8 +46,9 @@ export const add_seats = (seats)=>{
         seat_location.append(name_box)
     }
 }
-export const add_match_list_items = (input_str, guests_list)=>{
+export const add_match_list_items = (guests_list)=>{
     var match_list = []
+    var input_str = document.getElementById('name_box_input').value
     var search_str = '^'+input_str
     if(input_str.length != 0){
         var search_reg = new RegExp(search_str)
@@ -60,21 +60,19 @@ export const add_match_list_items = (input_str, guests_list)=>{
     }
     return match_list
 }
-export const add_match_list = (input_str, guests_list, selected_seat_class, map_name)=>{
+export const add_match_list = (guests_list, seat, map_name)=>{
     var match_drop_down = document.createElement('ul')
     $(match_drop_down).attr('id', 'match_drop_down')
-    for(let corrent of add_match_list_items(input_str, guests_list)){
+    for(let corrent of add_match_list_items(guests_list)){
         var match_li = document.createElement('li') 
         $(match_li).html(corrent.name+' | <span class="group_name">'+corrent.group+'</span>')
         $(match_li).addClass('match_list')
         $(match_li).attr('guest_id', corrent.id)
         $(match_li).attr('guest_group', corrent.group)
         $(match_li).attr('guest_name', corrent.name)
-        $(match_li).click(function(){
-            var selected_guest_id = $(this).attr('guest_id')
-            $('#name_box_input').val($(this).attr('guest_name'))
-            create_belong(selected_guest_id, selected_seat_class, map_name)
-        })                                        
+        $(match_li).attr('map', map_name)
+        $(match_li).attr('seat', seat)
+        match_li.addEventListener('click', onClick_match_list_item)                                       
         $(match_drop_down).append(match_li)
     }
     return match_drop_down
@@ -88,14 +86,14 @@ export const add_name_box_input = (box)=>{
     return input_fild
 }
 export const add_drop_down = ()=>{
+    if(document.getElementById('drop_down')) document.getElementById('drop_down').remove()
+    if(document.getElementById('name_box_input')) document.getElementById('name_box_input').remove()
     var drop_down = document.createElement('div')
     $(drop_down).attr('id', 'drop_down')
     $(drop_down).addClass('drop_down')   
     return drop_down
 }
-export const add_match_menu = (guests_list, selected_seat_class, map_name, box)=>{
-    if(document.getElementById('drop_down')) document.getElementById('drop_down').remove()
-    if(document.getElementById('name_box_input')) document.getElementById('name_box_input').remove()
+export const add_match_menu = (guests_list, map_name, box)=>{
     $('#mainBord').append(add_drop_down())
     $('#mainBord').append(add_name_box_input(box))         
     offsetCalculate(box);
@@ -103,9 +101,9 @@ export const add_match_menu = (guests_list, selected_seat_class, map_name, box)=
     document.getElementById('mainBord').addEventListener('scroll', ()=> offsetCalculate(box))
     $('#name_box_input').focus()
     $('#name_box_input').on('input', function(){
-        var input_str = $('#name_box_input').val()
-        $('#drop_down').children('ul').text(' ')
-        $('#drop_down').append(add_match_list(input_str, guests_list, selected_seat_class, map_name))                               
+        $('#drop_down').text(' ')
+        var seat = box.getAttribute('seat_id')
+        $('#drop_down').append(add_match_list(guests_list, seat, map_name))                               
     })
 }
 export const add_guest_details = (guests_list, map_name)=>{
@@ -123,9 +121,7 @@ export const add_guest_details = (guests_list, map_name)=>{
             }
         }
         $(box).click(function(){
-            var selected_seat_class = $(this).attr('seat_id')
-            $(box).text('')
-            add_match_menu(guests_list, selected_seat_class, map_name, box)
+            add_match_menu(guests_list, map_name, box)
         })
     }) 
 }

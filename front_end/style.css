@@ -101,6 +101,10 @@ input:focus{
     background-color: rgba(146, 136, 209, 0.8);
     border-radius: 0 0 0.25rem 0.25rem;
 }
+#name_box_input{
+    background-color: rgba(146, 136, 209, 1);
+    border-radius: 0 0 0.25rem 0.25rem;
+}
 #topBar{
     background-color: chartreuse;
     grid-column-start: 1;

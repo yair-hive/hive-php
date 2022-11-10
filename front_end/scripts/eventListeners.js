@@ -1,4 +1,4 @@
-import { post_seat_number, post_seats } from "./api.js"
+import { post_seat_number, post_seats, create_belong } from "./api.js"
 import { convert_seats } from "./scripts.js"
 import { dragToScroll, selection } from "./main.js"
 
@@ -22,7 +22,6 @@ export const onClick_select_seats = ()=>{
     }
     selection.resolveSelectables()
 }
-
 export const onClick_select_cells = ()=>{
     selectables = 'cells'
     document.getElementById('add_seats').style.display = 'block'
@@ -41,14 +40,12 @@ export const onClick_select_cells = ()=>{
     }
     selection.resolveSelectables()
 }
-
 export const onClick_add_seats = (event)=>{
     var selected = selection.getSelection()
     var seat_string = convert_seats(selected)
     var map_id = event.target.getAttribute('map_id')
     post_seats(map_id, seat_string)
 }
-
 export const onClick_add_seat_number = ()=>{
     var selected = selection.getSelection()
     var new_arr = new Array()
@@ -107,7 +104,6 @@ export const onClick_add_seat_number = ()=>{
         })           
     }
 }
-
 export const onClick_outside = (event)=>{
     if(!event.target.classList.contains('name_box')){
         if(!event.target.classList.contains('drop_down')){
@@ -139,6 +135,13 @@ export const onClick_outside = (event)=>{
             }
         }
     }
+}
+export const onClick_match_list_item = (event)=>{
+    var guest = event.target.getAttribute('guest_id')
+    var seat = event.target.getAttribute('seat')
+    var map = event.target.getAttribute('map')
+    document.getElementById('name_box_input').value = event.target.getAttribute('guest_name')
+    create_belong(guest, seat, map)
 }
 export const onKeyBordDown = (e)=>{
     if(e.key == 'g' || e.key == 'ע'){
