@@ -6,20 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="front_end/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script type="text/javascript"> 
-        $(document).ready(function(){
-            $('#sub').click(function(){
-                $.ajax({
-                type: "POST", 
-                url: "http://localhost/hive-php/api.php",
-                data: "action=add_guests&"+$('#add_guest_form').serialize(),
-                success: function(msg){
-                    alert(msg);
-                }
-            });
-            })
-        });
-    </script>
+    <script src="front_end/scripts/main.js" type="module" defer></script>
     <title> hive | add guests </title>
 </head>
 <body>
@@ -40,10 +27,9 @@
                 <input type='text' name='guest_group'>
                 <br /> 
             <form>
-            <div id='sub'> submit </div> 
+            <div id='sub' class="hive-button"> submit </div> 
         </div>
         <div id="mneu"></div>
-        <script src="front_end/script.js"></script>
     </div>
 </body>
 </html>

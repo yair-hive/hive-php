@@ -48,6 +48,19 @@ export const get_guests_names = ()=>{
         return response.json();
     })
 }
+export const post_map = () => {
+    const options = {
+        method: 'POST',
+        body: "action=create_map&"+$('#create_map_form').serialize(),
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    }
+    return fetch(api_url, options)
+    .then(()=>{window.location.replace('http://localhost/hive-php/maps.html')})
+}
 export const post_seat_number = (seat_id, seat_number)=>{
     const options = {
         method: 'POST',
