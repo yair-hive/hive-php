@@ -47,7 +47,7 @@ if(!empty($_POST['action'])){
                     $new_results_array[] = "<a href='edit_map.html?map_name=".$row['map_name']."'>".$row['map_name']."</a>";
                 }
                 $results_to_string = implode(" </li><li> ", $new_results_array);
-                echo "<ul><li>".$results_to_string."</li></ul>";
+                echo "<li>".$results_to_string."</li>";
             }
             break;
         case 'create_map':

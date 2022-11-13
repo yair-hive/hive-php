@@ -1,4 +1,4 @@
-import { post_map, get_map, get_seats, get_guests_names } from "./api.js"
+import { post_map, get_map, get_seats, get_guests_names, get_all_maps } from "./api.js"
 import {add_map, add_seats, add_guest} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
@@ -14,10 +14,7 @@ switch(parsedUrl.pathname){
         $('title').append(map_name)
         let map_data = {}
         let guests_data = {}
-        get_map(map_name).then(map => {
-            map_data = map
-            add_map(map)
-        })
+        get_map(map_name).then(map => {add_map(map); map_data = map})
         .then(() => get_seats(map_name))
         .then(seats => add_seats(seats))
         .then(() => get_guests_names())
@@ -41,22 +38,7 @@ switch(parsedUrl.pathname){
         document.getElementById('create_map').addEventListener('click', post_map)
         break;
     case '/hive-php/maps.html':
-        $.ajax({
-            type: "POST", 
-            url: "http://localhost/hive-php/api.php",
-            data: "action=get_all_maps",
-            success: function(msg){
-                $('#mainBord').html(msg);
-                var sub = document.createElement('div')
-                sub.setAttribute('id', 'sub')
-                sub.classList.add('hive-button')
-                $(sub).text('הוסף מפה')
-                $(sub).click(()=>{
-                    location.href='http://localhost/hive-php/create_map.html'
-                })
-                $('#mainBord').append(sub)
-            }
-        });
+        get_all_maps()
         break;
     case '/hive-php/guest_seat_num.html':
         var map_name = parsedUrl.searchParams.get("map_name")

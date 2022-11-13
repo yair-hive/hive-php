@@ -1,5 +1,15 @@
 const api_url = 'http://localhost/hive-php/api.php'
 
+export const get_all_maps = ()=>{
+    $.ajax({
+        type: "POST", 
+        url: "http://localhost/hive-php/api.php",
+        data: "action=get_all_maps",
+        success: function(msg){
+            $('#maps_list').html(msg);
+        }
+    });
+}
 export const get_map = (map_name)=>{
     const options = {
         method: 'POST',
