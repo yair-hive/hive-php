@@ -54,8 +54,8 @@ input:focus{
 }
 .drop_down {
     z-index: 10;
-    text-align: center;
     font-size: 11px;
+    text-align: right;
     font-weight: bold;
     overflow-y: auto;
     overflow-x: clip;
@@ -65,15 +65,16 @@ input:focus{
     max-height: 200px;
 }
 .drop_down > ul{
-    overflow-y: auto;
-    overflow-x: clip;
     margin: 0;
     padding: 0;
     list-style: none;
 }
 .drop_down > ul > li{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
     font-size: 14px;
-    padding: 5px 0 5px 0;
+    padding: 5px 25px 5px 25px;
     list-style: none;
 }
 .drop_down > ul > li:hover{

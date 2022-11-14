@@ -20,7 +20,7 @@ const add_match_list = (guests_list, seat)=>{
     $(match_drop_down).attr('id', 'match_drop_down')
     for(let corrent of add_match_list_items(guests_list)){
         var match_li = document.createElement('li') 
-        $(match_li).html(corrent.name+' | <span class="group_name">'+corrent.group+'</span>')
+        $(match_li).html(corrent.name+' <span class="group_name">'+corrent.group+'   |</span>')
         $(match_li).addClass('match_list')
         $(match_li).attr('guest_id', corrent.id)
         $(match_li).attr('guest_name', corrent.name)
