@@ -57,8 +57,7 @@ input:focus{
     font-size: 11px;
     text-align: right;
     font-weight: bold;
-    overflow-y: auto;
-    overflow-x: clip;
+    overflow: auto;
     background-color: rgb(202, 248, 248);
     border-radius: 3px;
     box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.3);
