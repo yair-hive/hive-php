@@ -157,7 +157,7 @@ export const onClick_match_list_item = (event)=>{
         other_seat.textContent = ''
     }
     name_box.setAttribute('guest_name', guest_name)
-    name_box.setAttribute('guest_group', guest_group)
+    name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
     name_box.textContent = guest_name    
     document.getElementById('drop_down').remove()
     document.getElementById('name_box_input').remove()

@@ -24,7 +24,7 @@ const add_match_list = (guests_list, seat)=>{
         $(match_li).addClass('match_list')
         $(match_li).attr('guest_id', corrent.id)
         $(match_li).attr('guest_name', corrent.name)
-        $(match_li).attr('guest_group', corrent.group)
+        $(match_li).attr('guest_group', corrent.group.replace("_"," "))
         $(match_li).attr('seat', seat)
         match_li.addEventListener('click', onClick_match_list_item)                                       
         $(match_drop_down).append(match_li)
