@@ -68,6 +68,7 @@ input:focus{
     overflow-y: auto;
     overflow-x: clip;
     margin: 0;
+    padding: 0;
     list-style: none;
 }
 .drop_down > ul > li{
