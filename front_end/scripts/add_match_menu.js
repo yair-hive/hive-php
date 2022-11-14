@@ -1,5 +1,6 @@
 import { onClick_match_list_item } from "./eventListeners.js"
 import { offsetCalculate } from "./scripts.js"
+import { selection } from "./main.js"
 
 const add_match_list_items = (guests_list)=>{
     var match_list = []
@@ -48,6 +49,8 @@ const add_drop_down = ()=>{
     return drop_down
 }
 export default function(guests_list, box){
+    selection.clearSelection()
+    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
     $('#mainBord').append(add_drop_down())
     $('#mainBord').append(add_name_box_input(box))         
     offsetCalculate(box);
