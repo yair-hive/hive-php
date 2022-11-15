@@ -17,7 +17,7 @@
     background-color: #7a93b9;
 }
 .hive-switch, .hive-switch:hover{
-    background-color: violet;
+    background-color:  rgb(120, 140, 228);
     padding: 0px;
     display: flex;
     align-items: stretch;

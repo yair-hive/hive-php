@@ -60,7 +60,7 @@ a:hover{
     z-index: 20;
     overflow: auto;
     padding: 20px;
-    background-color: violet;
+    background-color: rgb(120, 140, 228);
 }
 #select_seats{
     background-color: gray;
