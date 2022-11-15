@@ -131,3 +131,16 @@ export const sginup = ()=>{
         return response.json();
     })
 }
+export const get_user = ()=>{
+    const options = {
+        method: 'POST',
+        body: "action=get_user",
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+    return fetch('http://localhost/hive-php/api.php', options)
+    .then((response) => {
+        return response.json();
+    })
+}

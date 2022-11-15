@@ -1,4 +1,4 @@
-import { post_map, get_map, get_seats, get_guests_names, get_all_maps, login, sginup } from "./api.js"
+import { post_map, get_map, get_seats, get_guests_names, get_all_maps, login, sginup, get_user } from "./api.js"
 import {add_map, add_seats, add_guest} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
@@ -7,8 +7,15 @@ import add_match_menu from './add_match_menu.js'
 export const selection = create_selection()
 export const dragToScroll = new DragToScroll()
 selection.disable()
-
 const parsedUrl = new URL(window.location.href)
+
+get_user()
+.then((respons) => {
+    if(respons.msg === 'all ok'){
+        document.getElementById('user_element').innerText = respons.user_name
+    }
+})
+
 switch(parsedUrl.pathname){
     case '/hive-php/edit_map.html':
         selection.enable()
