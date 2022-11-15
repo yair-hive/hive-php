@@ -40,10 +40,10 @@ export const get_seats = (map_name)=>{
         return response.json();
     })
 }
-export const get_guests_names = ()=>{
+export const get_guests_names = (map_name)=>{
     const options = {
         method: 'POST',
-        body: "action=get_guests_names",
+        body: "action=get_guests_names&map_name="+map_name,
         mode: 'no-cors',
         credentials: 'include',
         headers: {
@@ -105,17 +105,17 @@ export const post_seats = (map_id, selectedString)=>{
     }
     return fetch(api_url, options)
 }
-export const post_guest = (data)=>{
+export const post_guest = (data, map_name)=>{
     const options = {
         method: 'POST',
-        body: "action=add_guests&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2],
+        body: "action=add_guests&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_name="+map_name,
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
     };
     return fetch(api_url, options)
     .then((response) => {
-        return response.text();
+        return response.json();
     })
 }
 export const login = ()=>{

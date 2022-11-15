@@ -8,32 +8,35 @@
     <link rel="stylesheet" href="front_end/style/loader.css">
     <link rel="stylesheet" href="front_end/style/hive_elements.css">
     <link rel="stylesheet" href="front_end/style/scrollbar.css">
+    <link rel="stylesheet" href="front_end/style/table.css">
     <script src="front_end/lib/jquery.min.js"></script>
     <script src="front_end/scripts/main.js" type="module" defer></script>
-    <title> hive | login </title>
+    <script defer>
+        const parsedUrl = new URL(window.location.href)
+        const map_name = parsedUrl.searchParams.get("map_name")
+    </script>
+    <title> hive | שמות </title>
 </head>
 <body>
     <div id="content">
         <div id="topBar">
             <div id="user_element" class="user_icon"> לא מחובר </div>
             <ul>
-                <li><a href="http://localhost/hive-php/maps.html" class="hive-button"> מפות </a></li>               
+                <li><a href="http://localhost/hive-php/maps.html" class="hive-button"> מפות </a></li>                
             </ul>
         </div>
         <div id="mainBord">
-            <form id='user_form'>
-                <label for="user_name"> user name </label>
-                <input type='text' name='user_name'>  
-                <br />           
-                <label for="password"> password </label>
-                <input type='text' name='password'>
-                <br /> 
-            <form>
-            <div id="login_button" class="hive-button"> login </div>
-            <div id="logout_button" class="hive-button"> logout </div>
-            <div id="sginup_button" class="hive-button"> sginup </div>
+            <table id="names_table" dir="rtl">
+                <tr>
+                    <th> שם משפחה </th>
+                    <th> שם פרטי </th>
+                    <th> שיעור </th>
+                </tr>
+            </table>
         </div>
-        <div id="mneu"></div>
+        <div id="mneu">
+            <div onclick="location.href='http://localhost/hive-php/add_guests.html?map_name='+map_name" class="hive-button"> הוסף בחורים </div>
+        </div>
     </div>
 </body>
 </html>

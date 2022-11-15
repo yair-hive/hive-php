@@ -27,7 +27,7 @@ switch(parsedUrl.pathname){
         get_map(map_name).then(map => {add_map(map); map_data = map})
         .then(() => get_seats(map_name))
         .then(seats => add_seats(seats))
-        .then(() => get_guests_names())
+        .then(() => get_guests_names(map_name))
         .then((guests) => {add_guest(guests, map_name); guests_data = guests})
         .then(()=>{
             selection.resolveSelectables()
@@ -89,6 +89,7 @@ switch(parsedUrl.pathname){
         })
         break;
     case '/hive-php/add_guests.html':
+        var map_name = parsedUrl.searchParams.get("map_name")
         document.getElementById('loader').style.display = 'none'
         document.getElementById('loader-container').style.display = 'none'
         document.getElementById('add_guest_button').addEventListener('click', ()=>{
@@ -96,7 +97,7 @@ switch(parsedUrl.pathname){
             data[0] = document.getElementById('add_guest_form')['first_name'].value
             data[1] = document.getElementById('add_guest_form')['last_name'].value
             data[2] = document.getElementById('add_guest_form')['guest_group'].value
-            post_guest(data)
+            post_guest(data, map_name)
             .then((respos)=>{
                 alert(respos.msg); 
                 document.getElementById('add_guest_form').reset()
@@ -109,7 +110,7 @@ switch(parsedUrl.pathname){
             readXlsxFile(file)
 			.then((rows)=>{
 				for(let row of rows){
-                    post_guest(row)
+                    post_guest(row, map_name)
                 }
 			})
             .then(()=>{
@@ -122,5 +123,19 @@ switch(parsedUrl.pathname){
         document.getElementById('login_button').addEventListener('click', ()=>{login().then(json => alert(json.msg))})
         document.getElementById('sginup_button').addEventListener('click', ()=>{sginup().then(json => alert(json.msg))})
         document.getElementById('logout_button').addEventListener('click', ()=>{logout().then(json => alert(json.msg))})
+        break;
+    case '/hive-php/get_guests.html':
+        var map_name = parsedUrl.searchParams.get("map_name")
+        var table = document.getElementById('names_table')
+        get_guests_names(map_name)
+        .then((names)=>{
+            for(let name of names){
+                var tr = $('<tr>')
+                .append($('<td>').text(name.last_name))
+                .append($('<td>').text(name.first_name))
+                .append($('<td>').text(name.group))
+                $(table).append(tr)
+            }
+        })
         break;
 }

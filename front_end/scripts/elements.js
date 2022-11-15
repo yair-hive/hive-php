@@ -54,7 +54,8 @@ export const add_guest = (guests)=>{
         var guest_id = name_box.getAttribute('guest_id')
         for(var corrent of guests){
             if(corrent.id == guest_id){
-                if(corrent.name.length > 15) box.style.fontSize = '11px';
+                corrent.name = corrent.first_name+' '+corrent.last_name
+                if(corrent.name.length > 15) name_box.style.fontSize = '11px';
                 corrent.group = corrent.group.replace(" ","_"); 
                 name_box.setAttribute('guest_name', corrent.name)
                 name_box.setAttribute('guest_group', corrent.group)
