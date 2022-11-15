@@ -128,12 +128,15 @@ if(!empty($_POST['action'])){
                 $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
                 $query_string = "INSERT INTO guests(first_name, last_name, guest_group) VALUES('{$first_name}', '{$last_name}', '{$guest_group}')";
                 if(mysqli_query($connection, $query_string)){
-                    echo 'all good';
+                    $respons['msg'] = 'all ok';
+                    print_r(json_encode($respons));
                 }else{
-                    echo 'db error';
+                    $respons['msg'] = 'db error';
+                    print_r(json_encode($respons));
                 }
             }else{
-                echo 'faild empty';
+                $respons['msg'] = 'faild empty';
+                print_r(json_encode($respons));
             }
             break;
         case 'get_guests_names':

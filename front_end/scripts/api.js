@@ -106,13 +106,16 @@ export const post_seats = (map_id, selectedString)=>{
     return fetch(api_url, options)
 }
 export const post_guest = ()=>{
-    $.ajax({
-        type: "POST", 
-        url: "http://localhost/hive-php/api.php",
-        data: "action=add_guests&"+$('#add_guest_form').serialize(),
-        success: function(msg){
-            alert(msg);
+    const options = {
+        method: 'POST',
+        body: "action=add_guests&"+$('#add_guest_form').serialize(),
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
+    };
+    return fetch(api_url, options)
+    .then((response) => {
+        return response.json();
     })
 }
 export const login = ()=>{
