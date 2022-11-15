@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="front_end/style.css">
+    <script src="front_end/lib/jquery.min.js"></script>
+    <script src="front_end/scripts/main.js" type="module" defer></script>
+    <title> hive | test </title>
+</head>
+<body>
+    <div id="content">
+        <div id="topBar">
+            <div id="get_user" class="hive-button"> get user </div>
+        </div>
+        <div id="mainBord"></div>
+        <div id="mneu"></div>
+    </div>
+    <script defer>
+        function onGetUser(){
+            const options = {
+                method: 'POST',
+                body: "action=get_user",
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                }
+            };
+            fetch('http://localhost/hive-php/api.php', options)
+            .then((response) => {
+                response.json().then(json => alert(json.user_name));
+            })
+        }
+        document.getElementById('get_user').addEventListener('click', onGetUser)
+    </script>
+</body>
+</html>

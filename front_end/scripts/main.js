@@ -1,4 +1,4 @@
-import { post_map, get_map, get_seats, get_guests_names, get_all_maps } from "./api.js"
+import { post_map, get_map, get_seats, get_guests_names, get_all_maps, login, sginup } from "./api.js"
 import {add_map, add_seats, add_guest} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
@@ -91,5 +91,11 @@ switch(parsedUrl.pathname){
             }
         });
         })
+        break;
+    case '/hive-php/login.html':
+        document.getElementById('login_button').addEventListener('click', ()=>{login().then(json => alert(json.msg))})
+        break;
+    case '/hive-php/sginup.html':
+        document.getElementById('sginup_button').addEventListener('click', ()=>{sginup().then(json => alert(json.msg))})
         break;
 }

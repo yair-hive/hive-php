@@ -24,7 +24,6 @@ export const get_map = (map_name)=>{
         return response.json();
     })
 }
-
 export const get_seats = (map_name)=>{
     const options = {
         method: 'POST',
@@ -41,7 +40,6 @@ export const get_seats = (map_name)=>{
         return response.json();
     })
 }
-
 export const get_guests_names = ()=>{
     const options = {
         method: 'POST',
@@ -106,4 +104,30 @@ export const post_seats = (map_id, selectedString)=>{
         }
     }
     return fetch(api_url, options)
+}
+export const login = ()=>{
+    const options = {
+        method: 'POST',
+        body: "action=login&"+$('#login_form').serialize(),
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+    return fetch(api_url, options)
+    .then((response) => {
+        return response.json();
+    })
+}
+export const sginup = ()=>{
+    const options = {
+        method: 'POST',
+        body: "action=sginup&"+$('#sginup_form').serialize(),
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+    return fetch(api_url, options)
+    .then((response) => {
+        return response.json();
+    })
 }
