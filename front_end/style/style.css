@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');
+
+
+html, body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-size: 13px;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+}
+form{
+    margin: 10px;
+}
+a, label{
+    color: white;
+    font-size: 20px;
+}
+a:hover{
+    color: yellow;
+}
+#content{
+    z-index: 30;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 8% 92%;
+    grid-template-columns: 85% 15%;
+}
+#topBar{
+    background-color: chartreuse;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+#mainBord{
+    overflow: auto;
+    background-color: rgb(54, 48, 45);
+}
+#mneu{
+    z-index: 20;
+    overflow: auto;
+    padding: 20px;
+    background-color: violet;
+}
+#topBar{
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    background-color: rgb(130, 101, 211);
+}
+#select_seats{
+    background-color: gray;
+}
+#select_cells{
+    background-color: tomato;
+}

@@ -1,0 +1,53 @@
+.map_container{
+    user-select: none;
+    padding: 30px;
+    display: inline-block;
+}
+.map{
+    display: grid;
+    grid-template-rows: repeat(var(--map-rows), 55px);
+    grid-template-columns: repeat(var(--map-cols), 125px);
+}
+.cell, .seat{
+    width: 120px;
+    height: 50px;
+    margin: 2.5px;
+    border-radius: 0.25rem;
+    background: #344052;
+    color: azure;
+}
+.num_box, .name_box{
+    width: 120px;
+    height: 25px;
+    text-align: center;
+    font-size: 15px;
+}
+.num_box{
+    border-radius: 0.25rem 0.25rem 0 0;
+    background-color: rgba(76, 129, 129, 0.8);
+}
+.name_box{
+    background-color: rgba(146, 136, 209, 0.8);
+    border-radius: 0 0 0.25rem 0.25rem;
+}
+.seat.selected {
+    border-style: solid;
+    background-color: #4f90f2;
+    border-width: 0.5px;
+    border-color: #ffffff;
+}  
+.cell.selected{
+    border-style: solid;
+    border-width: 0.1px;
+    border-color: #7a8392;
+    background: #555b66;
+} 
+.selection-area {
+    background: #4f90f22d;
+    border: 1px solid #4f90f2;
+}
+#mapContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
