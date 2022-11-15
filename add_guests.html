@@ -8,34 +8,84 @@
     <link rel="stylesheet" href="front_end/style/loader.css">
     <link rel="stylesheet" href="front_end/style/hive_elements.css">
     <link rel="stylesheet" href="front_end/style/scrollbar.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="front_end/scripts/main.js" type="module" defer></script>
-    <title> hive | add guests </title>
+    <script src="front_end/lib/jquery.min.js"></script>
+	<style>
+		#mainBord{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		form{
+			background-color: #2b4e81;
+			padding: 50px;
+		}
+		.form_cont{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+		}
+		#submit{
+			border-radius: 5px;
+			user-select: none;
+			cursor: pointer;
+			height: 30px;
+			text-decoration: none;
+			color: black;
+			text-align: center;
+			font-size: 20px;
+			font-weight: bold;
+			padding: 10px;
+			margin: 10px;
+			background-color: rgb(119, 224, 224);
+		}
+		#submit:hover{
+			background-color: #7a93b9;
+		}
+	</style>
+    <title> hive | import guests </title>
 </head>
 <body>
-    <div id="content">
-        <div id="topBar">
+	<div id="content">
+		<div id="topBar">
             <div id="user_element" class="user_icon"> לא מחובר </div>
             <ul>
                 <li><a href="http://localhost/hive-php/maps.html" class="hive-button"> מפות </a></li>
-                <li><a href="http://localhost/hive-php/import_guests.html" class="hive-button"> ייבא בחורים </a></li>
+                <li><a href="http://localhost/hive-php/add_guests.html" class="hive-button"> הוסף בחורים </a></li>
             </ul>
-        </div>
-        <div id="mainBord">
-            <form id='add_guest_form'>
-                <label for="first_name"> first name </label>
-                <input type='text' name='first_name'>  
-                <br />           
-                <label for="last_name"> last name </label>
-                <input type='text' name='last_name'>
-                <br /> 
-                <label for="guest_group"> guest group </label>
-                <input type='text' name='guest_group'>
-                <br /> 
-            <form>
-            <div id='sub' class="hive-button"> submit </div> 
-        </div>
-        <div id="mneu"></div>
-    </div>
+		</div>
+		<div id="mainBord">
+			<div class="form_cont">
+				<form id='add_guest_form'>
+					<h2> הוסף בחור </h2>
+					<label for="first_name"> שם פרטי </label>
+					<br /> 
+					<input type='text' name='first_name'>  
+					<br />           
+					<label for="last_name"> שם משפחה </label>
+					<br /> 
+					<input type='text' name='last_name'>
+					<br /> 
+					<label for="guest_group"> שיעור </label>
+					<br /> 
+					<input type='text' name='guest_group'>
+					<br /> 
+					<div id='sub' class="hive-button"> הוסף </div> 
+				</form>
+			</div>
+			<div class="form_cont">
+				<form id='import_guests_form' action="http://localhost/hive-php/api.php" method="post" name="frmExcelImport" id="frmExcelImport" enctype="multipart/form-data">
+					<h2> ייבא בחורים </h2>
+					<input type="hidden" name="action" value="import_guests">
+					<label> בחר קובץ אקסאל </label> 
+					<br />
+					<input type="file" name="file" id="file" accept=".xls,.xlsx">
+					<br />
+					<div type="submit" id="submit" name="import" class="hive-button" onClick="this.parentNode.submit()"> ייבא </div>	
+				</form>
+			</div>
+		</div>
+		<div id="mneu"></div>
+	</div>
 </body>
 </html>

@@ -415,6 +415,11 @@ if(!empty($_POST['action'])){
                 print_r(json_encode($respons));
             }
             break;
+        case 'logout':
+            $_SESSION['user_name'] = '';
+            $respons['msg'] = 'all ok';
+            print_r(json_encode($respons));
+            break;
         case 'sginup':
             $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
             if(!empty($_POST['user_name']) && !empty($_POST['password'])){

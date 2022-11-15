@@ -108,7 +108,7 @@ export const post_seats = (map_id, selectedString)=>{
 export const login = ()=>{
     const options = {
         method: 'POST',
-        body: "action=login&"+$('#login_form').serialize(),
+        body: "action=login&"+$('#user_form').serialize(),
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
@@ -121,7 +121,7 @@ export const login = ()=>{
 export const sginup = ()=>{
     const options = {
         method: 'POST',
-        body: "action=sginup&"+$('#sginup_form').serialize(),
+        body: "action=sginup&"+$('#user_form').serialize(),
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
@@ -135,6 +135,19 @@ export const get_user = ()=>{
     const options = {
         method: 'POST',
         body: "action=get_user",
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+    return fetch('http://localhost/hive-php/api.php', options)
+    .then((response) => {
+        return response.json();
+    })
+}
+export const logout = ()=>{
+    const options = {
+        method: 'POST',
+        body: "action=logout",
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
