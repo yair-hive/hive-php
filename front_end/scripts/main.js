@@ -88,16 +88,7 @@ switch(parsedUrl.pathname){
         })
         break;
     case '/hive-php/add_guests.html':
-        $('#sub').click(function(){
-            $.ajax({
-            type: "POST", 
-            url: "http://localhost/hive-php/api.php",
-            data: "action=add_guests&"+$('#add_guest_form').serialize(),
-            success: function(msg){
-                alert(msg);
-            }
-        });
-        })
+        document.getElementById('add_guest_button').addEventListener('click', add_guest)
         break;
     case '/hive-php/login.html':
         document.getElementById('login_button').addEventListener('click', ()=>{login().then(json => alert(json.msg))})
