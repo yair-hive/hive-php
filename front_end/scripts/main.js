@@ -3,6 +3,7 @@ import {add_map, add_seats, add_guest} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
+import "./../lib/read-excel-file.min.js"
 
 export const selection = create_selection()
 export const dragToScroll = new DragToScroll()
@@ -89,11 +90,24 @@ switch(parsedUrl.pathname){
         break;
     case '/hive-php/add_guests.html':
         document.getElementById('add_guest_button').addEventListener('click', ()=>{
-            post_guest()
+            var data = []
+            data[0] = document.getElementById('add_guest_form')['first_name'].value
+            data[1] = document.getElementById('add_guest_form')['last_name'].value
+            data[2] = document.getElementById('add_guest_form')['guest_group'].value
+            post_guest(data)
             .then((respos)=>{
                 alert(respos.msg); 
                 document.getElementById('add_guest_form').reset()
             })
+        })
+        document.getElementById('submit').addEventListener('click', ()=>{
+            var file = document.getElementById('file').files[0]            
+            readXlsxFile(file)
+			.then((rows)=>{
+				for(let row of rows){
+                    post_guest(row)
+                }
+			})
         })
         break;
     case '/hive-php/login.html':

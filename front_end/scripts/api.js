@@ -105,17 +105,17 @@ export const post_seats = (map_id, selectedString)=>{
     }
     return fetch(api_url, options)
 }
-export const post_guest = ()=>{
+export const post_guest = (data)=>{
     const options = {
         method: 'POST',
-        body: "action=add_guests&"+$('#add_guest_form').serialize(),
+        body: "action=add_guests&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2],
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
     };
     return fetch(api_url, options)
     .then((response) => {
-        return response.json();
+        return response.text();
     })
 }
 export const login = ()=>{
