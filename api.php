@@ -122,14 +122,24 @@ if(!empty($_POST['action'])){
         case 'add_guests':
             $first_name = $_POST['first_name'];
             $last_name = $_POST['last_name'];
-            $guest_group = $_POST['guest_group'];
-            
+            $guest_group = $_POST['guest_group'];           
             if(!empty($first_name) && !empty($last_name) && !empty($guest_group)){
                 $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
-                $query_string = "INSERT INTO guests(first_name, last_name, guest_group) VALUES('{$first_name}', '{$last_name}', '{$guest_group}')";
-                if(mysqli_query($connection, $query_string)){
-                    $respons['msg'] = 'all ok';
-                    print_r(json_encode($respons));
+                $query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}'";
+                if($result = mysqli_query($connection, $query_string)){
+                    if(mysqli_num_rows($result) == 0){
+                        $query_string = "INSERT INTO guests(first_name, last_name, guest_group) VALUES('{$first_name}', '{$last_name}', '{$guest_group}')";
+                        if(mysqli_query($connection, $query_string)){
+                            $respons['msg'] = 'all ok';
+                            print_r(json_encode($respons));
+                        }else{
+                            $respons['msg'] = 'db error';
+                            print_r(json_encode($respons));
+                        }
+                    }else{
+                        $respons['msg'] = 'allrdy axist';
+                        print_r(json_encode($respons));
+                    }
                 }else{
                     $respons['msg'] = 'db error';
                     print_r(json_encode($respons));

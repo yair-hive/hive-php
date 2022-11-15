@@ -89,6 +89,8 @@ switch(parsedUrl.pathname){
         })
         break;
     case '/hive-php/add_guests.html':
+        document.getElementById('loader').style.display = 'none'
+        document.getElementById('loader-container').style.display = 'none'
         document.getElementById('add_guest_button').addEventListener('click', ()=>{
             var data = []
             data[0] = document.getElementById('add_guest_form')['first_name'].value
@@ -101,13 +103,19 @@ switch(parsedUrl.pathname){
             })
         })
         document.getElementById('submit').addEventListener('click', ()=>{
-            var file = document.getElementById('file').files[0]            
+            var file = document.getElementById('file').files[0] 
+            document.getElementById('loader').style.display = 'block'
+            document.getElementById('loader-container').style.display = 'block'    
             readXlsxFile(file)
 			.then((rows)=>{
 				for(let row of rows){
                     post_guest(row)
                 }
 			})
+            .then(()=>{
+                document.getElementById('loader').style.display = 'none'
+                document.getElementById('loader-container').style.display = 'none'
+             })
         })
         break;
     case '/hive-php/login.html':
