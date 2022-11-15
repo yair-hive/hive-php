@@ -6,10 +6,12 @@ import add_match_menu from './add_match_menu.js'
 
 export const selection = create_selection()
 export const dragToScroll = new DragToScroll()
+selection.disable()
 
 const parsedUrl = new URL(window.location.href)
 switch(parsedUrl.pathname){
     case '/hive-php/edit_map.html':
+        selection.enable()
         var map_name = parsedUrl.searchParams.get("map_name")
         $('title').append(map_name)
         let map_data = {}
