@@ -16,10 +16,12 @@
 			justify-content: center;
 		}
 		form{
-			background-color: #2b4e81;
 			padding: 50px;
 		}
 		.form_cont{
+			background-color: #2b4e81;
+			margin: 10px;
+			height: 50vh;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -41,6 +43,12 @@
 		}
 		#submit:hover{
 			background-color: #7a93b9;
+		}
+		.file_input{
+			background-color: #76a8f3;
+			padding: 10px;
+			margin-top: 10px;
+			border-radius: 10px;
 		}
 	</style>
     <title> hive | import guests </title>
@@ -79,7 +87,7 @@
 					<input type="hidden" name="action" value="import_guests">
 					<label> בחר קובץ אקסאל </label> 
 					<br />
-					<input type="file" name="file" id="file" accept=".xls,.xlsx">
+					<input class="file_input" type="file" name="file" id="file" accept=".xls,.xlsx">
 					<br />
 					<div type="submit" id="submit" name="import" class="hive-button" onClick="this.parentNode.submit()"> ייבא </div>	
 				</form>
