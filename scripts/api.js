@@ -126,23 +126,10 @@ export const add_guest = (selected_guest_id, selected_seat_class, map_name)=>{
     }
     return fetch(api_url, options)
 }
-
-export const get_guest_seat_num = (map_name)=>{
-    const options = {
-        method: 'POST',
-        body: "category=all&action=get_guest_seat_num&map_name="+map_name,
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    }
-    return fetch(api_url, options)
-}
 export const login = ()=>{
     const options = {
         method: 'POST',
-        body: "category=all&action=login&"+$('#user_form').serialize(),
+        body: "category=user&action=login&"+$('#user_form').serialize(),
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
@@ -155,7 +142,7 @@ export const login = ()=>{
 export const sginup = ()=>{
     const options = {
         method: 'POST',
-        body: "category=all&action=sginup&"+$('#user_form').serialize(),
+        body: "category=user&action=sginup&"+$('#user_form').serialize(),
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
@@ -168,7 +155,7 @@ export const sginup = ()=>{
 export const get_user = ()=>{
     const options = {
         method: 'POST',
-        body: "category=all&action=get_user",
+        body: "category=user&action=get",
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
@@ -181,7 +168,7 @@ export const get_user = ()=>{
 export const logout = ()=>{
     const options = {
         method: 'POST',
-        body: "category=all&action=logout",
+        body: "category=user&action=logout",
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
@@ -190,4 +177,17 @@ export const logout = ()=>{
     .then((response) => {
         return response.json();
     })
+}
+
+export const get_guest_seat_num = (map_name)=>{
+    const options = {
+        method: 'POST',
+        body: "category=all&action=get_guest_seat_num&map_name="+map_name,
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    }
+    return fetch(api_url, options)
 }

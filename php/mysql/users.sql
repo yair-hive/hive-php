@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: נובמבר 15, 2022 בזמן 01:53 PM
+-- Generation Time: נובמבר 16, 2022 בזמן 01:29 PM
 -- גרסת שרת: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -29,9 +29,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `user_name` varchar(25) NOT NULL,
-  `password` varchar(25) NOT NULL
+  `user_name` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- הוצאת מידע עבור טבלה `users`
+--
+
+INSERT INTO `users` (`id`, `user_name`, `password`) VALUES
+(1, 'yair', '1234');
 
 --
 -- Indexes for dumped tables
@@ -51,7 +58,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
