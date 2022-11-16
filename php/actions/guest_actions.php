@@ -138,3 +138,18 @@ $guest_actions['check_belong'] = function(){
         }
     }   
 };
+$guest_actions['delete'] = function(){
+    if(!empty($_POST['guest_id'])){
+        $guest_id = $_POST['guest_id'];
+        global $mysql_conf;
+        $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
+        $query_string = "DELETE FROM guests WHERE id='{$guest_id}'";
+        if($result = mysqli_query($connection, $query_string)){
+            $respons['msg'] = 'true';
+            print_r(json_encode($respons));
+        }else{
+            $respons['msg'] = 'db error';
+            print_r(json_encode($respons));
+        }
+    }   
+};

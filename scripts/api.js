@@ -218,6 +218,20 @@ export const check_belong = (guest_id)=>{
         return response.json();
     })
 }
+export const delete_guest = (guest_id)=>{
+    const options = {
+        method: 'POST',
+        body: "category=guest&action=delete&guest_id="+guest_id,
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+    return fetch(api_url, options)
+    .then((response) => {
+        // console.log(response.json())
+        return response.json();
+    })
+}
 
 export const get_guest_seat_num = (map_name)=>{
     const options = {
