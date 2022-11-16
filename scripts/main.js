@@ -1,4 +1,4 @@
-import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num, get_users, add_permission } from "./api.js"
+import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num, get_users, add_permission, check_belong } from "./api.js"
 import {add_map, add_seats, add_guests} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
@@ -143,11 +143,25 @@ switch(parsedUrl.pathname){
         get_guests(map_name)
         .then((names)=>{
             for(let name of names){
-                var tr = $('<tr>')
-                .append($('<td>').text(name.last_name))
-                .append($('<td>').text(name.first_name))
-                .append($('<td>').text(name.group))
-                $(table).append(tr)
+                var color
+                check_belong(name.id)
+                .then((msg)=>{
+                    if(msg.msg == 'true'){
+                        color = 'green'
+                    }else{
+                        color = 'grey'
+                    }
+                })
+                .then(()=>{
+                    var td = document.createElement('td')
+                    td.style.backgroundColor = color
+                    var tr = $('<tr>')
+                    .append(td)
+                    .append($('<td>').text(name.last_name))
+                    .append($('<td>').text(name.first_name))
+                    .append($('<td>').text(name.group))
+                    $(table).append(tr)
+                })
             }
         })
         break;

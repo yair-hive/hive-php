@@ -121,3 +121,20 @@ $guest_actions['add'] = function(){
         echo 'all good';
     }
 };
+$guest_actions['check_belong'] = function(){
+    if(!empty($_POST['guest_id'])){
+        $guest_id = $_POST['guest_id'];
+        global $mysql_conf;
+        $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
+        $query_string = "SELECT * FROM belong WHERE guest='{$guest_id}'";
+        if($result = mysqli_query($connection, $query_string)){
+            if(mysqli_num_rows($result) != 0){
+                $respons['msg'] = 'true';
+                print_r(json_encode($respons));
+            }else{
+                $respons['msg'] = 'false';
+                print_r(json_encode($respons));
+            }
+        }
+    }   
+};
