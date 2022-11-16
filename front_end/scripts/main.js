@@ -3,7 +3,9 @@ import {add_map, add_seats, add_guest} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
+import "./../lib/jquery.min.js"
 import "./../lib/read-excel-file.min.js"
+import "./../lib/jquery.table2excel.min.js"
 
 export const selection = create_selection()
 export const dragToScroll = new DragToScroll()
@@ -76,16 +78,10 @@ switch(parsedUrl.pathname){
                 $('#table-container').append(list_table)
             }
         });
-        $('#export').click(function(){
-            var html_string = $(list_table).html()
-            $.ajax({
-                type: "POST", 
-                url: "http://localhost/hive-php/api.php",
-                data: "action=export_to_exel&htmlString="+html_string,
-                success: function(msg){
-                    window.location.href = "http://localhost/hive-php/uploads/write.xls";
-                }
-            })
+        document.getElementById('export').addEventListener('click', ()=>{
+            $(list_table).table2excel({
+                filename: "list.xls"
+            });
         })
         break;
     case '/hive-php/add_guests.html':
