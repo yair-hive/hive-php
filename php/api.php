@@ -23,32 +23,6 @@ function get_seat_as_array($seat_string){
 
 $actions = [];
 
-$actions['get_maps'] = function(){
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
-    $query_string = "SELECT map_name FROM maps";
-    if($result = mysqli_query($connection, $query_string)){
-        $results = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        $new_results_array = array();
-        foreach($results as $row){
-            $new_results_array[] = $row['map_name'];
-        }
-        $json_results = json_encode($new_results_array);
-        print_r($json_results);
-    }
-};          
-$actions['get_all_maps'] = function(){
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
-    $query_string = "SELECT map_name FROM maps";
-    if($result = mysqli_query($connection, $query_string)){
-        $results = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        $new_results_array = array();
-        foreach($results as $row){
-            $new_results_array[] = "<a href='edit_map.html?map_name=".$row['map_name']."'>".$row['map_name']."</a>";
-        }
-        $results_to_string = implode(" </li><li> ", $new_results_array);
-        echo "<li>".$results_to_string."</li>";
-    }
-};
 $actions['create_map'] = function(){
     $map_name = $_POST['map_name'];
     $rows_number = $_POST['rows_number'];
@@ -64,34 +38,32 @@ $actions['create_map'] = function(){
     }else{
         echo 'faild empty';
     }
-}; 
-$actions['get_map_and_details'] = function(){
+};
+$actions['get_map'] = function(){
     $map_name = $_POST['map_name'];
     $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);   
     $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
     if($result = mysqli_query($connection, $query_string)){
-        $results = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $map_results = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $map_results_json = json_encode($map_results);
+        print_r($map_results_json);
+    }else{
+        $respons['msg'] = 'db error';
+        print_r(json_encode($respons));
     }
-    $map_id = $results['id'];
-    $query_string = "SELECT * FROM seats WHERE belong='{$map_id}'";
-    if($seats_result = mysqli_query($connection, $query_string)){
-        $seats_results = mysqli_fetch_all($seats_result, MYSQLI_ASSOC);
-    }
-    $arr_con = count($seats_results);
-    for($i = 0; $i < $arr_con; $i++){
-        $seat_id = $seats_results[$i]['id'];
-        $query_string = "SELECT * FROM belong WHERE seat='{$seat_id}'";
-        if($result = mysqli_query($connection, $query_string)){
-            if(mysqli_num_rows($result)){
-                $belong_result = mysqli_fetch_array($result, MYSQLI_ASSOC);
-                $seats_results[$i]['guest_id'] = $belong_result['guest'];
-            }                    
+};
+$actions['get_maps'] = function(){
+    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
+    $query_string = "SELECT map_name FROM maps";
+    if($result = mysqli_query($connection, $query_string)){
+        $results = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $new_results_array = array();
+        foreach($results as $row){
+            $new_results_array[] = $row['map_name'];
         }
+        $json_results = json_encode($new_results_array);
+        print_r($json_results);
     }
-    $map_and_details['map'] = $results;
-    $map_and_details['seats'] = $seats_results;
-    $map_and_details_json = json_encode($map_and_details);
-    print_r($map_and_details_json);
 };
 $actions['add_seats'] = function(){
     $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
@@ -121,7 +93,7 @@ $actions['add_seats'] = function(){
         print_r(json_encode($respons));
     }
 };
-$actions['add_guests'] = function(){
+$actions['create_guest'] = function(){
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
     $guest_group = $_POST['guest_group']; 
@@ -213,48 +185,6 @@ $actions['create_belong'] = function(){
         echo 'all good';
     }
 };
-$actions['get_map_and_details_and_guests'] = function(){
-    $map_name = $_POST['map_name'];
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);   
-    $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
-    if($result = mysqli_query($connection, $query_string)){
-        $results = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    }
-    $map_id = $results['id'];
-    $query_string = "SELECT * FROM seats WHERE belong='{$map_id}'";
-    if($seats_result = mysqli_query($connection, $query_string)){
-        $seats_results = mysqli_fetch_all($seats_result, MYSQLI_ASSOC);
-    }
-    $arr_con = count($seats_results);
-    for($i = 0; $i < $arr_con; $i++){
-        $seat_id = $seats_results[$i]['id'];
-        $query_string = "SELECT * FROM belong WHERE seat='{$seat_id}'";
-        if($result = mysqli_query($connection, $query_string)){
-            if(mysqli_num_rows($result)){
-                $belong_result = mysqli_fetch_array($result, MYSQLI_ASSOC);
-                $seats_results[$i]['guest_id'] = $belong_result['guest'];
-            }                    
-        }
-    }
-    $query_string = "SELECT * FROM guests";
-    if($result = mysqli_query($connection, $query_string)){
-        $results = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        $guests_list = array();
-        foreach($results as $guest){
-            $guest_array['name'] = $guest['last_name'].' '.$guest['first_name'];
-            $guest_array['id'] = $guest['id'];
-            $guest_array['group'] = $guest['guest_group'];
-            $guests_list[] = $guest_array;
-        }
-    }else{
-        echo 'sql error';
-    }
-    $map_and_details['map'] = $results;
-    $map_and_details['seats'] = $seats_results;
-    $map_and_details['guests'] = $guests_list;
-    $map_and_details_json = json_encode($map_and_details);
-    print_r($map_and_details_json);
-};   
 $actions['add_seat_number'] = function(){
     echo $_POST['seat_number'];
     $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);   
@@ -306,24 +236,6 @@ $actions['get_guest_seat_num'] = function(){
     }
     $list_json = json_encode($belong_results);
     print_r($list_json);
-};
-$actions['get_map'] = function(){
-    $map_name = $_POST['map_name'];
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);   
-    $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
-    try {
-        if($result = mysqli_query($connection, $query_string)){
-            $map_results = mysqli_fetch_array($result, MYSQLI_ASSOC);
-        }else{
-            $respons['msg'] = 'db error';
-            print_r(json_encode($respons));
-        }
-    }catch (Exception $e){
-        $respons['msg'] = $e->getMessage();
-        print_r(json_encode($respons));
-    }
-    $map_results_json = json_encode($map_results);
-    print_r($map_results_json);
 };
 $actions['get_seats'] = function(){
     $map_name = $_POST['map_name'];

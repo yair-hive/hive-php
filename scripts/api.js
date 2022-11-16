@@ -2,15 +2,20 @@ import "./lib/jquery.min.js"
 
 const api_url = 'http://localhost/hive-php/php/api.php'
 
-export const get_all_maps = ()=>{
-    $.ajax({
-        type: "POST", 
-        url: api_url,
-        data: "action=get_all_maps",
-        success: function(msg){
-            $('#maps_list').html(msg);
+export const get_maps = ()=>{
+    const options = {
+        method: 'POST',
+        body: "action=get_maps",
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
-    });
+    };
+      
+    return fetch(api_url, options)
+    .then((response) => {
+        // console.log(response.text())
+        return response.json()
+    })
 }
 export const get_map = (map_name)=>{
     const options = {
@@ -111,7 +116,7 @@ export const post_seats = (map_id, selectedString)=>{
 export const post_guest = (data, map_name)=>{
     const options = {
         method: 'POST',
-        body: "action=add_guests&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_name="+map_name,
+        body: "action=create_guest&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_name="+map_name,
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }

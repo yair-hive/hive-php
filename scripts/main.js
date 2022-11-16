@@ -1,4 +1,4 @@
-import { post_map, get_map, get_seats, get_guests_names, get_all_maps, login, sginup, get_user, logout, post_guest } from "./api.js"
+import { post_map, get_map, get_seats, get_guests_names, login, sginup, get_user, logout, post_guest, get_maps } from "./api.js"
 import {add_map, add_seats, add_guest} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
@@ -51,7 +51,15 @@ switch(parsedUrl.pathname){
         document.getElementById('create_map').addEventListener('click', post_map)
         break;
     case base_path+'maps.html':
-        get_all_maps()
+        var maps_list = document.getElementById('maps_list')
+        get_maps()
+        .then((maps)=>{
+            for(let map of maps){
+                var li = $('<li>')
+                .append($('<a>').attr('href', `edit_map.html?map_name=${map}`).text(map))
+                $(maps_list).append(li)
+            }
+        })
         break;
     case base_path+'guest_seat_num.html':
         var map_name = parsedUrl.searchParams.get("map_name")
