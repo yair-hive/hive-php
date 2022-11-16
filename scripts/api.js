@@ -32,6 +32,38 @@ export const get_map = (map_name)=>{
         return response.json()
     })
 }
+export const get_seats = (map_name)=>{
+    const options = {
+        method: 'POST',
+        body: "action=get_seats&map_name="+map_name,
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+      
+    return fetch(api_url, options)
+    .then((response) => {
+        return response.json()
+    })
+}
+export const get_guests = (map_name)=>{
+    const options = {
+        method: 'POST',
+        body: "action=get_guests&map_name="+map_name,
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+      
+    return fetch(api_url, options)
+    .then((response) => {
+        return response.json()
+    })
+}
 export const post_map = () => {
     const options = {
         method: 'POST',
@@ -57,36 +89,17 @@ export const post_seat = (map_name, row, col)=>{
     }
     return fetch(api_url, options)
 }
-export const get_seats = (map_name)=>{
+export const post_guest = (data, map_name)=>{
     const options = {
         method: 'POST',
-        body: "action=get_seats&map_name="+map_name,
-        mode: 'no-cors',
-        credentials: 'include',
+        body: "action=create_guest&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_name="+map_name,
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
     };
-      
     return fetch(api_url, options)
     .then((response) => {
-        return response.json()
-    })
-}
-export const get_guests_names = (map_name)=>{
-    const options = {
-        method: 'POST',
-        body: "action=get_guests_names&map_name="+map_name,
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    };
-      
-    return fetch(api_url, options)
-    .then((response) => {
-        return response.json()
+        return response.json();
     })
 }
 export const post_seat_number = (seat_id, seat_number)=>{
@@ -113,18 +126,17 @@ export const create_belong = (selected_guest_id, selected_seat_class, map_name)=
     }
     return fetch(api_url, options)
 }
-export const post_guest = (data, map_name)=>{
+export const get_guest_seat_num = (map_name)=>{
     const options = {
         method: 'POST',
-        body: "action=create_guest&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_name="+map_name,
+        body: "action=get_guest_seat_num&map_name="+map_name,
+        mode: 'no-cors',
+        credentials: 'include',
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
-    };
+    }
     return fetch(api_url, options)
-    .then((response) => {
-        return response.json();
-    })
 }
 export const login = ()=>{
     const options = {

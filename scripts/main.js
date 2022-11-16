@@ -1,4 +1,4 @@
-import { post_map, get_map, get_seats, get_guests_names, login, sginup, get_user, logout, post_guest, get_maps } from "./api.js"
+import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num } from "./api.js"
 import {add_map, add_seats, add_guest} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
@@ -30,7 +30,7 @@ switch(parsedUrl.pathname){
         get_map(map_name).then(map => {add_map(map); map_data = map})
         .then(() => get_seats(map_name))
         .then(seats => add_seats(seats))
-        .then(() => get_guests_names(map_name))
+        .then(() => get_guests(map_name))
         .then((guests) => {add_guest(guests); guests_data = guests})
         .then(()=>{
             selection.resolveSelectables()
@@ -63,30 +63,26 @@ switch(parsedUrl.pathname){
         break;
     case base_path+'guest_seat_num.html':
         var map_name = parsedUrl.searchParams.get("map_name")
-        $.ajax({
-            type: "POST", 
-            url: "http://localhost/hive-php/php/api.php",
-            data: "action=get_guest_seat_num&map_name="+map_name,
-            success: function(msg){
-                var belongs_list = JSON.parse(msg)   
-                var list_table = $('<table>').attr('id', 'list_table')                
+        get_guest_seat_num(map_name)
+        .then(respons => respons.json())
+        .then((belongs_list)=>{
+            var list_table = $('<table>').attr('id', 'list_table')                
+            var tr = $('<tr>')
+            .append($('<th>').text('מספר כיסא'))
+            .append($('<th>').text('שיעור')) 
+            .append($('<th>').text('שם פרטי'))
+            .append($('<th>').text('שם משפחה'))
+            $(list_table).append(tr)
+            for(let bel of belongs_list){ 
                 var tr = $('<tr>')
-                .append($('<th>').text('מספר כיסא'))
-                .append($('<th>').text('שיעור')) 
-                .append($('<th>').text('שם פרטי'))
-                .append($('<th>').text('שם משפחה'))
+                .append($('<td>').text(bel.seat_num))
+                .append($('<td>').text(bel.guest_group)) 
+                .append($('<td>').text(bel.guest_first_name))
+                .append($('<td>').text(bel.guest_last_name))                      
                 $(list_table).append(tr)
-                for(let bel of belongs_list){ 
-                    var tr = $('<tr>')
-                    .append($('<td>').text(bel.seat_num))
-                    .append($('<td>').text(bel.guest_group)) 
-                    .append($('<td>').text(bel.guest_first_name))
-                    .append($('<td>').text(bel.guest_last_name))                      
-                    $(list_table).append(tr)
-                }
-                $('#table-container').append(list_table)
             }
-        });
+            $('#table-container').append(list_table)
+        })
         document.getElementById('export').addEventListener('click', ()=>{
             $(list_table).table2excel({
                 filename: "list.xls"
@@ -132,7 +128,7 @@ switch(parsedUrl.pathname){
     case base_path+'get_guests.html':
         var map_name = parsedUrl.searchParams.get("map_name")
         var table = document.getElementById('names_table')
-        get_guests_names(map_name)
+        get_guests(map_name)
         .then((names)=>{
             for(let name of names){
                 var tr = $('<tr>')
