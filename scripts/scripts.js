@@ -1,4 +1,5 @@
-import SelectionArea from "../lib/viselect.esm.js"
+import SelectionArea from "./lib/viselect.esm.js"
+import "./lib/jquery.min.js"
 
 export const create_selection = ()=>{
     var selection = new SelectionArea({

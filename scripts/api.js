@@ -1,9 +1,11 @@
-const api_url = 'http://localhost/hive-php/api.php'
+import "./lib/jquery.min.js"
+
+const api_url = 'http://localhost/hive-php/php/api.php'
 
 export const get_all_maps = ()=>{
     $.ajax({
         type: "POST", 
-        url: "http://localhost/hive-php/api.php",
+        url: api_url,
         data: "action=get_all_maps",
         success: function(msg){
             $('#maps_list').html(msg);
@@ -67,7 +69,7 @@ export const post_map = () => {
         }
     }
     return fetch(api_url, options)
-    .then(()=>{window.location.replace('http://localhost/hive-php/maps.html')})
+    .then(()=>{window.location.replace('http://localhost/hive-php/html/maps.html')})
 }
 export const post_seat_number = (seat_id, seat_number)=>{
     const options = {
@@ -152,7 +154,7 @@ export const get_user = ()=>{
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
     };
-    return fetch('http://localhost/hive-php/api.php', options)
+    return fetch(api_url, options)
     .then((response) => {
         return response.json();
     })
@@ -165,7 +167,7 @@ export const logout = ()=>{
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
     };
-    return fetch('http://localhost/hive-php/api.php', options)
+    return fetch(api_url, options)
     .then((response) => {
         return response.json();
     })

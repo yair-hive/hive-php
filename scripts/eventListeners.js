@@ -3,6 +3,7 @@ import { convert_seats } from "./scripts.js"
 import { dragToScroll, selection } from "./main.js"
 import { add_seats } from "./elements.js"
 import add_match_menu from "./add_match_menu.js"
+import "./lib/jquery.min.js"
 
 var selectables = 'cells'
 

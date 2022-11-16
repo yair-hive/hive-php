@@ -3,14 +3,15 @@ import {add_map, add_seats, add_guest} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
-import "./../lib/jquery.min.js"
-import "./../lib/read-excel-file.min.js"
-import "./../lib/jquery.table2excel.min.js"
+import "./lib/jquery.min.js"
+import "./lib/read-excel-file.min.js"
+import "./lib/jquery.table2excel.min.js"
 
 export const selection = create_selection()
 export const dragToScroll = new DragToScroll()
 selection.disable()
 const parsedUrl = new URL(window.location.href)
+const base_path = '/hive-php/html/'
 
 get_user()
 .then((respons) => {
@@ -20,7 +21,7 @@ get_user()
 })
 
 switch(parsedUrl.pathname){
-    case '/hive-php/edit_map.html':
+    case base_path+'edit_map.html':
         selection.enable()
         var map_name = parsedUrl.searchParams.get("map_name")
         $('title').append(map_name)
@@ -46,17 +47,17 @@ switch(parsedUrl.pathname){
             document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target)))
         })
         break;
-    case '/hive-php/create_map.html':
+    case base_path+'create_map.html':
         document.getElementById('create_map').addEventListener('click', post_map)
         break;
-    case '/hive-php/maps.html':
+    case base_path+'maps.html':
         get_all_maps()
         break;
-    case '/hive-php/guest_seat_num.html':
+    case base_path+'guest_seat_num.html':
         var map_name = parsedUrl.searchParams.get("map_name")
         $.ajax({
             type: "POST", 
-            url: "http://localhost/hive-php/api.php",
+            url: "http://localhost/hive-php/php/api.php",
             data: "action=get_guest_seat_num&map_name="+map_name,
             success: function(msg){
                 var belongs_list = JSON.parse(msg)   
@@ -84,7 +85,7 @@ switch(parsedUrl.pathname){
             });
         })
         break;
-    case '/hive-php/add_guests.html':
+    case base_path+'add_guests.html':
         var map_name = parsedUrl.searchParams.get("map_name")
         document.getElementById('loader').style.display = 'none'
         document.getElementById('loader-container').style.display = 'none'
@@ -115,12 +116,12 @@ switch(parsedUrl.pathname){
              })
         })
         break;
-    case '/hive-php/login.html':
+    case base_path+'login.html':
         document.getElementById('login_button').addEventListener('click', ()=>{login().then(json => alert(json.msg))})
         document.getElementById('sginup_button').addEventListener('click', ()=>{sginup().then(json => alert(json.msg))})
         document.getElementById('logout_button').addEventListener('click', ()=>{logout().then(json => alert(json.msg))})
         break;
-    case '/hive-php/get_guests.html':
+    case base_path+'get_guests.html':
         var map_name = parsedUrl.searchParams.get("map_name")
         var table = document.getElementById('names_table')
         get_guests_names(map_name)

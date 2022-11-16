@@ -1,3 +1,5 @@
+import "./lib/jquery.min.js"
+
 export const add_map = (map)=>{
     const main_bord = document.getElementById('mainBord')
     const map_container = document.createElement("div")
