@@ -32,6 +32,31 @@ export const get_map = (map_name)=>{
         return response.json()
     })
 }
+export const post_map = () => {
+    const options = {
+        method: 'POST',
+        body: "action=create_map&"+$('#create_map_form').serialize(),
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    }
+    return fetch(api_url, options)
+    .then(()=>{window.location.replace('http://localhost/hive-php/html/maps.html')})
+}
+export const post_seat = (map_name, row, col)=>{
+    const options = {
+        method: 'POST',
+        body: "action=create_seat&map_name="+map_name+"&row="+row+"&col="+col,
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    }
+    return fetch(api_url, options)
+}
 export const get_seats = (map_name)=>{
     const options = {
         method: 'POST',
@@ -64,19 +89,6 @@ export const get_guests_names = (map_name)=>{
         return response.json()
     })
 }
-export const post_map = () => {
-    const options = {
-        method: 'POST',
-        body: "action=create_map&"+$('#create_map_form').serialize(),
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    }
-    return fetch(api_url, options)
-    .then(()=>{window.location.replace('http://localhost/hive-php/html/maps.html')})
-}
 export const post_seat_number = (seat_id, seat_number)=>{
     const options = {
         method: 'POST',
@@ -93,18 +105,6 @@ export const create_belong = (selected_guest_id, selected_seat_class, map_name)=
     const options = {
         method: 'POST',
         body: "action=create_belong&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_name="+map_name,
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    }
-    return fetch(api_url, options)
-}
-export const post_seats = (map_id, selectedString)=>{
-    const options = {
-        method: 'POST',
-        body: "action=add_seats&map_id="+map_id+"&seat_list="+selectedString,
         mode: 'no-cors',
         credentials: 'include',
         headers: {

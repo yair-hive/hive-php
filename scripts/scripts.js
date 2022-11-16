@@ -24,13 +24,6 @@ export const create_selection = ()=>{
     })
     return selection
 }
-export const convert_seats = (selected)=>{
-    var selectedArray = []
-    selected.forEach(element => {
-        selectedArray.push(element.classList)
-    });
-    return selectedArray.join(' *|* ')
-}
 export const offsetCalculate = (box)=>{
     var parent = box.getBoundingClientRect()
     var parent_width = box.offsetWidth

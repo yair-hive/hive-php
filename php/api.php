@@ -4,23 +4,6 @@ session_start();
 
 include_once 'mysql/mysql_conf.php';
 
-function get_seat_as_array($seat_string){
-    $respons = array();
-    $row_ex = "/row-[0-9]+/";
-    $col_ex = "/col-[0-9]+/";
-    $num_ex = "/[0-9]+/";
-
-    preg_match($row_ex, $seat_string, $match);
-    preg_match($num_ex, $match[0], $row_num);
-    $respons['row'] = $row_num[0];
-
-    preg_match($col_ex, $seat_string, $match);
-    preg_match($num_ex, $match[0], $col_num);
-    $respons['col'] = $col_num[0];
-
-    return $respons;
-}
-
 $actions = [];
 
 $actions['create_map'] = function(){
@@ -65,31 +48,22 @@ $actions['get_maps'] = function(){
         print_r($json_results);
     }
 };
-$actions['add_seats'] = function(){
+$actions['create_seat'] = function(){
     $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
-    if(!empty($_POST['seat_list'])){
-        $seat_list = explode(' *|* ', $_POST['seat_list']);
-        $seat_list_as_array = array();
-        foreach($seat_list as $seat_class_list){
-            if(!empty($seat_class_list)){
-                $seat_list_as_array[] = get_seat_as_array($seat_class_list);
-            }
-        }
-        $belong = $_POST['map_id'];
-        foreach($seat_list_as_array as $seat_array){
-            $row_num = $seat_array['row'];
-            $col_num = $seat_array['col'];
-            $query_string = "INSERT INTO seats(belong, row_num, col_num) VALUES('{$belong}', '{$row_num}', '{$col_num}')";
-            if(!$result = mysqli_query($connection, $query_string)){
-                $respons['msg'] = 'db error';
-                print_r(json_encode($respons));
-            }else{
-                $respons['msg'] = 'all good';
-                print_r(json_encode($respons));
-            }
-        }
+    $map_name = $_POST['map_name'];
+    $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
+    if($result = mysqli_query($connection, $query_string)){
+        $results = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    }
+    $map_id = $results['id'];    
+    $row_num = $_POST['row'];
+    $col_num = $_POST['col'];
+    $query_string = "INSERT INTO seats(belong, row_num, col_num) VALUES('{$map_id}', '{$row_num}', '{$col_num}')";
+    if(!$result = mysqli_query($connection, $query_string)){
+        $respons['msg'] = 'db error';
+        print_r(json_encode($respons));
     }else{
-        $respons['msg'] = 'parameter misseng';
+        $respons['msg'] = 'all good';
         print_r(json_encode($respons));
     }
 };
