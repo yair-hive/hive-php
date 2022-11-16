@@ -132,7 +132,7 @@ if(!empty($_POST['action'])){
             $map_id = $results['id'];      
             if(!empty($first_name) && !empty($last_name) && !empty($guest_group)){
                 $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
-                $query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}'";
+                $query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}' AND guest_group='{$guest_group}' AND belong='{$map_id}'";
                 if($result = mysqli_query($connection, $query_string)){
                     if(mysqli_num_rows($result) == 0){
                         $query_string = "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group}', '{$map_id}')";

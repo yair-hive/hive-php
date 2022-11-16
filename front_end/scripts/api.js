@@ -21,7 +21,7 @@ export const get_map = (map_name)=>{
       
     return fetch(api_url, options)
     .then((response) => {
-        return response.json();
+        return response.json()
     })
 }
 export const get_seats = (map_name)=>{
@@ -37,7 +37,7 @@ export const get_seats = (map_name)=>{
       
     return fetch(api_url, options)
     .then((response) => {
-        return response.json();
+        return response.json()
     })
 }
 export const get_guests_names = (map_name)=>{
@@ -53,7 +53,7 @@ export const get_guests_names = (map_name)=>{
       
     return fetch(api_url, options)
     .then((response) => {
-        return response.json();
+        return response.json()
     })
 }
 export const post_map = () => {

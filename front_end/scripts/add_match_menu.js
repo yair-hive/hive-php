@@ -9,6 +9,7 @@ const add_match_list_items = (guests_list)=>{
     if(input_str.length != 0){
         var search_reg = new RegExp(search_str)
         for(var corrent of guests_list){
+            corrent.name = corrent.first_name+' '+corrent.last_name
             if(search_reg.test(corrent.name)){
                 match_list.push(corrent)
             }
@@ -20,6 +21,7 @@ const add_match_list = (guests_list, seat)=>{
     var match_drop_down = document.createElement('ul')
     $(match_drop_down).attr('id', 'match_drop_down')
     for(let corrent of add_match_list_items(guests_list)){
+        corrent.name = corrent.first_name+' '+corrent.last_name
         var match_li = document.createElement('li') 
         $(match_li).html(corrent.name+' <span class="group_name">'+corrent.group+'   |</span>')
         $(match_li).addClass('match_list')

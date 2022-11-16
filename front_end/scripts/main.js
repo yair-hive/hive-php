@@ -28,7 +28,7 @@ switch(parsedUrl.pathname){
         .then(() => get_seats(map_name))
         .then(seats => add_seats(seats))
         .then(() => get_guests_names(map_name))
-        .then((guests) => {add_guest(guests, map_name); guests_data = guests})
+        .then((guests) => {add_guest(guests); guests_data = guests})
         .then(()=>{
             selection.resolveSelectables()
             document.getElementById('loader').style.display = 'none'

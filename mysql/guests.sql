@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: ספטמבר 15, 2022 בזמן 03:16 PM
--- גרסת שרת: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: נובמבר 16, 2022 בזמן 08:42 AM
+-- גרסת שרת: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `fop`
+-- Database: `hive`
 --
 
 -- --------------------------------------------------------
@@ -31,7 +31,8 @@ CREATE TABLE `guests` (
   `id` int(11) NOT NULL,
   `first_name` varchar(20) NOT NULL,
   `last_name` varchar(20) NOT NULL,
-  `guest_group` varchar(20) NOT NULL
+  `guest_group` varchar(20) NOT NULL,
+  `belong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
