@@ -165,6 +165,32 @@ export const get_user = ()=>{
         return response.json();
     })
 }
+export const get_users = ()=>{
+    const options = {
+        method: 'POST',
+        body: "category=user&action=get_all",
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+      
+    return fetch(api_url, options)
+    .then((response) => {
+        // console.log(response.text())
+        return response.json()
+    })
+}
+export const add_permission = (user_name, permission)=>{
+    const options = {
+        method: 'POST',
+        body: "category=user&action=add_permission&user_name="+user_name+"&permission="+permission,
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+      
+    return fetch(api_url, options)
+}
 export const logout = ()=>{
     const options = {
         method: 'POST',

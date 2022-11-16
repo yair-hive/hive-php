@@ -1,4 +1,4 @@
-import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num } from "./api.js"
+import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num, get_users, add_permission } from "./api.js"
 import {add_map, add_seats, add_guests} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
@@ -58,6 +58,17 @@ switch(parsedUrl.pathname){
                 var li = $('<li>')
                 .append($('<a>').attr('href', `edit_map.html?map_name=${map}`).text(map))
                 $(maps_list).append(li)
+            }
+        })
+        break;
+    case base_path+'users.html':
+        var users_list = document.getElementById('users_list')
+        get_users()
+        .then((users)=>{
+            for(let user of users){
+                var li = $('<li>')
+                .append($('<a>').attr('href', `edit_user.html?user_name=${user}`).text(user))
+                $(users_list).append(li)
             }
         })
         break;
@@ -137,6 +148,15 @@ switch(parsedUrl.pathname){
                 .append($('<td>').text(name.group))
                 $(table).append(tr)
             }
+        })
+        break;
+    case base_path+'edit_user.html':
+        var user_name = parsedUrl.searchParams.get("user_name")
+        document.getElementById('edit_user').addEventListener('click', ()=>{
+            var permission = document.getElementById('permission_name').value
+            add_permission(user_name, permission)
+            .then((respons) => respons.text())
+            .then((res) => alert(res))
         })
         break;
 }
