@@ -1,6 +1,6 @@
-import { post_seat_number, create_belong, get_seats, get_guests, post_seat } from "./api.js"
+import { add_seat_number, add_guest, get_seats, get_guests, post_seat } from "./api.js"
 import { dragToScroll, selection } from "./main.js"
-import { add_guest, add_seats } from "./elements.js"
+import { add_guests, add_seats } from "./elements.js"
 import add_match_menu from "./add_match_menu.js"
 import "./lib/jquery.min.js"
 
@@ -53,7 +53,7 @@ export const onClick_add_seats = ()=>{
         .then(()=> {selection.clearSelection(); document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))})
         .then(()=> get_seats(map_name).then(seats => add_seats(seats)))
         .then(() => get_guests(map_name))
-        .then((guests) => {add_guest(guests); guests_data = guests})
+        .then((guests) => {add_guests(guests); guests_data = guests})
         .then(()=> document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target))))
     })
 }
@@ -109,7 +109,7 @@ export const onClick_add_seat_number = ()=>{
             var box = $(seat).children('.num_box')
             box.text(col_group_name)
             var selected_seat_class = box.attr('seat_id')
-            post_seat_number(selected_seat_class, col_group_name)     
+            add_seat_number(selected_seat_class, col_group_name)     
             col_group_name = col_group_name +1
         })           
     }
@@ -167,7 +167,7 @@ export const onClick_match_list_item = (event)=>{
     name_box.textContent = guest_name    
     document.getElementById('drop_down').remove()
     document.getElementById('name_box_input').remove()
-    create_belong(guest_id, seat_id, map)
+    add_guest(guest_id, seat_id, map)
 }
 export const onKeyBordDown = (event)=>{
     if(event.key == 'g' || event.key == 'ע'){

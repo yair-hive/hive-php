@@ -51,7 +51,7 @@ export const add_seats = (seats)=>{
         cell.replaceChildren(seat_ele)
     }
 }
-export const add_guest = (guests)=>{
+export const add_guests = (guests)=>{
     document.querySelectorAll('.name_box').forEach((name_box)=>{
         var guest_id = name_box.getAttribute('guest_id')
         for(var corrent of guests){

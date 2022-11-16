@@ -1,5 +1,5 @@
 import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num } from "./api.js"
-import {add_map, add_seats, add_guest} from "./elements.js"
+import {add_map, add_seats, add_guests} from "./elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
@@ -31,7 +31,7 @@ switch(parsedUrl.pathname){
         .then(() => get_seats(map_name))
         .then(seats => add_seats(seats))
         .then(() => get_guests(map_name))
-        .then((guests) => {add_guest(guests); guests_data = guests})
+        .then((guests) => {add_guests(guests); guests_data = guests})
         .then(()=>{
             selection.resolveSelectables()
             document.getElementById('loader').style.display = 'none'
