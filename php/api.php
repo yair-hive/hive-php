@@ -108,13 +108,17 @@ $actions['add_seats'] = function(){
             $row_num = $seat_array['row'];
             $col_num = $seat_array['col'];
             $query_string = "INSERT INTO seats(belong, row_num, col_num) VALUES('{$belong}', '{$row_num}', '{$col_num}')";
-            if(!mysqli_query($connection, $query_string)){
-                echo 'sql error';
+            if(!$result = mysqli_query($connection, $query_string)){
+                $respons['msg'] = 'db error';
+                print_r(json_encode($respons));
+            }else{
+                $respons['msg'] = 'all good';
+                print_r(json_encode($respons));
             }
         }
-        echo 'all good';
     }else{
-        echo '$_GET';
+        $respons['msg'] = 'parameter misseng';
+        print_r(json_encode($respons));
     }
 };
 $actions['add_guests'] = function(){

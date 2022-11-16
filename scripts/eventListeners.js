@@ -1,7 +1,7 @@
 import { post_seat_number, post_seats, create_belong, get_seats, get_guests_names } from "./api.js"
 import { convert_seats } from "./scripts.js"
 import { dragToScroll, selection } from "./main.js"
-import { add_seats } from "./elements.js"
+import { add_guest, add_seats } from "./elements.js"
 import add_match_menu from "./add_match_menu.js"
 import "./lib/jquery.min.js"
 
@@ -53,9 +53,9 @@ export const onClick_add_seats = (event)=>{
     let guests_data = {}
     post_seats(map_id, seat_string)
     .then(()=> {selection.clearSelection(); document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))})
-    .then(()=> get_seats(map_name).then((seats) => {add_seats(seats); console.log(seats)}))
-    .then(() => get_guests_names())
-    .then((guests) => {guests_data = guests})
+    .then(()=> get_seats(map_name).then(seats => add_seats(seats)))
+    .then(() => get_guests_names(map_name))
+    .then((guests) => {add_guest(guests); guests_data = guests})
     .then(()=> document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target))))
 }
 export const onClick_add_seat_number = ()=>{
