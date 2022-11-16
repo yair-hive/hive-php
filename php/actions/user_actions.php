@@ -12,12 +12,11 @@ $user_actions['login'] = function(){
                 if(password_verify($password, $user_results['password'])){
                     $permissions = [];
                     $user_id = $user_results['id'];
-                    $query_string = "SELECT * FROM permissions WHERE user='{$user_id}'";
+                    $query_string = "SELECT permission FROM permissions WHERE user='{$user_id}'";
                     if($result = mysqli_query($connection, $query_string)){
                         if(mysqli_num_rows($result) != 0){
-                            $permissions_results = mysqli_fetch_array($result, MYSQLI_ASSOC);
-                            foreach($permissions_results as $permission){
-                                $permissions[] = $permission;
+                            while($row = mysqli_fetch_assoc($result)){
+                                $permissions[] = $row['permission'];
                             }
                         }
                     }
