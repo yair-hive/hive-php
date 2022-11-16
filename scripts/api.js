@@ -23,6 +23,7 @@ export const get_map = (map_name)=>{
       
     return fetch(api_url, options)
     .then((response) => {
+        // console.log(response.text())
         return response.json()
     })
 }
