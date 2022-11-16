@@ -20,6 +20,7 @@ $files =
 'maps.sql',
 'guests.sql',
 'belong.sql',
+'permissions.sql',
 'users.sql',];
 
 function update($filename, $link){
