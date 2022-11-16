@@ -1,6 +1,7 @@
 <?php
 $map_actions['get_all'] = function(){
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
     $query_string = "SELECT map_name FROM maps";
     if($result = mysqli_query($connection, $query_string)){
         $results = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -14,7 +15,8 @@ $map_actions['get_all'] = function(){
 };
 $map_actions['get'] = function(){
     $map_name = $_POST['map_name'];
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);   
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
     $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
     if($result = mysqli_query($connection, $query_string)){
         $map_results = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -30,7 +32,8 @@ $map_actions['create'] = function(){
     $rows_number = $_POST['rows_number'];
     $columns_number = $_POST['columns_number']; 
     if(!empty($map_name) && !empty($rows_number) && !empty($columns_number)){
-        $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
+        global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
         $query_string = "INSERT INTO maps(map_name, rows_number, columns_number) VALUES('{$map_name}', '{$rows_number}', '{$columns_number}')";
         if(mysqli_query($connection, $query_string)){
             echo 'all good';

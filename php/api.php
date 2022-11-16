@@ -2,7 +2,8 @@
 header("Access-Control-Allow-Origin: *");
 session_start();
 
-include_once 'mysql/mysql_conf.php';
+$mysql_conf = parse_ini_file('../mysql_conf.ini');
+
 include_once 'actions/map_actions.php';
 include_once 'actions/seat_actions.php';
 include_once 'actions/guest_actions.php';

@@ -1,7 +1,8 @@
 <?php
 
 $all_actions['get_guest_seat_num'] = function(){
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
     $map_name = $_POST['map_name'];  
     $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
     if($result = mysqli_query($connection, $query_string)){
@@ -41,7 +42,8 @@ $all_actions['get_guest_seat_num'] = function(){
     print_r($list_json);
 };
 $all_actions['login'] = function(){
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);             
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);               
     if(!empty($_POST['user_name'])){
         $user_name = $_POST['user_name']; 
         $query_string = "SELECT * FROM users WHERE user_name='{$user_name}'";
@@ -85,7 +87,8 @@ $all_actions['logout'] = function(){
     print_r(json_encode($respons));
 };
 $all_actions['sginup'] = function(){
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
     if(!empty($_POST['user_name']) && !empty($_POST['password'])){
         $user_name = $_POST['user_name'];
         $password = $_POST['password'];

@@ -1,7 +1,8 @@
 <?php
 
 $seat_actions['create'] = function(){
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
     $map_name = $_POST['map_name'];
     $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
     if($result = mysqli_query($connection, $query_string)){
@@ -21,7 +22,8 @@ $seat_actions['create'] = function(){
 };
 $seat_actions['get_all'] = function(){
     $map_name = $_POST['map_name'];
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);   
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
     $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
     if($result = mysqli_query($connection, $query_string)){
         $map_results = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -47,7 +49,8 @@ $seat_actions['get_all'] = function(){
 };
 $seat_actions['add_number'] = function(){
     echo $_POST['seat_number'];
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);   
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
     $seat_id = $_POST['seat_id'];
     $seat_number = $_POST['seat_number'];
     $query_string = "UPDATE seats SET seat_number = '{$seat_number}' WHERE seats.id = '{$seat_id}';";

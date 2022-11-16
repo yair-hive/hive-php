@@ -5,14 +5,16 @@ $guest_actions['create'] = function(){
     $last_name = $_POST['last_name'];
     $guest_group = $_POST['guest_group']; 
     $map_name = $_POST['map_name'];
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);   
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
     $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
     if($result = mysqli_query($connection, $query_string)){
         $results = mysqli_fetch_array($result, MYSQLI_ASSOC);
     }
     $map_id = $results['id'];      
     if(!empty($first_name) && !empty($last_name) && !empty($guest_group)){
-        $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
+        global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
         $query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}' AND guest_group='{$guest_group}' AND belong='{$map_id}'";
         if($result = mysqli_query($connection, $query_string)){
             if(mysqli_num_rows($result) == 0){
@@ -38,9 +40,11 @@ $guest_actions['create'] = function(){
     }
 };
 $guest_actions['get_all'] = function(){
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);   
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
     $map_name = $_POST['map_name'];
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);   
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
     $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
     if($result = mysqli_query($connection, $query_string)){
         $results = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -64,7 +68,8 @@ $guest_actions['get_all'] = function(){
     }
 };
 $guest_actions['add'] = function(){
-    $connection = mysqli_connect(DB_HOST ,DB_USER ,DB_PASS ,DB_NAME);
+    global $mysql_conf;
+    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
     $map_name = $_POST['map_name'];  
     $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
     if($result = mysqli_query($connection, $query_string)){
