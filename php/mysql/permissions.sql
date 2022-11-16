@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: נובמבר 16, 2022 בזמן 03:08 PM
--- גרסת שרת: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: נובמבר 16, 2022 בזמן 06:52 PM
+-- גרסת שרת: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,9 +38,9 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `user`, `permission`) VALUES
-(1, 3, 'super'),
-(3, 4, 'read'),
-(4, 3, 'read');
+(1, 1, 'super'),
+(2, 1, 'read'),
+(3, 1, 'writing');
 
 --
 -- Indexes for dumped tables
@@ -60,7 +60,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

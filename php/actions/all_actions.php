@@ -1,6 +1,14 @@
 <?php
 
 $all_actions['get_guest_seat_num'] = function(){
+    $allwod = false;
+    if(!empty($_SESSION['permissions'])){
+        foreach($_SESSION['permissions'] as $corrent){
+            if($corrent == "read"){
+                $allwod = true;
+            }
+        } 
+    }
     global $mysql_conf;
     $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
     $map_name = $_POST['map_name'];  

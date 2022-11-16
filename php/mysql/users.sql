@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: נובמבר 16, 2022 בזמן 01:29 PM
--- גרסת שרת: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: נובמבר 16, 2022 בזמן 06:52 PM
+-- גרסת שרת: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,7 +38,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_name`, `password`) VALUES
-(1, 'yair', '1234');
+(1, 'yair', '$2y$10$psiV15RiC1e0ushYmAko2.SOuz8TI9a6Yb70XnaAMSOUwRXrRAnTa');
 
 --
 -- Indexes for dumped tables

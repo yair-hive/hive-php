@@ -1,6 +1,14 @@
 <?php
 
 $seat_actions['create'] = function(){
+    $allwod = false;
+    if(!empty($_SESSION['permissions'])){
+        foreach($_SESSION['permissions'] as $corrent){
+            if($corrent == "writing"){
+                $allwod = true;
+            }
+        } 
+    }
     global $mysql_conf;
     $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
     $map_name = $_POST['map_name'];
@@ -21,6 +29,14 @@ $seat_actions['create'] = function(){
     }
 };
 $seat_actions['get_all'] = function(){
+    $allwod = false;
+    if(!empty($_SESSION['permissions'])){
+        foreach($_SESSION['permissions'] as $corrent){
+            if($corrent == "read"){
+                $allwod = true;
+            }
+        } 
+    }
     $map_name = $_POST['map_name'];
     global $mysql_conf;
     $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
@@ -48,6 +64,14 @@ $seat_actions['get_all'] = function(){
     print_r($seats_results_json);
 };
 $seat_actions['add_number'] = function(){
+    $allwod = false;
+    if(!empty($_SESSION['permissions'])){
+        foreach($_SESSION['permissions'] as $corrent){
+            if($corrent == "writing"){
+                $allwod = true;
+            }
+        } 
+    }
     echo $_POST['seat_number'];
     global $mysql_conf;
     $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     

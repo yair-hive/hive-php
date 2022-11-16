@@ -1,6 +1,14 @@
 <?php
 
 $guest_actions['create'] = function(){
+    $allwod = false;
+    if(!empty($_SESSION['permissions'])){
+        foreach($_SESSION['permissions'] as $corrent){
+            if($corrent == "writing"){
+                $allwod = true;
+            }
+        } 
+    }
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
     $guest_group = $_POST['guest_group']; 
@@ -40,6 +48,14 @@ $guest_actions['create'] = function(){
     }
 };
 $guest_actions['get_all'] = function(){
+    $allwod = false;
+    if(!empty($_SESSION['permissions'])){
+        foreach($_SESSION['permissions'] as $corrent){
+            if($corrent == "read"){
+                $allwod = true;
+            }
+        } 
+    }
     global $mysql_conf;
     $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
     $map_name = $_POST['map_name'];
@@ -68,6 +84,14 @@ $guest_actions['get_all'] = function(){
     }
 };
 $guest_actions['add'] = function(){
+    $allwod = false;
+    if(!empty($_SESSION['permissions'])){
+        foreach($_SESSION['permissions'] as $corrent){
+            if($corrent == "writing"){
+                $allwod = true;
+            }
+        } 
+    }
     global $mysql_conf;
     $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
     $map_name = $_POST['map_name'];  
