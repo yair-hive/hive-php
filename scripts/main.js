@@ -54,6 +54,7 @@ switch(parsedUrl.pathname){
         var maps_list = document.getElementById('maps_list')
         get_maps()
         .then((maps)=>{
+            console.log(maps)
             for(let map of maps){
                 var li = $('<li>')
                 .append($('<a>').attr('href', `edit_map.html?map_name=${map}`).text(map))
