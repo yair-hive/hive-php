@@ -45,14 +45,14 @@ export const onClick_select_cells = ()=>{
 export const onClick_add_seats = ()=>{
     let guests_data = {}
     var selected = selection.getSelection()
-    var map_name = document.getElementById('map').getAttribute('map_name')
+    var map_id = document.getElementById('map').getAttribute('map_id')
     selected.forEach((cell) => {
         var row = cell.getAttribute('row') 
         var col = cell.getAttribute('col')
-        post_seat(map_name, row, col)
+        post_seat(map_id, row, col)
         .then(()=> {selection.clearSelection(); document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))})
-        .then(()=> get_seats(map_name).then(seats => add_seats(seats)))
-        .then(() => get_guests(map_name))
+        .then(()=> get_seats(map_id).then(seats => add_seats(seats)))
+        .then(() => get_guests(map_id))
         .then((guests) => {add_guests(guests); guests_data = guests})
         .then(()=> document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target))))
     })
@@ -149,7 +149,7 @@ export const onClick_outside = (event)=>{
     }
 }
 export const onClick_match_list_item = (event)=>{
-    var map = document.getElementById('map').getAttribute('map_name')
+    var map = document.getElementById('map').getAttribute('map_id')
     var guest_id = event.target.getAttribute('guest_id')
     var seat_id = event.target.getAttribute('seat')
     var name_box = document.querySelector(`.name_box[seat_id="${seat_id}"]`)

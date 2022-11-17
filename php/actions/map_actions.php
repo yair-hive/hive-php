@@ -1,14 +1,6 @@
 <?php
 $map_actions['get_all'] = function(){
-    $allwod = false;
-    if(!empty($_SESSION['permissions'])){
-        foreach($_SESSION['permissions'] as $corrent){
-            if($corrent == "reading"){
-                $allwod = true;
-            }
-        } 
-    }
-    if($allwod){
+    if(allowed("reading")){
         global $mysql_conf;
         $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
         $query_string = "SELECT map_name FROM maps";
@@ -22,20 +14,12 @@ $map_actions['get_all'] = function(){
             print_r($json_results);
         }
     }else{
-        $respons['msg'] = 'dinaid';
+        $respons['msg'] = $_SESSION;
         print_r(json_encode($respons));
     }
 };
 $map_actions['get'] = function(){
-    $allwod = false;
-    if(!empty($_SESSION['permissions'])){
-        foreach($_SESSION['permissions'] as $corrent){
-            if($corrent == "reading"){
-                $allwod = true;
-            }
-        } 
-    }
-    if($allwod){
+    if(allowed("reading")){
         $map_name = $_POST['map_name'];
         global $mysql_conf;
         $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
@@ -54,20 +38,12 @@ $map_actions['get'] = function(){
     }
 };
 $map_actions['create'] = function(){
-    $allwod = false;
-    if(!empty($_SESSION['permissions'])){
-        foreach($_SESSION['permissions'] as $corrent){
-            if($corrent == "writing"){
-                $allwod = true;
-            }
-        } 
-    }
-    if($allwod){
+    if(allowed('writing')){
         $map_name = $_POST['map_name'];
         $rows_number = $_POST['rows_number'];
         $columns_number = $_POST['columns_number']; 
         if(!empty($map_name) && !empty($rows_number) && !empty($columns_number)){
-            global $mysql_conf;
+        global $mysql_conf;
         $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
             $query_string = "INSERT INTO maps(map_name, rows_number, columns_number) VALUES('{$map_name}', '{$rows_number}', '{$columns_number}')";
             if(mysqli_query($connection, $query_string)){

@@ -1,86 +1,64 @@
 <?php
 
 $seat_actions['create'] = function(){
-    $allwod = false;
-    if(!empty($_SESSION['permissions'])){
-        foreach($_SESSION['permissions'] as $corrent){
-            if($corrent == "writing"){
-                $allwod = true;
-            }
-        } 
-    }
-    global $mysql_conf;
-    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
-    $map_name = $_POST['map_name'];
-    $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
-    if($result = mysqli_query($connection, $query_string)){
-        $results = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    }
-    $map_id = $results['id'];    
-    $row_num = $_POST['row'];
-    $col_num = $_POST['col'];
-    $query_string = "INSERT INTO seats(belong, row_num, col_num) VALUES('{$map_id}', '{$row_num}', '{$col_num}')";
-    if(!$result = mysqli_query($connection, $query_string)){
-        $respons['msg'] = 'db error';
-        print_r(json_encode($respons));
-    }else{
-        $respons['msg'] = 'all good';
-        print_r(json_encode($respons));
+    if(allowed('writing')){
+        global $mysql_conf;
+        $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
+        $map_id = $_POST['map_id'];    
+        $row_num = $_POST['row'];
+        $col_num = $_POST['col'];
+        $query_string = "INSERT INTO seats(belong, row_num, col_num) VALUES('{$map_id}', '{$row_num}', '{$col_num}')";
+        if(!$result = mysqli_query($connection, $query_string)){
+            $respons['msg'] = 'db error';
+            print_r(json_encode($respons));
+        }else{
+            $respons['msg'] = 'all good';
+            print_r(json_encode($respons));
+        }
     }
 };
 $seat_actions['get_all'] = function(){
-    $allwod = false;
-    if(!empty($_SESSION['permissions'])){
-        foreach($_SESSION['permissions'] as $corrent){
-            if($corrent == "reading"){
-                $allwod = true;
-            }
-        } 
-    }
-    $map_name = $_POST['map_name'];
-    global $mysql_conf;
-    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
-    $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
-    if($result = mysqli_query($connection, $query_string)){
-        $map_results = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    }
-    $map_id = $map_results['id'];
-    $query_string = "SELECT * FROM seats WHERE belong='{$map_id}'";
-    if($seats_result = mysqli_query($connection, $query_string)){
-        $seats_results = mysqli_fetch_all($seats_result, MYSQLI_ASSOC);
-    }
-    $arr_con = count($seats_results);
-    for($i = 0; $i < $arr_con; $i++){
-        $seat_id = $seats_results[$i]['id'];
-        $query_string = "SELECT * FROM belong WHERE seat='{$seat_id}'";
-        if($result = mysqli_query($connection, $query_string)){
-            if(mysqli_num_rows($result)){
-                $belong_result = mysqli_fetch_array($result, MYSQLI_ASSOC);
-                $seats_results[$i]['guest_id'] = $belong_result['guest'];
-            }                    
+    if(allowed("reading")){
+        global $mysql_conf;
+        $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
+        $map_id = $_POST['map_id'];
+        $query_string = "SELECT * FROM seats WHERE belong='{$map_id}'";
+        if($seats_result = mysqli_query($connection, $query_string)){
+            $seats_results = mysqli_fetch_all($seats_result, MYSQLI_ASSOC);
         }
+        $arr_con = count($seats_results);
+        for($i = 0; $i < $arr_con; $i++){
+            $seat_id = $seats_results[$i]['id'];
+            $query_string = "SELECT * FROM belong WHERE seat='{$seat_id}'";
+            if($result = mysqli_query($connection, $query_string)){
+                if(mysqli_num_rows($result)){
+                    $belong_result = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                    $seats_results[$i]['guest_id'] = $belong_result['guest'];
+                }                    
+            }
+        }
+        $seats_results_json = json_encode($seats_results);
+        print_r($seats_results_json);
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
     }
-    $seats_results_json = json_encode($seats_results);
-    print_r($seats_results_json);
 };
 $seat_actions['add_number'] = function(){
-    $allwod = false;
-    if(!empty($_SESSION['permissions'])){
-        foreach($_SESSION['permissions'] as $corrent){
-            if($corrent == "writing"){
-                $allwod = true;
-            }
-        } 
-    }
-    echo $_POST['seat_number'];
-    global $mysql_conf;
-    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
-    $seat_id = $_POST['seat_id'];
-    $seat_number = $_POST['seat_number'];
-    $query_string = "UPDATE seats SET seat_number = '{$seat_number}' WHERE seats.id = '{$seat_id}';";
-    if(!mysqli_query($connection, $query_string)){
-        echo 'sql error';
+    if(allowed('writing')){
+        echo $_POST['seat_number'];
+        global $mysql_conf;
+        $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
+        $seat_id = $_POST['seat_id'];
+        $seat_number = $_POST['seat_number'];
+        $query_string = "UPDATE seats SET seat_number = '{$seat_number}' WHERE seats.id = '{$seat_id}';";
+        if(!mysqli_query($connection, $query_string)){
+            echo 'sql error';
+        }else{
+            echo 'all good';
+        }
     }else{
-        echo 'all good';
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
     }
 };

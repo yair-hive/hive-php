@@ -25,12 +25,13 @@ switch(parsedUrl.pathname){
         selection.enable()
         var map_name = parsedUrl.searchParams.get("map_name")
         $('title').append(map_name)
-        let map_data = {}
-        let guests_data = {}
+        var map_data = {}
+        var guests_data = {}
+        var map_id = map_data.id
         get_map(map_name).then(map => {add_map(map); map_data = map})
-        .then(() => get_seats(map_name))
+        .then(() => get_seats(map_id))
         .then(seats => add_seats(seats))
-        .then(() => get_guests(map_name))
+        .then(() => get_guests(map_id))
         .then((guests) => {add_guests(guests); guests_data = guests})
         .then(()=>{
             selection.resolveSelectables()
@@ -91,61 +92,71 @@ switch(parsedUrl.pathname){
         break;
     case base_path+'guest_seat_num.html':
         var map_name = parsedUrl.searchParams.get("map_name")
-        get_guest_seat_num(map_name)
-        .then(respons => respons.json())
-        .then((belongs_list)=>{
-            var list_table = $('<table>').attr('id', 'list_table')                
-            var tr = $('<tr>')
-            .append($('<th>').text('מספר כיסא'))
-            .append($('<th>').text('שיעור')) 
-            .append($('<th>').text('שם פרטי'))
-            .append($('<th>').text('שם משפחה'))
-            $(list_table).append(tr)
-            for(let bel of belongs_list){ 
+        var map_id = ''
+        get_map(map_name)
+        .then(res => map_id = res.id)
+        .then(()=>{
+            get_guest_seat_num(map_id)
+            .then(respons => respons.json())
+            .then((belongs_list)=>{
+                var list_table = $('<table>').attr('id', 'list_table')                
                 var tr = $('<tr>')
-                .append($('<td>').text(bel.seat_num))
-                .append($('<td>').text(bel.guest_group)) 
-                .append($('<td>').text(bel.guest_first_name))
-                .append($('<td>').text(bel.guest_last_name))                      
+                .append($('<th>').text('מספר כיסא'))
+                .append($('<th>').text('שיעור')) 
+                .append($('<th>').text('שם פרטי'))
+                .append($('<th>').text('שם משפחה'))
                 $(list_table).append(tr)
-            }
-            $('#table-container').append(list_table)
-        })
-        document.getElementById('export').addEventListener('click', ()=>{
-            $(list_table).table2excel({
-                filename: "list.xls"
-            });
+                for(let bel of belongs_list){ 
+                    var tr = $('<tr>')
+                    .append($('<td>').text(bel.seat_num))
+                    .append($('<td>').text(bel.guest_group)) 
+                    .append($('<td>').text(bel.guest_first_name))
+                    .append($('<td>').text(bel.guest_last_name))                      
+                    $(list_table).append(tr)
+                }
+                $('#table-container').append(list_table)
+            })
+            document.getElementById('export').addEventListener('click', ()=>{
+                $(list_table).table2excel({
+                    filename: "list.xls"
+                });
+            })
         })
         break;
     case base_path+'add_guests.html':
         var map_name = parsedUrl.searchParams.get("map_name")
-        document.getElementById('loader').style.display = 'none'
-        document.getElementById('loader-container').style.display = 'none'
-        document.getElementById('add_guest_button').addEventListener('click', ()=>{
-            var data = []
-            data[0] = document.getElementById('add_guest_form')['first_name'].value
-            data[1] = document.getElementById('add_guest_form')['last_name'].value
-            data[2] = document.getElementById('add_guest_form')['guest_group'].value
-            post_guest(data, map_name)
-            .then((respos)=>{
-                alert(respos.msg); 
-                document.getElementById('add_guest_form').reset()
+        var map_id = ''
+        get_map(map_name)
+        .then(res => map_id = res.id)
+        .then(()=>{
+            document.getElementById('loader').style.display = 'none'
+            document.getElementById('loader-container').style.display = 'none'
+            document.getElementById('add_guest_button').addEventListener('click', ()=>{
+                var data = []
+                data[0] = document.getElementById('add_guest_form')['first_name'].value
+                data[1] = document.getElementById('add_guest_form')['last_name'].value
+                data[2] = document.getElementById('add_guest_form')['guest_group'].value
+                post_guest(data, map_id)
+                .then((respos)=>{
+                    alert(respos.msg); 
+                    document.getElementById('add_guest_form').reset()
+                })
             })
-        })
-        document.getElementById('submit').addEventListener('click', ()=>{
-            var file = document.getElementById('file').files[0] 
-            document.getElementById('loader').style.display = 'block'
-            document.getElementById('loader-container').style.display = 'block'    
-            readXlsxFile(file)
-			.then((rows)=>{
-				for(let row of rows){
-                    post_guest(row, map_name)
-                }
-			})
-            .then(()=>{
-                document.getElementById('loader').style.display = 'none'
-                document.getElementById('loader-container').style.display = 'none'
-             })
+            document.getElementById('submit').addEventListener('click', ()=>{
+                var file = document.getElementById('file').files[0] 
+                document.getElementById('loader').style.display = 'block'
+                document.getElementById('loader-container').style.display = 'block'    
+                readXlsxFile(file)
+                .then((rows)=>{
+                    for(let row of rows){
+                        post_guest(row, map_id)
+                    }
+                })
+                .then(()=>{
+                    document.getElementById('loader').style.display = 'none'
+                    document.getElementById('loader-container').style.display = 'none'
+                 })
+            })
         })
         break;
     case base_path+'login.html':
@@ -156,46 +167,42 @@ switch(parsedUrl.pathname){
     case base_path+'get_guests.html':
         var map_name = parsedUrl.searchParams.get("map_name")
         var table = document.getElementById('names_table')
-        get_guests(map_name)
-        .then((names)=>{
-            for(let name of names){
-                var color
-                check_belong(name.id)
-                .then((msg)=>{
-                    if(msg.msg == 'true'){
-                        color = 'green'
-                    }else{
-                        color = 'grey'
-                    }
-                })
-                .then(()=>{
-                    var td = document.createElement('td')
-                    td.style.backgroundColor = color
-                    var tdX = document.createElement('td')
-                    tdX.style.backgroundColor = 'red'
-                    tdX.textContent = 'X'
-                    tdX.addEventListener('click', ()=>{
-                        delete_guest(name.id)
-                        .then(window.location.reload())
+        var map_id = ''
+        get_map(map_name)
+        .then(res => map_id = res.id)
+        .then(()=>{
+            get_guests(map_id)
+            .then((names)=>{
+                for(let name of names){
+                    var color
+                    check_belong(name.id)
+                    .then((msg)=>{
+                        if(msg.msg == 'true'){
+                            color = 'green'
+                        }else{
+                            color = 'grey'
+                        }
                     })
-                    var tr = $('<tr>')
-                    .append(td)
-                    .append($('<td>').text(name.last_name))
-                    .append($('<td>').text(name.first_name))
-                    .append($('<td>').text(name.group))
-                    .append(tdX)
-                    $(table).append(tr)
-                })
-            }
-        })
-        break;
-    case base_path+'edit_user.html':
-        var user_name = parsedUrl.searchParams.get("user_name")
-        document.getElementById('edit_user').addEventListener('click', ()=>{
-            var permission = document.getElementById('permission_name').value
-            add_permission(user_name, permission)
-            .then((respons) => respons.text())
-            .then((res) => alert(res))
+                    .then(()=>{
+                        var td = document.createElement('td')
+                        td.style.backgroundColor = color
+                        var tdX = document.createElement('td')
+                        tdX.style.backgroundColor = 'red'
+                        tdX.textContent = 'X'
+                        tdX.addEventListener('click', ()=>{
+                            delete_guest(name.id)
+                            .then(window.location.reload())
+                        })
+                        var tr = $('<tr>')
+                        .append(td)
+                        .append($('<td>').text(name.last_name))
+                        .append($('<td>').text(name.first_name))
+                        .append($('<td>').text(name.group))
+                        .append(tdX)
+                        $(table).append(tr)
+                    })
+                }
+            })
         })
         break;
 }

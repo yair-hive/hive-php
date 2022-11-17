@@ -32,10 +32,10 @@ export const get_map = (map_name)=>{
         return response.json()
     })
 }
-export const get_seats = (map_name)=>{
+export const get_seats = (map_id)=>{
     const options = {
         method: 'POST',
-        body: "category=seat&action=get_all&map_name="+map_name,
+        body: "category=seat&action=get_all&map_id="+map_id,
         mode: 'no-cors',
         credentials: 'include',
         headers: {
@@ -48,10 +48,10 @@ export const get_seats = (map_name)=>{
         return response.json()
     })
 }
-export const get_guests = (map_name)=>{
+export const get_guests = (map_id)=>{
     const options = {
         method: 'POST',
-        body: "category=guest&action=get_all&map_name="+map_name,
+        body: "category=guest&action=get_all&map_id="+map_id,
         mode: 'no-cors',
         credentials: 'include',
         headers: {
@@ -77,10 +77,10 @@ export const post_map = () => {
     return fetch(api_url, options)
     .then(()=>{window.location.replace('http://localhost/hive-php/html/maps.html')})
 }
-export const post_seat = (map_name, row, col)=>{
+export const post_seat = (map_id, row, col)=>{
     const options = {
         method: 'POST',
-        body: "category=seat&action=create&map_name="+map_name+"&row="+row+"&col="+col,
+        body: "category=seat&action=create&map_id="+map_id+"&row="+row+"&col="+col,
         mode: 'no-cors',
         credentials: 'include',
         headers: {
@@ -89,10 +89,10 @@ export const post_seat = (map_name, row, col)=>{
     }
     return fetch(api_url, options)
 }
-export const post_guest = (data, map_name)=>{
+export const post_guest = (data, map_id)=>{
     const options = {
         method: 'POST',
-        body: "category=guest&action=create&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_name="+map_name,
+        body: "category=guest&action=create&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_id="+map_id,
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
@@ -114,10 +114,10 @@ export const add_seat_number = (seat_id, seat_number)=>{
     }
     return fetch(api_url, options)
 }
-export const add_guest = (selected_guest_id, selected_seat_class, map_name)=>{
+export const add_guest = (selected_guest_id, selected_seat_class, map_id)=>{
     const options = {
         method: 'POST',
-        body: "category=guest&action=add&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_name="+map_name,
+        body: "category=guest&action=add&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_id="+map_id,
         mode: 'no-cors',
         credentials: 'include',
         headers: {
@@ -244,10 +244,10 @@ export const delete_guest = (guest_id)=>{
     })
 }
 
-export const get_guest_seat_num = (map_name)=>{
+export const get_guest_seat_num = (map_id)=>{
     const options = {
         method: 'POST',
-        body: "category=all&action=get_guest_seat_num&map_name="+map_name,
+        body: "category=all&action=get_guest_seat_num&map_id="+map_id,
         mode: 'no-cors',
         credentials: 'include',
         headers: {
