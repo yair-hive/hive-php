@@ -27,8 +27,8 @@ switch(parsedUrl.pathname){
         $('title').append(map_name)
         var map_data = {}
         var guests_data = {}
-        var map_id = map_data.id
-        get_map(map_name).then(map => {add_map(map); map_data = map})
+        var map_id = ''
+        get_map(map_name).then(map => {add_map(map); map_data = map; map_id = map.id })
         .then(() => get_seats(map_id))
         .then(seats => add_seats(seats))
         .then(() => get_guests(map_id))

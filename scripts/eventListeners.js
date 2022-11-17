@@ -197,7 +197,8 @@ export const onAddPermission = (event)=>{
             var user_id = list_td.getAttribute('user_id')
             add_permission(user_id, select.value)
             .then(res => res.json())
-            .then(res => console.log(res))
+            .then(res => alert(res.msg))
+            .then(()=> window.location.reload())
         })
         if(list_td.getAttribute('state') == 'on'){ 
             list_td.setAttribute('state', 'off')      
