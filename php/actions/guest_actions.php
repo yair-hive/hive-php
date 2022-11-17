@@ -51,7 +51,7 @@ $guest_actions['get_all'] = function(){
     $allwod = false;
     if(!empty($_SESSION['permissions'])){
         foreach($_SESSION['permissions'] as $corrent){
-            if($corrent == "read"){
+            if($corrent == "reading"){
                 $allwod = true;
             }
         } 

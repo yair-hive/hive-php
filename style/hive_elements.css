@@ -3,7 +3,6 @@
     border-radius: 5px;
     user-select: none;
     cursor: pointer;
-    height: 30px;
     text-decoration: none;
     color: black;
     text-align: center;
@@ -11,6 +10,7 @@
     font-weight: bold;
     padding: 10px;
     margin: 10px;
+    border: solid 0.5px rgb(87, 87, 87);
     background-color: rgb(119, 224, 224);
 }
 .hive-button:hover{

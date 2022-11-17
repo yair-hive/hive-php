@@ -1,6 +1,6 @@
-import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num, get_users, add_permission, check_belong, delete_guest } from "./api.js"
+import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num, get_users, add_permission, check_belong, delete_guest, get_permissions_list } from "./api.js"
 import {add_map, add_seats, add_guests} from "./elements.js"
-import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
+import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
 import "./lib/jquery.min.js"
@@ -63,13 +63,29 @@ switch(parsedUrl.pathname){
         })
         break;
     case base_path+'users.html':
-        var users_list = document.getElementById('users_list')
+        var users_table = document.getElementById('users_table')
         get_users()
         .then((users)=>{
             for(let user of users){
-                var li = $('<li>')
-                .append($('<a>').attr('href', `edit_user.html?user_name=${user}`).text(user))
-                $(users_list).append(li)
+                var tr = document.createElement('tr')
+                var td_user_name = document.createElement('td')
+                td_user_name.textContent = user.user_name
+                var td_permissions = document.createElement('td')         
+                var list_td = document.createElement('div')
+                list_td.addEventListener('click', onAddPermission)
+                list_td.classList.add('list_td')
+                list_td.setAttribute('id', 'list_td') 
+                list_td.setAttribute('state', 'on') 
+                list_td.setAttribute('user_id', user.id)            
+                if(user.permissions){
+                    list_td.innerHTML = '<span class="permission_name">'+user.permissions.join('</span><span class="permission_name">')+'</span>'
+                }else{
+                    list_td.innerHTML = '<span class="permission_name none"> none </span>'
+                }
+                td_permissions.append(list_td)
+                tr.append(td_user_name)
+                tr.append(td_permissions)
+                $(users_table).append(tr)                
             }
         })
         break;

@@ -10,18 +10,66 @@
     <link rel="stylesheet" href="../style/scrollbar.css">
     <link rel="stylesheet" href="../style/table.css">
     <script src="../scripts/main.js" type="module" defer></script>
+    <style>
+        table{
+            min-width: 600px;
+        }
+        #mainBord{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        td{
+            align-items: center;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        .permission_name{
+            background-color: thistle;
+            margin: 2px;
+            padding: 5px;
+            font-size: 15px;
+            color: gray;
+            border-radius: 2px;
+        }
+        .list_td{
+            display: flex;
+            justify-content: center;
+            user-select: none;
+            height: 100%; 
+        }
+        .users-button{
+            font-size: 15px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin: 2px;
+        }
+        .none{
+            border: solid 1px crimson;
+            color: crimson;
+        }
+    </style>
     <title> hive | רשימת משתמשים </title>
 </head>
 <body>
     <div id="content">
         <div id="topBar">
-            <div id="user_element" class="user_icon"> לא מחובר </div>
+            <div id="user_element" class="user_icon" onclick="location.href='http://localhost/hive-php/html/login.html'"> לא מחובר </div>
             <ul>
                 <li><a href="http://localhost/hive-php/html/maps.html" class="hive-button"> מפות </a></li>               
             </ul>
         </div>
         <div id="mainBord">
-            <ul id="users_list"></ul>
+            <table id="users_table">
+                <tr>
+                    <th> שם משתמש </th>
+                    <th> הרשאות </th>
+                </tr>
+            </table>
         </div>
         <div id="mneu"> </div>
     </div>

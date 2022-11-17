@@ -39,7 +39,7 @@ CREATE TABLE `permissions` (
 
 INSERT INTO `permissions` (`id`, `user`, `permission`) VALUES
 (1, 1, 'super'),
-(2, 1, 'read'),
+(2, 1, 'reading'),
 (3, 1, 'writing');
 
 --

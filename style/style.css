@@ -50,6 +50,11 @@ a:hover{
 }
 .user_icon{
     padding-left: 50px;
+    user-select: none;
+}
+.user_icon:hover{
+    cursor: pointer;
+    color: rgb(241, 210, 151);
 }
 #mainBord{
     overflow: auto;

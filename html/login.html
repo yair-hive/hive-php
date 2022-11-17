@@ -14,7 +14,7 @@
 <body>
     <div id="content">
         <div id="topBar">
-            <div id="user_element" class="user_icon"> לא מחובר </div>
+            <div id="user_element" class="user_icon" onclick="location.href='http://localhost/hive-php/html/login.html'"> לא מחובר </div>
             <ul>
                 <li><a href="http://localhost/hive-php/html/maps.html" class="hive-button"> מפות </a></li>               
             </ul>
@@ -28,11 +28,13 @@
                 <input type='text' name='password'>
                 <br /> 
             <form>
-            <div id="login_button" class="hive-button"> login </div>
-            <div id="logout_button" class="hive-button"> logout </div>
-            <div id="sginup_button" class="hive-button"> sginup </div>
+            <div id="login_button" class="hive-button"> התחבר </div>
+            <div id="logout_button" class="hive-button"> צא </div>
+            <div id="sginup_button" class="hive-button"> הרשם </div>
         </div>
-        <div id="mneu"></div>
+        <div id="mneu">
+            <div class="hive-button" onclick="location.href='http://localhost/hive-php/html/users.html'"> רשימת משתמשים </div>
+        </div>
     </div>
 </body>
 </html>

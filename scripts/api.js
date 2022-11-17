@@ -180,10 +180,21 @@ export const get_users = ()=>{
         return response.json()
     })
 }
-export const add_permission = (user_name, permission)=>{
+export const add_permission = (user_id, permission)=>{
     const options = {
         method: 'POST',
-        body: "category=user&action=add_permission&user_name="+user_name+"&permission="+permission,
+        body: "category=user&action=add_permission&user_id="+user_id+"&permission="+permission,
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+      
+    return fetch(api_url, options)
+}
+export const get_permissions_list = ()=>{
+    const options = {
+        method: 'POST',
+        body: "category=user&action=get_permissions_list",
         headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
