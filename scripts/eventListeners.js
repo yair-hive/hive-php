@@ -202,8 +202,7 @@ export const onAddPermission = (event)=>{
         })
         if(list_td.getAttribute('state') == 'on'){ 
             list_td.setAttribute('state', 'off')      
-            get_permissions_list()
-            .then(res => res.json())
+            get_permissions_list()            
             .then((permissions)=>{
                 var option = document.createElement('option')
                 option.setAttribute('value', 'none')

@@ -12,10 +12,7 @@ export const get_maps = ()=>{
     };
       
     return fetch(api_url, options)
-    .then((response) => {
-        // console.log(response.text())
-        return response.json()
-    })
+    .then(res => res.json())
 }
 export const get_map = (map_name)=>{
     const options = {
@@ -27,10 +24,7 @@ export const get_map = (map_name)=>{
     };
       
     return fetch(api_url, options)
-    .then((response) => {
-        // console.log(response.text())
-        return response.json()
-    })
+    .then(res => res.json())
 }
 export const get_seats = (map_id)=>{
     const options = {
@@ -44,9 +38,7 @@ export const get_seats = (map_id)=>{
     };
       
     return fetch(api_url, options)
-    .then((response) => {
-        return response.json()
-    })
+    .then(res => res.json())
 }
 export const get_guests = (map_id)=>{
     const options = {
@@ -60,9 +52,7 @@ export const get_guests = (map_id)=>{
     };
       
     return fetch(api_url, options)
-    .then((response) => {
-        return response.json()
-    })
+    .then(res => res.json())
 }
 export const post_map = () => {
     const options = {
@@ -88,6 +78,7 @@ export const post_seat = (map_id, row, col)=>{
         }
     }
     return fetch(api_url, options)
+    .then(res => res.json())
 }
 export const post_guest = (data, map_id)=>{
     const options = {
@@ -98,9 +89,7 @@ export const post_guest = (data, map_id)=>{
         }
     };
     return fetch(api_url, options)
-    .then((response) => {
-        return response.json();
-    })
+    .then(res => res.json())
 }
 export const add_seat_number = (seat_id, seat_number)=>{
     const options = {
@@ -113,6 +102,7 @@ export const add_seat_number = (seat_id, seat_number)=>{
         }
     }
     return fetch(api_url, options)
+    .then(res => res.json())
 }
 export const add_guest = (selected_guest_id, selected_seat_class, map_id)=>{
     const options = {
@@ -125,6 +115,7 @@ export const add_guest = (selected_guest_id, selected_seat_class, map_id)=>{
         }
     }
     return fetch(api_url, options)
+    .then(res => res.json())
 }
 export const login = ()=>{
     const options = {
@@ -135,9 +126,7 @@ export const login = ()=>{
         }
     };
     return fetch(api_url, options)
-    .then((response) => {
-        return response.json();
-    })
+    .then(res => res.json())
 }
 export const sginup = ()=>{
     const options = {
@@ -148,9 +137,7 @@ export const sginup = ()=>{
         }
     };
     return fetch(api_url, options)
-    .then((response) => {
-        return response.json();
-    })
+    .then(res => res.json())
 }
 export const get_user = ()=>{
     const options = {
@@ -161,9 +148,7 @@ export const get_user = ()=>{
         }
     };
     return fetch(api_url, options)
-    .then((response) => {
-        return response.json();
-    })
+    .then(res => res.json())
 }
 export const get_users = ()=>{
     const options = {
@@ -175,10 +160,7 @@ export const get_users = ()=>{
     };
       
     return fetch(api_url, options)
-    .then((response) => {
-        // console.log(response.text())
-        return response.json()
-    })
+    .then(res => res.json())
 }
 export const add_permission = (user_id, permission)=>{
     const options = {
@@ -190,6 +172,7 @@ export const add_permission = (user_id, permission)=>{
     };
       
     return fetch(api_url, options)
+    .then(res => res.json())
 }
 export const get_permissions_list = ()=>{
     const options = {
@@ -201,6 +184,7 @@ export const get_permissions_list = ()=>{
     };
       
     return fetch(api_url, options)
+    .then(res => res.json())
 }
 export const logout = ()=>{
     const options = {
@@ -211,9 +195,7 @@ export const logout = ()=>{
         }
     };
     return fetch(api_url, options)
-    .then((response) => {
-        return response.json();
-    })
+    .then(res => res.json())
 }
 
 export const check_belong = (guest_id)=>{
@@ -225,9 +207,7 @@ export const check_belong = (guest_id)=>{
         }
     };
     return fetch(api_url, options)
-    .then((response) => {
-        return response.json();
-    })
+    .then(res => res.json())
 }
 export const delete_guest = (guest_id)=>{
     const options = {
@@ -238,10 +218,7 @@ export const delete_guest = (guest_id)=>{
         }
     };
     return fetch(api_url, options)
-    .then((response) => {
-        // console.log(response.json())
-        return response.json();
-    })
+    .then(res => res.json())
 }
 
 export const get_guest_seat_num = (map_id)=>{
@@ -255,4 +232,5 @@ export const get_guest_seat_num = (map_id)=>{
         }
     }
     return fetch(api_url, options)
+    .then(res => res.json())
 }
