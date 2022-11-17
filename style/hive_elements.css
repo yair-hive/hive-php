@@ -17,6 +17,7 @@
     background-color: #7a93b9;
 }
 .hive-switch, .hive-switch:hover{
+    border: none;
     background-color:  rgb(120, 140, 228);
     padding: 0px;
     display: flex;
@@ -34,4 +35,12 @@
 }
 .hive-switch > div:hover{
     color: white;
+}
+.hive-switch-1{
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+}
+.hive-switch-2{
+    border-left: none;
+    border-radius: 0 5px 5px 0;
 }
