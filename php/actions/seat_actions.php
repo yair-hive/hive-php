@@ -2,8 +2,7 @@
 
 $seat_actions['create'] = function(){
     if(allowed('writing')){
-        global $mysql_conf;
-        $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
+        global $connection;    
         $map_id = $_POST['map_id'];    
         $row_num = $_POST['row'];
         $col_num = $_POST['col'];
@@ -19,8 +18,7 @@ $seat_actions['create'] = function(){
 };
 $seat_actions['get_all'] = function(){
     if(allowed("reading")){
-        global $mysql_conf;
-        $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
+        global $connection;        
         $map_id = $_POST['map_id'];
         $query_string = "SELECT * FROM seats WHERE belong='{$map_id}'";
         if($seats_result = mysqli_query($connection, $query_string)){
@@ -47,8 +45,7 @@ $seat_actions['get_all'] = function(){
 $seat_actions['add_number'] = function(){
     if(allowed('writing')){
         echo $_POST['seat_number'];
-        global $mysql_conf;
-        $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);     
+        global $connection;        
         $seat_id = $_POST['seat_id'];
         $seat_number = $_POST['seat_number'];
         $query_string = "UPDATE seats SET seat_number = '{$seat_number}' WHERE seats.id = '{$seat_id}';";

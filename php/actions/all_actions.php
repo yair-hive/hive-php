@@ -2,8 +2,7 @@
 
 $all_actions['get_guest_seat_num'] = function(){
     if(allowed("reading")){
-        global $mysql_conf;
-        $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
+        global $connection;     
         $map_id = $_POST['map_id'];
         $query_string = "SELECT * FROM belong WHERE map_belong = '{$map_id}'";
         if($result = mysqli_query($connection, $query_string)){

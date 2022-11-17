@@ -6,8 +6,7 @@ $permissions_list[] = 'reading';
 $permissions_list[] = 'writing';
 
 $user_actions['login'] = function(){
-    global $mysql_conf;
-    $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);               
+    global $connection;              
     if(!empty($_POST['user_name'])){
         $user_name = $_POST['user_name']; 
         $password = $_POST['password'];
@@ -58,8 +57,7 @@ $user_actions['get'] = function(){
     }
 };
 $user_actions['get_all'] = function(){
-    global $mysql_conf;
-    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
+    global $connection;  
     $query_string = "SELECT * FROM users";
     if($result = mysqli_query($connection, $query_string)){
         $results = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -92,8 +90,7 @@ $user_actions['logout'] = function(){
     print_r(json_encode($respons));
 };
 $user_actions['sginup'] = function(){
-    global $mysql_conf;
-    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);  
+    global $connection;  
     if(!empty($_POST['user_name']) && !empty($_POST['password'])){
         $user_name = $_POST['user_name'];
         $password = $_POST['password'];
@@ -111,21 +108,12 @@ $user_actions['sginup'] = function(){
         print_r(json_encode($respons));
     }
 };
-$user_actions['add_permission'] = function(){
-    global $mysql_conf;
-    $connection = $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);               
-    if(!empty($_POST['user_id']) && !empty($_POST['permission'])){
-        $user_id = $_POST['user_id'];
-        $permission = $_POST['permission'];
-        $allwod = false;
-        if(!empty($_SESSION['permissions'])){
-            foreach($_SESSION['permissions'] as $corrent){
-                if($corrent == "super"){
-                    $allwod = true;
-                }
-            } 
-        }
-        if($allwod){
+$user_actions['add_permission'] = function(){  
+    global $connection;
+    if(allowed("super")){               
+        if(!empty($_POST['user_id']) && !empty($_POST['permission'])){
+            $user_id = $_POST['user_id'];
+            $permission = $_POST['permission'];        
             $query_string = "INSERT INTO permissions(user, permission) VALUES('{$user_id}', '{$permission}')";
             if(mysqli_query($connection, $query_string)){
                 $respons['msg'] = 'all ok';
@@ -134,10 +122,10 @@ $user_actions['add_permission'] = function(){
                 $respons['msg'] = 'db error';
                 print_r(json_encode($respons));
             }
-        }else{
-            $respons['msg'] = 'faild';
-            print_r(json_encode($respons));
         }
+    }else{
+        $respons['msg'] = 'faild';
+        print_r(json_encode($respons));
     }
 };
 $user_actions['get_permissions_list'] = function(){
@@ -145,8 +133,7 @@ $user_actions['get_permissions_list'] = function(){
     print_r(json_encode($permissions_list));
 };
 $user_actions['get_permission'] = function(){
-    global $mysql_conf;
-    $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);      
+    global $connection;    
     if(!empty($_POST['user_id'])){
         $user_id = $_POST['user_id'];
         $permissions = [];
