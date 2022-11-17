@@ -85,7 +85,8 @@ $guest_actions['add'] = function(){
         if(!mysqli_query($connection, $query_string)){
             echo 'sql error';
         }else{
-            echo 'all good';
+            $respons['msg'] = 'ok';
+            print_r(json_encode($respons));
         }
     }else{
         $respons['msg'] = 'dinaid';
@@ -120,8 +121,14 @@ $guest_actions['delete'] = function(){
             global $connection;   
             $query_string = "DELETE FROM guests WHERE id='{$guest_id}'";
             if($result = mysqli_query($connection, $query_string)){
-                $respons['msg'] = 'true';
-                print_r(json_encode($respons));
+                $query_string = "DELETE FROM belong WHERE guest='{$guest_id}'";
+                if($result = mysqli_query($connection, $query_string)){
+                    $respons['msg'] = 'ok';
+                    print_r(json_encode($respons));
+                }else{
+                    $respons['msg'] = 'db error';
+                    print_r(json_encode($respons));
+                }
             }else{
                 $respons['msg'] = 'db error';
                 print_r(json_encode($respons));

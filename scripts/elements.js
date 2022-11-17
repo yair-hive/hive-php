@@ -1,4 +1,6 @@
+import { delete_guest, check_belong, get_guests, get_map } from "./api.js"
 import "./lib/jquery.min.js"
+import { sortTable } from "./scripts.js"
 
 export const add_map = (map)=>{
     const main_bord = document.getElementById('mainBord')
@@ -65,4 +67,49 @@ export const add_guests = (guests)=>{
             }
         }
     }) 
+}
+export const add_guests_table = (map_name, table)=>{
+    var map_id = ''
+    get_map(map_name)
+    .then(res => map_id = res.id)
+    .then(()=>{
+        get_guests(map_id)
+        .then((names)=>{
+            for(let name of names){
+                var color
+                check_belong(name.id)
+                .then((msg)=>{
+                    if(msg.msg == 'true'){
+                        color = 'green'
+                    }else{
+                        color = 'grey'
+                    }
+                })
+                .then(()=>{
+                    var td = document.createElement('td')
+                    td.style.backgroundColor = color
+                    var tdX = document.createElement('td')
+                    tdX.style.backgroundColor = 'red'
+                    tdX.textContent = 'X'
+                    tdX.addEventListener('click', ()=>{
+                        delete_guest(name.id)
+                        .then(()=>{
+                            table.innerHTML = '<tr><th> סטטוס </th><th> שם משפחה </th><th> שם פרטי </th><th> שיעור </th><th> X </th></tr>'
+                            add_guests_table(map_name, table)
+                        })
+                    })
+                    var tr = $('<tr>')
+                    .append(td)
+                    .append($('<td>').text(name.last_name))
+                    .append($('<td>').text(name.first_name))
+                    .append($('<td>').text(name.group))
+                    .append(tdX)
+                    $(table).append(tr)
+                })
+            }
+        })
+    })
+    .then(()=>{
+        sortTable(table)
+    })
 }

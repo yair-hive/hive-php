@@ -1,5 +1,5 @@
 import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num, get_users, check_belong, delete_guest } from "./api.js"
-import {add_map, add_seats, add_guests} from "./elements.js"
+import {add_map, add_seats, add_guests, add_guests_table} from "./elements.js"
 import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom} from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
@@ -92,12 +92,16 @@ switch(parsedUrl.pathname){
         break;
     case base_path+'guest_seat_num.html':
         var map_name = parsedUrl.searchParams.get("map_name")
+        var go_back = document.createElement('div')
+        go_back.classList.add('hive-button')
+        go_back.textContent = 'חזור למפה'
+        go_back.onclick = ()=>{window.location.replace('http://localhost/hive-php/html/edit_map.html?map_name='+map_name)}
+        document.getElementById('mneu').append(go_back)
         var map_id = ''
         get_map(map_name)
         .then(res => map_id = res.id)
         .then(()=>{
             get_guest_seat_num(map_id)
-            .then(respons => respons.json())
             .then((belongs_list)=>{
                 var list_table = $('<table>').attr('id', 'list_table')                
                 var tr = $('<tr>')
@@ -125,6 +129,11 @@ switch(parsedUrl.pathname){
         break;
     case base_path+'add_guests.html':
         var map_name = parsedUrl.searchParams.get("map_name")
+        var go_back = document.createElement('div')
+        go_back.classList.add('hive-button')
+        go_back.textContent = 'חזור לרשימת שמות'
+        go_back.onclick = ()=>{window.location.replace('http://localhost/hive-php/html/get_guests.html?map_name='+map_name)}
+        document.getElementById('mneu').append(go_back)
         var map_id = ''
         get_map(map_name)
         .then(res => map_id = res.id)
@@ -165,43 +174,12 @@ switch(parsedUrl.pathname){
         break;
     case base_path+'get_guests.html':
         var map_name = parsedUrl.searchParams.get("map_name")
+        var go_back = document.createElement('div')
+        go_back.classList.add('hive-button')
+        go_back.textContent = 'חזור למפה'
+        go_back.onclick = ()=>{window.location.replace('http://localhost/hive-php/html/edit_map.html?map_name='+map_name)}
+        document.getElementById('mneu').append(go_back)
         var table = document.getElementById('names_table')
-        var map_id = ''
-        get_map(map_name)
-        .then(res => map_id = res.id)
-        .then(()=>{
-            get_guests(map_id)
-            .then((names)=>{
-                for(let name of names){
-                    var color
-                    check_belong(name.id)
-                    .then((msg)=>{
-                        if(msg.msg == 'true'){
-                            color = 'green'
-                        }else{
-                            color = 'grey'
-                        }
-                    })
-                    .then(()=>{
-                        var td = document.createElement('td')
-                        td.style.backgroundColor = color
-                        var tdX = document.createElement('td')
-                        tdX.style.backgroundColor = 'red'
-                        tdX.textContent = 'X'
-                        tdX.addEventListener('click', ()=>{
-                            delete_guest(name.id)
-                            .then(window.location.reload())
-                        })
-                        var tr = $('<tr>')
-                        .append(td)
-                        .append($('<td>').text(name.last_name))
-                        .append($('<td>').text(name.first_name))
-                        .append($('<td>').text(name.group))
-                        .append(tdX)
-                        $(table).append(tr)
-                    })
-                }
-            })
-        })
+        add_guests_table(map_name, table)
         break;
 }
