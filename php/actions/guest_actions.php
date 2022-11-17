@@ -13,7 +13,7 @@ $guest_actions['create'] = function(){
                 if(mysqli_num_rows($result) == 0){
                     $query_string = "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group}', '{$map_id}')";
                     if(mysqli_query($connection, $query_string)){
-                        $respons['msg'] = 'all ok';
+                        $respons['msg'] = 'ok';
                         print_r(json_encode($respons));
                     }else{
                         $respons['msg'] = 'db error';
@@ -51,8 +51,10 @@ $guest_actions['get_all'] = function(){
                 $guest_array['group'] = $guest['guest_group'];
                 $guests_list[] = $guest_array;
             }
-            $guests_list_json = json_encode($guests_list);
-            print_r($guests_list_json);
+            $respons['msg'] = 'ok';
+            $respons['data'] = $guests_list;
+            $json_results = json_encode($respons);
+            print_r($json_results);
         }else{
             echo 'sql error';
         }

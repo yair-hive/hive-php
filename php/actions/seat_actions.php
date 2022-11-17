@@ -11,9 +11,12 @@ $seat_actions['create'] = function(){
             $respons['msg'] = 'db error';
             print_r(json_encode($respons));
         }else{
-            $respons['msg'] = 'all good';
+            $respons['msg'] = 'ok';
             print_r(json_encode($respons));
         }
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
     }
 };
 $seat_actions['get_all'] = function(){
@@ -35,8 +38,10 @@ $seat_actions['get_all'] = function(){
                 }                    
             }
         }
-        $seats_results_json = json_encode($seats_results);
-        print_r($seats_results_json);
+        $respons['msg'] = 'ok';
+        $respons['data'] = $seats_results;
+        $json_results = json_encode($respons);
+        print_r($json_results);
     }else{
         $respons['msg'] = 'dinaid';
         print_r(json_encode($respons));

@@ -9,11 +9,13 @@ $map_actions['get_all'] = function(){
             foreach($results as $row){
                 $new_results_array[] = $row['map_name'];
             }
-            $json_results = json_encode($new_results_array);
+            $respons['msg'] = 'ok';
+            $respons['data'] = $new_results_array;
+            $json_results = json_encode($respons);
             print_r($json_results);
         }
     }else{
-        $respons['msg'] = $_SESSION;
+        $respons['msg'] = 'dinaid';
         print_r(json_encode($respons));
     }
 };
@@ -24,8 +26,10 @@ $map_actions['get'] = function(){
         $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
         if($result = mysqli_query($connection, $query_string)){
             $map_results = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            $map_results_json = json_encode($map_results);
-            print_r($map_results_json);
+            $respons['msg'] = 'ok';
+            $respons['data'] = $map_results;
+            $json_results = json_encode($respons);
+            print_r($json_results);
         }else{
             $respons['msg'] = 'db error';
             print_r(json_encode($respons));
@@ -44,12 +48,15 @@ $map_actions['create'] = function(){
         global $connection;     
             $query_string = "INSERT INTO maps(map_name, rows_number, columns_number) VALUES('{$map_name}', '{$rows_number}', '{$columns_number}')";
             if(mysqli_query($connection, $query_string)){
-                echo 'all good';
+                $respons['msg'] = 'ok';
+                print_r(json_encode($respons));
             }else{
-                echo 'db error';
+                $respons['msg'] = 'db error';
+                print_r(json_encode($respons));
             }
         }else{
-            echo 'faild empty';
+            $respons['msg'] = 'faild empty';
+            print_r(json_encode($respons));;
         }
     }else{
         $respons['msg'] = 'dinaid';

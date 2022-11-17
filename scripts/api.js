@@ -13,6 +13,11 @@ export const get_maps = ()=>{
       
     return fetch(api_url, options)
     .then(res => res.json())
+    .then((res)=>{
+        if(res.msg == 'ok') return res.data
+        alert(res.msg)
+        return res.msg
+    })
 }
 export const get_map = (map_name)=>{
     const options = {
@@ -25,6 +30,11 @@ export const get_map = (map_name)=>{
       
     return fetch(api_url, options)
     .then(res => res.json())
+    .then((res)=>{
+        if(res.msg == 'ok') return res.data
+        alert(res.msg)
+        return res.msg
+    })
 }
 export const get_seats = (map_id)=>{
     const options = {
@@ -39,6 +49,11 @@ export const get_seats = (map_id)=>{
       
     return fetch(api_url, options)
     .then(res => res.json())
+    .then((res)=>{
+        if(res.msg == 'ok') return res.data
+        alert(res.msg)
+        return res.msg
+    })
 }
 export const get_guests = (map_id)=>{
     const options = {
@@ -53,6 +68,11 @@ export const get_guests = (map_id)=>{
       
     return fetch(api_url, options)
     .then(res => res.json())
+    .then((res)=>{
+        if(res.msg == 'ok') return res.data
+        alert(res.msg)
+        return res.msg
+    })
 }
 export const post_map = () => {
     const options = {
@@ -65,7 +85,12 @@ export const post_map = () => {
         }
     }
     return fetch(api_url, options)
-    .then(()=>{window.location.replace('http://localhost/hive-php/html/maps.html')})
+    .then(res => res.json())
+    .then((res)=>{
+        if(res.msg == 'ok') return
+        alert(res.msg)
+        return res.msg
+    })
 }
 export const post_seat = (map_id, row, col)=>{
     const options = {
@@ -79,6 +104,11 @@ export const post_seat = (map_id, row, col)=>{
     }
     return fetch(api_url, options)
     .then(res => res.json())
+    .then((res)=>{
+        if(res.msg == 'ok') return
+        alert(res.msg)
+        return res.msg
+    })
 }
 export const post_guest = (data, map_id)=>{
     const options = {
@@ -90,6 +120,11 @@ export const post_guest = (data, map_id)=>{
     };
     return fetch(api_url, options)
     .then(res => res.json())
+    .then((res)=>{
+        if(res.msg == 'ok') return
+        alert(res.msg)
+        return res.msg
+    })
 }
 export const add_seat_number = (seat_id, seat_number)=>{
     const options = {

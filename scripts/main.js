@@ -49,7 +49,7 @@ switch(parsedUrl.pathname){
         })
         break;
     case base_path+'create_map.html':
-        document.getElementById('create_map').addEventListener('click', post_map)
+        document.getElementById('create_map').addEventListener('click', ()=>{post_map().then(()=>{window.location.replace('http://localhost/hive-php/html/maps.html')})})
         break;
     case base_path+'maps.html':
         var maps_list = document.getElementById('maps_list')
@@ -137,8 +137,7 @@ switch(parsedUrl.pathname){
                 data[1] = document.getElementById('add_guest_form')['last_name'].value
                 data[2] = document.getElementById('add_guest_form')['guest_group'].value
                 post_guest(data, map_id)
-                .then((respos)=>{
-                    alert(respos.msg); 
+                .then(()=>{
                     document.getElementById('add_guest_form').reset()
                 })
             })
