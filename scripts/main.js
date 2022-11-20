@@ -1,5 +1,5 @@
 import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num, get_users, check_belong, delete_guest } from "./api.js"
-import {add_map, add_seats, add_guests, add_guests_table} from "./elements.js"
+import {add_map, add_seats, add_guests, add_guests_table, add_belong} from "./elements.js"
 import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
 import { create_selection, DragToScroll, sortTable, zoom} from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
@@ -31,6 +31,7 @@ switch(parsedUrl.pathname){
         get_map(map_name).then(map => {add_map(map); map_data = map; map_id = map.id })
         .then(() => get_seats(map_id))
         .then(seats => add_seats(seats))
+        .then(()=>{add_belong()})
         .then(() => get_guests(map_id))
         .then((guests) => {add_guests(guests); guests_data = guests})
         .then(()=>{

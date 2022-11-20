@@ -1,4 +1,4 @@
-import { delete_guest, check_belong, get_guests, get_map } from "./api.js"
+import { delete_guest, check_belong, get_guests, get_map, get_belong } from "./api.js"
 import "./lib/jquery.min.js"
 import { sortTable } from "./scripts.js"
 
@@ -46,12 +46,21 @@ export const add_seats = (seats)=>{
         seat_ele.classList.add('seat')
         $(name_box).attr('seat_id', seat.id)
         $(num_box).attr('seat_id', seat.id)
-        $(name_box).attr('guest_id', seat.guest_id)
         $(num_box).text(seat.seat_number)
         seat_ele.append(num_box)
         seat_ele.append(name_box)
         cell.replaceChildren(seat_ele)
     }
+}
+export const add_belong = ()=>{
+    document.querySelectorAll('.name_box').forEach(element => {
+        var seat_id = element.getAttribute('seat_id')
+        get_belong(seat_id)
+        .then(belong => {
+            if(belong[0]) element.setAttribute('guest_id', belong[0].guest)
+            else return
+        })
+    })
 }
 export const add_guests = (guests)=>{
     document.querySelectorAll('.name_box').forEach((name_box)=>{

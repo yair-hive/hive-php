@@ -13,28 +13,20 @@ $seat_actions['create'] = function(){
     }
 };
 $seat_actions['get_all'] = function(){
-    if(allowed("reading")){
-        global $connection;        
+    if(allowed("reading")){     
         $map_id = $_POST['map_id'];
         $query_string = "SELECT * FROM seats WHERE belong='{$map_id}'";
-        if($seats_result = mysqli_query($connection, $query_string)){
-            $seats_results = mysqli_fetch_all($seats_result, MYSQLI_ASSOC);
-        }
-        $arr_con = count($seats_results);
-        for($i = 0; $i < $arr_con; $i++){
-            $seat_id = $seats_results[$i]['id'];
-            $query_string = "SELECT * FROM belong WHERE seat='{$seat_id}'";
-            if($result = mysqli_query($connection, $query_string)){
-                if(mysqli_num_rows($result)){
-                    $belong_result = mysqli_fetch_array($result, MYSQLI_ASSOC);
-                    $seats_results[$i]['guest_id'] = $belong_result['guest'];
-                }                    
-            }
-        }
-        $respons['msg'] = 'ok';
-        $respons['data'] = $seats_results;
-        $json_results = json_encode($respons);
-        print_r($json_results);
+        db_get($query_string);
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
+    }
+};
+$seat_actions['get_belong'] = function(){
+    if(allowed("reading")){
+        $seat_id = $_POST['seat_id'];
+        $query_string = "SELECT * FROM belong WHERE seat='{$seat_id}'";
+        db_get($query_string);
     }else{
         $respons['msg'] = 'dinaid';
         print_r(json_encode($respons));
