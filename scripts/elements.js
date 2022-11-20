@@ -91,11 +91,10 @@ export const add_guests_table = (map_name, table)=>{
                     var tdX = document.createElement('td')
                     tdX.style.backgroundColor = 'red'
                     tdX.textContent = 'X'
-                    tdX.addEventListener('click', ()=>{
+                    tdX.addEventListener('click', (event)=>{
                         delete_guest(name.id)
                         .then(()=>{
-                            table.innerHTML = '<tr><th> סטטוס </th><th> שם משפחה </th><th> שם פרטי </th><th> שיעור </th><th> X </th></tr>'
-                            add_guests_table(map_name, table)
+                            event.target.parentNode.style.display = 'none'
                         })
                     })
                     var tr = $('<tr>')
