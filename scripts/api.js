@@ -300,3 +300,22 @@ export const delete_guest = (guest_id)=>{
     return fetch(api_url, options)
     .then(res => res.json())
 }
+export const seat_delete_belong = (seat_id)=>{
+    const options = {
+        method: 'POST',
+        body: "category=seat&action=delete_belong&seat_id="+seat_id,
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+      
+    return fetch(api_url, options)
+    .then(res => res.json())
+    .then((res)=>{
+        if(res.msg == 'ok') return res.data
+        alert(res.msg)
+        return res.msg
+    })
+}

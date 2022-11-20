@@ -55,3 +55,15 @@ $seat_actions['add_number'] = function(){
         print_r(json_encode($respons));
     }
 };
+$seat_actions['delete_belong'] = function(){
+    if(allowed('writing')){
+        if(!empty($_POST['seat_id'])){
+            $seat_id = $_POST['seat_id'];
+            $query_string = "DELETE FROM belong WHERE seat='{$seat_id}'";
+            db_post($query_string);
+        }   
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
+    }
+};

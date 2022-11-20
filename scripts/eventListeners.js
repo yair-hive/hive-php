@@ -1,4 +1,4 @@
-import { add_seat_number, add_guest, get_seats, get_guests, post_seat, get_permissions_list, add_permission } from "./api.js"
+import { add_seat_number, add_guest, get_seats, get_guests, post_seat, get_permissions_list, add_permission, seat_delete_belong } from "./api.js"
 import { dragToScroll, selection } from "./main.js"
 import { add_guests, add_seats } from "./elements.js"
 import add_match_menu from "./add_match_menu.js"
@@ -223,4 +223,17 @@ export const onAddPermission = (event)=>{
 }
 export const onShowOnlyWthBelong = ()=>{
     document.querySelectorAll('td[seat_id = "none"]').forEach(e => e.parentNode.remove())
+}
+export const onSeatNum = (event)=>{
+    event.target.innerHTML = ''
+    var button = document.createElement('button')
+    button.textContent = 'הסר'
+    button.setAttribute('seat_id', event.target.getAttribute('seat_id'))
+    button.addEventListener('click', (event)=>{
+        event.preventDefault()
+        var seat_id = event.target.getAttribute('seat_id')
+        seat_delete_belong(seat_id)
+        event.target.parentNode.parentNode.style.display = 'none' 
+     })
+    event.target.append(button)
 }

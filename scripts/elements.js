@@ -1,4 +1,5 @@
 import { delete_guest, get_guests, get_map, seat_get_belong, guest_get_belong, get_seat_number } from "./api.js"
+import { onSeatNum } from "./eventListeners.js"
 import "./lib/jquery.min.js"
 import { sortTable } from "./scripts.js"
 
@@ -123,10 +124,13 @@ export const add_guests_table = (map_name, table)=>{
                     }
                     get_seat_number(text)
                     .then(seat => {
-                        if(seat[0]) element.textContent = seat[0].seat_number                          
+                        if(seat[0]) {
+                            element.textContent = seat[0].seat_number
+                            element.addEventListener('click', onSeatNum)
+                        }                          
                     })
                     element.style.backgroundColor = color
-                    element.setAttribute('seat_id', text)
+                    element.setAttribute('seat_id', text)                    
                 })
             })
         })
