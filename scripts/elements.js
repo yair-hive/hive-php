@@ -1,7 +1,6 @@
 import { delete_guest, get_guests, get_map, seat_get_belong, guest_get_belong, get_seat_number } from "./api.js"
 import { onSeatNum } from "./eventListeners.js"
 import "./lib/jquery.min.js"
-import { sortTable } from "./scripts.js"
 
 export const add_map = (map)=>{
     const main_bord = document.getElementById('mainBord')
@@ -133,9 +132,6 @@ export const add_guests_table = (map_name, table)=>{
                     element.setAttribute('seat_id', text)                    
                 })
             })
-        })
-        .then(()=>{
-            sortTable(table)
         })
     })
 }

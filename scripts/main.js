@@ -1,7 +1,7 @@
 import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_users } from "./api.js"
 import {add_map, add_seats, add_guests, add_guests_table, add_belong} from "./elements.js"
 import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp, onShowOnlyWthBelong } from "./eventListeners.js"
-import { create_selection, DragToScroll, zoom} from "./scripts.js"
+import { create_selection, DragToScroll, zoom, sortTable } from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
 import "./lib/jquery.min.js"
 import "./lib/read-excel-file.min.js"
@@ -153,6 +153,9 @@ switch(parsedUrl.pathname){
         add_guests_table(map_name, table).then(()=>{
             document.getElementById('loader').style.display = 'none'
             document.getElementById('loader-container').style.display = 'none' 
-        })       
+        })
+        document.getElementById("first").addEventListener('click', ()=>{sortTable(1)}) 
+        document.getElementById("last").addEventListener('click', ()=>{sortTable(2)})
+        document.getElementById("group").addEventListener('click', ()=>{sortTable(3)})        
         break;
 }
