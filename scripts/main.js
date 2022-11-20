@@ -144,18 +144,15 @@ switch(parsedUrl.pathname){
         go_back.onclick = ()=>{window.location.replace('http://localhost/hive-php/html/edit_map.html?map_name='+map_name)}
         document.getElementById('mneu').append(go_back)
         var table = document.getElementById('names_table')
-        add_guests_table(map_name, table)
-        .then(()=>{
-            document.getElementById('ShowOnlyWthBelong').addEventListener('click', onShowOnlyWthBelong) 
-            document.getElementById('export').addEventListener('click', ()=>{
-                $("#names_table").table2excel({
-                    filename: "list.xls"
-                });
-            })
-        })   
-        .then(()=>{
+        document.getElementById('ShowOnlyWthBelong').addEventListener('click', onShowOnlyWthBelong) 
+        document.getElementById('export').addEventListener('click', ()=>{
+            $("#names_table").table2excel({
+                filename: "list.xls"
+            });
+        })
+        add_guests_table(map_name, table).then(()=>{
             document.getElementById('loader').style.display = 'none'
-            document.getElementById('loader-container').style.display = 'none'
-        })          
+            document.getElementById('loader-container').style.display = 'none' 
+        })       
         break;
 }

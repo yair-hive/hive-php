@@ -79,15 +79,41 @@ export const add_guests = (guests)=>{
 }
 export const add_guests_table = (map_name, table)=>{
     var map_id = ''
+    var table_length = 0
     return get_map(map_name)
     .then(res => map_id = res.id)
     .then(()=>{
         get_guests(map_id)
         .then((names)=>{
+            table_length = names.length
             for(let name of names){
-                var color, text
-                guest_get_belong(name.id)
+                var td = document.createElement('td')
+                td.classList.add('seat_num')
+                td.setAttribute('guest_id', name.id)                  
+                var tdX = document.createElement('td')
+                tdX.style.backgroundColor = 'red'
+                tdX.textContent = 'X'
+                tdX.addEventListener('click', (event)=>{
+                    delete_guest(name.id)
+                    .then(()=>{
+                        event.target.parentNode.style.display = 'none'
+                    })
+                })
+                var tr = $('<tr>')
+                .append(td)
+                .append($('<td>').text(name.last_name))
+                .append($('<td>').text(name.first_name))
+                .append($('<td>').text(name.guest_group))
+                .append(tdX)
+                $(table).append(tr)
+            }
+        })
+        .then(()=>{
+            document.querySelectorAll('.seat_num').forEach(element => {
+                var guest_id = element.getAttribute('guest_id')
+                guest_get_belong(guest_id)
                 .then((res)=>{
+                    var color, text
                     if(res[0]){
                         color = 'green'
                         text = res[0].seat
@@ -95,42 +121,17 @@ export const add_guests_table = (map_name, table)=>{
                         color = 'grey'
                         text = 'none'
                     }
-                })
-                .then(()=>{
-                    var td = document.createElement('td')
-                    td.style.backgroundColor = color
-                    td.classList.add('seat_num')
-                    td.setAttribute('seat_id', text)                  
-                    var tdX = document.createElement('td')
-                    tdX.style.backgroundColor = 'red'
-                    tdX.textContent = 'X'
-                    tdX.addEventListener('click', (event)=>{
-                        delete_guest(name.id)
-                        .then(()=>{
-                            event.target.parentNode.style.display = 'none'
-                        })
+                    get_seat_number(text)
+                    .then(seat => {
+                        if(seat[0]) element.textContent = seat[0].seat_number                          
                     })
-                    var tr = $('<tr>')
-                    .append(td)
-                    .append($('<td>').text(name.last_name))
-                    .append($('<td>').text(name.first_name))
-                    .append($('<td>').text(name.guest_group))
-                    .append(tdX)
-                    $(table).append(tr)
+                    element.style.backgroundColor = color
+                    element.setAttribute('seat_id', text)
                 })
-                .then(()=>{
-                    document.querySelectorAll('.seat_num').forEach(element => {
-                        var seat_id = element.getAttribute('seat_id')
-                        get_seat_number(seat_id)
-                        .then(seat => {
-                            if(seat[0]) element.textContent = seat[0].seat_number                          
-                        })
-                    })
-                })
-                .then(()=>{
-                    sortTable(table)
-                })
-            }
+            })
+        })
+        .then(()=>{
+            sortTable(table)
         })
     })
 }
