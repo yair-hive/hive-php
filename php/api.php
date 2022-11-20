@@ -10,13 +10,11 @@ include_once 'actions/map_actions.php';
 include_once 'actions/seat_actions.php';
 include_once 'actions/guest_actions.php';
 include_once 'actions/user_actions.php';
-include_once 'actions/all_actions.php';
 
 $actions['map'] = $map_actions;
 $actions['seat'] = $seat_actions;
 $actions['guest'] = $guest_actions;
 $actions['user'] = $user_actions;
-$actions['all'] = $all_actions;
  
 if(!empty($_POST['category']) && !empty($_POST['action'])){
     $category = $_POST['category'];

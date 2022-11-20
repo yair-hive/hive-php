@@ -1,4 +1,4 @@
-import { delete_guest, check_belong, get_guests, get_map, seat_get_belong, guest_get_belong, get_seat_number } from "./api.js"
+import { delete_guest, get_guests, get_map, seat_get_belong, guest_get_belong, get_seat_number } from "./api.js"
 import "./lib/jquery.min.js"
 import { sortTable } from "./scripts.js"
 
@@ -79,7 +79,7 @@ export const add_guests = (guests)=>{
 }
 export const add_guests_table = (map_name, table)=>{
     var map_id = ''
-    get_map(map_name)
+    return get_map(map_name)
     .then(res => map_id = res.id)
     .then(()=>{
         get_guests(map_id)
@@ -93,14 +93,14 @@ export const add_guests_table = (map_name, table)=>{
                         text = res[0].seat
                     }else{
                         color = 'grey'
-                        text = ''
+                        text = 'none'
                     }
                 })
                 .then(()=>{
                     var td = document.createElement('td')
                     td.style.backgroundColor = color
                     td.classList.add('seat_num')
-                    td.setAttribute('seat_id', text)
+                    td.setAttribute('seat_id', text)                  
                     var tdX = document.createElement('td')
                     tdX.style.backgroundColor = 'red'
                     tdX.textContent = 'X'

@@ -1,7 +1,7 @@
-import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num, get_users, check_belong, delete_guest } from "./api.js"
+import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_users } from "./api.js"
 import {add_map, add_seats, add_guests, add_guests_table, add_belong} from "./elements.js"
-import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
-import { create_selection, DragToScroll, sortTable, zoom} from "./scripts.js"
+import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp, onShowOnlyWthBelong } from "./eventListeners.js"
+import { create_selection, DragToScroll, zoom} from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
 import "./lib/jquery.min.js"
 import "./lib/read-excel-file.min.js"
@@ -91,43 +91,6 @@ switch(parsedUrl.pathname){
             }
         })
         break;
-    case base_path+'guest_seat_num.html':
-        var map_name = parsedUrl.searchParams.get("map_name")
-        var go_back = document.createElement('div')
-        go_back.classList.add('hive-button')
-        go_back.textContent = 'חזור למפה'
-        go_back.onclick = ()=>{window.location.replace('http://localhost/hive-php/html/edit_map.html?map_name='+map_name)}
-        document.getElementById('mneu').append(go_back)
-        var map_id = ''
-        get_map(map_name)
-        .then(res => map_id = res.id)
-        .then(()=>{
-            get_guest_seat_num(map_id)
-            .then((belongs_list)=>{
-                var list_table = $('<table>').attr('id', 'list_table')                
-                var tr = $('<tr>')
-                .append($('<th>').text('מספר כיסא'))
-                .append($('<th>').text('שיעור')) 
-                .append($('<th>').text('שם פרטי'))
-                .append($('<th>').text('שם משפחה'))
-                $(list_table).append(tr)
-                for(let bel of belongs_list){ 
-                    var tr = $('<tr>')
-                    .append($('<td>').text(bel.seat_num))
-                    .append($('<td>').text(bel.guest_group)) 
-                    .append($('<td>').text(bel.guest_first_name))
-                    .append($('<td>').text(bel.guest_last_name))                      
-                    $(list_table).append(tr)
-                }
-                $('#table-container').append(list_table)
-            })
-            document.getElementById('export').addEventListener('click', ()=>{
-                $(list_table).table2excel({
-                    filename: "list.xls"
-                });
-            })
-        })
-        break;
     case base_path+'add_guests.html':
         var map_name = parsedUrl.searchParams.get("map_name")
         var go_back = document.createElement('div')
@@ -181,6 +144,18 @@ switch(parsedUrl.pathname){
         go_back.onclick = ()=>{window.location.replace('http://localhost/hive-php/html/edit_map.html?map_name='+map_name)}
         document.getElementById('mneu').append(go_back)
         var table = document.getElementById('names_table')
-        add_guests_table(map_name, table)       
+        add_guests_table(map_name, table)
+        .then(()=>{
+            document.getElementById('ShowOnlyWthBelong').addEventListener('click', onShowOnlyWthBelong) 
+            document.getElementById('export').addEventListener('click', ()=>{
+                $("#names_table").table2excel({
+                    filename: "list.xls"
+                });
+            })
+        })   
+        .then(()=>{
+            document.getElementById('loader').style.display = 'none'
+            document.getElementById('loader-container').style.display = 'none'
+        })          
         break;
 }

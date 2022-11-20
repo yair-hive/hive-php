@@ -221,3 +221,6 @@ export const onAddPermission = (event)=>{
         }
     }
 }
+export const onShowOnlyWthBelong = ()=>{
+    document.querySelectorAll('td[seat_id = "none"]').forEach(e => e.parentNode.remove())
+}

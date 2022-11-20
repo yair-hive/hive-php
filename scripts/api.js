@@ -289,18 +289,6 @@ export const logout = ()=>{
     return fetch(api_url, options)
     .then(res => res.json())
 }
-
-export const check_belong = (guest_id)=>{
-    const options = {
-        method: 'POST',
-        body: "category=guest&action=check_belong&guest_id="+guest_id,
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    };
-    return fetch(api_url, options)
-    .then(res => res.json())
-}
 export const delete_guest = (guest_id)=>{
     const options = {
         method: 'POST',
@@ -309,20 +297,6 @@ export const delete_guest = (guest_id)=>{
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
         }
     };
-    return fetch(api_url, options)
-    .then(res => res.json())
-}
-
-export const get_guest_seat_num = (map_id)=>{
-    const options = {
-        method: 'POST',
-        body: "category=all&action=get_guest_seat_num&map_id="+map_id,
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    }
     return fetch(api_url, options)
     .then(res => res.json())
 }
