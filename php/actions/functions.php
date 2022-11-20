@@ -6,3 +6,13 @@ function allowed($permission){
         return false;
     }
 }
+function db_post($query_string){
+    global $connection;
+    if(mysqli_query($connection, $query_string)){
+        $respons['msg'] = 'ok';
+        print_r(json_encode($respons));
+    }else{
+        $respons['msg'] = 'db error';
+        print_r(json_encode($respons));
+    }
+}

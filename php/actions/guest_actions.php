@@ -12,13 +12,7 @@ $guest_actions['create'] = function(){
             if($result = mysqli_query($connection, $query_string)){
                 if(mysqli_num_rows($result) == 0){
                     $query_string = "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group}', '{$map_id}')";
-                    if(mysqli_query($connection, $query_string)){
-                        $respons['msg'] = 'ok';
-                        print_r(json_encode($respons));
-                    }else{
-                        $respons['msg'] = 'db error';
-                        print_r(json_encode($respons));
-                    }
+                    db_post($query_string);
                 }else{
                     $respons['msg'] = 'allrdy axist';
                     print_r(json_encode($respons));
@@ -82,12 +76,7 @@ $guest_actions['add'] = function(){
             mysqli_query($connection, $query_string);
         }
         $query_string = "INSERT INTO belong(guest, seat, map_belong) VALUES('{$guest_id }', '{$seat_id}', '{$map_id}')";
-        if(!mysqli_query($connection, $query_string)){
-            echo 'sql error';
-        }else{
-            $respons['msg'] = 'ok';
-            print_r(json_encode($respons));
-        }
+        db_post($query_string);
     }else{
         $respons['msg'] = 'dinaid';
         print_r(json_encode($respons));
@@ -122,13 +111,7 @@ $guest_actions['delete'] = function(){
             $query_string = "DELETE FROM guests WHERE id='{$guest_id}'";
             if($result = mysqli_query($connection, $query_string)){
                 $query_string = "DELETE FROM belong WHERE guest='{$guest_id}'";
-                if($result = mysqli_query($connection, $query_string)){
-                    $respons['msg'] = 'ok';
-                    print_r(json_encode($respons));
-                }else{
-                    $respons['msg'] = 'db error';
-                    print_r(json_encode($respons));
-                }
+                db_post($query_string);
             }else{
                 $respons['msg'] = 'db error';
                 print_r(json_encode($respons));

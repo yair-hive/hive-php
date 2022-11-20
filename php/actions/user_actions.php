@@ -96,13 +96,7 @@ $user_actions['sginup'] = function(){
         $password = $_POST['password'];
         $password = password_hash($password, PASSWORD_DEFAULT);
         $query_string = "INSERT INTO users(user_name, password) VALUES('{$user_name}', '{$password}')";
-        if(mysqli_query($connection, $query_string)){
-            $respons['msg'] = 'all ok';
-            print_r(json_encode($respons));
-        }else{
-            $respons['msg'] = 'db error';
-            print_r(json_encode($respons));
-        }
+        db_post($query_string);
     }else{
         $respons['msg'] = $_POST;
         print_r(json_encode($respons));
@@ -115,13 +109,7 @@ $user_actions['add_permission'] = function(){
             $user_id = $_POST['user_id'];
             $permission = $_POST['permission'];        
             $query_string = "INSERT INTO permissions(user, permission) VALUES('{$user_id}', '{$permission}')";
-            if(mysqli_query($connection, $query_string)){
-                $respons['msg'] = 'all ok';
-                print_r(json_encode($respons));
-            }else{
-                $respons['msg'] = 'db error';
-                print_r(json_encode($respons));
-            }
+            db_post($query_string);
         }
     }else{
         $respons['msg'] = 'faild';

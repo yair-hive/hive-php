@@ -44,16 +44,9 @@ $map_actions['create'] = function(){
         $map_name = $_POST['map_name'];
         $rows_number = $_POST['rows_number'];
         $columns_number = $_POST['columns_number']; 
-        if(!empty($map_name) && !empty($rows_number) && !empty($columns_number)){
-        global $connection;     
+        if(!empty($map_name) && !empty($rows_number) && !empty($columns_number)){                
             $query_string = "INSERT INTO maps(map_name, rows_number, columns_number) VALUES('{$map_name}', '{$rows_number}', '{$columns_number}')";
-            if(mysqli_query($connection, $query_string)){
-                $respons['msg'] = 'ok';
-                print_r(json_encode($respons));
-            }else{
-                $respons['msg'] = 'db error';
-                print_r(json_encode($respons));
-            }
+            db_post($query_string);
         }else{
             $respons['msg'] = 'faild empty';
             print_r(json_encode($respons));;

@@ -1,19 +1,12 @@
 <?php
 
 $seat_actions['create'] = function(){
-    if(allowed('writing')){
-        global $connection;    
+    if(allowed('writing')){  
         $map_id = $_POST['map_id'];    
         $row_num = $_POST['row'];
         $col_num = $_POST['col'];
         $query_string = "INSERT INTO seats(belong, row_num, col_num) VALUES('{$map_id}', '{$row_num}', '{$col_num}')";
-        if(!$result = mysqli_query($connection, $query_string)){
-            $respons['msg'] = 'db error';
-            print_r(json_encode($respons));
-        }else{
-            $respons['msg'] = 'ok';
-            print_r(json_encode($respons));
-        }
+        db_post($query_string);
     }else{
         $respons['msg'] = 'dinaid';
         print_r(json_encode($respons));
@@ -54,11 +47,7 @@ $seat_actions['add_number'] = function(){
         $seat_id = $_POST['seat_id'];
         $seat_number = $_POST['seat_number'];
         $query_string = "UPDATE seats SET seat_number = '{$seat_number}' WHERE seats.id = '{$seat_id}';";
-        if(!mysqli_query($connection, $query_string)){
-            echo 'sql error';
-        }else{
-            echo 'all good';
-        }
+        db_post($query_string);
     }else{
         $respons['msg'] = 'dinaid';
         print_r(json_encode($respons));
