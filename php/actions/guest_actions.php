@@ -41,6 +41,16 @@ $guest_actions['get_all'] = function(){
         print_r(json_encode($respons));
     }
 };
+$guest_actions['get_belong'] = function(){
+    if(allowed("reading")){
+        $guest_id = $_POST['guest_id'];
+        $query_string = "SELECT * FROM belong WHERE guest='{$guest_id}'";
+        db_get($query_string);
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
+    }    
+};
 $guest_actions['add'] = function(){
     if(allowed('writing')){
         global $connection;     

@@ -1,4 +1,4 @@
-import { delete_guest, check_belong, get_guests, get_map, get_belong } from "./api.js"
+import { delete_guest, check_belong, get_guests, get_map, seat_get_belong, guest_get_belong, get_seat_number } from "./api.js"
 import "./lib/jquery.min.js"
 import { sortTable } from "./scripts.js"
 
@@ -55,7 +55,7 @@ export const add_seats = (seats)=>{
 export const add_belong = ()=>{
     document.querySelectorAll('.name_box').forEach(element => {
         var seat_id = element.getAttribute('seat_id')
-        get_belong(seat_id)
+        seat_get_belong(seat_id)
         .then(belong => {
             if(belong[0]) element.setAttribute('guest_id', belong[0].guest)
             else return
@@ -85,18 +85,22 @@ export const add_guests_table = (map_name, table)=>{
         get_guests(map_id)
         .then((names)=>{
             for(let name of names){
-                var color
-                check_belong(name.id)
-                .then((msg)=>{
-                    if(msg.msg == 'true'){
+                var color, text
+                guest_get_belong(name.id)
+                .then((res)=>{
+                    if(res[0]){
                         color = 'green'
+                        text = res[0].seat
                     }else{
                         color = 'grey'
+                        text = ''
                     }
                 })
                 .then(()=>{
                     var td = document.createElement('td')
                     td.style.backgroundColor = color
+                    td.classList.add('seat_num')
+                    td.setAttribute('seat_id', text)
                     var tdX = document.createElement('td')
                     tdX.style.backgroundColor = 'red'
                     tdX.textContent = 'X'
@@ -113,6 +117,15 @@ export const add_guests_table = (map_name, table)=>{
                     .append($('<td>').text(name.guest_group))
                     .append(tdX)
                     $(table).append(tr)
+                })
+                .then(()=>{
+                    document.querySelectorAll('.seat_num').forEach(element => {
+                        var seat_id = element.getAttribute('seat_id')
+                        get_seat_number(seat_id)
+                        .then(seat => {
+                            if(seat[0]) element.textContent = seat[0].seat_number                          
+                        })
+                    })
                 })
                 .then(()=>{
                     sortTable(table)
