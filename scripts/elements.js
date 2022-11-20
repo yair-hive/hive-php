@@ -106,10 +106,10 @@ export const add_guests_table = (map_name, table)=>{
                     .append(tdX)
                     $(table).append(tr)
                 })
+                .then(()=>{
+                    sortTable(table)
+                })
             }
         })
-    })
-    .then(()=>{
-        sortTable(table)
     })
 }

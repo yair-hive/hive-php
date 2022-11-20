@@ -1,7 +1,7 @@
 import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_guest_seat_num, get_users, check_belong, delete_guest } from "./api.js"
 import {add_map, add_seats, add_guests, add_guests_table} from "./elements.js"
 import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "./eventListeners.js"
-import { create_selection, DragToScroll, zoom} from "./scripts.js"
+import { create_selection, DragToScroll, sortTable, zoom} from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
 import "./lib/jquery.min.js"
 import "./lib/read-excel-file.min.js"
@@ -180,6 +180,6 @@ switch(parsedUrl.pathname){
         go_back.onclick = ()=>{window.location.replace('http://localhost/hive-php/html/edit_map.html?map_name='+map_name)}
         document.getElementById('mneu').append(go_back)
         var table = document.getElementById('names_table')
-        add_guests_table(map_name, table)
+        add_guests_table(map_name, table)       
         break;
 }

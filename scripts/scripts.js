@@ -116,8 +116,9 @@ export class DragToScroll {
         this.ele.addEventListener('mousedown', this.mouseDownHandler);        
     }
 }
-export const sortTable = (table)=>{
-    var rows, switching, i, x, y, shouldSwitch;
+export const sortTable = ()=>{
+    var table, rows, switching, i, x, y, shouldSwitch;
+    table = document.getElementById("names_table");
     switching = true;
     /* Make a loop that will continue until
     no switching has been done: */
@@ -127,21 +128,19 @@ export const sortTable = (table)=>{
       rows = table.rows;
       /* Loop through all table rows (except the
       first, which contains table headers): */
-      for (let row of rows) {
+      for (i = 1; i < (rows.length - 1); i++) {
         // Start by saying there should be no switching:
         shouldSwitch = false;
         /* Get the two elements you want to compare,
         one from current row and one from the next: */
-        x = rows.item(i).childNodes[2];
-        y = rows.item(i + 1).childNodes[2];
-        console.log(x)
+        x = rows[i].getElementsByTagName("TD")[1];
+        y = rows[i + 1].getElementsByTagName("TD")[1];
         // Check if the two rows should switch place:
         if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
           // If so, mark as a switch and break the loop:
           shouldSwitch = true;
           break;
         }
-        i++
       }
       if (shouldSwitch) {
         /* If a switch has been marked, make the switch
