@@ -1,4 +1,4 @@
-import { add_seat_number, add_guest, get_seats, get_guests, post_seat, get_permissions_list, add_permission, seat_delete_belong } from "./api.js"
+import { add_seat_number, add_guest, get_seats, get_guests, post_seat, get_permissions_list, add_permission, seat_delete_belong, update_guest } from "./api.js"
 import { dragToScroll, selection } from "./main.js"
 import { add_guests, add_seats } from "./elements.js"
 import add_match_menu from "./add_match_menu.js"
@@ -168,6 +168,14 @@ export const onClick_match_list_item = (event)=>{
     document.getElementById('drop_down').remove()
     document.getElementById('name_box_input').remove()
     add_guest(guest_id, seat_id, map)
+    .then((res)=>{
+        console.log(res)
+        if(res.msg === 'belong'){
+            if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
+                update_guest(guest_id, seat_id, map)
+            }
+        }
+    })
 }
 export const onKeyBordDown = (event)=>{
     if(event.key == 'g' || event.key == 'ע'){

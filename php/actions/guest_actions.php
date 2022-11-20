@@ -57,6 +57,32 @@ $guest_actions['add'] = function(){
         $map_id = $_POST['map_id'];
         $seat_id = $_POST['seat_id'];
         $guest_id = $_POST['guest_id'];
+        $query_string = "SELECT * FROM belong WHERE seat='{$seat_id}'";
+        $result = mysqli_query($connection, $query_string);
+        if(mysqli_num_rows($result) != 0){
+            $query_string = "DELETE FROM belong WHERE seat='{$seat_id}'";
+            mysqli_query($connection, $query_string);
+        }
+        $query_string = "SELECT * FROM belong WHERE guest='{$guest_id}'";
+        $result = mysqli_query($connection, $query_string);
+        if(mysqli_num_rows($result) != 0){
+            $respons['msg'] = 'belong';
+            print_r(json_encode($respons));
+        }else{
+            $query_string = "INSERT INTO belong(guest, seat, map_belong) VALUES('{$guest_id }', '{$seat_id}', '{$map_id}')";
+            db_post($query_string);
+        }
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
+    }
+};
+$guest_actions['updat_guest'] = function(){
+    if(allowed('writing')){
+        global $connection;     
+        $map_id = $_POST['map_id'];
+        $seat_id = $_POST['seat_id'];
+        $guest_id = $_POST['guest_id'];
         $query_string = "SELECT * FROM belong WHERE guest='{$guest_id}'";
         $result = mysqli_query($connection, $query_string);
         if(mysqli_num_rows($result) != 0){

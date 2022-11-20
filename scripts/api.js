@@ -209,6 +209,19 @@ export const add_guest = (selected_guest_id, selected_seat_class, map_id)=>{
     return fetch(api_url, options)
     .then(res => res.json())
 }
+export const update_guest = (selected_guest_id, selected_seat_class, map_id)=>{
+    const options = {
+        method: 'POST',
+        body: "category=guest&action=update_guest&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_id="+map_id,
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    }
+    return fetch(api_url, options)
+    .then(res => res.json())
+}
 export const login = ()=>{
     const options = {
         method: 'POST',
