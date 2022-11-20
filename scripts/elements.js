@@ -60,9 +60,9 @@ export const add_guests = (guests)=>{
             if(corrent.id == guest_id){
                 corrent.name = corrent.last_name+' '+corrent.first_name
                 if(corrent.name.length > 15) name_box.style.fontSize = '11px';
-                corrent.group = corrent.group.replace(" ","_"); 
+                corrent.guest_group = corrent.guest_group.replace(" ","_"); 
                 name_box.setAttribute('guest_name', corrent.name)
-                name_box.setAttribute('guest_group', corrent.group)
+                name_box.setAttribute('guest_group', corrent.guest_group)
                 name_box.textContent = corrent.name             
             }
         }
@@ -101,7 +101,7 @@ export const add_guests_table = (map_name, table)=>{
                     .append(td)
                     .append($('<td>').text(name.last_name))
                     .append($('<td>').text(name.first_name))
-                    .append($('<td>').text(name.group))
+                    .append($('<td>').text(name.guest_group))
                     .append(tdX)
                     $(table).append(tr)
                 })

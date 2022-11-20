@@ -35,23 +35,7 @@ $guest_actions['get_all'] = function(){
         global $connection;        
         $map_id = $_POST['map_id'];  
         $query_string = "SELECT * FROM guests WHERE belong='{$map_id}'";
-        if($result = mysqli_query($connection, $query_string)){
-            $results = mysqli_fetch_all($result, MYSQLI_ASSOC);
-            $guests_list = array();
-            foreach($results as $guest){
-                $guest_array['first_name'] = $guest['first_name'];
-                $guest_array['last_name'] = $guest['last_name'];
-                $guest_array['id'] = $guest['id'];
-                $guest_array['group'] = $guest['guest_group'];
-                $guests_list[] = $guest_array;
-            }
-            $respons['msg'] = 'ok';
-            $respons['data'] = $guests_list;
-            $json_results = json_encode($respons);
-            print_r($json_results);
-        }else{
-            echo 'sql error';
-        }
+        db_get($query_string);
     }else{
         $respons['msg'] = 'dinaid';
         print_r(json_encode($respons));

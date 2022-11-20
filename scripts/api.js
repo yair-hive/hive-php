@@ -31,7 +31,7 @@ export const get_map = (map_name)=>{
     return fetch(api_url, options)
     .then(res => res.json())
     .then((res)=>{
-        if(res.msg == 'ok') return res.data
+        if(res.msg == 'ok') return res.data[0]
         alert(res.msg)
         return res.msg
     })
