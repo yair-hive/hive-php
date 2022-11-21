@@ -1,4 +1,5 @@
-import { post_map, get_map, get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_maps, get_users } from "./api.js"
+import { get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_users } from "./api/api.js"
+import { map } from "./api/map.js"
 import {add_map, add_seats, add_guests, add_guests_table, add_belong} from "./elements.js"
 import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp, onShowOnlyWthBelong } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom, sortTable } from "./scripts.js"
@@ -28,7 +29,7 @@ switch(parsedUrl.pathname){
         var map_data = {}
         var guests_data = {}
         var map_id = ''
-        get_map(map_name).then(map => {add_map(map); map_data = map; map_id = map.id })
+        map.get(map_name).then(map => {add_map(map); map_data = map; map_id = map.id })
         .then(() => get_seats(map_id))
         .then(seats => add_seats(seats))
         .then(()=>{add_belong()})
@@ -50,11 +51,11 @@ switch(parsedUrl.pathname){
         })
         break;
     case base_path+'create_map.html':
-        document.getElementById('create_map').addEventListener('click', ()=>{post_map().then(()=>{window.location.replace('http://localhost/hive-php/html/maps.html')})})
+        document.getElementById('create_map').addEventListener('click', ()=>{map.create().then(()=>{window.location.replace('http://localhost/hive-php/html/maps.html')})})
         break;
     case base_path+'maps.html':
         var maps_list = document.getElementById('maps_list')
-        get_maps()
+        map.get_all()
         .then((maps)=>{
             console.log(maps)
             for(let map of maps){
@@ -99,7 +100,7 @@ switch(parsedUrl.pathname){
         go_back.onclick = ()=>{window.location.replace('http://localhost/hive-php/html/get_guests.html?map_name='+map_name)}
         document.getElementById('mneu').append(go_back)
         var map_id = ''
-        get_map(map_name)
+        map.get(map_name)
         .then(res => map_id = res.id)
         .then(()=>{
             document.getElementById('loader').style.display = 'none'

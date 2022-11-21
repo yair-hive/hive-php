@@ -1,102 +1,11 @@
-import "./lib/jquery.min.js"
+import "../lib/jquery.min.js"
 
 const api_url = 'http://localhost/hive-php/php/api.php'
 
-export const get_maps = ()=>{
-    const options = {
-        method: 'POST',
-        body: "category=map&action=get_all",
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    };
-      
-    return fetch(api_url, options)
-    .then(res => res.json())
-    .then((res)=>{
-        if(res.msg == 'ok') return res.data
-        alert(res.msg)
-        return res.msg
-    })
-}
-export const get_map = (map_name)=>{
-    const options = {
-        method: 'POST',
-        body: "category=map&action=get&map_name="+map_name,
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    };
-      
-    return fetch(api_url, options)
-    .then(res => res.json())
-    .then((res)=>{
-        if(res.msg == 'ok') return res.data[0]
-        alert(res.msg)
-        return res.msg
-    })
-}
-export const get_seats = (map_id)=>{
-    const options = {
-        method: 'POST',
-        body: "category=seat&action=get_all&map_id="+map_id,
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    };
-      
-    return fetch(api_url, options)
-    .then(res => res.json())
-    .then((res)=>{
-        if(res.msg == 'ok') return res.data
-        alert(res.msg)
-        return res.msg
-    })
-}
-export const seat_get_belong = (seat_id)=>{
-    const options = {
-        method: 'POST',
-        body: "category=seat&action=get_belong&seat_id="+seat_id,
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    };
-      
-    return fetch(api_url, options)
-    .then(res => res.json())
-    .then((res)=>{
-        if(res.msg == 'ok') return res.data
-        alert(res.msg)
-        return res.msg
-    })
-}
 export const guest_get_belong = (guest_id)=>{
     const options = {
         method: 'POST',
         body: "category=guest&action=get_belong&guest_id="+guest_id,
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    };
-      
-    return fetch(api_url, options)
-    .then(res => res.json())
-    .then((res)=>{
-        if(res.msg == 'ok') return res.data
-        alert(res.msg)
-        return res.msg
-    })
-}
-export const get_seat_number = (seat_id)=>{
-    const options = {
-        method: 'POST',
-        body: "category=seat&action=get_number&seat_id="+seat_id,
         mode: 'no-cors',
         credentials: 'include',
         headers: {
@@ -127,42 +36,6 @@ export const get_guests = (map_id)=>{
     .then(res => res.json())
     .then((res)=>{
         if(res.msg == 'ok') return res.data
-        alert(res.msg)
-        return res.msg
-    })
-}
-export const post_map = () => {
-    const options = {
-        method: 'POST',
-        body: "category=map&action=create&"+$('#create_map_form').serialize(),
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    }
-    return fetch(api_url, options)
-    .then(res => res.json())
-    .then((res)=>{
-        if(res.msg == 'ok') return
-        alert(res.msg)
-        return res.msg
-    })
-}
-export const post_seat = (map_id, row, col)=>{
-    const options = {
-        method: 'POST',
-        body: "category=seat&action=create&map_id="+map_id+"&row="+row+"&col="+col,
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    }
-    return fetch(api_url, options)
-    .then(res => res.json())
-    .then((res)=>{
-        if(res.msg == 'ok') return
         alert(res.msg)
         return res.msg
     })
@@ -313,22 +186,4 @@ export const delete_guest = (guest_id)=>{
     return fetch(api_url, options)
     .then(res => res.json())
 }
-export const seat_delete_belong = (seat_id)=>{
-    const options = {
-        method: 'POST',
-        body: "category=seat&action=delete_belong&seat_id="+seat_id,
-        mode: 'no-cors',
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
-    };
-      
-    return fetch(api_url, options)
-    .then(res => res.json())
-    .then((res)=>{
-        if(res.msg == 'ok') return res.data
-        alert(res.msg)
-        return res.msg
-    })
-}
+

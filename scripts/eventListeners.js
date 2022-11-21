@@ -1,4 +1,4 @@
-import { add_seat_number, add_guest, get_seats, get_guests, post_seat, get_permissions_list, add_permission, seat_delete_belong, update_guest } from "./api.js"
+import { add_seat_number, add_guest, get_seats, get_guests, post_seat, get_permissions_list, add_permission, seat_delete_belong, update_guest } from "./api/api.js"
 import { dragToScroll, selection } from "./main.js"
 import { add_guests, add_seats } from "./elements.js"
 import add_match_menu from "./add_match_menu.js"

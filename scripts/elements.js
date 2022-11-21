@@ -1,4 +1,5 @@
-import { delete_guest, get_guests, get_map, seat_get_belong, guest_get_belong, get_seat_number } from "./api.js"
+import { delete_guest, get_guests, seat_get_belong, guest_get_belong, get_seat_number } from "./api/api.js"
+import { map } from "./api/map.js"
 import { onSeatNum } from "./eventListeners.js"
 import "./lib/jquery.min.js"
 
@@ -80,7 +81,7 @@ export const add_guests = (guests)=>{
 export const add_guests_table = (map_name, table)=>{
     var map_id = ''
     var table_length = 0
-    return get_map(map_name)
+    return map.get(map_name)
     .then(res => map_id = res.id)
     .then(()=>{
         get_guests(map_id)
