@@ -1,7 +1,7 @@
 import { get_guests, login, sginup, get_user, logout, post_guest, get_users } from "./api/api.js"
 import { map } from "./api/map.js"
 import {add_map, add_seats, add_guests, add_guests_table, add_belong} from "./elements.js"
-import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp, onShowOnlyWthBelong } from "./eventListeners.js"
+import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp, onShowAll, onShowOnlyWthBelong, onShowOnlyWthoutBelong } from "./eventListeners.js"
 import { create_selection, DragToScroll, zoom, sortTable } from "./scripts.js"
 import add_match_menu from './add_match_menu.js'
 import "./lib/jquery.min.js"
@@ -147,6 +147,8 @@ switch(parsedUrl.pathname){
         document.getElementById('mneu').append(go_back)
         var table = document.getElementById('names_table')
         document.getElementById('ShowOnlyWthBelong').addEventListener('click', onShowOnlyWthBelong) 
+        document.getElementById("ShowOnlyWthoutBelong").addEventListener('click', onShowOnlyWthoutBelong)
+        document.getElementById("ShowAll").addEventListener('click', onShowAll)        
         document.getElementById('export').addEventListener('click', ()=>{
             $("#names_table").table2excel({
                 filename: "list.xls"

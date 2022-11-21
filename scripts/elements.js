@@ -128,6 +128,7 @@ export const add_guests_table = (map_name, table)=>{
                         if(seat[0]) {
                             element.textContent = seat[0].seat_number
                             element.addEventListener('click', onSeatNum)
+                            element.setAttribute('belong', 'true')
                         }                          
                     })
                     element.style.backgroundColor = color

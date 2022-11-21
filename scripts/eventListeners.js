@@ -236,7 +236,16 @@ export const onAddPermission = (event)=>{
     }
 }
 export const onShowOnlyWthBelong = ()=>{
-    document.querySelectorAll('td[seat_id = "none"]').forEach(e => e.parentNode.remove())
+    document.querySelectorAll('td[seat_id = "none"]').forEach(e => e.parentNode.style.display = 'none')
+    document.querySelectorAll('td[belong]').forEach(e => {e.parentNode.style.display = 'table-row'; e.parentNode.style.verticalAlign = 'inherit';})
+}
+export const onShowOnlyWthoutBelong = ()=>{
+    document.querySelectorAll('td[seat_id = "none"]').forEach(e => {e.parentNode.style.display = 'table-row'; e.parentNode.style.verticalAlign = 'inherit';})
+    document.querySelectorAll('td[belong]').forEach(e => e.parentNode.style.display = 'none')
+}
+export const onShowAll = ()=>{
+    document.querySelectorAll('td[seat_id = "none"]').forEach(e => {e.parentNode.style.display = 'table-row'; e.parentNode.style.verticalAlign = 'inherit';})
+    document.querySelectorAll('td[belong]').forEach(e => {e.parentNode.style.display = 'table-row'; e.parentNode.style.verticalAlign = 'inherit';})
 }
 export const onSeatNum = (event)=>{
     event.target.innerHTML = ''
