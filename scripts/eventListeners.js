@@ -155,24 +155,25 @@ export const onClick_match_list_item = (event)=>{
     var name_box = document.querySelector(`.name_box[seat_id="${seat_id}"]`)
     var guest = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
     var guest_name = guest.getAttribute('guest_name')
-    var guest_group = guest.getAttribute('guest_group')
-    var other_seat = document.querySelector(`.name_box[guest_name="${guest_name}"]`)
-    if(other_seat) {
-        other_seat.removeAttribute('guest_group')
-        other_seat.removeAttribute('guest_name')
-        other_seat.textContent = ''
-    }
-    name_box.setAttribute('guest_name', guest_name)
-    name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
-    name_box.textContent = guest_name    
+    var guest_group = guest.getAttribute('guest_group')   
     document.getElementById('drop_down').remove()
     document.getElementById('name_box_input').remove()
     add_guest(guest_id, seat_id, map)
     .then((res)=>{
-        console.log(res)
         if(res.msg === 'belong'){
             if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
                 update_guest(guest_id, seat_id, map)
+                .then(()=>{
+                    var other_seat = document.querySelector(`.name_box[guest_name="${guest_name}"]`)
+                    if(other_seat) {
+                        other_seat.removeAttribute('guest_group')
+                        other_seat.removeAttribute('guest_name')
+                        other_seat.textContent = ''
+                    }
+                    name_box.setAttribute('guest_name', guest_name)
+                    name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
+                    name_box.textContent = guest_name 
+                })
             }
         }
     })

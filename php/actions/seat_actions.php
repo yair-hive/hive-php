@@ -43,9 +43,7 @@ $seat_actions['get_number'] = function(){
     }
 };
 $seat_actions['add_number'] = function(){
-    if(allowed('writing')){
-        echo $_POST['seat_number'];
-        global $connection;        
+    if(allowed('writing')){     
         $seat_id = $_POST['seat_id'];
         $seat_number = $_POST['seat_number'];
         $query_string = "UPDATE seats SET seat_number = '{$seat_number}' WHERE seats.id = '{$seat_id}';";

@@ -77,7 +77,7 @@ $guest_actions['add'] = function(){
         print_r(json_encode($respons));
     }
 };
-$guest_actions['updat_guest'] = function(){
+$guest_actions['update'] = function(){
     if(allowed('writing')){
         global $connection;     
         $map_id = $_POST['map_id'];

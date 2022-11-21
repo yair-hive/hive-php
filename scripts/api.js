@@ -212,7 +212,7 @@ export const add_guest = (selected_guest_id, selected_seat_class, map_id)=>{
 export const update_guest = (selected_guest_id, selected_seat_class, map_id)=>{
     const options = {
         method: 'POST',
-        body: "category=guest&action=update_guest&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_id="+map_id,
+        body: "category=guest&action=update&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_id="+map_id,
         mode: 'no-cors',
         credentials: 'include',
         headers: {
