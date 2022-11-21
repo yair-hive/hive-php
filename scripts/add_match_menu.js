@@ -64,32 +64,37 @@ export default function(guests_list, box){
     $('#name_box_input').on('input', function(){
         var corrent = -1
         document.addEventListener('keydown', (e)=>{
+            var len = document.querySelectorAll('.drop_down > ul > li').length -1
             if(e.keyCode == 38){
-                corrent--
-                var drop_down = document.getElementById('drop_down')
-                var match_drop_down = document.getElementById('match_drop_down')
-                var corrent_ele = match_drop_down.childNodes[corrent] 
-                document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
-                corrent_ele.style.backgroundColor = '#4f90f275'
-                var list = drop_down.getBoundingClientRect()
-                var corrent_ele_size = corrent_ele.getBoundingClientRect()
-                var list_b = list.top + 45
-                if(corrent_ele_size.bottom < list_b){              
-                    drop_down.scrollTop = drop_down.scrollTop-30 
+                if(corrent > 0){
+                    corrent--
+                    var drop_down = document.getElementById('drop_down')
+                    var match_drop_down = document.getElementById('match_drop_down')
+                    var corrent_ele = match_drop_down.childNodes[corrent] 
+                    document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
+                    corrent_ele.style.backgroundColor = '#4f90f275'
+                    var list = drop_down.getBoundingClientRect()
+                    var corrent_ele_size = corrent_ele.getBoundingClientRect()
+                    var list_b = list.top + 45
+                    if(corrent_ele_size.bottom < list_b){              
+                        drop_down.scrollTop = drop_down.scrollTop-30 
+                    }
                 }
             }
             if(e.keyCode == 40){
-                corrent++
-                var drop_down = document.getElementById('drop_down')
-                var match_drop_down = document.getElementById('match_drop_down')
-                var corrent_ele = match_drop_down.childNodes[corrent] 
-                document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
-                corrent_ele.style.backgroundColor = '#4f90f275'
-                var list = drop_down.getBoundingClientRect()
-                var corrent_ele_size = corrent_ele.getBoundingClientRect()
-                var list_b = list.bottom - 45
-                if(corrent_ele_size.top > list_b){             
-                    drop_down.scrollTop = drop_down.scrollTop+30 
+                if(corrent < len){
+                    corrent++
+                    var drop_down = document.getElementById('drop_down')
+                    var match_drop_down = document.getElementById('match_drop_down')
+                    var corrent_ele = match_drop_down.childNodes[corrent]                
+                    document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
+                    corrent_ele.style.backgroundColor = '#4f90f275'
+                    var list = drop_down.getBoundingClientRect()
+                    var corrent_ele_size = corrent_ele.getBoundingClientRect()
+                    var list_b = list.bottom - 45
+                    if(corrent_ele_size.top > list_b){             
+                        drop_down.scrollTop = drop_down.scrollTop+30 
+                    }
                 }
             }
         })
