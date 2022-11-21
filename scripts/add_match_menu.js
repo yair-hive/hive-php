@@ -62,6 +62,19 @@ export default function(guests_list, box){
     document.getElementById('mainBord').addEventListener('scroll', ()=> offsetCalculate(box))
     $('#name_box_input').focus()
     $('#name_box_input').on('input', function(){
+        var corrent = -1
+        document.addEventListener('keydown', (e)=>{
+            if(e.keyCode == 38){
+                corrent--
+                document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
+                document.getElementById('match_drop_down').childNodes[corrent].style.backgroundColor = '#4f90f275'
+            }
+            if(e.keyCode == 40){
+                corrent++
+                document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
+                document.getElementById('match_drop_down').childNodes[corrent].style.backgroundColor = '#4f90f275'
+            }
+        })
         $('#drop_down').text(' ')
         var seat = box.getAttribute('seat_id')
         $('#drop_down').append(add_match_list(guests_list, seat))                               
