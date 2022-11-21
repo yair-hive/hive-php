@@ -20,6 +20,9 @@ th {
     font-size: 15px;
     height: 20px;
 }
+th:hover{
+    background-color: rgb(97, 96, 96);
+}
 td { 
     border: 1px solid black;
     padding: 5px;
