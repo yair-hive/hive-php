@@ -102,16 +102,18 @@ const onDropMenuArrow = (e)=>{
             var drop_down = document.getElementById('drop_down')
             var match_drop_down = document.getElementById('match_drop_down')
             var corrent_ele = match_drop_down.childNodes[corrent] 
-            var next_ele = match_drop_down.childNodes[corrent - 1] 
             selected_ele = corrent_ele
             document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
             corrent_ele.style.backgroundColor = '#4f90f275'
             var list = drop_down.getBoundingClientRect()
             var corrent_ele_size = corrent_ele.getBoundingClientRect()
-            var next_ele_height = next_ele.getBoundingClientRect().height
-            var list_b = list.top + 45
-            if(corrent_ele_size.bottom < list_b){              
-                drop_down.scrollTop = drop_down.scrollTop-next_ele_height 
+            var list_b = list.top + (corrent_ele_size.height + 15)
+            if(corrent-1 >= 0){
+                var next_ele = match_drop_down.childNodes[corrent - 1] 
+                var next_ele_height = next_ele.getBoundingClientRect().height + 1
+                if(corrent_ele_size.bottom < list_b){              
+                    drop_down.scrollTop = drop_down.scrollTop-next_ele_height 
+                }
             }
         }
     }
@@ -121,17 +123,18 @@ const onDropMenuArrow = (e)=>{
             var drop_down = document.getElementById('drop_down')
             var match_drop_down = document.getElementById('match_drop_down')
             var corrent_ele = match_drop_down.childNodes[corrent]
-            var next_ele = match_drop_down.childNodes[corrent + 1] 
             selected_ele = corrent_ele          
             document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
             corrent_ele.style.backgroundColor = '#4f90f275'
             var list = drop_down.getBoundingClientRect()
             var corrent_ele_size = corrent_ele.getBoundingClientRect()
-            var next_ele_height = next_ele.getBoundingClientRect().height
-            var list_b = list.bottom - 45
-            if(corrent_ele_size.top > list_b){
-                console.log(next_ele_height)             
-                drop_down.scrollTop = drop_down.scrollTop+next_ele_height
+            var list_b = list.bottom - (corrent_ele_size.height + 15)
+            if(corrent+1 <= len){
+                var next_ele = match_drop_down.childNodes[corrent + 1] 
+                var next_ele_height = next_ele.getBoundingClientRect().height + 1
+                if(corrent_ele_size.top > list_b){           
+                    drop_down.scrollTop = drop_down.scrollTop+next_ele_height 
+                }
             }
         }
     }
