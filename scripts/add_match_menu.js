@@ -74,10 +74,7 @@ export default function(guests_list, box){
                 var list = drop_down.getBoundingClientRect()
                 var corrent_ele_size = corrent_ele.getBoundingClientRect()
                 var list_b = list.top + 45
-                console.log(list_b)
-                console.log(corrent_ele_size.top)
-                if(corrent_ele_size.bottom < list_b){ 
-                    console.log('kk')               
+                if(corrent_ele_size.bottom < list_b){              
                     drop_down.scrollTop = drop_down.scrollTop-30 
                 }
             }
@@ -91,10 +88,7 @@ export default function(guests_list, box){
                 var list = drop_down.getBoundingClientRect()
                 var corrent_ele_size = corrent_ele.getBoundingClientRect()
                 var list_b = list.bottom - 45
-                console.log(list_b)
-                console.log(corrent_ele_size.top)
-                if(corrent_ele_size.top > list_b){ 
-                    console.log('kk')               
+                if(corrent_ele_size.top > list_b){             
                     drop_down.scrollTop = drop_down.scrollTop+30 
                 }
             }
