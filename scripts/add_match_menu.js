@@ -66,13 +66,37 @@ export default function(guests_list, box){
         document.addEventListener('keydown', (e)=>{
             if(e.keyCode == 38){
                 corrent--
+                var drop_down = document.getElementById('drop_down')
+                var match_drop_down = document.getElementById('match_drop_down')
+                var corrent_ele = match_drop_down.childNodes[corrent] 
                 document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
-                document.getElementById('match_drop_down').childNodes[corrent].style.backgroundColor = '#4f90f275'
+                corrent_ele.style.backgroundColor = '#4f90f275'
+                var list = drop_down.getBoundingClientRect()
+                var corrent_ele_size = corrent_ele.getBoundingClientRect()
+                var list_b = list.top + 45
+                console.log(list_b)
+                console.log(corrent_ele_size.top)
+                if(corrent_ele_size.bottom < list_b){ 
+                    console.log('kk')               
+                    drop_down.scrollTop = drop_down.scrollTop-30 
+                }
             }
             if(e.keyCode == 40){
                 corrent++
+                var drop_down = document.getElementById('drop_down')
+                var match_drop_down = document.getElementById('match_drop_down')
+                var corrent_ele = match_drop_down.childNodes[corrent] 
                 document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
-                document.getElementById('match_drop_down').childNodes[corrent].style.backgroundColor = '#4f90f275'
+                corrent_ele.style.backgroundColor = '#4f90f275'
+                var list = drop_down.getBoundingClientRect()
+                var corrent_ele_size = corrent_ele.getBoundingClientRect()
+                var list_b = list.bottom - 45
+                console.log(list_b)
+                console.log(corrent_ele_size.top)
+                if(corrent_ele_size.top > list_b){ 
+                    console.log('kk')               
+                    drop_down.scrollTop = drop_down.scrollTop+30 
+                }
             }
         })
         $('#drop_down').text(' ')
