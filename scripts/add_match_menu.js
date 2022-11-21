@@ -2,6 +2,7 @@ import { onClick_match_list_item } from "./eventListeners.js"
 import { offsetCalculate } from "./scripts.js"
 import { selection } from "./main.js"
 import "./lib/jquery.min.js"
+import { add_guest, update_guest } from "./api/api.js"
 
 const add_match_list_items = (guests_list)=>{
     var match_list = []
@@ -52,6 +53,43 @@ const add_drop_down = ()=>{
     $(drop_down).addClass('drop_down')   
     return drop_down
 }
+const addGuest = (ele)=>{
+    if(ele.getAttribute('guest_id')){
+        console.log(ele)
+        var map = document.getElementById('map').getAttribute('map_id')
+        var guest_id = ele.getAttribute('guest_id')
+        var seat_id = ele.getAttribute('seat')
+        var name_box = document.querySelector(`.name_box[seat_id="${seat_id}"]`)
+        var guest = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
+        var guest_name = guest.getAttribute('guest_name')
+        var guest_group = guest.getAttribute('guest_group')   
+        document.getElementById('drop_down').remove()
+        document.getElementById('name_box_input').remove()
+        add_guest(guest_id, seat_id, map)
+        .then((res)=>{
+            if(res.msg === 'belong'){
+                if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
+                    update_guest(guest_id, seat_id, map)
+                    .then(()=>{
+                        var other_seat = document.querySelector(`.name_box[guest_name="${guest_name}"]`)
+                        if(other_seat) {
+                            other_seat.removeAttribute('guest_group')
+                            other_seat.removeAttribute('guest_name')
+                            other_seat.textContent = ''
+                        }
+                        name_box.setAttribute('guest_name', guest_name)
+                        name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
+                        name_box.textContent = guest_name 
+                    })
+                }
+            }else{
+                name_box.setAttribute('guest_name', guest_name)
+                name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
+                name_box.textContent = guest_name 
+            }
+        })
+    }
+}
 export default function(guests_list, box){
     selection.clearSelection()
     document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
@@ -63,8 +101,12 @@ export default function(guests_list, box){
     $('#name_box_input').focus()
     $('#name_box_input').on('input', function(){
         var corrent = -1
+        var sele
         document.addEventListener('keydown', (e)=>{
             var len = document.querySelectorAll('.drop_down > ul > li').length -1
+            if(e.keyCode == 13){
+                addGuest(sele)
+             }
             if(e.keyCode == 38){
                 if(corrent > 0){
                     corrent--
@@ -86,7 +128,8 @@ export default function(guests_list, box){
                     corrent++
                     var drop_down = document.getElementById('drop_down')
                     var match_drop_down = document.getElementById('match_drop_down')
-                    var corrent_ele = match_drop_down.childNodes[corrent]                
+                    var corrent_ele = match_drop_down.childNodes[corrent]  
+                    sele = corrent_ele            
                     document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
                     corrent_ele.style.backgroundColor = '#4f90f275'
                     var list = drop_down.getBoundingClientRect()
