@@ -176,6 +176,10 @@ export const onClick_match_list_item = (event)=>{
                     name_box.textContent = guest_name 
                 })
             }
+        }else{
+            name_box.setAttribute('guest_name', guest_name)
+            name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
+            name_box.textContent = guest_name 
         }
     })
 }
