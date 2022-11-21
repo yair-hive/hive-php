@@ -39,9 +39,11 @@
         </div>
         <div id="mneu">
             <div onclick="location.href='http://localhost/hive-php/html/add_guests.html?map_name='+map_name" class="hive-button"> הוסף בחורים </div>
-            <div id="ShowOnlyWthBelong" class="hive-button"> הצג רק משובצים </div>
-            <div id="ShowOnlyWthoutBelong" class="hive-button"> הצג רק לא משובצים </div>
-            <div id="ShowAll" class="hive-button"> הצג הכל </div>
+            <div class="hive-switch hive-button">
+                <div id="ShowOnlyWthBelong" class="hive-button hive-switch-l"> משובצים </div>
+                <div id="ShowOnlyWthoutBelong" class="hive-button hive-switch-m"> לא משובצים </div>
+                <div id="ShowAll" class="hive-button hive-switch-r" style="background-color: #7a93b9;"> הכל </div>
+            </div>
             <div id='export' class='hive-button'> יצא </div>
         </div>
     </div>

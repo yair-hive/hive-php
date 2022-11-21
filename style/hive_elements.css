@@ -36,11 +36,14 @@
 .hive-switch > div:hover{
     color: white;
 }
-.hive-switch-1{
+.hive-switch-l{
     border-right: none;
     border-radius: 5px 0 0 5px;
 }
-.hive-switch-2{
+.hive-switch-r{
     border-left: none;
     border-radius: 0 5px 5px 0;
+}
+.hive-switch-m{
+    border-radius: 0;
 }
