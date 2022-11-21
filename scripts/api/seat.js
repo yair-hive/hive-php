@@ -2,12 +2,6 @@ import "../lib/jquery.min.js"
 
 const api_url = 'http://localhost/hive-php/php/api.php'
 
-// get_seats 
-// seat_get_belong  
-// get_seat_number 
-// seat_delete_belong 
-// post_seat 
-
 export const seat = {
     get_all: (map_id)=>{
         const options = {

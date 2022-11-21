@@ -1,4 +1,4 @@
-import { get_seats, get_guests, login, sginup, get_user, logout, post_guest, get_users } from "./api/api.js"
+import { get_guests, login, sginup, get_user, logout, post_guest, get_users } from "./api/api.js"
 import { map } from "./api/map.js"
 import {add_map, add_seats, add_guests, add_guests_table, add_belong} from "./elements.js"
 import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp, onShowOnlyWthBelong } from "./eventListeners.js"
@@ -7,6 +7,7 @@ import add_match_menu from './add_match_menu.js'
 import "./lib/jquery.min.js"
 import "./lib/read-excel-file.min.js"
 import "./lib/jquery.table2excel.min.js"
+import { seat } from "./api/seat.js"
 
 export const selection = create_selection()
 export const dragToScroll = new DragToScroll()
@@ -30,7 +31,7 @@ switch(parsedUrl.pathname){
         var guests_data = {}
         var map_id = ''
         map.get(map_name).then(map => {add_map(map); map_data = map; map_id = map.id })
-        .then(() => get_seats(map_id))
+        .then(() => seat.get_all(map_id))
         .then(seats => add_seats(seats))
         .then(()=>{add_belong()})
         .then(() => get_guests(map_id))

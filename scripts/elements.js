@@ -1,5 +1,6 @@
-import { delete_guest, get_guests, seat_get_belong, guest_get_belong, get_seat_number } from "./api/api.js"
+import { delete_guest, get_guests, guest_get_belong, } from "./api/api.js"
 import { map } from "./api/map.js"
+import { seat } from "./api/seat.js"
 import { onSeatNum } from "./eventListeners.js"
 import "./lib/jquery.min.js"
 
@@ -56,7 +57,7 @@ export const add_seats = (seats)=>{
 export const add_belong = ()=>{
     document.querySelectorAll('.name_box').forEach(element => {
         var seat_id = element.getAttribute('seat_id')
-        seat_get_belong(seat_id)
+        seat.get_belong(seat_id)
         .then(belong => {
             if(belong[0]) element.setAttribute('guest_id', belong[0].guest)
             else return
@@ -122,7 +123,7 @@ export const add_guests_table = (map_name, table)=>{
                         color = 'grey'
                         text = 'none'
                     }
-                    get_seat_number(text)
+                    seat.get_number(text)
                     .then(seat => {
                         if(seat[0]) {
                             element.textContent = seat[0].seat_number

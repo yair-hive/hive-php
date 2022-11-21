@@ -1,8 +1,9 @@
-import { add_seat_number, add_guest, get_seats, get_guests, post_seat, get_permissions_list, add_permission, seat_delete_belong, update_guest } from "./api/api.js"
+import { add_seat_number, add_guest, get_guests, get_permissions_list, add_permission, update_guest } from "./api/api.js"
 import { dragToScroll, selection } from "./main.js"
 import { add_guests, add_seats } from "./elements.js"
 import add_match_menu from "./add_match_menu.js"
 import "./lib/jquery.min.js"
+import { seat } from "./api/seat.js"
 
 var selectables = 'cells'
 
@@ -49,9 +50,9 @@ export const onClick_add_seats = ()=>{
     selected.forEach((cell) => {
         var row = cell.getAttribute('row') 
         var col = cell.getAttribute('col')
-        post_seat(map_id, row, col)
+        seat.create(map_id, row, col)
         .then(()=> {selection.clearSelection(); document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))})
-        .then(()=> get_seats(map_id).then(seats => add_seats(seats)))
+        .then(()=> seat.get_all(map_id).then(seats => add_seats(seats)))
         .then(() => get_guests(map_id))
         .then((guests) => {add_guests(guests); guests_data = guests})
         .then(()=> document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target))))
@@ -241,7 +242,7 @@ export const onSeatNum = (event)=>{
     button.addEventListener('click', (event)=>{
         event.preventDefault()
         var seat_id = event.target.getAttribute('seat_id')
-        seat_delete_belong(seat_id)
+        seat.delete_belong(seat_id)
         event.target.parentNode.parentNode.style.display = 'none' 
      })
     event.target.append(button)
