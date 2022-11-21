@@ -4,6 +4,8 @@ import { selection } from "./main.js"
 import "./lib/jquery.min.js"
 import { add_guest, update_guest } from "./api/api.js"
 
+var corrent = 0
+var selected_ele
 const add_match_list_items = (guests_list)=>{
     var match_list = []
     var input_str = document.getElementById('name_box_input').value
@@ -55,7 +57,6 @@ const add_drop_down = ()=>{
 }
 const addGuest = (ele)=>{
     if(ele.getAttribute('guest_id')){
-        console.log(ele)
         var map = document.getElementById('map').getAttribute('map_id')
         var guest_id = ele.getAttribute('guest_id')
         var seat_id = ele.getAttribute('seat')
@@ -90,6 +91,51 @@ const addGuest = (ele)=>{
         })
     }
 }
+const onDropMenuArrow = (e)=>{
+    var len = document.querySelectorAll('.drop_down > ul > li').length -1
+    if(e.keyCode == 13){
+        addGuest(selected_ele)
+     }
+    if(e.keyCode == 38){
+        if(corrent > 0){
+            corrent--
+            var drop_down = document.getElementById('drop_down')
+            var match_drop_down = document.getElementById('match_drop_down')
+            var corrent_ele = match_drop_down.childNodes[corrent] 
+            var next_ele = match_drop_down.childNodes[corrent - 1] 
+            selected_ele = corrent_ele
+            document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
+            corrent_ele.style.backgroundColor = '#4f90f275'
+            var list = drop_down.getBoundingClientRect()
+            var corrent_ele_size = corrent_ele.getBoundingClientRect()
+            var next_ele_height = next_ele.getBoundingClientRect().height
+            var list_b = list.top + 45
+            if(corrent_ele_size.bottom < list_b){              
+                drop_down.scrollTop = drop_down.scrollTop-next_ele_height 
+            }
+        }
+    }
+    if(e.keyCode == 40){
+        if(corrent < len){
+            corrent++
+            var drop_down = document.getElementById('drop_down')
+            var match_drop_down = document.getElementById('match_drop_down')
+            var corrent_ele = match_drop_down.childNodes[corrent]
+            var next_ele = match_drop_down.childNodes[corrent + 1] 
+            selected_ele = corrent_ele          
+            document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
+            corrent_ele.style.backgroundColor = '#4f90f275'
+            var list = drop_down.getBoundingClientRect()
+            var corrent_ele_size = corrent_ele.getBoundingClientRect()
+            var next_ele_height = next_ele.getBoundingClientRect().height
+            var list_b = list.bottom - 45
+            if(corrent_ele_size.top > list_b){
+                console.log(next_ele_height)             
+                drop_down.scrollTop = drop_down.scrollTop+next_ele_height
+            }
+        }
+    }
+}
 export default function(guests_list, box){
     selection.clearSelection()
     document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
@@ -100,49 +146,11 @@ export default function(guests_list, box){
     document.getElementById('mainBord').addEventListener('scroll', ()=> offsetCalculate(box))
     $('#name_box_input').focus()
     $('#name_box_input').on('input', function(){
-        var corrent = -1
-        var sele
-        document.addEventListener('keydown', (e)=>{
-            var len = document.querySelectorAll('.drop_down > ul > li').length -1
-            if(e.keyCode == 13){
-                addGuest(sele)
-             }
-            if(e.keyCode == 38){
-                if(corrent > 0){
-                    corrent--
-                    var drop_down = document.getElementById('drop_down')
-                    var match_drop_down = document.getElementById('match_drop_down')
-                    var corrent_ele = match_drop_down.childNodes[corrent] 
-                    document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
-                    corrent_ele.style.backgroundColor = '#4f90f275'
-                    var list = drop_down.getBoundingClientRect()
-                    var corrent_ele_size = corrent_ele.getBoundingClientRect()
-                    var list_b = list.top + 45
-                    if(corrent_ele_size.bottom < list_b){              
-                        drop_down.scrollTop = drop_down.scrollTop-30 
-                    }
-                }
-            }
-            if(e.keyCode == 40){
-                if(corrent < len){
-                    corrent++
-                    var drop_down = document.getElementById('drop_down')
-                    var match_drop_down = document.getElementById('match_drop_down')
-                    var corrent_ele = match_drop_down.childNodes[corrent]  
-                    sele = corrent_ele            
-                    document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
-                    corrent_ele.style.backgroundColor = '#4f90f275'
-                    var list = drop_down.getBoundingClientRect()
-                    var corrent_ele_size = corrent_ele.getBoundingClientRect()
-                    var list_b = list.bottom - 45
-                    if(corrent_ele_size.top > list_b){             
-                        drop_down.scrollTop = drop_down.scrollTop+30 
-                    }
-                }
-            }
-        })
+        document.removeEventListener('keydown', onDropMenuArrow)
+        document.addEventListener('keydown', onDropMenuArrow)
         $('#drop_down').text(' ')
         var seat = box.getAttribute('seat_id')
+        corrent = -1
         $('#drop_down').append(add_match_list(guests_list, seat))                               
     })
 }
