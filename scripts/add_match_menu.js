@@ -38,6 +38,7 @@ const add_match_list = (guests_list, seat)=>{
 const add_name_box_input = (box)=>{
     var input_fild = document.createElement('input')
     input_fild.style.border = "none";
+    input_fild.setAttribute('autocomplete', "off")
     $(input_fild).attr('id', 'name_box_input')
     $(input_fild).val($(box).attr('guest_name'))
     $(input_fild).addClass('name_box')
