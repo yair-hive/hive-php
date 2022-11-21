@@ -239,19 +239,39 @@ export const onShowOnlyWthBelong = (event)=>{
     document.querySelectorAll('.hive-button').forEach(e => e.style.backgroundColor = 'rgb(119, 224, 224)')
     event.target.style.backgroundColor = '#7a93b9';
     document.querySelectorAll('td[seat_id = "none"]').forEach(e => e.parentNode.style.display = 'none')
-    document.querySelectorAll('td[belong]').forEach(e => {e.parentNode.style.display = 'table-row'; e.parentNode.style.verticalAlign = 'inherit';})
+    document.querySelectorAll('td[belong]').forEach(e => {
+        if(e.getAttribute('show') == 'true'){
+            e.parentNode.style.display = 'table-row';
+            e.parentNode.style.verticalAlign = 'inherit';
+        }
+    })
 }
 export const onShowOnlyWthoutBelong = (event)=>{
     document.querySelectorAll('.hive-button').forEach(e => e.style.backgroundColor = 'rgb(119, 224, 224)')
     event.target.style.backgroundColor = '#7a93b9';
-    document.querySelectorAll('td[seat_id = "none"]').forEach(e => {e.parentNode.style.display = 'table-row'; e.parentNode.style.verticalAlign = 'inherit';})
+    document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
+        if(e.getAttribute('show') == 'true'){
+            e.parentNode.style.display = 'table-row';
+            e.parentNode.style.verticalAlign = 'inherit';
+        }
+    })
     document.querySelectorAll('td[belong]').forEach(e => e.parentNode.style.display = 'none')
 }
 export const onShowAll = (event)=>{
     document.querySelectorAll('.hive-button').forEach(e => e.style.backgroundColor = 'rgb(119, 224, 224)')
     event.target.style.backgroundColor = '#7a93b9';
-    document.querySelectorAll('td[seat_id = "none"]').forEach(e => {e.parentNode.style.display = 'table-row'; e.parentNode.style.verticalAlign = 'inherit';})
-    document.querySelectorAll('td[belong]').forEach(e => {e.parentNode.style.display = 'table-row'; e.parentNode.style.verticalAlign = 'inherit';})
+    document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
+        if(e.getAttribute('show') == 'true'){
+            e.parentNode.style.display = 'table-row';
+            e.parentNode.style.verticalAlign = 'inherit';
+        }
+    })
+    document.querySelectorAll('td[belong]').forEach(e => {
+        if(e.getAttribute('show') == 'true'){
+            e.parentNode.style.display = 'table-row';
+            e.parentNode.style.verticalAlign = 'inherit';
+        }
+    })
 }
 export const onSeatNum = (event)=>{
     event.target.innerHTML = ''

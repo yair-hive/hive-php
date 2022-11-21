@@ -99,6 +99,7 @@ export const add_guests_table = (map_name, table)=>{
                     delete_guest(name.id)
                     .then(()=>{
                         event.target.parentNode.style.display = 'none'
+                        event.target.parentNode.childNodes[0].setAttribute('show', 'false')
                     })
                 })
                 var tr = $('<tr>')
@@ -132,7 +133,8 @@ export const add_guests_table = (map_name, table)=>{
                         }                          
                     })
                     element.style.backgroundColor = color
-                    element.setAttribute('seat_id', text)                    
+                    element.setAttribute('seat_id', text) 
+                    element.setAttribute('show', 'true')                   
                 })
             })
         })
