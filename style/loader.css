@@ -5,6 +5,7 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 128, 128);
+    opacity: .5;
 }
 #loader {
     z-index: 300;
