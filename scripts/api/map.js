@@ -10,15 +10,9 @@ export const map = {
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
-        };
-          
+        };         
         return fetch(api_url, options)
         .then(res => res.json())
-        .then((res)=>{
-            if(res.msg == 'ok') return res.data
-            alert(res.msg)
-            return res.msg
-        })
     },
     get: (map_name)=>{
         const options = {
