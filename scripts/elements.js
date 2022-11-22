@@ -66,7 +66,11 @@ export const add_belong = ()=>{
     })
 }
 export const add_guests = (guests)=>{
-    document.querySelectorAll('.name_box').forEach((name_box)=>{
+    var name_boxs = document.querySelectorAll('.name_box')
+    var l = name_boxs.length
+    var i = 1
+    name_boxs.forEach((name_box)=>{
+        i++
         var guest_id = name_box.getAttribute('guest_id')
         for(var corrent of guests){
             if(corrent.id == guest_id){
@@ -76,6 +80,9 @@ export const add_guests = (guests)=>{
                 name_box.setAttribute('guest_name', corrent.name)
                 name_box.setAttribute('guest_group', corrent.guest_group)
                 name_box.textContent = corrent.name             
+            }
+            if(i == l){
+                respondToVisibility(name_box, stopLoader)
             }
         }
     }) 
