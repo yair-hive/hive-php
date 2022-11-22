@@ -3,7 +3,7 @@ import { map } from "./api/map.js"
 import { seat } from "./api/seat.js"
 import { onSeatNum } from "./eventListeners.js"
 import "./lib/jquery.min.js"
-import { respondToVisibility, stopLoader } from "./scripts.js"
+import { respondToVisibility, startLoader, startMBLoader, stopLoader, stopMBLoader } from "./scripts.js"
 
 export const add_map = (map)=>{
     const main_bord = document.getElementById('mainBord')
@@ -54,6 +54,7 @@ export const add_seats = (seats)=>{
         seat_ele.append(name_box)
         cell.replaceChildren(seat_ele)
     }
+    stopLoader()
 }
 export const add_belong = ()=>{
     document.querySelectorAll('.name_box').forEach(element => {
@@ -66,9 +67,13 @@ export const add_belong = ()=>{
     })
 }
 export const add_guests = (guests)=>{
+    startMBLoader()
     var name_boxs = document.querySelectorAll('.name_box')
     var l = name_boxs.length
     var i = 1
+    if(l == 0){
+        stopMBLoader()
+    }
     name_boxs.forEach((name_box)=>{
         i++
         var guest_id = name_box.getAttribute('guest_id')
@@ -82,7 +87,7 @@ export const add_guests = (guests)=>{
                 name_box.textContent = corrent.name             
             }
             if(i == l){
-                respondToVisibility(name_box, stopLoader)
+                respondToVisibility(name_box, stopMBLoader())
             }
         }
     }) 
@@ -161,6 +166,28 @@ export const add_loader = ()=>{
     var loaderContainer = document.createElement('div')
     loader.setAttribute('id', "loader")
     loaderContainer.setAttribute('id', "loader-container")
+    document.body.insertBefore(loader, document.body.children[0])
+    document.body.insertBefore(loaderContainer, document.body.children[0])
+    loader.style.display = 'none'
+    loaderContainer.style.display = 'none'
+}
+export const add_main_bord_loader = ()=>{
+    var loader = document.createElement('div')
+    var loaderContainer = document.createElement('div')
+    var main_bord = document.getElementById('mainBord')
+    var perent = main_bord.getBoundingClientRect()
+    $(loaderContainer) .css({
+        'position': 'absolute',
+        'width': perent.width,
+        'height': perent.height, 
+        'top': perent.top,
+        'left': perent.left,
+        'margin': 0,
+        'padding': 0,
+        'backgroundColor' : 'black'
+    })
+    loader.setAttribute('id', "MBloader")
+    loaderContainer.setAttribute('id', "MBloader-container")
     document.body.insertBefore(loader, document.body.children[0])
     document.body.insertBefore(loaderContainer, document.body.children[0])
     loader.style.display = 'none'

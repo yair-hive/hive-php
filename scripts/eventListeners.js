@@ -5,6 +5,7 @@ import "./lib/jquery.min.js"
 import { seat } from "./api/seat.js"
 import { guest } from "./api/guest.js"
 import { user } from "./api/user.js"
+import { startMBLoader, stopMBLoader } from "./scripts.js"
 
 var selectables = 'cells'
 
@@ -45,10 +46,14 @@ export const onClick_select_cells = ()=>{
     selection.resolveSelectables()
 }
 export const onClick_add_seats = ()=>{
+    startMBLoader()
     let guests_data = {}
     var selected = selection.getSelection()
     var map_id = document.getElementById('map').getAttribute('map_id')
+    var l = selected.length
+    var i = 1
     selected.forEach((cell) => {
+        i++
         var row = cell.getAttribute('row') 
         var col = cell.getAttribute('col')
         seat.create(map_id, row, col)
@@ -57,6 +62,9 @@ export const onClick_add_seats = ()=>{
         .then(() => guest.get_all(map_id))
         .then((guests) => {add_guests(guests); guests_data = guests})
         .then(()=> document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target))))
+        if(i ==l){
+            stopMBLoader()
+        }
     })
 }
 export const onClick_add_seat_number = ()=>{

@@ -7,6 +7,7 @@ import { guest } from "../api/guest.js"
 import "../lib/jquery.min.js"
 import { dragToScroll, selection } from "../main.js"
 import add_match_menu from '../add_match_menu.js'
+
 startLoader()
 const parsedUrl = new URL(window.location.href)
 selection.enable()
@@ -17,7 +18,9 @@ var guests_data = {}
 var map_id = ''
 map.get(map_name).then(map => {add_map(map); map_data = map; map_id = map.id })
 .then(() => seat.get_all(map_id))
-.then(seats => add_seats(seats))
+.then(seats => {
+    add_seats(seats)
+})
 .then(()=>{add_belong()})
 .then(() => guest.get_all(map_id))
 .then((guests) => {add_guests(guests); guests_data = guests})

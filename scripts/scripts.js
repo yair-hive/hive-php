@@ -158,6 +158,15 @@ export const stopLoader = ()=>{
     document.getElementById('loader').style.display = 'none'
     document.getElementById('loader-container').style.display = 'none'
 }
+export const startMBLoader = ()=>{
+    document.getElementById('MBloader').style.display = 'block'
+    document.getElementById('MBloader-container').style.display = 'block'
+}
+export const stopMBLoader = ()=>{
+    document.getElementById('MBloader').style.display = 'none'
+    document.getElementById('MBloader-container').style.display = 'none'
+}
+
 export const respondToVisibility = (element, callback)=>{
     var options = {
       root: document.documentElement,
