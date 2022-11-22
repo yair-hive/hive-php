@@ -50,4 +50,5 @@ function update($filename, $link){
 foreach($files as $filename){
     update($filename, $connection);
 }
+header("Location: http://localhost/hive-php/html/maps.html");
 ?>
