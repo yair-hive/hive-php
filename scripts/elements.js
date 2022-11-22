@@ -1,4 +1,5 @@
-import { delete_guest, get_guests, guest_get_belong, } from "./api/api.js"
+import { delete_guest } from "./api/api.js"
+import { guest } from "./api/guest.js"
 import { map } from "./api/map.js"
 import { seat } from "./api/seat.js"
 import { onSeatNum } from "./eventListeners.js"
@@ -85,7 +86,7 @@ export const add_guests_table = (map_name, table)=>{
     return map.get(map_name)
     .then(res => map_id = res.id)
     .then(()=>{
-        get_guests(map_id)
+        guest.get_all(map_id)
         .then((names)=>{
             table_length = names.length
             for(let name of names){
@@ -115,7 +116,7 @@ export const add_guests_table = (map_name, table)=>{
         .then(()=>{
             document.querySelectorAll('.seat_num').forEach(element => {
                 var guest_id = element.getAttribute('guest_id')
-                guest_get_belong(guest_id)
+                guest.get_belong(guest_id)
                 .then((res)=>{
                     var color, text
                     if(res[0]){

@@ -1,4 +1,4 @@
-import { get_guests, login, sginup, get_user, logout, post_guest, get_users } from "./api/api.js"
+import { login, sginup, get_user, logout, get_users } from "./api/api.js"
 import { map } from "./api/map.js"
 import {add_map, add_seats, add_guests, add_guests_table, add_belong} from "./elements.js"
 import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp, onShowAll, onShowOnlyWthBelong, onShowOnlyWthoutBelong } from "./eventListeners.js"
@@ -8,6 +8,7 @@ import "./lib/jquery.min.js"
 import "./lib/read-excel-file.min.js"
 import "./lib/jquery.table2excel.min.js"
 import { seat } from "./api/seat.js"
+import { guest } from "./api/guest.js"
 
 export const selection = create_selection()
 export const dragToScroll = new DragToScroll()
@@ -34,7 +35,7 @@ switch(parsedUrl.pathname){
         .then(() => seat.get_all(map_id))
         .then(seats => add_seats(seats))
         .then(()=>{add_belong()})
-        .then(() => get_guests(map_id))
+        .then(() => guest.get_all(map_id))
         .then((guests) => {add_guests(guests); guests_data = guests})
         .then(()=>{
             selection.resolveSelectables()
@@ -111,7 +112,7 @@ switch(parsedUrl.pathname){
                 data[0] = document.getElementById('add_guest_form')['first_name'].value
                 data[1] = document.getElementById('add_guest_form')['last_name'].value
                 data[2] = document.getElementById('add_guest_form')['guest_group'].value
-                post_guest(data, map_id)
+                guest.create(data, map_id)
                 .then(()=>{
                     document.getElementById('add_guest_form').reset()
                 })
@@ -123,7 +124,7 @@ switch(parsedUrl.pathname){
                 readXlsxFile(file)
                 .then((rows)=>{
                     for(let row of rows){
-                        post_guest(row, map_id)
+                        guest.create(row, map_id)
                     }
                 })
                 .then(()=>{

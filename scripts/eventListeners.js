@@ -1,9 +1,10 @@
-import { add_seat_number, add_guest, get_guests, get_permissions_list, add_permission, update_guest } from "./api/api.js"
+import { add_seat_number, get_permissions_list, add_permission } from "./api/api.js"
 import { dragToScroll, selection } from "./main.js"
 import { add_guests, add_seats } from "./elements.js"
 import add_match_menu from "./add_match_menu.js"
 import "./lib/jquery.min.js"
 import { seat } from "./api/seat.js"
+import { guest } from "./api/guest.js"
 
 var selectables = 'cells'
 
@@ -53,7 +54,7 @@ export const onClick_add_seats = ()=>{
         seat.create(map_id, row, col)
         .then(()=> {selection.clearSelection(); document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))})
         .then(()=> seat.get_all(map_id).then(seats => add_seats(seats)))
-        .then(() => get_guests(map_id))
+        .then(() => guest.get_all(map_id))
         .then((guests) => {add_guests(guests); guests_data = guests})
         .then(()=> document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target))))
     })
@@ -154,16 +155,16 @@ export const onClick_match_list_item = (event)=>{
     var guest_id = event.target.getAttribute('guest_id')
     var seat_id = event.target.getAttribute('seat')
     var name_box = document.querySelector(`.name_box[seat_id="${seat_id}"]`)
-    var guest = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
-    var guest_name = guest.getAttribute('guest_name')
-    var guest_group = guest.getAttribute('guest_group')   
+    var guest_ele = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
+    var guest_name = guest_ele.getAttribute('guest_name')
+    var guest_group = guest_ele.getAttribute('guest_group')   
     document.getElementById('drop_down').remove()
     document.getElementById('name_box_input').remove()
-    add_guest(guest_id, seat_id, map)
+    guest.create_belong(guest_id, seat_id, map)
     .then((res)=>{
         if(res.msg === 'belong'){
             if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
-                update_guest(guest_id, seat_id, map)
+                guest.update(guest_id, seat_id, map)
                 .then(()=>{
                     var other_seat = document.querySelector(`.name_box[guest_name="${guest_name}"]`)
                     if(other_seat) {

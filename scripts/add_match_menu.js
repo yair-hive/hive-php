@@ -2,7 +2,7 @@ import { onClick_match_list_item } from "./eventListeners.js"
 import { offsetCalculate } from "./scripts.js"
 import { selection } from "./main.js"
 import "./lib/jquery.min.js"
-import { add_guest, update_guest } from "./api/api.js"
+import { guest } from "./api/guest.js"
 
 var corrent = 0
 var selected_ele
@@ -61,16 +61,16 @@ const addGuest = (ele)=>{
         var guest_id = ele.getAttribute('guest_id')
         var seat_id = ele.getAttribute('seat')
         var name_box = document.querySelector(`.name_box[seat_id="${seat_id}"]`)
-        var guest = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
-        var guest_name = guest.getAttribute('guest_name')
-        var guest_group = guest.getAttribute('guest_group')   
+        var guest_ele = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
+        var guest_name = guest_ele.getAttribute('guest_name')
+        var guest_group = guest_ele.getAttribute('guest_group')   
         document.getElementById('drop_down').remove()
         document.getElementById('name_box_input').remove()
-        add_guest(guest_id, seat_id, map)
+        guest.create_belong(guest_id, seat_id, map)
         .then((res)=>{
             if(res.msg === 'belong'){
                 if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
-                    update_guest(guest_id, seat_id, map)
+                    guest.update(guest_id, seat_id, map)
                     .then(()=>{
                         var other_seat = document.querySelector(`.name_box[guest_name="${guest_name}"]`)
                         if(other_seat) {
