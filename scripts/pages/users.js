@@ -1,6 +1,6 @@
-import { onAddPermission } from "./eventListeners.js"
-import { user } from "./api/user.js"
-import "./lib/jquery.min.js"
+import { onAddPermission } from "../eventListeners.js"
+import { user } from "../api/user.js"
+import "../lib/jquery.min.js"
 var users_table = document.getElementById('users_table')
 user.get_all()
 .then((users)=>{

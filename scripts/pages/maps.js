@@ -1,5 +1,5 @@
-import { map } from "./api/map.js"
-import "./lib/jquery.min.js"
+import { map } from "../api/map.js"
+import "../lib/jquery.min.js"
 var maps_list = document.getElementById('maps_list')
 map.get_all()
 .then((maps)=>{

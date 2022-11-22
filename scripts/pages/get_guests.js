@@ -1,8 +1,8 @@
-import { add_guests_table } from "./elements.js"
-import { onShowAll, onShowOnlyWthBelong, onShowOnlyWthoutBelong } from "./eventListeners.js"
-import { sortTable } from "./scripts.js"
-import "./lib/jquery.min.js"
-import "./lib/jquery.table2excel.min.js"
+import { add_guests_table } from "../elements.js"
+import { onShowAll, onShowOnlyWthBelong, onShowOnlyWthoutBelong } from "../eventListeners.js"
+import { sortTable } from "../scripts.js"
+import "../lib/jquery.min.js"
+import "../lib/jquery.table2excel.min.js"
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
 var go_back = document.createElement('div')

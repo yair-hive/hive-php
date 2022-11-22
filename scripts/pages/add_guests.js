@@ -1,7 +1,7 @@
-import { map } from "./api/map.js"
-import { guest } from "./api/guest.js"
-import "./lib/jquery.min.js"
-import "./lib/read-excel-file.min.js"
+import { map } from "../api/map.js"
+import { guest } from "../api/guest.js"
+import "../lib/jquery.min.js"
+import "../lib/read-excel-file.min.js"
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
 var go_back = document.createElement('div')
