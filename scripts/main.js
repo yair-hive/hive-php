@@ -1,4 +1,3 @@
-import { login, sginup, get_user, logout, get_users } from "./api/api.js"
 import { map } from "./api/map.js"
 import {add_map, add_seats, add_guests, add_guests_table, add_belong} from "./elements.js"
 import { onAddPermission, onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp, onShowAll, onShowOnlyWthBelong, onShowOnlyWthoutBelong } from "./eventListeners.js"
@@ -9,6 +8,7 @@ import "./lib/read-excel-file.min.js"
 import "./lib/jquery.table2excel.min.js"
 import { seat } from "./api/seat.js"
 import { guest } from "./api/guest.js"
+import { user } from "./api/user.js"
 
 export const selection = create_selection()
 export const dragToScroll = new DragToScroll()
@@ -16,7 +16,7 @@ selection.disable()
 const parsedUrl = new URL(window.location.href)
 const base_path = '/hive-php/html/'
 
-get_user()
+user.get()
 .then((respons) => {
     if(respons.msg === 'all ok'){
         document.getElementById('user_element').innerText = respons.user_name
@@ -69,7 +69,7 @@ switch(parsedUrl.pathname){
         break;
     case base_path+'users.html':
         var users_table = document.getElementById('users_table')
-        get_users()
+        user.get_all()
         .then((users)=>{
             for(let user of users){
                 var tr = document.createElement('tr')
@@ -135,9 +135,9 @@ switch(parsedUrl.pathname){
         })
         break;
     case base_path+'login.html':
-        document.getElementById('login_button').addEventListener('click', ()=>{login().then(json => alert(json.msg))})
-        document.getElementById('sginup_button').addEventListener('click', ()=>{sginup().then(json => alert(json.msg))})
-        document.getElementById('logout_button').addEventListener('click', ()=>{logout().then(json => alert(json.msg))})
+        document.getElementById('login_button').addEventListener('click', ()=>{user.login().then(json => alert(json.msg))})
+        document.getElementById('sginup_button').addEventListener('click', ()=>{user.sginup().then(json => alert(json.msg))})
+        document.getElementById('logout_button').addEventListener('click', ()=>{user.logout().then(json => alert(json.msg))})
         break;
     case base_path+'get_guests.html':
         var map_name = parsedUrl.searchParams.get("map_name")

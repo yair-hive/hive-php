@@ -1,4 +1,3 @@
-import { delete_guest } from "./api/api.js"
 import { guest } from "./api/guest.js"
 import { map } from "./api/map.js"
 import { seat } from "./api/seat.js"
@@ -97,7 +96,7 @@ export const add_guests_table = (map_name, table)=>{
                 tdX.style.backgroundColor = 'red'
                 tdX.textContent = 'X'
                 tdX.addEventListener('click', (event)=>{
-                    delete_guest(name.id)
+                    guest.delete(name.id)
                     .then(()=>{
                         event.target.parentNode.style.display = 'none'
                         event.target.parentNode.childNodes[0].setAttribute('show', 'false')

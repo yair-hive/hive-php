@@ -1,10 +1,10 @@
-import { add_seat_number, get_permissions_list, add_permission } from "./api/api.js"
 import { dragToScroll, selection } from "./main.js"
 import { add_guests, add_seats } from "./elements.js"
 import add_match_menu from "./add_match_menu.js"
 import "./lib/jquery.min.js"
 import { seat } from "./api/seat.js"
 import { guest } from "./api/guest.js"
+import { user } from "./api/user.js"
 
 var selectables = 'cells'
 
@@ -107,11 +107,11 @@ export const onClick_add_seat_number = ()=>{
     col_group_name = Number(col_group_name)
     for(let i = most_t; i <= most_b; i++){
         let seats = document.querySelectorAll('.row-'+i+'.selected')
-        seats.forEach(function(seat){
-            var box = $(seat).children('.num_box')
+        seats.forEach(function(seat_ele){
+            var box = $(seat_ele).children('.num_box')
             box.text(col_group_name)
             var selected_seat_class = box.attr('seat_id')
-            add_seat_number(selected_seat_class, col_group_name)     
+            seat.create_number(selected_seat_class, col_group_name)     
             col_group_name = col_group_name +1
         })           
     }
@@ -210,14 +210,14 @@ export const onAddPermission = (event)=>{
         button.textContent = 'הוסף'
         button.addEventListener('click', ()=>{
             var user_id = list_td.getAttribute('user_id')
-            add_permission(user_id, select.value)
+            user.add_permission(user_id, select.value)
             .then(res => res.json())
             .then(res => alert(res.msg))
             .then(()=> window.location.reload())
         })
         if(list_td.getAttribute('state') == 'on'){ 
             list_td.setAttribute('state', 'off')      
-            get_permissions_list()            
+            user.get_permissions_list()            
             .then((permissions)=>{
                 var option = document.createElement('option')
                 option.setAttribute('value', 'none')

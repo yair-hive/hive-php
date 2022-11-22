@@ -79,6 +79,19 @@ export const seat = {
             return res.msg
         })
     }, 
+    create_number: (seat_id, seat_number)=>{
+        const options = {
+            method: 'POST',
+            body: "category=seat&action=add_number&seat_id="+seat_id+"&seat_number="+seat_number,
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }
+        return fetch(api_url, options)
+        .then(res => res.json())
+    },
     create: (map_id, row, col)=>{
         const options = {
             method: 'POST',

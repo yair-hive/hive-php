@@ -2,13 +2,22 @@ import "../lib/jquery.min.js"
 
 const api_url = 'http://localhost/hive-php/php/api.php'
 
-export const guest = {
-    get_all: (map_id)=>{
+export const user = {
+    get: ()=>{
         const options = {
             method: 'POST',
-            body: "category=guest&action=get_all&map_id="+map_id,
-            mode: 'no-cors',
-            credentials: 'include',
+            body: "category=user&action=get",
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };
+        return fetch(api_url, options)
+        .then(res => res.json())
+    },
+    get_all: ()=>{
+        const options = {
+            method: 'POST',
+            body: "category=user&action=get_all",
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
@@ -16,18 +25,33 @@ export const guest = {
           
         return fetch(api_url, options)
         .then(res => res.json())
-        .then((res)=>{
-            if(res.msg == 'ok') return res.data
-            alert(res.msg)
-            return res.msg
-        })
     },
-    get_belong: (guest_id)=>{
+    login : ()=>{
         const options = {
             method: 'POST',
-            body: "category=guest&action=get_belong&guest_id="+guest_id,
-            mode: 'no-cors',
-            credentials: 'include',
+            body: "category=user&action=login&"+$('#user_form').serialize(),
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };
+        return fetch(api_url, options)
+        .then(res => res.json())
+    },
+    sginup : ()=>{
+        const options = {
+            method: 'POST',
+            body: "category=user&action=sginup&"+$('#user_form').serialize(),
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };
+        return fetch(api_url, options)
+        .then(res => res.json())
+    },
+    add_permission : (user_id, permission)=>{
+        const options = {
+            method: 'POST',
+            body: "category=user&action=add_permission&user_id="+user_id+"&permission="+permission,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
@@ -35,58 +59,23 @@ export const guest = {
           
         return fetch(api_url, options)
         .then(res => res.json())
-        .then((res)=>{
-            if(res.msg == 'ok') return res.data
-            alert(res.msg)
-            return res.msg
-        })
     },
-    create: (data, map_id)=>{
+    get_permissions_list : ()=>{
         const options = {
             method: 'POST',
-            body: "category=guest&action=create&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_id="+map_id,
+            body: "category=user&action=get_permissions_list",
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
         };
-        return fetch(api_url, options)
-        .then(res => res.json())
-        .then((res)=>{
-            if(res.msg == 'ok') return
-            alert(res.msg)
-            return res.msg
-        })
-    },
-    create_belong: (selected_guest_id, selected_seat_class, map_id)=>{
-        const options = {
-            method: 'POST',
-            body: "category=guest&action=add&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_id="+map_id,
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        }
+          
         return fetch(api_url, options)
         .then(res => res.json())
     },
-    update: (selected_guest_id, selected_seat_class, map_id)=>{
+    logout : ()=>{
         const options = {
             method: 'POST',
-            body: "category=guest&action=update&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_id="+map_id,
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        }
-        return fetch(api_url, options)
-        .then(res => res.json())
-    },
-    delete: (guest_id)=>{
-        const options = {
-            method: 'POST',
-            body: "category=guest&action=delete&guest_id="+guest_id,
+            body: "category=user&action=logout",
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
