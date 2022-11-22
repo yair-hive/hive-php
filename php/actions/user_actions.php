@@ -86,6 +86,7 @@ $user_actions['get_all'] = function(){
 };
 $user_actions['logout'] = function(){
     $_SESSION['user_name'] = '';
+    $_SESSION['permissions'] = '';
     $respons['msg'] = 'all ok';
     print_r(json_encode($respons));
 };

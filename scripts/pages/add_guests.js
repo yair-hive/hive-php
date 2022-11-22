@@ -9,8 +9,6 @@ var map_id = ''
 map.get(map_name)
 .then(res => map_id = res.id)
 .then(()=>{
-    document.getElementById('loader').style.display = 'none'
-    document.getElementById('loader-container').style.display = 'none'
     document.getElementById('add_guest_button').addEventListener('click', ()=>{
         var data = []
         data[0] = document.getElementById('add_guest_form')['first_name'].value
