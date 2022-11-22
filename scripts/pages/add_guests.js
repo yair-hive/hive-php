@@ -1,14 +1,10 @@
 import { map } from "../api/map.js"
 import { guest } from "../api/guest.js"
-import "../lib/jquery.min.js"
 import "../lib/read-excel-file.min.js"
+import { startLoader, stopLoader } from "../scripts.js"
+startLoader()
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
-var go_back = document.createElement('div')
-go_back.classList.add('hive-button')
-go_back.textContent = 'חזור לרשימת שמות'
-go_back.onclick = ()=>{window.location.replace('http://localhost/hive-php/html/get_guests.html?map_name='+map_name)}
-document.getElementById('mneu').append(go_back)
 var map_id = ''
 map.get(map_name)
 .then(res => map_id = res.id)
@@ -35,9 +31,6 @@ map.get(map_name)
                 guest.create(row, map_id)
             }
         })
-        .then(()=>{
-            document.getElementById('loader').style.display = 'none'
-            document.getElementById('loader-container').style.display = 'none'
-         })
+        .then(stopLoader)
     })
 })

@@ -52,11 +52,13 @@
 			border-radius: 10px;
 		}
 	</style>
+	<script defer>
+		const parsedUrl = new URL(window.location.href)
+		const map_name = parsedUrl.searchParams.get("map_name")
+	</script>
     <title> hive | import guests </title>
 </head>
 <body>
-	<div id="loader-container"></div>
-    <div id="loader"></div>
 	<div id="content">
 		<div id="topBar">
             <div id="user_element" class="user_icon" onclick="location.href='http://localhost/hive-php/html/login.html'"> לא מחובר </div>
@@ -94,7 +96,9 @@
 				</form>
 			</div>
 		</div>
-		<div id="mneu"></div>
+		<div id="mneu">
+			<div class="hive-button" onclick="location.href='http://localhost/hive-php/html/get_guests.html?map_name='+map_name"> חזור לרשימת שמות </div>
+		</div>
 	</div>
 </body>
 </html>

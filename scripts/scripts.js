@@ -149,4 +149,12 @@ export const sortTable = (td)=>{
         switching = true;
       }
     }
-  }
+}
+export const startLoader = ()=>{
+    document.getElementById('loader').style.display = 'block'
+    document.getElementById('loader-container').style.display = 'block'
+}
+export const stopLoader = ()=>{
+    document.getElementById('loader').style.display = 'none'
+    document.getElementById('loader-container').style.display = 'none'
+}
