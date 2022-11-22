@@ -100,6 +100,7 @@ export const add_guests_table = (map_name, table)=>{
                     .then(()=>{
                         event.target.parentNode.style.display = 'none'
                         event.target.parentNode.childNodes[0].setAttribute('show', 'false')
+                        event.target.classList.add('no_show')
                     })
                 })
                 var tr = $('<tr>')

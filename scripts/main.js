@@ -150,7 +150,13 @@ switch(parsedUrl.pathname){
         document.getElementById("ShowOnlyWthoutBelong").addEventListener('click', onShowOnlyWthoutBelong)
         document.getElementById("ShowAll").addEventListener('click', onShowAll)        
         document.getElementById('export').addEventListener('click', ()=>{
-            $("#names_table").table2excel({
+            var table = document.getElementById('names_table').cloneNode(true)
+            var rows = table.rows
+            for(let row of rows){
+                row.childNodes[4].remove()
+            }
+            table.querySelectorAll('.no_show').forEach(e => e.parentNode.remove())
+            $(table).table2excel({
                 filename: "list.xls"
             });
         })
