@@ -149,12 +149,13 @@ export const add_guests_table = (map_name, table)=>{
     })
 }
 export const add_loader = ()=>{
+    var mainBord = document.getElementById('mainBord')
     var loader = document.createElement('div')
     var loaderContainer = document.createElement('div')
     loader.setAttribute('id', "loader")
     loaderContainer.setAttribute('id', "loader-container")
-    document.body.insertBefore(loader, document.body.children[0])
-    document.body.insertBefore(loaderContainer, document.body.children[0])
+    mainBord.insertBefore(loader, mainBord.children[0])
+    mainBord.insertBefore(loaderContainer, mainBord.children[0])
     loader.style.display = 'none'
     loaderContainer.style.display = 'none'
 }
