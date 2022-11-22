@@ -283,6 +283,7 @@ export const onSeatNum = (event)=>{
         var seat_id = event.target.getAttribute('seat_id')
         seat.delete_belong(seat_id)
         event.target.parentNode.parentNode.style.display = 'none' 
+        event.target.parentNode.setAttribute('show', 'false')
      })
     event.target.append(button)
 }
