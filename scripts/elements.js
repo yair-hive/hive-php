@@ -69,7 +69,7 @@ export const add_belong = ()=>{
 export const add_guests = (guests)=>{
     startMBLoader()
     var name_boxs = document.querySelectorAll('.name_box')
-    var l = name_boxs.length
+    var l = guests.length
     var i = 1
     if(l == 0){
         stopMBLoader()
