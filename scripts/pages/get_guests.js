@@ -1,8 +1,9 @@
 import { add_guests_table } from "../elements.js"
 import { onShowAll, onShowOnlyWthBelong, onShowOnlyWthoutBelong } from "../eventListeners.js"
-import { sortTable } from "../scripts.js"
+import { sortTable, startLoader, stopLoader } from "../scripts.js"
 import "../lib/jquery.min.js"
 import "../lib/jquery.table2excel.min.js"
+startLoader()
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
 var go_back = document.createElement('div')
@@ -26,9 +27,7 @@ document.getElementById('export').addEventListener('click', ()=>{
     });
 })
 add_guests_table(map_name, table).then(()=>{
-    document.getElementById('loader').style.display = 'none'
-    document.getElementById('loader-container').style.display = 'none' 
+    document.getElementById("first").addEventListener('click', ()=>{sortTable(1)}) 
+    document.getElementById("last").addEventListener('click', ()=>{sortTable(2)})
+    document.getElementById("group").addEventListener('click', ()=>{sortTable(3)})
 })
-document.getElementById("first").addEventListener('click', ()=>{sortTable(1)}) 
-document.getElementById("last").addEventListener('click', ()=>{sortTable(2)})
-document.getElementById("group").addEventListener('click', ()=>{sortTable(3)})

@@ -3,6 +3,7 @@ import { map } from "./api/map.js"
 import { seat } from "./api/seat.js"
 import { onSeatNum } from "./eventListeners.js"
 import "./lib/jquery.min.js"
+import { respondToVisibility, stopLoader } from "./scripts.js"
 
 export const add_map = (map)=>{
     const main_bord = document.getElementById('mainBord')
@@ -88,7 +89,9 @@ export const add_guests_table = (map_name, table)=>{
         guest.get_all(map_id)
         .then((names)=>{
             table_length = names.length
+            var i = 1
             for(let name of names){
+                i++
                 var td = document.createElement('td')
                 td.classList.add('seat_num')
                 td.setAttribute('guest_id', name.id)                  
@@ -103,13 +106,17 @@ export const add_guests_table = (map_name, table)=>{
                         event.target.classList.add('no_show')
                     })
                 })
-                var tr = $('<tr>')
+                var tr = document.createElement('tr')
+                var tr_j = $(tr)
                 .append(td)
                 .append($('<td>').text(name.last_name))
                 .append($('<td>').text(name.first_name))
                 .append($('<td>').text(name.guest_group))
                 .append(tdX)
-                $(table).append(tr)
+                $(table).append(tr_j)
+                if(i == table_length){
+                    respondToVisibility(tr, stopLoader)
+                }
             }
         })
         .then(()=>{
@@ -146,8 +153,8 @@ export const add_loader = ()=>{
     var loaderContainer = document.createElement('div')
     loader.setAttribute('id', "loader")
     loaderContainer.setAttribute('id', "loader-container")
-    document.body.append(loader)
-    document.body.append(loaderContainer)
+    document.body.insertBefore(loader, document.body.children[0])
+    document.body.insertBefore(loaderContainer, document.body.children[0])
     loader.style.display = 'none'
     loaderContainer.style.display = 'none'
 }

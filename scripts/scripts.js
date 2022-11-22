@@ -158,3 +158,16 @@ export const stopLoader = ()=>{
     document.getElementById('loader').style.display = 'none'
     document.getElementById('loader-container').style.display = 'none'
 }
+export const respondToVisibility = (element, callback)=>{
+    var options = {
+      root: document.documentElement,
+    };
+  
+    var observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        callback(entry.intersectionRatio > 0);
+      });
+    }, options);
+  
+    observer.observe(element);
+}
