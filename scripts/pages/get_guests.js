@@ -1,9 +1,9 @@
 import { add_guests_table } from "../elements.js"
 import { onShowAll, onShowOnlyWthBelong, onShowOnlyWthoutBelong } from "../eventListeners.js"
-import { sortTable, startLoader, stopLoader } from "../scripts.js"
+import { sortTable, startLoader, startMBLoader, stopLoader } from "../scripts.js"
 import "../lib/jquery.min.js"
 import "../lib/jquery.table2excel.min.js"
-startLoader()
+startMBLoader()
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
 var go_back = document.createElement('div')

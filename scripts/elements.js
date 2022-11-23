@@ -54,7 +54,7 @@ export const add_seats = (seats)=>{
         seat_ele.append(name_box)
         cell.replaceChildren(seat_ele)
     }
-    stopLoader()
+    stopMBLoader()
 }
 export const add_belong = ()=>{
     document.querySelectorAll('.name_box').forEach(element => {
@@ -100,7 +100,7 @@ export const add_guests_table = (map_name, table)=>{
     .then(()=>{
         guest.get_all(map_id)
         .then((names)=>{
-            if(names.length == 0) stopLoader()
+            if(names.length == 0) stopMBLoader()
             table_length = names.length
             var i = 1
             for(let name of names){
@@ -128,7 +128,7 @@ export const add_guests_table = (map_name, table)=>{
                 .append(tdX)
                 $(table).append(tr_j)
                 if(i == table_length){
-                    respondToVisibility(tr, stopLoader)
+                    respondToVisibility(tr, stopMBLoader)
                 }
             }
         })
@@ -171,7 +171,7 @@ export const add_loader = ()=>{
     loader.style.display = 'none'
     loaderContainer.style.display = 'none'
 }
-export const add_main_bord_loader = ()=>{
+export const add_MBloader = ()=>{
     var loader = document.createElement('div')
     var loaderContainer = document.createElement('div')
     var main_bord = document.getElementById('mainBord')
@@ -184,7 +184,7 @@ export const add_main_bord_loader = ()=>{
         'left': perent.left,
         'margin': 0,
         'padding': 0,
-        'backgroundColor' : 'black'
+        'backgroundColor' : 'rgb(67, 167, 167)'
     })
     loader.setAttribute('id', "MBloader")
     loaderContainer.setAttribute('id', "MBloader-container")
