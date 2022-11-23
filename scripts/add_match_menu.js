@@ -3,6 +3,7 @@ import { offsetCalculate } from "./scripts.js"
 import { selection } from "./main.js"
 import "./lib/jquery.min.js"
 import { guest } from "./api/guest.js"
+import hiveObject from "./hiveObject.js"
 
 var corrent = 0
 var selected_ele
@@ -140,20 +141,22 @@ const onDropMenuArrow = (e)=>{
     }
 }
 export default function(guests_list, box){
-    selection.clearSelection()
-    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
-    $('#mainBord').append(add_drop_down())
-    $('#mainBord').append(add_name_box_input(box))         
-    offsetCalculate(box);
-    window.addEventListener('resize', ()=> offsetCalculate(box))
-    document.getElementById('mainBord').addEventListener('scroll', ()=> offsetCalculate(box))
-    $('#name_box_input').focus()
-    $('#name_box_input').on('input', function(){
-        document.removeEventListener('keydown', onDropMenuArrow)
-        document.addEventListener('keydown', onDropMenuArrow)
-        $('#drop_down').text(' ')
-        var seat = box.getAttribute('seat_id')
-        corrent = -1
-        $('#drop_down').append(add_match_list(guests_list, seat))                               
-    })
+    if(!hiveObject.isZoomed){
+        selection.clearSelection()
+        document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+        $('#mainBord').append(add_drop_down())
+        $('#mainBord').append(add_name_box_input(box))         
+        offsetCalculate(box);
+        window.addEventListener('resize', ()=> offsetCalculate(box))
+        document.getElementById('mainBord').addEventListener('scroll', ()=> offsetCalculate(box))
+        $('#name_box_input').focus()
+        $('#name_box_input').on('input', function(){
+            document.removeEventListener('keydown', onDropMenuArrow)
+            document.addEventListener('keydown', onDropMenuArrow)
+            $('#drop_down').text(' ')
+            var seat = box.getAttribute('seat_id')
+            corrent = -1
+            $('#drop_down').append(add_match_list(guests_list, seat))                               
+        })
+    }
 }

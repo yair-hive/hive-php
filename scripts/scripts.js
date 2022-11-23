@@ -1,5 +1,6 @@
 import SelectionArea from "./lib/viselect.esm.js"
 import "./lib/jquery.min.js"
+import hiveObject from "./hiveObject.js"
 
 class dragClass {
     constructor(){
@@ -103,7 +104,39 @@ export const offsetCalculate = (box)=>{
 }
 export const zoom = (id)=>{
     let scale = 1
+    document.addEventListener("keydown", (event)=>{
+        var drop_down = document.getElementById('drop_down')
+        var name_box_input = document.getElementById('name_box_input')
+        if(event.ctrlKey || event.metaKey){
+            if(event.key === ' '){
+                scale = 1
+                hiveObject.setZoomed(false)
+                if(drop_down != null && name_box_input != null){
+                    drop_down.style.display = 'block'
+                    name_box_input.style.display = 'inline-block'
+                }
+                const map_container = document.querySelector('.map_container')
+                map_container.style.transform = `scale(${scale})`;
+            }
+        }
+    })
     document.getElementById(id).addEventListener('wheel', (event)=>{
+        var drop_down = document.getElementById('drop_down')
+        var name_box_input = document.getElementById('name_box_input')
+        console.log(scale)
+        if(scale == 1){
+            hiveObject.setZoomed(false)
+            if(drop_down != null && name_box_input != null){
+                name_box_input.style.display = 'inline-block'
+                drop_down.style.display = 'block'
+            }
+        }else{
+            if(drop_down != null && name_box_input != null){
+                drop_down.style.display = 'none'
+                name_box_input.style.display = 'none'
+            }
+            hiveObject.setZoomed(true)
+        }
         if(event.ctrlKey || event.metaKey){
             const map_container = document.querySelector('.map_container')
             event.preventDefault();
@@ -112,7 +145,7 @@ export const zoom = (id)=>{
             
             // Restrict scale
             scale = Math.min(Math.max(.125, scale), 4);
-            
+                
             // Apply scale transform
             map_container.style.transform = `scale(${scale})`;
         }
