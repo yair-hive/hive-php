@@ -1,7 +1,7 @@
 import { map } from "../api/map.js"
 import { guest } from "../api/guest.js"
 import "../lib/read-excel-file.min.js"
-import { startLoader, startMBLoader, stopLoader, stopMBLoader } from "../scripts.js"
+import { startMBLoader, stopMBLoader } from "../scripts.js"
 
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")

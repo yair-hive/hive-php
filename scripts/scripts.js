@@ -1,6 +1,61 @@
 import SelectionArea from "./lib/viselect.esm.js"
 import "./lib/jquery.min.js"
 
+class dragClass {
+    constructor(){
+        this.mouseDownHandler = this.mouseDownHandler.bind(this)
+        this.mouseMoveHandler = this.mouseMoveHandler.bind(this)
+        this.mouseUpHandler = this.mouseMoveHandler.bind(this)
+        this.disable = this.disable.bind(this)
+        this.enable = this.enable.bind(this)
+    }
+    ele = document.getElementById('mainBord');
+
+    pos = { top: 0, left: 0, x: 0, y: 0 };
+
+    mouseDownHandler(e) {
+        this.ele.style.cursor = 'grabbing';
+        this.ele.style.userSelect = 'none';
+
+        this.pos = {
+            left: this.ele.scrollLeft,
+            top: this.ele.scrollTop,
+            // Get the current mouse position
+            x: e.clientX,
+            y: e.clientY,
+        };
+
+        document.addEventListener('mousemove', this.mouseMoveHandler);
+        document.addEventListener('mouseup', this.mouseUpHandler);
+    };
+
+    mouseMoveHandler(e) {
+        // How far the mouse has been moved
+        const dx = e.clientX - this.pos.x;
+        const dy = e.clientY - this.pos.y;
+
+        // Scroll the element
+        this.ele.scrollTop = this.pos.top - dy;
+        this.ele.scrollLeft = this.pos.left - dx;
+    };
+
+    mouseUpHandler() {
+        this.ele.style.removeProperty('cursor');
+        this.ele.style.removeProperty('user-select');
+        document.removeEventListener('mousemove', this.mouseMoveHandler);
+        document.removeEventListener('mouseup', this.mouseUpHandler);
+    };
+    disable(){
+        this.ele.removeEventListener('mousedown', this.mouseDownHandler);
+        this.ele.style.removeProperty('cursor');
+        this.ele.style.removeProperty('user-select');
+        document.removeEventListener('mousemove', this.mouseMoveHandler);
+        document.removeEventListener('mouseup', this.mouseUpHandler);
+    }
+    enable(){
+        this.ele.addEventListener('mousedown', this.mouseDownHandler);        
+    }
+}
 export const create_selection = ()=>{
     var selection = new SelectionArea({
         selectables: [".selectable"],
@@ -61,60 +116,8 @@ export const zoom = (event)=>{
         map_container.style.transform = `scale(${scale})`;
     }
 }
-export class DragToScroll {
-    constructor(){
-        this.mouseDownHandler = this.mouseDownHandler.bind(this)
-        this.mouseMoveHandler = this.mouseMoveHandler.bind(this)
-        this.mouseUpHandler = this.mouseMoveHandler.bind(this)
-        this.disable = this.disable.bind(this)
-        this.enable = this.enable.bind(this)
-    }
-    ele = document.getElementById('mainBord');
-
-    pos = { top: 0, left: 0, x: 0, y: 0 };
-
-    mouseDownHandler(e) {
-        this.ele.style.cursor = 'grabbing';
-        this.ele.style.userSelect = 'none';
-
-        this.pos = {
-            left: this.ele.scrollLeft,
-            top: this.ele.scrollTop,
-            // Get the current mouse position
-            x: e.clientX,
-            y: e.clientY,
-        };
-
-        document.addEventListener('mousemove', this.mouseMoveHandler);
-        document.addEventListener('mouseup', this.mouseUpHandler);
-    };
-
-    mouseMoveHandler(e) {
-        // How far the mouse has been moved
-        const dx = e.clientX - this.pos.x;
-        const dy = e.clientY - this.pos.y;
-
-        // Scroll the element
-        this.ele.scrollTop = this.pos.top - dy;
-        this.ele.scrollLeft = this.pos.left - dx;
-    };
-
-    mouseUpHandler() {
-        this.ele.style.removeProperty('cursor');
-        this.ele.style.removeProperty('user-select');
-        document.removeEventListener('mousemove', this.mouseMoveHandler);
-        document.removeEventListener('mouseup', this.mouseUpHandler);
-    };
-    disable(){
-        this.ele.removeEventListener('mousedown', this.mouseDownHandler);
-        this.ele.style.removeProperty('cursor');
-        this.ele.style.removeProperty('user-select');
-        document.removeEventListener('mousemove', this.mouseMoveHandler);
-        document.removeEventListener('mouseup', this.mouseUpHandler);
-    }
-    enable(){
-        this.ele.addEventListener('mousedown', this.mouseDownHandler);        
-    }
+export const DragToScroll = ()=>{
+    return new dragClass()
 }
 export const sortTable = (td)=>{
     var table, rows, switching, i, x, y, shouldSwitch;
@@ -149,14 +152,6 @@ export const sortTable = (td)=>{
         switching = true;
       }
     }
-}
-export const startLoader = ()=>{
-    document.getElementById('loader').style.display = 'block'
-    document.getElementById('loader-container').style.display = 'block'
-}
-export const stopLoader = ()=>{
-    document.getElementById('loader').style.display = 'none'
-    document.getElementById('loader-container').style.display = 'none'
 }
 export const startMBLoader = ()=>{
     document.getElementById('MBloader').style.display = 'block'

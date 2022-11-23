@@ -3,7 +3,7 @@ import { map } from "./api/map.js"
 import { seat } from "./api/seat.js"
 import { onSeatNum } from "./eventListeners.js"
 import "./lib/jquery.min.js"
-import { respondToVisibility, startLoader, startMBLoader, stopLoader, stopMBLoader } from "./scripts.js"
+import { respondToVisibility, startMBLoader, stopMBLoader } from "./scripts.js"
 
 export const add_map = (map)=>{
     const main_bord = document.getElementById('mainBord')
@@ -87,7 +87,7 @@ export const add_guests = (guests)=>{
                 name_box.textContent = corrent.name             
             }
             if(i == l){
-                respondToVisibility(name_box, stopMBLoader())
+                respondToVisibility(name_box, stopMBLoader)
             }
         }
     }) 
@@ -161,17 +161,7 @@ export const add_guests_table = (map_name, table)=>{
         })
     })
 }
-export const add_loader = ()=>{
-    var loader = document.createElement('div')
-    var loaderContainer = document.createElement('div')
-    loader.setAttribute('id', "loader")
-    loaderContainer.setAttribute('id', "loader-container")
-    document.body.insertBefore(loader, document.body.children[0])
-    document.body.insertBefore(loaderContainer, document.body.children[0])
-    loader.style.display = 'none'
-    loaderContainer.style.display = 'none'
-}
-export const add_MBloader = ()=>{
+export const addMBloader = ()=>{
     var loader = document.createElement('div')
     var loaderContainer = document.createElement('div')
     var main_bord = document.getElementById('mainBord')

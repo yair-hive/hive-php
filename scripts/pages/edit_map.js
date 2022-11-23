@@ -1,6 +1,6 @@
 import {add_map, add_seats, add_guests, add_belong} from "../elements.js"
 import { onClick_add_seats, onClick_add_seat_number, onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp } from "../eventListeners.js"
-import { startLoader, startMBLoader, stopLoader, zoom } from "../scripts.js"
+import { startMBLoader, zoom } from "../scripts.js"
 import { map } from "../api/map.js"
 import { seat } from "../api/seat.js"
 import { guest } from "../api/guest.js"

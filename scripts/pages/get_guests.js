@@ -1,6 +1,6 @@
 import { add_guests_table } from "../elements.js"
 import { onShowAll, onShowOnlyWthBelong, onShowOnlyWthoutBelong } from "../eventListeners.js"
-import { sortTable, startLoader, startMBLoader, stopLoader } from "../scripts.js"
+import { sortTable, startMBLoader } from "../scripts.js"
 import "../lib/jquery.min.js"
 import "../lib/jquery.table2excel.min.js"
 startMBLoader()

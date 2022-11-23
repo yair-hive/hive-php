@@ -1,12 +1,10 @@
-import { create_selection, DragToScroll } from "./scripts.js"
 import { user } from "./api/user.js"
-import "./lib/jquery.min.js"
-import { add_loader, add_MBloader } from "./elements.js"
+import { addMBloader } from "./elements.js"
+import { create_selection, DragToScroll } from "./scripts.js"
 
-add_loader()
-add_MBloader()
+addMBloader()
 export const selection = create_selection()
-export const dragToScroll = new DragToScroll()
+export const dragToScroll = DragToScroll()
 selection.disable()
 
 user.get()
