@@ -40,16 +40,12 @@ export const onClick_select_cells = ()=>{
     }
     selection.resolveSelectables()
 }
-export const onClick_add_seats = ()=>{
+export const onAddSeats = ()=>{
     startMBLoader()
     let guests_data = {}
     var selected = selection.getSelection()
     var map_id = document.getElementById('map').getAttribute('map_id')
-    var l = selected.length
-
-    var i = 1
     selected.forEach((cell) => {
-        i++
         var row = cell.getAttribute('row') 
         var col = cell.getAttribute('col')
         seat.create(map_id, row, col)
@@ -62,13 +58,13 @@ export const onClick_add_seats = ()=>{
 }
 export const onMapAdd = ()=>{
     if(hiveObject.map.selectables === 'cells'){
-        onClick_add_seats()
+        onAddSeats()
     }
     if(hiveObject.map.selectables === 'seats'){
-        onClick_add_seat_number()
+        onAddNumber()
     }
 }
-export const onClick_add_seat_number = ()=>{
+export const onAddNumber = ()=>{
     var selected = selection.getSelection()
     var most_l = 100000
     var most_t = 100000
