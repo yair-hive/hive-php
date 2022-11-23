@@ -6,11 +6,10 @@ import { seat } from "./api/seat.js"
 import { guest } from "./api/guest.js"
 import { user } from "./api/user.js"
 import { startMBLoader, stopMBLoader } from "./scripts.js"
-
-var selectables = 'cells'
+import hiveObject from "./hiveObject.js"
 
 export const onClick_select_seats = ()=>{
-    selectables = 'seats'
+    hiveObject.map.setSelectables('seats')
     document.getElementById('add_seats').style.display = 'none'
     document.getElementById('add_seat_number').style.display = 'block'
     document.getElementById('select_seats').style.backgroundColor = 'tomato'
@@ -28,7 +27,7 @@ export const onClick_select_seats = ()=>{
     selection.resolveSelectables()
 }
 export const onClick_select_cells = ()=>{
-    selectables = 'cells'
+    hiveObject.map.setSelectables('cells')
     document.getElementById('add_seats').style.display = 'block'
     document.getElementById('add_seat_number').style.display = 'none'
     document.getElementById('select_cells').style.backgroundColor = 'tomato'
@@ -125,31 +124,33 @@ export const onClick_add_seat_number = ()=>{
     document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
 }
 export const onClick_outside = (event)=>{
-    if(!event.target.classList.contains('name_box')){
-        if(!event.target.classList.contains('drop_down')){
-            if(!event.target.classList.contains('match_list')){
-                if(document.getElementById('drop_down')) document.getElementById('drop_down').remove()
-                if(document.getElementById('name_box_input')) document.getElementById('name_box_input').remove()
+    if(event.keyCode != 13){
+        if(!event.target.classList.contains('name_box')){
+            if(!event.target.classList.contains('drop_down')){
+                if(!event.target.classList.contains('match_list')){
+                    if(document.getElementById('drop_down')) document.getElementById('drop_down').remove()
+                    if(document.getElementById('name_box_input')) document.getElementById('name_box_input').remove()
+                }
             }
         }
-    }
-    if(!event.ctrlKey && !event.metaKey){
-        if(selection.getSelection().length !== 0){
-            if(!event.target.classList.contains('hive-button')){
-                if(selectables === 'cells'){
-                    if(!event.target.classList.contains('cell')){
-                        selection.clearSelection()
-                        document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+        if(!event.ctrlKey && !event.metaKey){
+            if(selection.getSelection().length !== 0){
+                if(!event.target.classList.contains('hive-button')){
+                    if(hiveObject.map.selectables === 'cells'){
+                        if(!event.target.classList.contains('cell')){
+                            selection.clearSelection()
+                            document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+                        }
                     }
-                }
-                if(selectables === 'seats'){
-                    if(!event.target.classList.contains('name_box')){
-                        selection.clearSelection()
-                        document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
-                    }
-                    if(!event.target.classList.contains('num_box')){
-                        selection.clearSelection()
-                        document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+                    if(hiveObject.map.selectables === 'seats'){
+                        if(!event.target.classList.contains('name_box')){
+                            selection.clearSelection()
+                            document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+                        }
+                        if(!event.target.classList.contains('num_box')){
+                            selection.clearSelection()
+                            document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+                        }
                     }
                 }
             }
@@ -194,6 +195,14 @@ export const onKeyBordDown = (event)=>{
     if(event.key == 'g' || event.key == 'ע'){
         dragToScroll.enable()    
         selection.disable()
+    }
+    if(event.keyCode == 13){
+        if(hiveObject.map.selectables === 'cells'){
+            onClick_add_seats()
+        }
+        if(hiveObject.map.selectables === 'seats'){
+            onClick_add_seat_number()
+        }
     }
 }
 export const onKeyBordUp = ()=>{
