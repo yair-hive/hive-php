@@ -42,63 +42,15 @@ export const onAddSeats = ()=>{
     })
 }
 export const onAddNumber = ()=>{
-    var selected = selection.getSelection()
-    var most_l = 100000
-    var most_t = 100000
-    var most_b = 0
-    var most_r = 0
-    for(let s of selected){
-        for(let class_n of s.classList){
-            let r_str = '^col-[0-9]+'
-            let reg_ex = new RegExp(r_str)
-            if(reg_ex.test(class_n)){
-                let r_str = '[0-9]+'
-                let reg_ex = new RegExp(r_str)
-                let col_num = class_n.match(reg_ex)
-                var most_l = Number(most_l) 
-                var most_r = Number(most_r)                  
-                if(col_num < most_l){
-                    most_l = col_num[0]
-                }
-                if(col_num > most_r){
-                    most_r = col_num[0]
-                }
-            }
-        }
-    }
-    for(let s of selected){
-        for(let class_n of s.classList){
-            let r_str = '^row-[0-9]+'
-            let reg_ex = new RegExp(r_str)
-            if(reg_ex.test(class_n)){
-                let r_str = '[0-9]+'
-                let reg_ex = new RegExp(r_str)
-                let row_num = class_n.match(reg_ex)
-                most_t = Number(most_t)
-                most_b = Number(most_b)
-                if(row_num < most_t){
-                    most_t = row_num[0]
-                }
-                if(row_num > most_b){
-                    most_b = row_num[0]
-                }
-            }
-        }
-    }
-    var col_group_name = prompt('Please enter number')
-    col_group_name = Number(col_group_name)
-    for(let i = most_t; i <= most_b; i++){
-        let seats = document.querySelectorAll('.row-'+i+'.selected')
-        seats.forEach(function(seat_ele){
-            var box = $(seat_ele).children('.num_box')
-            box.text(col_group_name)
-            var selected_seat_class = box.attr('seat_id')
-            seat.create_number(selected_seat_class, col_group_name)     
-            col_group_name = col_group_name +1
-        })           
-    }
-    selection.clearSelection()
-    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+    var seatNumber = Number(prompt('Please enter number'))
+    document.querySelectorAll('.selected').forEach(element => {
+        var box = element.getElementsByClassName('num_box')[0]
+        box.textContent = seatNumber
+        var seat_id = box.getAttribute('seat_id')
+        seat.create_number(seat_id, seatNumber)     
+        seatNumber++
+    })           
+    clearSelection()
 }
 export const onMapAdd = ()=>{
     var map = document.getElementById('map')
@@ -167,7 +119,6 @@ export const onKeyBordDown = (event)=>{
         selection.disable()
     }
     if(event.keyCode == 13){
-        console.log(hiveObject.map.selectables)
         onMapAdd()
     }
 }

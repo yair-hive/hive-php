@@ -44,6 +44,8 @@ export const add_seats = (seats)=>{
         var seat_ele = document.createElement('div')
         seat_ele.classList.add(`row-${seat.row_num}`)
         seat_ele.classList.add(`col-${seat.col_num}`)
+        seat_ele.setAttribute('row', seat.row_num)
+        seat_ele.setAttribute('col', seat.col_num)
         var num_box = document.createElement('div')
         var name_box = document.createElement('div')
         num_box.classList.add('num_box')
