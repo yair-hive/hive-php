@@ -16,6 +16,16 @@ function db_post($query_string){
         print_r(json_encode($respons));
     }
 }
+function db_post_multi($query_string){
+    global $connection;
+    if(mysqli_multi_query($connection, $query_string)){
+        $respons['msg'] = 'ok';
+        print_r(json_encode($respons));
+    }else{
+        $respons['msg'] = 'db error';
+        print_r(json_encode($respons));
+    }
+}
 function db_get($query_string, $breake = false){
     global $connection; 
     if($result = mysqli_query($connection, $query_string)){

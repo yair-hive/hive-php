@@ -109,5 +109,25 @@ export const seat = {
             alert(res.msg)
             return res.msg
         })
+    },
+    create_multiple: (map_id, data)=>{
+        const options = {
+            method: 'POST',
+            body: "category=seat&action=create_multiple&map_id="+map_id+"&data="+data,
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }
+        return fetch(api_url, options)
+        .then(res => res.text())
+        .then(res => console.log(res))
+        // .then(res => res.json())
+        // .then((res)=>{
+        //     if(res.msg == 'ok') return
+        //     alert(res.msg)
+        //     return res.msg
+        // })
     }
 }
