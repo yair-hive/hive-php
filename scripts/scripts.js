@@ -6,7 +6,7 @@ class dragClass {
     constructor(){
         this.mouseDownHandler = this.mouseDownHandler.bind(this)
         this.mouseMoveHandler = this.mouseMoveHandler.bind(this)
-        this.mouseUpHandler = this.mouseMoveHandler.bind(this)
+        this.mouseUpHandler = this.mouseUpHandler.bind(this)
         this.disable = this.disable.bind(this)
         this.enable = this.enable.bind(this)
     }
@@ -29,7 +29,6 @@ class dragClass {
         document.addEventListener('mousemove', this.mouseMoveHandler);
         document.addEventListener('mouseup', this.mouseUpHandler);
     };
-
     mouseMoveHandler(e) {
         // How far the mouse has been moved
         const dx = e.clientX - this.pos.x;
@@ -39,12 +38,10 @@ class dragClass {
         this.ele.scrollTop = this.pos.top - dy;
         this.ele.scrollLeft = this.pos.left - dx;
     };
-
     mouseUpHandler() {
         this.ele.style.removeProperty('cursor');
         this.ele.style.removeProperty('user-select');
         document.removeEventListener('mousemove', this.mouseMoveHandler);
-        document.removeEventListener('mouseup', this.mouseUpHandler);
     };
     disable(){
         this.ele.removeEventListener('mousedown', this.mouseDownHandler);
@@ -196,7 +193,6 @@ export const stopMBLoader = ()=>{
     document.getElementById('MBloader').style.display = 'none'
     document.getElementById('MBloader-container').style.display = 'none'
 }
-
 export const respondToVisibility = (element, callback)=>{
     var options = {
       root: document.documentElement,
