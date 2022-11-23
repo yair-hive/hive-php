@@ -30,19 +30,29 @@ export const onAddSeats = ()=>{
     startMBLoader()
     var selected = selection.getSelection()
     var map_id = document.getElementById('map').getAttribute('map_id')
-    var cells_list = []
-    for(let cell of selected){
-        var cell_data = {}
-        cell_data.row = cell.getAttribute('row') 
-        cell_data.col = cell.getAttribute('col')
-        cells_list.push(cell_data)
-    }
-    var data = JSON.stringify(cells_list)
-    seat.create_multiple(map_id, data)
-    .then(()=> {
-        clearSelection()
-        seat.get_all(map_id).then(seats => add_seats(seats))
+    selected.forEach((cell) => {
+        var row = cell.getAttribute('row') 
+        var col = cell.getAttribute('col')
+        seat.create(map_id, row, col)
+        .then(()=> {
+            clearSelection()
+            return seat.get_all(map_id)
+        })
+        .then(seats => add_seats(seats))
     })
+    // var cells_list = []
+    // for(let cell of selected){
+    //     var cell_data = {}
+    //     cell_data.row = cell.getAttribute('row') 
+    //     cell_data.col = cell.getAttribute('col')
+    //     cells_list.push(cell_data)
+    // }
+    // var data = JSON.stringify(cells_list)
+    // seat.create_multiple(map_id, data)
+    // .then(()=> {
+    //     clearSelection()
+    //     seat.get_all(map_id).then(seats => add_seats(seats))
+    // })
 }
 export const onAddNumber = ()=>{
     var seatNumber = Number(prompt('Please enter number'))
