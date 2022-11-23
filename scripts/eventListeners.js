@@ -51,6 +51,7 @@ export const onClick_add_seats = ()=>{
     var selected = selection.getSelection()
     var map_id = document.getElementById('map').getAttribute('map_id')
     var l = selected.length
+
     var i = 1
     selected.forEach((cell) => {
         i++
@@ -62,9 +63,6 @@ export const onClick_add_seats = ()=>{
         .then(() => guest.get_all(map_id))
         .then((guests) => {add_guests(guests); guests_data = guests})
         .then(()=> document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target))))
-        if(i ==l){
-            stopMBLoader()
-        }
     })
 }
 export const onClick_add_seat_number = ()=>{

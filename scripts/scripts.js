@@ -120,7 +120,6 @@ export const zoom = (id)=>{
     document.getElementById(id).addEventListener('wheel', (event)=>{
         var drop_down = document.getElementById('drop_down')
         var name_box_input = document.getElementById('name_box_input')
-        console.log(scale)
         if(scale == 1){
             hiveObject.setZoomed(false)
             if(drop_down != null && name_box_input != null){
