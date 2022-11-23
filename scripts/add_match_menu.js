@@ -22,7 +22,8 @@ const add_match_list_items = (guests_list)=>{
     }
     return match_list
 }
-const add_match_list = (guests_list, seat)=>{
+const add_match_list = (seat)=>{
+    var guests_list = JSON.parse(document.getElementById('map').getAttribute('guests')) 
     var match_drop_down = document.createElement('ul')
     $(match_drop_down).attr('id', 'match_drop_down')
     for(let corrent of add_match_list_items(guests_list)){
@@ -93,6 +94,7 @@ const addGuest = (ele)=>{
     }
 }
 const onDropMenuArrow = (e)=>{
+    document.getElementById('map').setAttribute('selectables', 'guests')
     var len = document.querySelectorAll('.drop_down > ul > li').length -1
     if(e.keyCode == 13){
         addGuest(selected_ele)
@@ -140,7 +142,8 @@ const onDropMenuArrow = (e)=>{
         }
     }
 }
-export default function(guests_list, box){
+export default function(event){
+    var box = event.target
     if(!hiveObject.isZoomed){
         selection.clearSelection()
         document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
@@ -156,7 +159,7 @@ export default function(guests_list, box){
             $('#drop_down').text(' ')
             var seat = box.getAttribute('seat_id')
             corrent = -1
-            $('#drop_down').append(add_match_list(guests_list, seat))                               
+            $('#drop_down').append(add_match_list(seat))                               
         })
     }
 }

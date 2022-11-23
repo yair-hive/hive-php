@@ -1,3 +1,4 @@
+import add_match_menu from "./add_match_menu.js"
 import { guest } from "./api/guest.js"
 import { map } from "./api/map.js"
 import { seat } from "./api/seat.js"
@@ -13,6 +14,7 @@ export const add_map = (map)=>{
     map_ele.setAttribute('map_name', map.map_name)
     map_ele.setAttribute('map_id', map.id)
     map_ele.setAttribute('id', 'map')
+    map_ele.setAttribute('selectables', 'cell')
     map_ele.classList.add('map')
     for(var rowsCounter = 1; rowsCounter <= map.rows_number; rowsCounter++){
         for(var colsCounter = 1; colsCounter <= map.columns_number; colsCounter++){
@@ -52,6 +54,7 @@ export const add_seats = (seats)=>{
         $(num_box).text(seat.seat_number)
         seat_ele.append(num_box)
         seat_ele.append(name_box)
+        name_box.addEventListener('click', add_match_menu)
         cell.replaceChildren(seat_ele)
     }
     stopMBLoader()
@@ -78,6 +81,8 @@ export const add_belong = ()=>{
 }
 export const add_guests = (guests)=>{
     startMBLoader()
+    var guests_press = JSON.stringify(guests)
+    document.getElementById('map').setAttribute('guests', guests_press)
     var name_boxs = document.querySelectorAll('.name_box')
     var l = guests.length
     var i = 1

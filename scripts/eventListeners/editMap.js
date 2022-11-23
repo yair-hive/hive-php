@@ -1,14 +1,13 @@
 import { dragToScroll, selection } from "../main.js"
 import { add_guests, add_seats } from "../elements.js"
-import add_match_menu from "../add_match_menu.js"
 import { seat } from "../api/seat.js"
 import { guest } from "../api/guest.js"
-import { startMBLoader, stopMBLoader } from "../scripts.js"
+import { clearSelection, startMBLoader, stopMBLoader } from "../scripts.js"
 import hiveObject from "../hiveObject.js"
 import "../lib/jquery.min.js"
 
 const changeSelectables = (selectable, notSelectable)=>{
-    hiveObject.map.setSelectables(selectable+"s")
+    document.getElementById('map').setAttribute('selectables', selectable)
     var buttons = {
         seat:document.getElementById('select_seats'),
         cell:document.getElementById('select_cells')
@@ -29,18 +28,17 @@ export const onSelectCells = ()=>{
 }
 export const onAddSeats = ()=>{
     startMBLoader()
-    let guests_data = {}
     var selected = selection.getSelection()
     var map_id = document.getElementById('map').getAttribute('map_id')
     selected.forEach((cell) => {
         var row = cell.getAttribute('row') 
         var col = cell.getAttribute('col')
         seat.create(map_id, row, col)
-        .then(()=> {selection.clearSelection(); document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))})
-        .then(()=> seat.get_all(map_id).then(seats => add_seats(seats)))
-        .then(() => guest.get_all(map_id))
-        .then((guests) => {add_guests(guests); guests_data = guests})
-        .then(()=> document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target))))
+        .then(()=> {
+            clearSelection()
+            return seat.get_all(map_id)
+        })
+        .then(seats => add_seats(seats))
     })
 }
 export const onAddNumber = ()=>{
@@ -103,10 +101,11 @@ export const onAddNumber = ()=>{
     document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
 }
 export const onMapAdd = ()=>{
-    if(hiveObject.map.selectables === 'cells'){
+    var map = document.getElementById('map')
+    if(map.getAttribute('selectables') === 'cell'){
         onAddSeats()
     }
-    if(hiveObject.map.selectables === 'seats'){
+    if(map.getAttribute('selectables') === 'seat'){
         onAddNumber()
     }
 }
@@ -144,36 +143,20 @@ export const onClick_match_list_item = (event)=>{
         }
     })
 }
-export const onClick_outside = (event)=>{
+export const onClickOutside = (event)=>{
     if(event.keyCode != 13){
-        if(!event.target.classList.contains('name_box')){
-            if(!event.target.classList.contains('drop_down')){
-                if(!event.target.classList.contains('match_list')){
-                    if(document.getElementById('drop_down')) document.getElementById('drop_down').remove()
-                    if(document.getElementById('name_box_input')) document.getElementById('name_box_input').remove()
-                }
-            }
+        var classList = event.target.classList
+        if(!classList.contains('name_box') && !classList.contains('drop_down') && !classList.contains('match_list')){
+            if(document.getElementById('drop_down')) document.getElementById('drop_down').remove()
+            if(document.getElementById('name_box_input')) document.getElementById('name_box_input').remove()
         }
-        if(!event.ctrlKey && !event.metaKey){
-            if(selection.getSelection().length !== 0){
-                if(!event.target.classList.contains('hive-button')){
-                    if(hiveObject.map.selectables === 'cells'){
-                        if(!event.target.classList.contains('cell')){
-                            selection.clearSelection()
-                            document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
-                        }
-                    }
-                    if(hiveObject.map.selectables === 'seats'){
-                        if(!event.target.classList.contains('name_box')){
-                            selection.clearSelection()
-                            document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
-                        }
-                        if(!event.target.classList.contains('num_box')){
-                            selection.clearSelection()
-                            document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
-                        }
-                    }
-                }
+        if(!event.ctrlKey && !event.metaKey && selection.getSelection().length !== 0 && !classList.contains('hive-button')){
+            var map = document.getElementById('map')
+            if(map.getAttribute('selectables') === 'cell' && !event.target.classList.contains('cell')){
+                clearSelection()
+            }
+            if(map.getAttribute('selectables') === 'seat' && !event.target.parentNode.classList.contains('seat')){
+                clearSelection()
             }
         }
     }
@@ -184,6 +167,7 @@ export const onKeyBordDown = (event)=>{
         selection.disable()
     }
     if(event.keyCode == 13){
+        console.log(hiveObject.map.selectables)
         onMapAdd()
     }
 }

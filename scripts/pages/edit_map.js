@@ -1,12 +1,11 @@
 import {add_map, add_seats, add_guests, add_belong} from "../elements.js"
-import { onClick_outside, onKeyBordDown, onKeyBordUp, onMapAdd, onSelectCells, onSelectSeats } from "../eventListeners/editMap.js"
+import { onClickOutside, onKeyBordDown, onKeyBordUp, onMapAdd, onSelectCells, onSelectSeats } from "../eventListeners/editMap.js"
 import { startMBLoader, zoom } from "../scripts.js"
 import { map } from "../api/map.js"
 import { seat } from "../api/seat.js"
 import { guest } from "../api/guest.js"
 import "../lib/jquery.min.js"
 import { dragToScroll, selection } from "../main.js"
-import add_match_menu from '../add_match_menu.js'
 
 startMBLoader()
 const parsedUrl = new URL(window.location.href)
@@ -29,9 +28,8 @@ map.get(map_name).then(map => {add_map(map); map_data = map; map_id = map.id })
     document.getElementById('select_seats').addEventListener('click', onSelectSeats)
     document.getElementById('select_cells').addEventListener('click', onSelectCells)
     document.getElementById('add_button').addEventListener('click', onMapAdd)
-    document.addEventListener('mousedown', onClick_outside)
+    document.addEventListener('mousedown', onClickOutside)
     document.addEventListener("keydown", onKeyBordDown)
     document.addEventListener("keyup", onKeyBordUp)
-    document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target)))
     zoom('mainBord')
 })
