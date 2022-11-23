@@ -10,8 +10,6 @@ import hiveObject from "./hiveObject.js"
 
 export const onClick_select_seats = ()=>{
     hiveObject.map.setSelectables('seats')
-    document.getElementById('add_seats').style.display = 'none'
-    document.getElementById('add_seat_number').style.display = 'block'
     document.getElementById('select_seats').style.backgroundColor = 'tomato'
     document.getElementById('select_cells').style.backgroundColor = 'gray'
     selection.clearSelection()
@@ -28,8 +26,6 @@ export const onClick_select_seats = ()=>{
 }
 export const onClick_select_cells = ()=>{
     hiveObject.map.setSelectables('cells')
-    document.getElementById('add_seats').style.display = 'block'
-    document.getElementById('add_seat_number').style.display = 'none'
     document.getElementById('select_cells').style.backgroundColor = 'tomato'
     document.getElementById('select_seats').style.backgroundColor = 'gray'
     selection.clearSelection()
@@ -63,6 +59,14 @@ export const onClick_add_seats = ()=>{
         .then((guests) => {add_guests(guests); guests_data = guests})
         .then(()=> document.querySelectorAll('.name_box').forEach(box => box.addEventListener('click', event => add_match_menu(guests_data, event.target))))
     })
+}
+export const onMapAdd = ()=>{
+    if(hiveObject.map.selectables === 'cells'){
+        onClick_add_seats()
+    }
+    if(hiveObject.map.selectables === 'seats'){
+        onClick_add_seat_number()
+    }
 }
 export const onClick_add_seat_number = ()=>{
     var selected = selection.getSelection()
@@ -197,12 +201,7 @@ export const onKeyBordDown = (event)=>{
         selection.disable()
     }
     if(event.keyCode == 13){
-        if(hiveObject.map.selectables === 'cells'){
-            onClick_add_seats()
-        }
-        if(hiveObject.map.selectables === 'seats'){
-            onClick_add_seat_number()
-        }
+        onMapAdd()
     }
 }
 export const onKeyBordUp = ()=>{
