@@ -1,5 +1,5 @@
 import {add_map, add_seats, add_guests, add_belong} from "../elements.js"
-import { onClick_outside, onClick_select_cells, onClick_select_seats, onKeyBordDown, onKeyBordUp, onMapAdd } from "../eventListeners.js"
+import { onClick_outside, onKeyBordDown, onKeyBordUp, onMapAdd, onSelectCells, onSelectSeats } from "../eventListeners/editMap.js"
 import { startMBLoader, zoom } from "../scripts.js"
 import { map } from "../api/map.js"
 import { seat } from "../api/seat.js"
@@ -26,8 +26,8 @@ map.get(map_name).then(map => {add_map(map); map_data = map; map_id = map.id })
 .then((guests) => {add_guests(guests); guests_data = guests})
 .then(()=>{
     selection.resolveSelectables()
-    document.getElementById('select_seats').addEventListener('click', onClick_select_seats)
-    document.getElementById('select_cells').addEventListener('click', onClick_select_cells)
+    document.getElementById('select_seats').addEventListener('click', onSelectSeats)
+    document.getElementById('select_cells').addEventListener('click', onSelectCells)
     document.getElementById('add_button').addEventListener('click', onMapAdd)
     document.addEventListener('mousedown', onClick_outside)
     document.addEventListener("keydown", onKeyBordDown)

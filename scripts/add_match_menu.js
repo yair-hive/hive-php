@@ -1,4 +1,4 @@
-import { onClick_match_list_item } from "./eventListeners.js"
+import { onClick_match_list_item } from "./eventListeners/editMap.js"
 import { offsetCalculate } from "./scripts.js"
 import { selection } from "./main.js"
 import "./lib/jquery.min.js"
