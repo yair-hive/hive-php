@@ -57,12 +57,22 @@ export const add_seats = (seats)=>{
     stopMBLoader()
 }
 export const add_belong = ()=>{
-    document.querySelectorAll('.name_box').forEach(element => {
+    startMBLoader()
+    var name_boxs =  document.querySelectorAll('.name_box')
+    var l = name_boxs.length
+    var i = 1
+   name_boxs.forEach(element => {
+        i++
         var seat_id = element.getAttribute('seat_id')
         seat.get_belong(seat_id)
         .then(belong => {
             if(belong[0]) element.setAttribute('guest_id', belong[0].guest)
             else return
+        })
+        .then(()=>{
+            if(i == l){
+                stopMBLoader()
+            }
         })
     })
 }
