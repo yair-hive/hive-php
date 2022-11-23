@@ -41,9 +41,8 @@ export const onAddSeats = ()=>{
     seat.create_multiple(map_id, data)
     .then(()=> {
         clearSelection()
-        return seat.get_all(map_id)
+        seat.get_all(map_id).then(seats => add_seats(seats))
     })
-    .then(seats => add_seats(seats))
 }
 export const onAddNumber = ()=>{
     var seatNumber = Number(prompt('Please enter number'))

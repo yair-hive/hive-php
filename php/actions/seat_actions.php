@@ -69,7 +69,6 @@ $seat_actions['create_multiple'] = function(){
     if(allowed('writing')){  
         $map_id = $_POST['map_id'];    
         $data = json_decode($_POST['data']);
-        print_r($data);
         $query_string = "";
         foreach($data as $seat){
             $query_string .= "INSERT INTO seats(belong, row_num, col_num) VALUES('{$map_id}', '{$seat->row}', '{$seat->col}');";
