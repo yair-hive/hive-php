@@ -134,6 +134,16 @@ export const onKeyBordDown = (event)=>{
     if(event.keyCode == 13){
         onMapAdd()
     }
+    if(event.ctrlKey || event.metaKey){
+        if(event.key == ',' || event.key == 'ת'){
+            event.preventDefault()
+            changeSelectables('cell', 'seat')
+        }
+        if(event.key == 'f' || event.key == 'כ'){
+            event.preventDefault()
+            changeSelectables('seat', 'cell')
+        }
+    }
 }
 export const onKeyBordUp = ()=>{
     dragToScroll.disable()    
