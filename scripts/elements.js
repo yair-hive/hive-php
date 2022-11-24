@@ -3,6 +3,7 @@ import { guest } from "./api/guest.js"
 import { map } from "./api/map.js"
 import { seat } from "./api/seat.js"
 import { onSeatNum } from "./eventListeners.js"
+import { onSeatName } from "./eventListeners/editMap.js"
 import "./lib/jquery.min.js"
 import { respondToVisibility, startMBLoader, stopMBLoader } from "./scripts.js"
 
@@ -47,6 +48,7 @@ export const add_seats = (seats)=>{
         seat_ele.classList.add(`col-${seat.col_num}`)
         seat_ele.setAttribute('row', seat.row_num)
         seat_ele.setAttribute('col', seat.col_num)
+        seat_ele.setAttribute('seat_id', seat.id)
         var num_box = document.createElement('div')
         var name_box = document.createElement('div')
         num_box.classList.add('num_box')
@@ -57,7 +59,7 @@ export const add_seats = (seats)=>{
         $(num_box).text(seat.seat_number)
         seat_ele.append(num_box)
         seat_ele.append(name_box)
-        name_box.addEventListener('click', add_match_menu)
+        name_box.addEventListener('click', onSeatName)
         cell.replaceChildren(seat_ele)
     }
     stopMBLoader()

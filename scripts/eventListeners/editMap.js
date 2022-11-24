@@ -4,6 +4,7 @@ import { seat } from "../api/seat.js"
 import { guest } from "../api/guest.js"
 import { clearSelection, startMBLoader, stopMBLoader } from "../scripts.js"
 import "../lib/jquery.min.js"
+import add_match_menu from "../add_match_menu.js"
 
 const changeSelectables = (selectable, notSelectable)=>{
     document.getElementById('map').setAttribute('selectables', selectable)
@@ -149,4 +150,16 @@ export const onKeyBordUp = ()=>{
     dragToScroll.disable()    
     selection.enable()
     document.getElementById('map').setAttribute('isZoomed', 'false')
+}
+export const onSeatName = (event)=>{
+    if(!event.ctrlKey && !event.metaKey) add_match_menu(event)
+    if(event.ctrlKey || event.metaKey){
+        var name_box = document.createElement('div')
+        var seat_id = event.target.parentNode.getAttribute('seat_id')
+        name_box.classList.add('name_box')
+        name_box.setAttribute('seat_id', seat_id)
+        name_box.addEventListener('click', onSeatName)
+        event.target.replaceWith(name_box)
+        selection.disable()
+    }
 }
