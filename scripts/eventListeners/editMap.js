@@ -135,11 +135,11 @@ export const onKeyBordDown = (event)=>{
         onMapAdd()
     }
     if(event.ctrlKey || event.metaKey){
-        if(event.key == ',' || event.key == 'ת'){
+        if(event.key == 'q' || event.key == '/'){
             event.preventDefault()
             changeSelectables('cell', 'seat')
         }
-        if(event.key == 'f' || event.key == 'כ'){
+        if(event.key == 'x' || event.key == 'ס'){
             event.preventDefault()
             changeSelectables('seat', 'cell')
         }
