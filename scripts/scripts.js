@@ -1,6 +1,5 @@
 import SelectionArea from "./lib/viselect.esm.js"
 import "./lib/jquery.min.js"
-import hiveObject from "./hiveObject.js"
 import { selection } from "./main.js"
 
 class dragClass {
@@ -108,7 +107,7 @@ export const zoom = (id)=>{
         if(event.ctrlKey || event.metaKey){
             if(event.key === ' '){
                 scale = 1
-                hiveObject.setZoomed(false)
+                document.getElementById('map').setAttribute('isZoomed', 'false')
                 if(drop_down != null && name_box_input != null){
                     drop_down.style.display = 'block'
                     name_box_input.style.display = 'inline-block'
@@ -122,7 +121,7 @@ export const zoom = (id)=>{
         var drop_down = document.getElementById('drop_down')
         var name_box_input = document.getElementById('name_box_input')
         if(scale == 1){
-            hiveObject.setZoomed(false)
+            document.getElementById('map').setAttribute('isZoomed', 'false')
             if(drop_down != null && name_box_input != null){
                 name_box_input.style.display = 'inline-block'
                 drop_down.style.display = 'block'
@@ -132,7 +131,7 @@ export const zoom = (id)=>{
                 drop_down.style.display = 'none'
                 name_box_input.style.display = 'none'
             }
-            hiveObject.setZoomed(true)
+            document.getElementById('map').setAttribute('isZoomed', 'true')
         }
         if(event.ctrlKey || event.metaKey){
             const map_container = document.querySelector('.map_container')

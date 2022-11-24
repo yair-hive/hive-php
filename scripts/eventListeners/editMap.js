@@ -3,7 +3,6 @@ import { add_guests, add_seats } from "../elements.js"
 import { seat } from "../api/seat.js"
 import { guest } from "../api/guest.js"
 import { clearSelection, startMBLoader, stopMBLoader } from "../scripts.js"
-import hiveObject from "../hiveObject.js"
 import "../lib/jquery.min.js"
 
 const changeSelectables = (selectable, notSelectable)=>{
@@ -130,6 +129,7 @@ export const onKeyBordDown = (event)=>{
     if(event.key == 'g' || event.key == 'ע'){
         dragToScroll.enable()    
         selection.disable()
+        document.getElementById('map').setAttribute('isZoomed', 'true')
     }
     if(event.keyCode == 13){
         onMapAdd()
@@ -138,4 +138,5 @@ export const onKeyBordDown = (event)=>{
 export const onKeyBordUp = ()=>{
     dragToScroll.disable()    
     selection.enable()
+    document.getElementById('map').setAttribute('isZoomed', 'false')
 }

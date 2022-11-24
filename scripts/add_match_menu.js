@@ -144,7 +144,7 @@ const onDropMenuArrow = (e)=>{
 }
 export default function(event){
     var box = event.target
-    if(!hiveObject.isZoomed){
+    if(document.getElementById('map').getAttribute('isZoomed') == 'false'){
         selection.clearSelection()
         document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
         $('#mainBord').append(add_drop_down())

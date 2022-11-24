@@ -15,6 +15,7 @@ export const add_map = (map)=>{
     map_ele.setAttribute('map_id', map.id)
     map_ele.setAttribute('id', 'map')
     map_ele.setAttribute('selectables', 'cell')
+    map_ele.setAttribute('isZoomed', 'false')
     map_ele.classList.add('map')
     for(var rowsCounter = 1; rowsCounter <= map.rows_number; rowsCounter++){
         for(var colsCounter = 1; colsCounter <= map.columns_number; colsCounter++){
