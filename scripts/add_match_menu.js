@@ -53,8 +53,17 @@ const add_drop_down = ()=>{
     if(document.getElementById('drop_down')) document.getElementById('drop_down').remove()
     if(document.getElementById('name_box_input')) document.getElementById('name_box_input').remove()
     var drop_down = document.createElement('div')
-    $(drop_down).attr('id', 'drop_down')
-    $(drop_down).addClass('drop_down')   
+    drop_down.setAttribute('id', 'drop_down')
+    drop_down.classList.add('drop_down') 
+    drop_down.addEventListener('mouseover', (event)=>{
+        drop_down.style.cursor = 'pointer'
+        document.querySelectorAll('.drop_down > ul > li').forEach(element => {
+            if(element.getAttribute('guest_id') != event.target.getAttribute('guest_id')){
+                element.style.backgroundColor = 'rgb(202, 248, 248)'
+            }
+            event.target.style.backgroundColor = '#4f90f2'
+        })
+    })  
     return drop_down
 }
 const addGuest = (ele)=>{
@@ -107,7 +116,7 @@ const onDropMenuArrow = (e)=>{
             var corrent_ele = match_drop_down.childNodes[corrent] 
             selected_ele = corrent_ele
             document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
-            corrent_ele.style.backgroundColor = '#4f90f275'
+            corrent_ele.style.backgroundColor = 'rgb(113, 145, 194)'
             var list = drop_down.getBoundingClientRect()
             var corrent_ele_size = corrent_ele.getBoundingClientRect()
             var list_b = list.top + (corrent_ele_size.height + 15)
