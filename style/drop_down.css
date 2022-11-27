@@ -43,6 +43,6 @@ input:focus{
     margin: 0;
     padding: 0;
     position: absolute;
-    background-color: rgba(146, 136, 209, 1);
+    background-color: rgb(167, 156, 243);
     border-radius: 0 0 0.25rem 0.25rem;
 }
