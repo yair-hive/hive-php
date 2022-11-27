@@ -60,8 +60,9 @@ const add_drop_down = ()=>{
         document.querySelectorAll('.drop_down > ul > li').forEach(element => {
             if(element.getAttribute('guest_id') != event.target.getAttribute('guest_id')){
                 element.style.backgroundColor = 'rgb(202, 248, 248)'
-            }
-            event.target.style.backgroundColor = '#4f90f2'
+            }else{
+                event.target.style.backgroundColor = '#4f90f275'
+            }           
         })
     })  
     return drop_down
@@ -116,7 +117,7 @@ const onDropMenuArrow = (e)=>{
             var corrent_ele = match_drop_down.childNodes[corrent] 
             selected_ele = corrent_ele
             document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
-            corrent_ele.style.backgroundColor = 'rgb(113, 145, 194)'
+            corrent_ele.style.backgroundColor = '#4f90f275'
             var list = drop_down.getBoundingClientRect()
             var corrent_ele_size = corrent_ele.getBoundingClientRect()
             var list_b = list.top + (corrent_ele_size.height + 15)
