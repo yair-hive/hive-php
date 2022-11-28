@@ -1,5 +1,3 @@
-import { guest } from "../api/guest.js"
-import { map } from "../api/map.js"
 import { seat } from "../api/seat.js"
 import { onSeatName } from "./eventListeners.js"
 import "../lib/jquery.min.js"
@@ -40,6 +38,7 @@ export const add_map = (map)=>{
     main_bord.appendChild(map_container)
 }
 export const add_seats = (seats)=>{
+    if(seats.length == 0) stopMBLoader()
     for(let seat of seats){
         var cell = document.querySelector(`.cell_cont.row-${seat.row_num}.col-${seat.col_num}`)
         var seat_ele = document.createElement('div')
@@ -110,4 +109,5 @@ export const add_guests = (guests)=>{
             }
         }
     }) 
+    stopMBLoader()
 }

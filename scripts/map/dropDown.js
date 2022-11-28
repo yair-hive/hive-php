@@ -16,10 +16,7 @@ export default class {
             if(e.keyCode == 40){
                 this.onArrowDown()
             }
-        })
-        document.getElementById('mainBord')
-        .addEventListener('scroll', this.offsetCalculate)
-        window.addEventListener('resize', this.offsetCalculate)        
+        })      
         this.createMatchList = this.createMatchList.bind(this)
         this.createGuestsList = this.createGuestsList.bind(this)
         this.offsetCalculate = this.offsetCalculate.bind(this)
@@ -33,6 +30,8 @@ export default class {
             this.createGuestsList()
             this.guestsList = document.getElementById('guestsList')
         })
+        document.getElementById('mainBord').addEventListener('scroll', this.offsetCalculate)
+        window.addEventListener('resize', this.offsetCalculate)  
         document.getElementById('map').setAttribute('selectables', 'guests')
         this.box = box
         var guest_name = this.box.getAttribute('guest_name')
@@ -43,6 +42,8 @@ export default class {
         this.offsetCalculate()
     }
     close = function(){
+        document.getElementById('mainBord').removeEventListener('scroll', this.offsetCalculate)
+        window.removeEventListener('resize', this.offsetCalculate)  
         this.inputBox.style.display = 'none'
         this.dropDown.style.display = 'none'
     }
