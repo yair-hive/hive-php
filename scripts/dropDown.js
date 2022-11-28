@@ -32,6 +32,7 @@ export default class {
         this.close = this.close.bind(this)     
     }
     open = function(box){
+        this.empty()
         document.getElementById('map').setAttribute('selectables', 'guests')
         this.box = box
         var guest_name = this.box.getAttribute('guest_name')
@@ -57,7 +58,9 @@ export default class {
         this.correntItem = guestsList.childNodes[this.correntItemIndex]
     }
     empty = function(){
-        dropDown.textContent = ''
+        this.correntItemIndex = -1
+        this.correntItem = ''
+        this.dropDown.textContent = ''
     }
     offsetCalculate = function(){
         var parent = this.box.getBoundingClientRect()
