@@ -25,6 +25,7 @@ export default class {
         var list_width_over = 60
         var list_width_over_d = list_width_over / 2
         var drop_down_top = parent.bottom
+        var drop_down_width = parent_width + list_width_over
         var drop_down_left = parent.left - list_width_over_d 
         this.inputBox.style.position = 'absolute'
         this.inputBox.style.margin = 0
@@ -32,7 +33,7 @@ export default class {
         this.inputBox.style.top = parent.top+'px'
         this.inputBox.style.left = parent.left+'px'
         this.dropDown.style.position = 'absolute'
-        this.dropDown.style.width = parent_width + list_width_over
+        this.dropDown.style.width = drop_down_width+'px'
         this.dropDown.style.top = drop_down_top+'px'
         this.dropDown.style.left = drop_down_left+'px'
         this.dropDown.style.overflow = 'auto'

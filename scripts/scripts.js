@@ -84,6 +84,7 @@ export const offsetCalculate = (box)=>{
     var list_width_over = 60
     var list_width_over_d = list_width_over / 2
     var drop_down_top = parent.bottom
+    var drop_down_width = parent_width + list_width_over
     var drop_down_left = parent.left - list_width_over_d 
     var name_box_input = document.getElementById('name_box_input')
     name_box_input.style.position = 'absolute'
@@ -93,8 +94,7 @@ export const offsetCalculate = (box)=>{
     name_box_input.style.left = parent.left+'px'
     var drop_down = document.getElementById('drop_down')
     drop_down.style.position = 'absolute'
-    document.body.style.setProperty('--box-width', parent_width) 
-    document.body.style.setProperty('--drop-width', list_width_over)
+    drop_down.style.width = drop_down_width+'px'
     drop_down.style.top = drop_down_top+'px'
     drop_down.style.left = drop_down_left+'px'
     drop_down.style.overflow = 'auto'
