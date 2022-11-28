@@ -22,6 +22,9 @@ export default class {
                 this.onArrowDown()
             }
         })
+        document.getElementById('mainBord')
+        .addEventListener('scroll', this.offsetCalculate)
+        window.addEventListener('resize', this.offsetCalculate)        
         this.createMatchList = this.createMatchList.bind(this)
         this.createGuestsList = this.createGuestsList.bind(this)
         this.offsetCalculate = this.offsetCalculate.bind(this)
