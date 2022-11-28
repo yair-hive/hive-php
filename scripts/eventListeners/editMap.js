@@ -76,8 +76,6 @@ export const onAddGuest = (ele)=>{
         var guest_ele = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
         var guest_name = guest_ele.getAttribute('guest_name')
         var guest_group = guest_ele.getAttribute('guest_group')   
-        document.getElementById('drop_down').remove()
-        document.getElementById('name_box_input').remove()
         guest.create_belong(guest_id, seat_id, map)
         .then((res)=>{
             if(res.msg === 'belong'){
@@ -110,6 +108,10 @@ export const onMapAdd = ()=>{
     }
     if(map.getAttribute('selectables') === 'seat'){
         onAddNumber()
+    }
+    if(map.getAttribute('selectables') === 'guests'){
+        onAddGuest(menu.correntItem)
+        menu.close()
     }
 }
 export const onClickOutside = (event)=>{

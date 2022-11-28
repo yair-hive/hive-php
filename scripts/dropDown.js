@@ -1,11 +1,10 @@
-import { onAddGuest } from "./eventListeners/editMap"
-
 export default class {
-    correntItemIndex = 0
+    correntItemIndex = -1
     correntItem = ''
     box = ''
     dropDown = ''
     inputBox = ''
+    guestsList = ''
     matchLength = 0
     constructor(){
         this.dropDown = document.getElementById('dropDown')
@@ -13,6 +12,15 @@ export default class {
         this.inputBox.addEventListener('input', ()=>{
             this.empty()
             this.createGuestsList()
+            this.guestsList = document.getElementById('guestsList')
+        })
+        document.addEventListener("keydown", (e)=>{
+            if(e.keyCode == 38){
+                this.onArrowUp()
+            }
+            if(e.keyCode == 40){
+                this.onArrowDown()
+            }
         })
         this.createMatchList = this.createMatchList.bind(this)
         this.createGuestsList = this.createGuestsList.bind(this)
@@ -21,6 +29,7 @@ export default class {
         this.close = this.close.bind(this)     
     }
     open = function(box){
+        document.getElementById('map').setAttribute('selectables', 'guests')
         this.box = box
         var guest_name = this.box.getAttribute('guest_name')
         this.dropDown.style.display = 'block'
@@ -34,12 +43,15 @@ export default class {
         this.dropDown.style.display = 'none'
     }
     rollUp = function(){
-        if(this.corrent == 0) return
-        corrent--
+        if(this.correntItemIndex < 0) this.correntItemIndex = 0
+        if(this.correntItemIndex == 0) return
+        this.correntItemIndex--
+        this.correntItem = guestsList.childNodes[this.correntItemIndex]
     }
     rollDown = function(){
-        if(this.corrent == this.matchLength - 1) return
-        corrent++
+        if(this.correntItemIndex == this.matchLength - 1) return
+        this.correntItemIndex++
+        this.correntItem = guestsList.childNodes[this.correntItemIndex]
     }
     empty = function(){
         dropDown.textContent = ''
@@ -98,5 +110,35 @@ export default class {
         }
         this.dropDown.append(guestsList)
         return guestsList
+    }
+    onArrowUp = function(){ 
+        this.rollUp()
+        document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
+        this.correntItem.style.backgroundColor = '#4f90f275'
+        var list = this.dropDown.getBoundingClientRect()
+        var corrent_ele_size = this.correntItem.getBoundingClientRect()
+        var list_b = list.top + (corrent_ele_size.height + 15)
+        if(this.correntItemIndex-1 >= 0){
+            var next_ele = this.guestsList.childNodes[this.correntItemIndex - 1] 
+            var next_ele_height = next_ele.getBoundingClientRect().height + 1
+            if(corrent_ele_size.bottom < list_b){              
+                this.dropDown.scrollTop = this.dropDown.scrollTop-next_ele_height 
+            }
+        }
+    }
+    onArrowDown = function(){  
+        this.rollDown()   
+        document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
+        this.correntItem.style.backgroundColor = '#4f90f275'
+        var list = this.dropDown.getBoundingClientRect()
+        var corrent_ele_size = this.correntItem.getBoundingClientRect()
+        var list_b = list.bottom - (corrent_ele_size.height + 15)
+        if(this.correntItemIndex+1 <= this.matchLength){
+            var next_ele = this.guestsList.childNodes[this.correntItemIndex + 1] 
+            var next_ele_height = next_ele.getBoundingClientRect().height + 1
+            if(corrent_ele_size.top > list_b){           
+                this.dropDown.scrollTop = this.dropDown.scrollTop+next_ele_height 
+            }
+        }
     }
 }
