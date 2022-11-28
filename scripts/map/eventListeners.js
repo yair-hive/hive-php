@@ -110,8 +110,10 @@ export const onMapAdd = ()=>{
         onAddNumber()
     }
     if(map.getAttribute('selectables') === 'guests'){
-        onAddGuest(menu.correntItem)
-        menu.close()
+        if(menu.correntItemIndex > -1){
+            onAddGuest(menu.correntItem)
+            menu.close()
+        }
     }
 }
 export const onClickOutside = (event)=>{
@@ -149,6 +151,12 @@ export const onKeyBordDown = (event)=>{
             event.preventDefault()
             changeSelectables('seat', 'cell')
         }
+    }
+    if(event.keyCode == 38){
+        menu.onArrowUp()
+    }
+    if(event.keyCode == 40){
+        menu.onArrowDown()
     }
 }
 export const onKeyBordUp = ()=>{

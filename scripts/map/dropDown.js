@@ -3,32 +3,31 @@ export default class {
     matchLength = 0
     constructor(){
         this.dropDown = document.getElementById('dropDown')
-        this.inputBox = document.getElementById('inputBox')
-        document.addEventListener("keydown", (e)=>{
-            if(e.keyCode == 38){
-                this.onArrowUp()
-            }
-            if(e.keyCode == 40){
-                this.onArrowDown()
-            }
-        })      
+        this.inputBox = document.getElementById('inputBox')  
         this.createMatchList = this.createMatchList.bind(this)
         this.createGuestsList = this.createGuestsList.bind(this)
         this.offsetCalculate = this.offsetCalculate.bind(this)
+        this.roll = this.roll.bind(this)
         this.open = this.open.bind(this)
-        this.close = this.close.bind(this)     
+        this.close = this.close.bind(this)  
+        this.onInput = this.onInput.bind(this)   
+        this.reset = this.reset.bind(this)
+    }
+    onInput = function(){
+        this.empty()
+        this.reset()
+        this.createGuestsList()
+        this.guestsList = document.getElementById('guestsList')
     }
     open = function(box){
+        this.box = box
+        box.textContent = ''
         this.empty()
-        this.inputBox.addEventListener('input', ()=>{
-            this.empty()
-            this.createGuestsList()
-            this.guestsList = document.getElementById('guestsList')
-        })
+        this.reset()
+        this.inputBox.addEventListener('input', this.onInput)
         document.getElementById('mainBord').addEventListener('scroll', this.offsetCalculate)
         window.addEventListener('resize', this.offsetCalculate)  
         document.getElementById('map').setAttribute('selectables', 'guests')
-        this.box = box
         var guest_name = this.box.getAttribute('guest_name')
         this.dropDown.style.display = 'block'
         this.inputBox.style.display = 'inline-block'
@@ -46,17 +45,36 @@ export default class {
         if(this.correntItemIndex < 0) this.correntItemIndex = 0
         if(this.correntItemIndex == 0) return
         this.correntItemIndex--
-        this.correntItem = guestsList.childNodes[this.correntItemIndex]
+        this.roll()
+        if(this.correntItemIndex - 1 >= 0) {
+            this.nextItem = this.guestsList.childNodes[this.correntItemIndex - 1]
+            this.nextItemHeight = this.nextItem.getBoundingClientRect().height + 1
+        }
     }
     rollDown = function(){
+        if(this.correntItemIndex == -1) this.dropDown.scrollTop = 0
         if(this.correntItemIndex == this.matchLength - 1) return
         this.correntItemIndex++
+        this.roll()
         this.correntItem = guestsList.childNodes[this.correntItemIndex]
+        if(this.correntItemIndex + 1 < this.matchLength) {
+            this.nextItem = this.guestsList.childNodes[this.correntItemIndex + 1]
+            this.nextItemHeight = this.nextItem.getBoundingClientRect().height + 1
+        } 
+    }
+    roll = function(){
+        this.correntItem = guestsList.childNodes[this.correntItemIndex]
+        this.dropDownBounding = this.dropDown.getBoundingClientRect()
+        this.correntItemBounding = this.correntItem.getBoundingClientRect()
+        document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
+        this.correntItem.style.backgroundColor = '#4f90f275'
     }
     empty = function(){
-        this.correntItemIndex = -1
-        this.correntItem = ''
         this.dropDown.textContent = ''
+    }
+    reset = function(){
+        this.correntItemIndex = -1
+        this.correntItem = false
     }
     offsetCalculate = function(){
         var parent = this.box.getBoundingClientRect()
@@ -107,7 +125,15 @@ export default class {
             li.setAttribute('guest_name', corrent.name)
             li.setAttribute('guest_group', corrent.guest_group.replace("_"," "))
             li.setAttribute('seat', seat)
-            li.addEventListener('click', (e)=> onAddGuest(e.target))                                       
+            li.addEventListener('click', (e)=> onAddGuest(e.target)) 
+            li.addEventListener('mouseover', (e)=> {
+                if(e.target.getAttribute('guest_id')) e.target.style.backgroundColor = '#4f90f275'
+                if(this.correntItem){
+                    this.correntItem.style.backgroundColor = 'rgb(202, 248, 248)'
+                    this.reset()
+                }
+            }) 
+            li.addEventListener('mouseout', (e)=> {if(e.target.getAttribute('guest_id'))e.target.style.backgroundColor = 'rgb(202, 248, 248)'})                                      
             guestsList.append(li)
         }
         this.dropDown.append(guestsList)
@@ -115,32 +141,12 @@ export default class {
     }
     onArrowUp = function(){ 
         this.rollUp()
-        document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
-        this.correntItem.style.backgroundColor = '#4f90f275'
-        var list = this.dropDown.getBoundingClientRect()
-        var corrent_ele_size = this.correntItem.getBoundingClientRect()
-        var list_b = list.top + (corrent_ele_size.height + 15)
-        if(this.correntItemIndex-1 >= 0){
-            var next_ele = this.guestsList.childNodes[this.correntItemIndex - 1] 
-            var next_ele_height = next_ele.getBoundingClientRect().height + 1
-            if(corrent_ele_size.bottom < list_b){              
-                this.dropDown.scrollTop = this.dropDown.scrollTop-next_ele_height 
-            }
-        }
+        var dropDownTop = this.dropDownBounding.top + (this.correntItemBounding.height + 15)
+        if(this.correntItemBounding.bottom < dropDownTop) this.dropDown.scrollTop = this.dropDown.scrollTop - this.nextItemHeight 
     }
     onArrowDown = function(){  
         this.rollDown()   
-        document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
-        this.correntItem.style.backgroundColor = '#4f90f275'
-        var list = this.dropDown.getBoundingClientRect()
-        var corrent_ele_size = this.correntItem.getBoundingClientRect()
-        var list_b = list.bottom - (corrent_ele_size.height + 15)
-        if(this.correntItemIndex+1 < this.matchLength){
-            var next_ele = this.guestsList.childNodes[this.correntItemIndex + 1] 
-            var next_ele_height = next_ele.getBoundingClientRect().height + 1
-            if(corrent_ele_size.top > list_b){           
-                this.dropDown.scrollTop = this.dropDown.scrollTop+next_ele_height 
-            }
-        }
+        var dropDownBottom = this.dropDownBounding.bottom - (this.correntItemBounding.height + 15)
+        if(this.correntItemBounding.top > dropDownBottom) this.dropDown.scrollTop = this.dropDown.scrollTop + this.nextItemHeight 
     }
 }
