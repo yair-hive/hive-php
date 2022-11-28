@@ -3,7 +3,7 @@ import { guest } from "./api/guest.js"
 import { map } from "./api/map.js"
 import { seat } from "./api/seat.js"
 import { onSeatNum } from "./eventListeners.js"
-import { onSeatName } from "./eventListeners/editMap.js"
+import { onSeatName } from "./map/editMap.js"
 import "./lib/jquery.min.js"
 import { respondToVisibility, startMBLoader, stopMBLoader } from "./scripts.js"
 

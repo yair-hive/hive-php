@@ -9,11 +9,6 @@ export default class {
     constructor(){
         this.dropDown = document.getElementById('dropDown')
         this.inputBox = document.getElementById('inputBox')
-        this.inputBox.addEventListener('input', ()=>{
-            this.empty()
-            this.createGuestsList()
-            this.guestsList = document.getElementById('guestsList')
-        })
         document.addEventListener("keydown", (e)=>{
             if(e.keyCode == 38){
                 this.onArrowUp()
@@ -33,6 +28,11 @@ export default class {
     }
     open = function(box){
         this.empty()
+        this.inputBox.addEventListener('input', ()=>{
+            this.empty()
+            this.createGuestsList()
+            this.guestsList = document.getElementById('guestsList')
+        })
         document.getElementById('map').setAttribute('selectables', 'guests')
         this.box = box
         var guest_name = this.box.getAttribute('guest_name')

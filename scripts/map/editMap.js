@@ -5,8 +5,7 @@ import { guest } from "../api/guest.js"
 import { clearSelection, startMBLoader, stopMBLoader } from "../scripts.js"
 import "../lib/jquery.min.js"
 import add_match_menu from "../add_match_menu.js"
-import dropDown from "../dropDown.js"
-var menu = new dropDown()
+import { menu } from "./edit_map.js"
 
 const changeSelectables = (selectable, notSelectable)=>{
     document.getElementById('map').setAttribute('selectables', selectable)

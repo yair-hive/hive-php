@@ -1,4 +1,4 @@
-import { onAddGuest } from "./eventListeners/editMap.js"
+import { onAddGuest } from "./map/editMap.js"
 import { offsetCalculate } from "./scripts.js"
 import { selection } from "./main.js"
 import "./lib/jquery.min.js"
