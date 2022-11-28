@@ -65,6 +65,42 @@ export const onAddNumber = ()=>{
     })           
     clearSelection()
 }
+export const onAddGuest = (ele)=>{
+    if(ele.getAttribute('guest_id')){
+        var map = document.getElementById('map').getAttribute('map_id')
+        var guest_id = ele.getAttribute('guest_id')
+        var seat_id = ele.getAttribute('seat')
+        var name_box = document.querySelector(`.name_box[seat_id="${seat_id}"]`)
+        var guest_ele = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
+        var guest_name = guest_ele.getAttribute('guest_name')
+        var guest_group = guest_ele.getAttribute('guest_group')   
+        document.getElementById('drop_down').remove()
+        document.getElementById('name_box_input').remove()
+        guest.create_belong(guest_id, seat_id, map)
+        .then((res)=>{
+            if(res.msg === 'belong'){
+                if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
+                    guest.update(guest_id, seat_id, map)
+                    .then(()=>{
+                        var other_seat = document.querySelector(`.name_box[guest_name="${guest_name}"]`)
+                        if(other_seat) {
+                            other_seat.removeAttribute('guest_group')
+                            other_seat.removeAttribute('guest_name')
+                            other_seat.textContent = ''
+                        }
+                        name_box.setAttribute('guest_name', guest_name)
+                        name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
+                        name_box.textContent = guest_name 
+                    })
+                }
+            }else{
+                name_box.setAttribute('guest_name', guest_name)
+                name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
+                name_box.textContent = guest_name 
+            }
+        })
+    }
+}
 export const onMapAdd = ()=>{
     var map = document.getElementById('map')
     if(map.getAttribute('selectables') === 'cell'){
@@ -73,40 +109,6 @@ export const onMapAdd = ()=>{
     if(map.getAttribute('selectables') === 'seat'){
         onAddNumber()
     }
-}
-export const onClick_match_list_item = (event)=>{
-    var map = document.getElementById('map').getAttribute('map_id')
-    var guest_id = event.target.getAttribute('guest_id')
-    var seat_id = event.target.getAttribute('seat')
-    var name_box = document.querySelector(`.name_box[seat_id="${seat_id}"]`)
-    var guest_ele = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
-    var guest_name = guest_ele.getAttribute('guest_name')
-    var guest_group = guest_ele.getAttribute('guest_group')   
-    document.getElementById('drop_down').remove()
-    document.getElementById('name_box_input').remove()
-    guest.create_belong(guest_id, seat_id, map)
-    .then((res)=>{
-        if(res.msg === 'belong'){
-            if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
-                guest.update(guest_id, seat_id, map)
-                .then(()=>{
-                    var other_seat = document.querySelector(`.name_box[guest_name="${guest_name}"]`)
-                    if(other_seat) {
-                        other_seat.removeAttribute('guest_group')
-                        other_seat.removeAttribute('guest_name')
-                        other_seat.textContent = ''
-                    }
-                    name_box.setAttribute('guest_name', guest_name)
-                    name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
-                    name_box.textContent = guest_name 
-                })
-            }
-        }else{
-            name_box.setAttribute('guest_name', guest_name)
-            name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
-            name_box.textContent = guest_name 
-        }
-    })
 }
 export const onClickOutside = (event)=>{
     if(event.keyCode != 13){
@@ -152,7 +154,10 @@ export const onKeyBordUp = ()=>{
     document.getElementById('map').setAttribute('isZoomed', 'false')
 }
 export const onSeatName = (event)=>{
-    if(!event.ctrlKey && !event.metaKey) add_match_menu(event)
+    if(!event.ctrlKey && !event.metaKey){
+        add_match_menu(event)
+        clearSelection()
+    }
     if(event.ctrlKey || event.metaKey){
         var name_box = document.createElement('div')
         var seat_id = event.target.parentNode.getAttribute('seat_id')

@@ -1,4 +1,4 @@
-import { onClick_match_list_item } from "./eventListeners/editMap.js"
+import { onAddGuest } from "./eventListeners/editMap.js"
 import { offsetCalculate } from "./scripts.js"
 import { selection } from "./main.js"
 import "./lib/jquery.min.js"
@@ -7,13 +7,14 @@ import hiveObject from "./hiveObject.js"
 
 var corrent = 0
 var selected_ele
-const add_match_list_items = (guests_list)=>{
+const add_match_list_items = ()=>{
+    var guests_data = JSON.parse(document.getElementById('map').getAttribute('guests')) 
     var match_list = []
     var input_str = document.getElementById('name_box_input').value
     var search_str = '^'+input_str
     if(input_str.length != 0){
         var search_reg = new RegExp(search_str)
-        for(var corrent of guests_list){
+        for(var corrent of guests_data){
             corrent.name = corrent.last_name+' '+corrent.first_name
             if(search_reg.test(corrent.name)){
                 match_list.push(corrent)
@@ -22,11 +23,11 @@ const add_match_list_items = (guests_list)=>{
     }
     return match_list
 }
-const add_match_list = (seat)=>{
-    var guests_list = JSON.parse(document.getElementById('map').getAttribute('guests')) 
+const add_match_list = (box)=>{
+    var seat = box.getAttribute('seat_id')
     var match_drop_down = document.createElement('ul')
-    $(match_drop_down).attr('id', 'match_drop_down')
-    for(let corrent of add_match_list_items(guests_list)){
+    $(match_drop_down).attr('id', 'guestsList')
+    for(let corrent of add_match_list_items()){
         corrent.name = corrent.last_name+' '+corrent.first_name
         var match_li = document.createElement('li') 
         $(match_li).html(corrent.name+' <span class="group_name">'+corrent.guest_group+'   |</span>')
@@ -35,18 +36,18 @@ const add_match_list = (seat)=>{
         $(match_li).attr('guest_name', corrent.name)
         $(match_li).attr('guest_group', corrent.guest_group.replace("_"," "))
         $(match_li).attr('seat', seat)
-        match_li.addEventListener('click', onClick_match_list_item)                                       
+        match_li.addEventListener('click', (e)=> onAddGuest(e.target))                                       
         $(match_drop_down).append(match_li)
     }
     return match_drop_down
 }
 const add_name_box_input = (box)=>{
+    var guest_name = box.getAttribute('guest_name')
     var input_fild = document.createElement('input')
-    input_fild.style.border = "none";
     input_fild.setAttribute('autocomplete', "off")
-    $(input_fild).attr('id', 'name_box_input')
-    $(input_fild).val($(box).attr('guest_name'))
-    $(input_fild).addClass('name_box')
+    input_fild.setAttribute('id', 'name_box_input')
+    input_fild.classList.add('name_box')
+    input_fild.value = guest_name
     return input_fild
 }
 const add_drop_down = ()=>{
@@ -67,53 +68,17 @@ const add_drop_down = ()=>{
     })  
     return drop_down
 }
-const addGuest = (ele)=>{
-    if(ele.getAttribute('guest_id')){
-        var map = document.getElementById('map').getAttribute('map_id')
-        var guest_id = ele.getAttribute('guest_id')
-        var seat_id = ele.getAttribute('seat')
-        var name_box = document.querySelector(`.name_box[seat_id="${seat_id}"]`)
-        var guest_ele = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
-        var guest_name = guest_ele.getAttribute('guest_name')
-        var guest_group = guest_ele.getAttribute('guest_group')   
-        document.getElementById('drop_down').remove()
-        document.getElementById('name_box_input').remove()
-        guest.create_belong(guest_id, seat_id, map)
-        .then((res)=>{
-            if(res.msg === 'belong'){
-                if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
-                    guest.update(guest_id, seat_id, map)
-                    .then(()=>{
-                        var other_seat = document.querySelector(`.name_box[guest_name="${guest_name}"]`)
-                        if(other_seat) {
-                            other_seat.removeAttribute('guest_group')
-                            other_seat.removeAttribute('guest_name')
-                            other_seat.textContent = ''
-                        }
-                        name_box.setAttribute('guest_name', guest_name)
-                        name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
-                        name_box.textContent = guest_name 
-                    })
-                }
-            }else{
-                name_box.setAttribute('guest_name', guest_name)
-                name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
-                name_box.textContent = guest_name 
-            }
-        })
-    }
-}
 const onDropMenuArrow = (e)=>{
     document.getElementById('map').setAttribute('selectables', 'guests')
     var len = document.querySelectorAll('.drop_down > ul > li').length -1
     if(e.keyCode == 13){
-        addGuest(selected_ele)
+        onAddGuest(selected_ele)
      }
     if(e.keyCode == 38){
         if(corrent > 0){
             corrent--
             var drop_down = document.getElementById('drop_down')
-            var match_drop_down = document.getElementById('match_drop_down')
+            var match_drop_down = document.getElementById('guestsList')
             var corrent_ele = match_drop_down.childNodes[corrent] 
             selected_ele = corrent_ele
             document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
@@ -134,7 +99,7 @@ const onDropMenuArrow = (e)=>{
         if(corrent < len){
             corrent++
             var drop_down = document.getElementById('drop_down')
-            var match_drop_down = document.getElementById('match_drop_down')
+            var match_drop_down = document.getElementById('guestsList')
             var corrent_ele = match_drop_down.childNodes[corrent]
             selected_ele = corrent_ele          
             document.querySelectorAll('.drop_down > ul > li').forEach(e => e.style.backgroundColor = 'rgb(202, 248, 248)')
@@ -155,8 +120,6 @@ const onDropMenuArrow = (e)=>{
 export default function(event){
     var box = event.target
     if(document.getElementById('map').getAttribute('isZoomed') == 'false'){
-        selection.clearSelection()
-        document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
         $('#mainBord').append(add_drop_down())
         $('#mainBord').append(add_name_box_input(box))         
         offsetCalculate(box);
@@ -167,9 +130,8 @@ export default function(event){
             document.removeEventListener('keydown', onDropMenuArrow)
             document.addEventListener('keydown', onDropMenuArrow)
             $('#drop_down').text(' ')
-            var seat = box.getAttribute('seat_id')
             corrent = -1
-            $('#drop_down').append(add_match_list(seat))                               
+            $('#drop_down').append(add_match_list(box))                               
         })
     }
 }
