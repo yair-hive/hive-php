@@ -1,10 +1,5 @@
 export default class {
     correntItemIndex = -1
-    correntItem = ''
-    box = ''
-    dropDown = ''
-    inputBox = ''
-    guestsList = ''
     matchLength = 0
     constructor(){
         this.dropDown = document.getElementById('dropDown')
@@ -140,7 +135,7 @@ export default class {
         var list = this.dropDown.getBoundingClientRect()
         var corrent_ele_size = this.correntItem.getBoundingClientRect()
         var list_b = list.bottom - (corrent_ele_size.height + 15)
-        if(this.correntItemIndex+1 <= this.matchLength){
+        if(this.correntItemIndex+1 < this.matchLength){
             var next_ele = this.guestsList.childNodes[this.correntItemIndex + 1] 
             var next_ele_height = next_ele.getBoundingClientRect().height + 1
             if(corrent_ele_size.top > list_b){           
