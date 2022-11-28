@@ -116,8 +116,7 @@ export const onClickOutside = (event)=>{
     if(event.keyCode != 13){
         var classList = event.target.classList
         if(!classList.contains('name_box') && !classList.contains('drop_down') && !classList.contains('match_list')){
-            if(document.getElementById('drop_down')) document.getElementById('drop_down').remove()
-            if(document.getElementById('name_box_input')) document.getElementById('name_box_input').remove()
+            menu.close()
         }
         if(!event.ctrlKey && !event.metaKey && selection.getSelection().length !== 0 && !classList.contains('hive-button')){
             var map = document.getElementById('map')

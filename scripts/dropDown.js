@@ -1,9 +1,12 @@
+import { onAddGuest } from "./eventListeners/editMap"
+
 export default class {
     correntItemIndex = 0
     correntItem = ''
     box = ''
     dropDown = ''
     inputBox = ''
+    matchLength = 0
     constructor(){
         this.dropDown = document.getElementById('dropDown')
         this.inputBox = document.getElementById('inputBox')
@@ -30,8 +33,14 @@ export default class {
         this.inputBox.style.display = 'none'
         this.dropDown.style.display = 'none'
     }
-    rollUp = function(){}
-    rollDown = function(){}
+    rollUp = function(){
+        if(this.corrent == 0) return
+        corrent--
+    }
+    rollDown = function(){
+        if(this.corrent == this.matchLength - 1) return
+        corrent++
+    }
     empty = function(){
         dropDown.textContent = ''
     }
@@ -68,6 +77,7 @@ export default class {
                 }
             }
         }
+        this.matchLength = match_list.length 
         return match_list
     }
     createGuestsList = function(){
