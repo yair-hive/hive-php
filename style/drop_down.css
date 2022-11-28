@@ -39,7 +39,7 @@ input:focus{
 .group_name{
     color: rgb(124, 116, 116);
 }
-#name_box_input{
+.inputBox{
     margin: 0;
     padding: 0;
     position: absolute;

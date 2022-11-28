@@ -5,6 +5,8 @@ import { guest } from "../api/guest.js"
 import { clearSelection, startMBLoader, stopMBLoader } from "../scripts.js"
 import "../lib/jquery.min.js"
 import add_match_menu from "../add_match_menu.js"
+import dropDown from "../dropDown.js"
+var menu = new dropDown()
 
 const changeSelectables = (selectable, notSelectable)=>{
     document.getElementById('map').setAttribute('selectables', selectable)
@@ -155,7 +157,7 @@ export const onKeyBordUp = ()=>{
 }
 export const onSeatName = (event)=>{
     if(!event.ctrlKey && !event.metaKey){
-        add_match_menu(event)
+        menu.open(event.target)
         clearSelection()
     }
     if(event.ctrlKey || event.metaKey){
