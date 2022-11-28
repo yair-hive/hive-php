@@ -1,11 +1,10 @@
-import add_match_menu from "./add_match_menu.js"
-import { guest } from "./api/guest.js"
-import { map } from "./api/map.js"
-import { seat } from "./api/seat.js"
-import { onSeatNum } from "./eventListeners.js"
-import { onSeatName } from "./map/eventListeners.js"
-import "./lib/jquery.min.js"
-import { respondToVisibility, startMBLoader, stopMBLoader } from "./scripts.js"
+import { guest } from "../api/guest.js"
+import { map } from "../api/map.js"
+import { seat } from "../api/seat.js"
+import { onSeatName } from "./eventListeners.js"
+import "../lib/jquery.min.js"
+import { respondToVisibility, startMBLoader, stopMBLoader } from "../scripts.js"
+
 
 export const add_map = (map)=>{
     const main_bord = document.getElementById('mainBord')
@@ -111,95 +110,4 @@ export const add_guests = (guests)=>{
             }
         }
     }) 
-}
-export const add_guests_table = (map_name, table)=>{
-    var map_id = ''
-    var table_length = 0
-    return map.get(map_name)
-    .then(res => map_id = res.id)
-    .then(()=>{
-        guest.get_all(map_id)
-        .then((names)=>{
-            if(names.length == 0) stopMBLoader()
-            table_length = names.length
-            var i = 1
-            for(let name of names){
-                i++
-                var td = document.createElement('td')
-                td.classList.add('seat_num')
-                td.setAttribute('guest_id', name.id)                  
-                var tdX = document.createElement('td')
-                tdX.style.backgroundColor = 'red'
-                tdX.textContent = 'X'
-                tdX.addEventListener('click', (event)=>{
-                    guest.delete(name.id)
-                    .then(()=>{
-                        event.target.parentNode.style.display = 'none'
-                        event.target.parentNode.childNodes[0].setAttribute('show', 'false')
-                        event.target.classList.add('no_show')
-                    })
-                })
-                var tr = document.createElement('tr')
-                var tr_j = $(tr)
-                .append(td)
-                .append($('<td>').text(name.last_name))
-                .append($('<td>').text(name.first_name))
-                .append($('<td>').text(name.guest_group))
-                .append(tdX)
-                $(table).append(tr_j)
-                if(i == table_length){
-                    respondToVisibility(tr, stopMBLoader)
-                }
-            }
-        })
-        .then(()=>{
-            document.querySelectorAll('.seat_num').forEach(element => {
-                var guest_id = element.getAttribute('guest_id')
-                guest.get_belong(guest_id)
-                .then((res)=>{
-                    var color, text
-                    if(res[0]){
-                        color = 'green'
-                        text = res[0].seat
-                    }else{
-                        color = 'grey'
-                        text = 'none'
-                    }
-                    seat.get_number(text)
-                    .then(seat => {
-                        if(seat[0]) {
-                            element.textContent = seat[0].seat_number
-                            element.addEventListener('click', onSeatNum)
-                            element.setAttribute('belong', 'true')
-                        }                          
-                    })
-                    element.style.backgroundColor = color
-                    element.setAttribute('seat_id', text) 
-                    element.setAttribute('show', 'true')                   
-                })
-            })
-        })
-    })
-}
-export const addMBloader = ()=>{
-    var loader = document.createElement('div')
-    var loaderContainer = document.createElement('div')
-    var main_bord = document.getElementById('mainBord')
-    var perent = main_bord.getBoundingClientRect()
-    $(loaderContainer) .css({
-        'position': 'absolute',
-        'width': perent.width,
-        'height': perent.height, 
-        'top': perent.top,
-        'left': perent.left,
-        'margin': 0,
-        'padding': 0,
-        'backgroundColor' : 'rgb(67, 167, 167)'
-    })
-    loader.setAttribute('id', "MBloader")
-    loaderContainer.setAttribute('id', "MBloader-container")
-    document.body.insertBefore(loader, document.body.children[0])
-    document.body.insertBefore(loaderContainer, document.body.children[0])
-    loader.style.display = 'none'
-    loaderContainer.style.display = 'none'
 }

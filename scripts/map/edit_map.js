@@ -1,5 +1,5 @@
-import {add_map, add_seats, add_guests, add_belong} from "../elements.js"
-import { onClickOutside, onKeyBordDown, onKeyBordUp, onMapAdd, onSelectCells, onSelectSeats } from "../map/editMap.js"
+import {add_map, add_seats, add_guests, add_belong} from "./elements.js"
+import { onClickOutside, onKeyBordDown, onKeyBordUp, onMapAdd, onSelectCells, onSelectSeats } from "./eventListeners.js"
 import { startMBLoader, zoom } from "../scripts.js"
 import { map } from "../api/map.js"
 import { seat } from "../api/seat.js"
@@ -7,8 +7,6 @@ import { guest } from "../api/guest.js"
 import "../lib/jquery.min.js"
 import dropDown from "./dropDown.js"
 import { dragToScroll, selection } from "../main.js"
-
-export var menu = new dropDown()
 
 startMBLoader()
 const parsedUrl = new URL(window.location.href)

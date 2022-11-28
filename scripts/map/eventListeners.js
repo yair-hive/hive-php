@@ -1,11 +1,12 @@
 import { dragToScroll, selection } from "../main.js"
-import { add_guests, add_seats } from "../elements.js"
+import { addMBloader, add_guests, add_seats } from "../elements.js"
 import { seat } from "../api/seat.js"
 import { guest } from "../api/guest.js"
 import { clearSelection, startMBLoader, stopMBLoader } from "../scripts.js"
 import "../lib/jquery.min.js"
-import add_match_menu from "../add_match_menu.js"
-import { menu } from "./edit_map.js"
+import dropDown from "./dropDown.js"
+
+var menu = new dropDown()
 
 const changeSelectables = (selectable, notSelectable)=>{
     document.getElementById('map').setAttribute('selectables', selectable)
