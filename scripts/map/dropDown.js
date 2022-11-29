@@ -1,6 +1,7 @@
 export default class {
     correntItemIndex = -1
     matchLength = 0
+    status = 'close'
     constructor(){
         this.dropDown = document.getElementById('dropDown')
         this.inputBox = document.getElementById('inputBox')  
@@ -20,6 +21,7 @@ export default class {
         this.guestsList = document.getElementById('guestsList')
     }
     open = function(box){
+        this.status = 'open'
         this.box = box
         box.textContent = ''
         this.empty()
@@ -36,6 +38,7 @@ export default class {
         this.offsetCalculate()
     }
     close = function(){
+        this.status = 'close'
         document.getElementById('mainBord').removeEventListener('scroll', this.offsetCalculate)
         window.removeEventListener('resize', this.offsetCalculate)  
         this.inputBox.style.display = 'none'
@@ -139,14 +142,18 @@ export default class {
         this.dropDown.append(guestsList)
         return guestsList
     }
-    onArrowUp = function(){ 
-        this.rollUp()
-        var dropDownTop = this.dropDownBounding.top + (this.correntItemBounding.height + 15)
-        if(this.correntItemBounding.bottom < dropDownTop) this.dropDown.scrollTop = this.dropDown.scrollTop - this.nextItemHeight 
+    onArrowUp = function(){
+        if(this.matchLength > 0){
+            this.rollUp()
+            var dropDownTop = this.dropDownBounding.top + (this.correntItemBounding.height + 15)
+            if(this.correntItemBounding.bottom < dropDownTop) this.dropDown.scrollTop = this.dropDown.scrollTop - this.nextItemHeight 
+        }
     }
-    onArrowDown = function(){  
-        this.rollDown()   
-        var dropDownBottom = this.dropDownBounding.bottom - (this.correntItemBounding.height + 15)
-        if(this.correntItemBounding.top > dropDownBottom) this.dropDown.scrollTop = this.dropDown.scrollTop + this.nextItemHeight 
+    onArrowDown = function(){ 
+        if(this.matchLength > 0){
+            this.rollDown()   
+            var dropDownBottom = this.dropDownBounding.bottom - (this.correntItemBounding.height + 15)
+            if(this.correntItemBounding.top > dropDownBottom) this.dropDown.scrollTop = this.dropDown.scrollTop + this.nextItemHeight 
+        }
     }
 }
