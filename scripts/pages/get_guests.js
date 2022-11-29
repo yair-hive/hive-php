@@ -27,7 +27,9 @@ document.getElementById('export').addEventListener('click', ()=>{
     });
 })
 add_guests_table(map_name, table).then(()=>{
+    document.getElementById("status").addEventListener('click', ()=>{sortTable(0)})
     document.getElementById("first").addEventListener('click', ()=>{sortTable(1)}) 
     document.getElementById("last").addEventListener('click', ()=>{sortTable(2)})
     document.getElementById("group").addEventListener('click', ()=>{sortTable(3)})
+    document.getElementById("score").addEventListener('click', ()=>{sortTable(4)})
 })

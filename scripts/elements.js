@@ -144,6 +144,7 @@ export const add_guests_table = (map_name, table)=>{
                 .append($('<td>').text(name.last_name))
                 .append($('<td>').text(name.first_name))
                 .append($('<td>').text(name.guest_group))
+                .append($('<td>').text(name.score))
                 .append(tdX)
                 $(table).append(tr_j)
                 if(i == table_length){

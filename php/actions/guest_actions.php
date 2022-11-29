@@ -11,7 +11,13 @@ $guest_actions['create'] = function(){
             $query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}' AND guest_group='{$guest_group}' AND belong='{$map_id}'";
             if($result = mysqli_query($connection, $query_string)){
                 if(mysqli_num_rows($result) == 0){
-                    $query_string = "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group}', '{$map_id}')";
+                    global $group_score;
+                    $score = null;
+                    if(!empty($group_score[$guest_group])){
+                        $score = $group_score[$guest_group];
+                        print_r($score);
+                    }
+                    $query_string = "INSERT INTO guests(first_name, last_name, guest_group, score, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group}', '{$score}', '{$map_id}')";
                     db_post($query_string);
                 }else{
                     $respons['msg'] = 'allrdy axist';

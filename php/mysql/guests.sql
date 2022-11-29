@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: נובמבר 16, 2022 בזמן 08:42 AM
--- גרסת שרת: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: נובמבר 29, 2022 בזמן 06:50 PM
+-- גרסת שרת: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,6 +32,7 @@ CREATE TABLE `guests` (
   `first_name` varchar(20) NOT NULL,
   `last_name` varchar(20) NOT NULL,
   `guest_group` varchar(20) NOT NULL,
+  `score` int(11) NOT NULL,
   `belong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
