@@ -20,8 +20,8 @@ export const add_map = (map)=>{
             var cell_cont = document.createElement('div')
             var cell = document.createElement('div')
             cell_cont.classList.add('cell_cont')
-            cell.setAttribute('row', rowsCounter)
-            cell.setAttribute('col', colsCounter)
+            cell_cont.setAttribute('row', rowsCounter)
+            cell_cont.setAttribute('col', colsCounter)
             cell.classList.add('cell')
             cell.classList.add('selectable')
             cell_cont.append(cell)
@@ -36,10 +36,8 @@ export const add_map = (map)=>{
 export const add_seats = (seats)=>{
     if(seats.length == 0) stopMBLoader()
     for(let seat of seats){
-        var cell = document.querySelector(`.cell[row ="${seat.row_num}"][col = "${seat.col_num}"]`)
+        var cell_cont = document.querySelector(`.cell_cont[row ="${seat.row_num}"][col = "${seat.col_num}"]`)
         var seat_ele = document.createElement('div')
-        seat_ele.setAttribute('row', seat.row_num)
-        seat_ele.setAttribute('col', seat.col_num)
         seat_ele.setAttribute('seat_id', seat.id)
         var num_box = document.createElement('div')
         var name_box = document.createElement('div')
@@ -52,7 +50,7 @@ export const add_seats = (seats)=>{
         seat_ele.append(num_box)
         seat_ele.append(name_box)
         name_box.addEventListener('click', onSeatName)
-        cell.parentNode.replaceChildren(seat_ele)
+        cell_cont.replaceChildren(seat_ele)
     }
     stopMBLoader()
 }

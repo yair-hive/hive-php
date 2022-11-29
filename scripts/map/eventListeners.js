@@ -37,15 +37,21 @@ export const onAddSeats = ()=>{
     startMBLoader()
     var selected = selection.getSelection()
     var map_id = document.getElementById('map').getAttribute('map_id')
+    var i = 0
     selected.forEach((cell) => {
-        var row = cell.getAttribute('row') 
-        var col = cell.getAttribute('col')
+        i++
+        var row = cell.parentNode.getAttribute('row') 
+        var col = cell.parentNode.getAttribute('col')
         seat.create(map_id, row, col)
         .then(()=> {
-            clearSelection()
-            return seat.get_all(map_id)
+            if(i === selected.length){
+                seat.get_all(map_id)
+                .then(seats => add_seats(seats))
+                stopMBLoader()
+                clearSelection()
+            }
         })
-        .then(seats => add_seats(seats))
+
     })
     // var cells_list = []
     // for(let cell of selected){
