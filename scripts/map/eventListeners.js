@@ -1,9 +1,9 @@
-import { addMBloader, add_guests, add_seats } from "../elements.js"
 import { seat } from "../api/seat.js"
 import { guest } from "../api/guest.js"
 import { startMBLoader, stopMBLoader, create_selection, DragToScroll } from "../scripts.js"
 import "../lib/jquery.min.js"
 import dropDown from "./dropDown.js"
+import { add_seats } from "./elements.js"
 
 const menu = new dropDown()
 const selection = create_selection()
