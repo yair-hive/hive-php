@@ -148,3 +148,29 @@ $guest_actions['delete'] = function(){
         print_r(json_encode($respons));
     }
 };
+$guest_actions['update2'] = function(){
+    if(allowed('writing')){
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $guest_group = $_POST['guest_group'];
+        $guest_id = $_POST['guest_id'];
+        $map_id = $_POST['map_id'];  
+        if(!empty($first_name) && !empty($last_name) && !empty($guest_group)){
+            global $connection;     
+            global $group_score;
+            $score = null;
+            if(!empty($group_score[$guest_group])){
+                $score = $group_score[$guest_group];
+                print_r($score);
+            }
+            $query_string = "UPDATE guests SET first_name = '{$first_name}', last_name = '{$last_name}', guest_group = '{$guest_group}', score = '{$score}', belong = '{$map_id}' WHERE id= '{$guest_id}'";
+            db_post($query_string);
+        }else{
+            $respons['msg'] = 'faild empty';
+            print_r(json_encode($respons));
+        }
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
+    }
+};

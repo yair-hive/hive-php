@@ -1,4 +1,4 @@
-import { guest } from "./api/guest.js."
+import { guest } from "./api/guest.js"
 import { map } from "./api/map.js"
 import { seat } from "./api/seat.js"
 import { onSeatNum } from "./eventListeners.js"
@@ -6,6 +6,15 @@ import { onSeatName } from "./map/eventListeners.js"
 import "./lib/jquery.min.js"
 import { respondToVisibility, startMBLoader, stopMBLoader } from "./scripts.js"
 
+const test = (e)=>{
+    var data = []
+    data[0] = e.target.parentNode.parentNode.childNodes[1].childNodes[0].value
+    data[1] = e.target.parentNode.parentNode.childNodes[2].childNodes[0].value
+    data[2] = e.target.parentNode.parentNode.childNodes[3].childNodes[0].value
+    var map_id = e.target.parentNode.parentNode.getAttribute('map_id')
+    var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
+    guest.update2(data, map_id, guest_id)
+}
 export const add_map = (map)=>{
     const main_bord = document.getElementById('mainBord')
     const map_container = document.createElement("div")
@@ -139,11 +148,13 @@ export const add_guests_table = (map_name, table)=>{
                     })
                 })
                 var tr = document.createElement('tr')
+                tr.setAttribute('map_id', map_id)
+                tr.setAttribute('guest_id', name.id)
                 var tr_j = $(tr)
                 .append(td)
-                .append($('<td>').text(name.last_name))
-                .append($('<td>').text(name.first_name))
-                .append($('<td>').text(name.guest_group))
+                .append($('<td>').append($('<input>').val(name.last_name).on('focusout', test)))
+                .append($('<td>').append($('<input>').val(name.first_name).on('focusout', test)))
+                .append($('<td>').append($('<input>').val(name.guest_group).on('focusout', test)))
                 .append($('<td>').text(name.score))
                 .append(tdX)
                 $(table).append(tr_j)

@@ -15,6 +15,8 @@ export const guest = {
         };
           
         return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
         .then(res => res.json())
         .then((res)=>{
             if(res.msg == 'ok') return res.data
@@ -45,6 +47,24 @@ export const guest = {
         const options = {
             method: 'POST',
             body: "category=guest&action=create&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_id="+map_id,
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };
+        fetch(api_url, options)
+        .then(res => res.text())
+        .then(res => alert(res))
+        // .then(res => res.json())
+        // .then((res)=>{
+        //     if(res.msg == 'ok') return
+        //     alert(res.msg)
+        //     return res.msg
+        // })
+    },
+    update2: (data, map_id, guest_id)=>{
+        const options = {
+            method: 'POST',
+            body: "category=guest&action=update2&guest_id="+guest_id+"&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_id="+map_id,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
