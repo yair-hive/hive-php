@@ -1,7 +1,11 @@
 import { onSeatName } from "./eventListeners.js"
 import "../lib/jquery.min.js"
-import { respondToVisibility, startMBLoader, stopMBLoader } from "../scripts.js"
+import { respondToVisibility } from "./tooles.js"
 import api from "./api/api.js"
+import MBloader from "../MBloader.js"
+
+const loader = new MBloader()
+loader.add()
 
 function cell(row, col){
     var cellContainer = document.createElement('div')
@@ -47,6 +51,7 @@ function cellContainer(seat, seat_ele){
     cellContainer.replaceChildren(seat_ele)
 }
 export const add_map = (map_data)=>{
+    loader.start()
     const map_ele = map(map_data)
     for(var rowsCounter = 1; rowsCounter <= map_data.rows_number; rowsCounter++){
         for(var colsCounter = 1; colsCounter <= map_data.columns_number; colsCounter++){
@@ -54,16 +59,18 @@ export const add_map = (map_data)=>{
         }
     }
     document.getElementById('map_container').append(map_ele)
+    loader.stop()
 }
 export const add_seats = (seats)=>{
-    if(seats.length == 0) stopMBLoader()
+    loader.start()
+    if(seats.length == 0) loader.stop()
     for(let seat_data of seats){
         cellContainer(seat_data, seat(seat_data))
     }
-    stopMBLoader()
+    loader.stop()
 }
 export const add_belong = ()=>{
-    startMBLoader()
+    loader.start()
     var name_boxs =  document.querySelectorAll('.name_box')
     var l = name_boxs.length
     var i = 1
@@ -77,20 +84,20 @@ export const add_belong = ()=>{
         })
         .then(()=>{
             if(i == l){
-                stopMBLoader()
+                loader.stop()
             }
         })
     })
 }
 export const add_guests = (guests)=>{
-    startMBLoader()
+    loader.start()
     var guests_press = JSON.stringify(guests)
     document.getElementById('map').setAttribute('guests', guests_press)
     var name_boxs = document.querySelectorAll('.name_box')
     var l = guests.length
     var i = 1
     if(l == 0){
-        stopMBLoader()
+        loader.stop()
     }
     name_boxs.forEach((name_box)=>{
         i++
@@ -105,9 +112,9 @@ export const add_guests = (guests)=>{
                 name_box.textContent = corrent.name             
             }
             if(i == l){
-                respondToVisibility(name_box, stopMBLoader)
+                respondToVisibility(name_box, loader.stop)
             }
         }
     }) 
-    stopMBLoader()
+    loader.stop()
 }

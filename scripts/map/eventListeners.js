@@ -1,9 +1,10 @@
-import { startMBLoader, stopMBLoader, create_selection, DragToScroll } from "../scripts.js"
-import "../lib/jquery.min.js"
+import { create_selection, DragToScroll } from "./tooles.js"
 import dropDown from "./dropDown.js"
 import { add_seats } from "./elements.js"
 import api from "./api/api.js"
+import MBloader from "../MBloader.js"
 
+const loader = new MBloader()
 const menu = new dropDown()
 const selection = create_selection()
 const dragToScroll = DragToScroll()
@@ -33,7 +34,7 @@ export const onSelectCells = ()=>{
     changeSelectables('cell', 'seat')
 }
 export const onAddSeats = ()=>{
-    startMBLoader()
+    loader.start()
     var selected = selection.getSelection()
     var map_id = document.getElementById('map').getAttribute('map_id')
     var i = 0
@@ -46,7 +47,7 @@ export const onAddSeats = ()=>{
             if(i === selected.length){
                 api.seat.get_all(map_id)
                 .then(seats => add_seats(seats))
-                stopMBLoader()
+                loader.stop()
                 clearSelection()
             }
         })
@@ -67,6 +68,7 @@ export const onAddSeats = ()=>{
     // })
 }
 export const onAddNumber = ()=>{
+    loader.start()
     var seatNumber = Number(prompt('Please enter number'))
     document.querySelectorAll('.selected').forEach(element => {
         var box = element.getElementsByClassName('num_box')[0]
@@ -74,7 +76,8 @@ export const onAddNumber = ()=>{
         var seat_id = box.getAttribute('seat_id')
         api.seat.create_number(seat_id, seatNumber)     
         seatNumber++
-    })           
+    }) 
+    loader.stop()          
     clearSelection()
 }
 export const onAddGuest = (ele)=>{

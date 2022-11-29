@@ -1,12 +1,8 @@
 import {add_map, add_seats, add_guests, add_belong} from "./elements.js"
 import { onClickOutside, onKeyBordDown, onKeyBordUp, onMapAdd, onSelectCells, onSelectSeats } from "./eventListeners.js"
-import { startMBLoader, zoom } from "../scripts.js"
-import "../lib/jquery.min.js"
-import { addMBloader } from "../elements.js"
+import { zoom } from "./tooles.js"
 import api from "./api/api.js"
 
-addMBloader()
-startMBLoader()
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
 document.getElementsByTagName('title')[0].append(map_name)
