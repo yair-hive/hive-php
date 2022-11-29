@@ -1,6 +1,5 @@
 import SelectionArea from "./lib/viselect.esm.js"
 import "./lib/jquery.min.js"
-import { selection } from "./main.js"
 
 class dragClass {
     constructor(){
@@ -204,8 +203,4 @@ export const respondToVisibility = (element, callback)=>{
     }, options);
   
     observer.observe(element);
-}
-export const clearSelection = ()=>{
-    selection.clearSelection(); 
-    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
 }

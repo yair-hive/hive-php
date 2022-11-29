@@ -1,5 +1,4 @@
-import add_match_menu from "./add_match_menu.js"
-import { guest } from "./api/guest.js"
+import { guest } from "./api/guest.js."
 import { map } from "./api/map.js"
 import { seat } from "./api/seat.js"
 import { onSeatNum } from "./eventListeners.js"

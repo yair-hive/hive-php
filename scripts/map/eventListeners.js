@@ -1,12 +1,13 @@
-import { dragToScroll, selection } from "../main.js"
 import { addMBloader, add_guests, add_seats } from "../elements.js"
 import { seat } from "../api/seat.js"
 import { guest } from "../api/guest.js"
-import { clearSelection, startMBLoader, stopMBLoader } from "../scripts.js"
+import { startMBLoader, stopMBLoader, create_selection, DragToScroll } from "../scripts.js"
 import "../lib/jquery.min.js"
 import dropDown from "./dropDown.js"
 
-var menu = new dropDown()
+const menu = new dropDown()
+const selection = create_selection()
+const dragToScroll = DragToScroll()
 
 const changeSelectables = (selectable, notSelectable)=>{
     document.getElementById('map').setAttribute('selectables', selectable)
@@ -21,6 +22,10 @@ const changeSelectables = (selectable, notSelectable)=>{
     document.querySelectorAll('.'+selectable).forEach(e => e.classList.add('selectable'))
     document.querySelectorAll('.'+notSelectable).forEach(e => e.classList.remove('selectable'))
     selection.resolveSelectables()
+}
+const clearSelection = ()=>{
+    selection.clearSelection(); 
+    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
 }
 export const onSelectSeats = ()=>{
     changeSelectables('seat', 'cell')

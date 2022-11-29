@@ -1,4 +1,4 @@
-import { seat } from "../api/seat.js"
+import { seat } from "../api/seat.js.js.js"
 import { onSeatName } from "./eventListeners.js"
 import "../lib/jquery.min.js"
 import { respondToVisibility, startMBLoader, stopMBLoader } from "../scripts.js"
