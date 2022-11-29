@@ -1,9 +1,8 @@
-import { seat } from "../api/seat.js"
-import { guest } from "../api/guest.js"
 import { startMBLoader, stopMBLoader, create_selection, DragToScroll } from "../scripts.js"
 import "../lib/jquery.min.js"
 import dropDown from "./dropDown.js"
 import { add_seats } from "./elements.js"
+import api from "./api/api.js"
 
 const menu = new dropDown()
 const selection = create_selection()
@@ -42,10 +41,10 @@ export const onAddSeats = ()=>{
         i++
         var row = cell.parentNode.getAttribute('row') 
         var col = cell.parentNode.getAttribute('col')
-        seat.create(map_id, row, col)
+        api.seat.create(map_id, row, col)
         .then(()=> {
             if(i === selected.length){
-                seat.get_all(map_id)
+                api.seat.get_all(map_id)
                 .then(seats => add_seats(seats))
                 stopMBLoader()
                 clearSelection()
@@ -73,7 +72,7 @@ export const onAddNumber = ()=>{
         var box = element.getElementsByClassName('num_box')[0]
         box.textContent = seatNumber
         var seat_id = box.getAttribute('seat_id')
-        seat.create_number(seat_id, seatNumber)     
+        api.seat.create_number(seat_id, seatNumber)     
         seatNumber++
     })           
     clearSelection()
@@ -87,11 +86,11 @@ export const onAddGuest = (ele)=>{
         var guest_ele = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
         var guest_name = guest_ele.getAttribute('guest_name')
         var guest_group = guest_ele.getAttribute('guest_group')   
-        guest.create_belong(guest_id, seat_id, map)
+        api.guest.create_belong(guest_id, seat_id, map)
         .then((res)=>{
             if(res.msg === 'belong'){
                 if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
-                    guest.update(guest_id, seat_id, map)
+                    api.guest.update(guest_id, seat_id, map)
                     .then(()=>{
                         var other_seat = document.querySelector(`.name_box[guest_name="${guest_name}"]`)
                         if(other_seat) {

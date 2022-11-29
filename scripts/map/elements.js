@@ -1,13 +1,20 @@
-import { seat } from "../api/seat.js"
 import { onSeatName } from "./eventListeners.js"
 import "../lib/jquery.min.js"
 import { respondToVisibility, startMBLoader, stopMBLoader } from "../scripts.js"
+import api from "./api/api.js"
 
-
-export const add_map = (map)=>{
-    const main_bord = document.getElementById('mainBord')
-    const map_container = document.createElement("div")
-    map_container.classList.add('map_container')
+function cell(row, col){
+    var cellContainer = document.createElement('div')
+    var cell = document.createElement('div')
+    cellContainer.classList.add('cell_cont')
+    cellContainer.setAttribute('row', row)
+    cellContainer.setAttribute('col', col)
+    cell.classList.add('cell')
+    cell.classList.add('selectable')
+    cellContainer.append(cell)
+    return cellContainer
+}
+function map(map){
     const map_ele = document.createElement('div')
     map_ele.setAttribute('map_name', map.map_name)
     map_ele.setAttribute('map_id', map.id)
@@ -15,42 +22,43 @@ export const add_map = (map)=>{
     map_ele.setAttribute('selectables', 'cell')
     map_ele.setAttribute('isZoomed', 'false')
     map_ele.classList.add('map')
-    for(var rowsCounter = 1; rowsCounter <= map.rows_number; rowsCounter++){
-        for(var colsCounter = 1; colsCounter <= map.columns_number; colsCounter++){
-            var cell_cont = document.createElement('div')
-            var cell = document.createElement('div')
-            cell_cont.classList.add('cell_cont')
-            cell_cont.setAttribute('row', rowsCounter)
-            cell_cont.setAttribute('col', colsCounter)
-            cell.classList.add('cell')
-            cell.classList.add('selectable')
-            cell_cont.append(cell)
-            map_ele.appendChild(cell_cont)
-        }
-    }
     map_ele.style.setProperty('--map-rows', map.rows_number)
     map_ele.style.setProperty('--map-cols', map.columns_number)
-    map_container.appendChild(map_ele)
-    main_bord.appendChild(map_container)
+    return map_ele
+}
+function seat(seat_data){
+    var seat_ele = document.createElement('div')
+    seat_ele.setAttribute('seat_id', seat_data.id)
+    var num_box = document.createElement('div')
+    var name_box = document.createElement('div')
+    num_box.classList.add('num_box')
+    name_box.classList.add('name_box')
+    seat_ele.classList.add('seat')
+    $(name_box).attr('seat_id', seat_data.id)
+    $(num_box).attr('seat_id', seat_data.id)
+    $(num_box).text(seat_data.seat_number)
+    seat_ele.append(num_box)
+    seat_ele.append(name_box)
+    name_box.addEventListener('click', onSeatName)
+    return seat_ele
+}
+function cellContainer(seat, seat_ele){
+    var cellContainer = document.querySelector(`.cell_cont[row ="${seat.row_num}"][col = "${seat.col_num}"]`)
+    cellContainer.replaceChildren(seat_ele)
+}
+export const add_map = (map_data)=>{
+    const map_ele = map(map_data)
+    for(var rowsCounter = 1; rowsCounter <= map_data.rows_number; rowsCounter++){
+        for(var colsCounter = 1; colsCounter <= map_data.columns_number; colsCounter++){
+            map_ele.appendChild(cell(rowsCounter, colsCounter))
+        }
+    }
+    document.getElementById('map_container').append(map_ele)
 }
 export const add_seats = (seats)=>{
     if(seats.length == 0) stopMBLoader()
-    for(let seat of seats){
-        var cell_cont = document.querySelector(`.cell_cont[row ="${seat.row_num}"][col = "${seat.col_num}"]`)
-        var seat_ele = document.createElement('div')
-        seat_ele.setAttribute('seat_id', seat.id)
-        var num_box = document.createElement('div')
-        var name_box = document.createElement('div')
-        num_box.classList.add('num_box')
-        name_box.classList.add('name_box')
-        seat_ele.classList.add('seat')
-        $(name_box).attr('seat_id', seat.id)
-        $(num_box).attr('seat_id', seat.id)
-        $(num_box).text(seat.seat_number)
-        seat_ele.append(num_box)
-        seat_ele.append(name_box)
-        name_box.addEventListener('click', onSeatName)
-        cell_cont.replaceChildren(seat_ele)
+    for(let seat_data of seats){
+        cellContainer(seat_data, seat(seat_data))
     }
     stopMBLoader()
 }
@@ -62,7 +70,7 @@ export const add_belong = ()=>{
    name_boxs.forEach(element => {
         i++
         var seat_id = element.getAttribute('seat_id')
-        seat.get_belong(seat_id)
+        api.seat.get_belong(seat_id)
         .then(belong => {
             if(belong[0]) element.setAttribute('guest_id', belong[0].guest)
             else return
