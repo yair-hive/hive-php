@@ -1,4 +1,4 @@
-import { seat } from "../api/seat.js.js.js"
+import { seat } from "../api/seat.js"
 import { onSeatName } from "./eventListeners.js"
 import "../lib/jquery.min.js"
 import { respondToVisibility, startMBLoader, stopMBLoader } from "../scripts.js"
@@ -19,11 +19,7 @@ export const add_map = (map)=>{
         for(var colsCounter = 1; colsCounter <= map.columns_number; colsCounter++){
             var cell_cont = document.createElement('div')
             var cell = document.createElement('div')
-            cell_cont.classList.add(`row-${rowsCounter}`)
-            cell_cont.classList.add(`col-${colsCounter}`)
             cell_cont.classList.add('cell_cont')
-            cell.classList.add(`row-${rowsCounter}`)
-            cell.classList.add(`col-${colsCounter}`)
             cell.setAttribute('row', rowsCounter)
             cell.setAttribute('col', colsCounter)
             cell.classList.add('cell')
@@ -40,10 +36,8 @@ export const add_map = (map)=>{
 export const add_seats = (seats)=>{
     if(seats.length == 0) stopMBLoader()
     for(let seat of seats){
-        var cell = document.querySelector(`.cell_cont.row-${seat.row_num}.col-${seat.col_num}`)
+        var cell = document.querySelector(`.cell[row ="${seat.row_num}"][col = "${seat.col_num}"]`)
         var seat_ele = document.createElement('div')
-        seat_ele.classList.add(`row-${seat.row_num}`)
-        seat_ele.classList.add(`col-${seat.col_num}`)
         seat_ele.setAttribute('row', seat.row_num)
         seat_ele.setAttribute('col', seat.col_num)
         seat_ele.setAttribute('seat_id', seat.id)
@@ -58,7 +52,7 @@ export const add_seats = (seats)=>{
         seat_ele.append(num_box)
         seat_ele.append(name_box)
         name_box.addEventListener('click', onSeatName)
-        cell.replaceChildren(seat_ele)
+        cell.parentNode.replaceChildren(seat_ele)
     }
     stopMBLoader()
 }
