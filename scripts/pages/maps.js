@@ -1,9 +1,10 @@
 import { map } from "../api/map.js"
+import { openPopUp } from "../elements.js"
 var maps_list = document.getElementById('maps_list')
 map.get_all()
 .then((respons)=>{
     if(respons.msg != 'ok'){
-        alert(respons.msg)
+        openPopUp('שגיאה', respons.msg)
         return false
     }else{
         return respons.data

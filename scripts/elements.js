@@ -6,7 +6,7 @@ import { onSeatName } from "./map/eventListeners.js"
 import "./lib/jquery.min.js"
 import { respondToVisibility, startMBLoader, stopMBLoader } from "./scripts.js"
 
-const onTdFocusOut = (e)=>{
+function onTdFocusOut(e){
     var data = []
     data[0] = e.target.parentNode.parentNode.childNodes[2].childNodes[0].value
     data[1] = e.target.parentNode.parentNode.childNodes[1].childNodes[0].value
@@ -232,7 +232,6 @@ export const add_guests_table = (map_name, table)=>{
                         groupsSwitch.append(div)
                         i++
                     }
-                    console.log(groups)
                 }
             }
         })
@@ -286,4 +285,32 @@ export const addMBloader = ()=>{
     document.body.insertBefore(loaderContainer, document.body.children[0])
     loader.style.display = 'none'
     loaderContainer.style.display = 'none'
+}
+function closePopUp(){
+    document.getElementById('blur').style.display = 'none'
+}
+export function addPopUp(){
+    var blur = document.createElement('div')
+    var popUp = document.createElement('div')
+    var popUpHead = document.createElement('div')
+    var popUpBody = document.createElement('div')
+    popUpBody.setAttribute('id', 'popUpBody')
+    popUpBody.classList.add('popUpBody')
+    popUpHead.classList.add('popUpHead')
+    popUpHead.setAttribute('id', 'popUpHead')
+    popUpHead.addEventListener('click', closePopUp)
+    blur.setAttribute('id', 'blur')
+    blur.classList.add('blur')
+    popUp.setAttribute('id', 'popUp')
+    popUp.classList.add('popUp')
+    popUp.append(popUpHead)
+    popUp.append(popUpBody)
+    blur.append(popUp)
+    document.body.append(blur)
+    blur.style.display = 'none'
+}
+export function openPopUp(title, msg){
+    document.getElementById('blur').style.display = 'block'
+    document.getElementById('popUpBody').textContent = msg
+    document.getElementById('popUpHead').textContent = title
 }
