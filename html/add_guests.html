@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../style/loader.css">
     <link rel="stylesheet" href="../style/hive_elements.css">
     <link rel="stylesheet" href="../style/scrollbar.css">
+	<link rel="stylesheet" href="../style/form.css">
 	<script src="../scripts/main.js" type="module" defer></script>
 	<script src="../scripts/pages/add_guests.js" type="module" defer></script>
 	<style>
@@ -49,8 +50,8 @@
 		.file_input{
 			background-color: #76a8f3;
 			padding: 10px;
-			margin-top: 10px;
-			border-radius: 10px;
+			border-radius: 5px;
+			height: 20px;
 		}
 	</style>
 	<script defer>
@@ -81,7 +82,7 @@
 					<br /> 
 					<label for="guest_group"> שיעור </label>
 					<br /> 
-					<input type='text' name='guest_group'>
+					<select id="group_select" name='guest_group'></select>
 					<br /> 
 					<div id='add_guest_button' class="hive-button"> הוסף </div> 
 				</form>

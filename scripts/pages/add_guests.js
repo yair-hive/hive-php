@@ -9,27 +9,36 @@ var map_id = ''
 map.get(map_name)
 .then(res => map_id = res.id)
 .then(()=>{
-    document.getElementById('add_guest_button').addEventListener('click', ()=>{
-        startMBLoader()
-        var data = []
-        data[0] = document.getElementById('add_guest_form')['first_name'].value
-        data[1] = document.getElementById('add_guest_form')['last_name'].value
-        data[2] = document.getElementById('add_guest_form')['guest_group'].value
-        guest.create(data, map_id)
-        .then(()=>{
-            document.getElementById('add_guest_form').reset()
+    guest.get_all_groups(map_id).then((groups)=>{
+        var group_select = document.getElementById('group_select')
+        for(let group of groups){
+            var option = document.createElement('option')
+            option.setAttribute('value', group.group_name)
+            option.textContent = group.group_name
+            group_select.append(option) 
+        }
+        document.getElementById('add_guest_button').addEventListener('click', ()=>{
+            startMBLoader()
+            var data = []
+            data[0] = document.getElementById('add_guest_form')['first_name'].value
+            data[1] = document.getElementById('add_guest_form')['last_name'].value
+            data[2] = document.getElementById('add_guest_form')['guest_group'].value
+            guest.create(data, map_id)
+            .then(()=>{
+                document.getElementById('add_guest_form').reset()
+            })
+            .then(stopMBLoader)
         })
-        .then(stopMBLoader)
-    })
-    document.getElementById('submit').addEventListener('click', ()=>{
-        startMBLoader()
-        var file = document.getElementById('file').files[0]    
-        readXlsxFile(file)
-        .then((rows)=>{
-            for(let row of rows){
-                guest.create(row, map_id)
-            }
+        document.getElementById('submit').addEventListener('click', ()=>{
+            startMBLoader()
+            var file = document.getElementById('file').files[0]    
+            readXlsxFile(file)
+            .then((rows)=>{
+                for(let row of rows){
+                    guest.create(row, map_id)
+                }
+            })
+            .then(stopMBLoader)
         })
-        .then(stopMBLoader)
     })
 })
