@@ -27,14 +27,20 @@ th {
     padding: 10px;
     font-size: 15px;
     height: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 th:hover{
     background-color: rgb(97, 96, 96);
     color: aqua;
 }
+#groups_table > tr > td{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
 td { 
-    padding: 0;
-    margin: 0;
     height: 20px;
     border: 1px solid black;
     background-color: rgb(120, 154, 216);
@@ -47,4 +53,7 @@ td > input{
     outline: none;
     background-color: rgb(120, 154, 216);
     font-size: 20px;
+}
+.td_color{
+    padding: 0 !important;
 }

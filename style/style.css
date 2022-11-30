@@ -63,7 +63,7 @@ a:hover{
 #mneu{
     z-index: 20;
     overflow: auto;
-    padding: 20px;
+    padding: 10px;
     background-color: rgb(120, 140, 228);
 }
 #select_seats{

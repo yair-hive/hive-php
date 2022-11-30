@@ -172,3 +172,44 @@ $guest_actions['update'] = function(){
         print_r(json_encode($respons));
     }
 };
+$guest_actions['get_all_groups'] = function(){
+    if(allowed("reading")){
+        global $connection;        
+        $map_id = $_POST['map_id'];  
+        $query_string = "SELECT * FROM guests_groups WHERE belong='{$map_id}'";
+        db_get($query_string);
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
+    }
+};
+$guest_actions['create_group'] = function(){
+    if(allowed('writing')){
+        if(!empty($_POST['group_name']) && !empty($_POST['color']) && !empty($_POST['score']) && !empty($_POST['map_id'])){
+            $group_name = $_POST['group_name'] ;
+            $color = $_POST['color'];
+            $score = $_POST['score'];                        
+            $map_id = $_POST['map_id'];  
+            global $connection;     
+            $query_string = "SELECT * FROM guests_groups WHERE group_name='{$group_name}' AND belong='{$map_id}'";
+            if($result = mysqli_query($connection, $query_string)){
+                if(mysqli_num_rows($result) == 0){
+                    $query_string = "INSERT INTO guests_groups(group_name, color, score, belong) VALUES('{$group_name}', '{$color}', '{$score}', '{$map_id}')";
+                    db_post($query_string);
+                }else{
+                    $respons['msg'] = 'allrdy axist';
+                    print_r(json_encode($respons));
+                }
+            }else{
+                $respons['msg'] = 'db error';
+                print_r(json_encode($respons));
+            }
+        }else{
+            $respons['msg'] = 'faild empty';
+            print_r(json_encode($respons));
+        }
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
+    }
+};
