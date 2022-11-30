@@ -15,22 +15,45 @@ const test = (e)=>{
     var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
     guest.update2(data, map_id, guest_id)
 }
-function onGroupsSwitch(e){
-    var group = e.target.getAttribute('group')
+function switchMouseOut(e){
+    e.target.style.backgroundColor = 'rgb(119, 224, 224)' 
+}
+function onGroupsSwitch(event){
+    document.querySelectorAll('#groupsSwitch > .hive-button').forEach(e => {
+        e.style.backgroundColor = 'rgb(119, 224, 224)'
+        e.addEventListener('mouseover', e => e.target.style.backgroundColor = '#7a93b9')
+        if(e.getAttribute('group') != event.target.getAttribute('group')) e.addEventListener('mouseout', switchMouseOut)
+        else e.removeEventListener('mouseout', switchMouseOut)
+        event.target.style.backgroundColor = 'rgb(91, 209, 130)';
+    })
+    var group = event.target.getAttribute('group')
     var table = document.getElementById('names_table')
-    var i
-    var rows = table.rows
-    var l = rows.length 
-    for(i = 1; i < l; i++){
-        if(rows[i].getAttribute('status_belong') == 'open'){
-            if(rows[i].getAttribute('group') != group){
-                rows[i].style.display = 'none'
-                rows[i].setAttribute('status_group', 'close')
-            }
-            else{
+    if(group == 'all'){
+        var i
+        var rows = table.rows
+        var l = rows.length 
+        for(i = 1; i < l; i++){
+            if(rows[i].getAttribute('status_belong') == 'open'){
                 rows[i].style.display = 'table-row'; 
                 rows[i].style.verticalAlign = 'inherit';
                 rows[i].setAttribute('status_group', 'open')
+            }
+        }
+    }else{
+        var i
+        var rows = table.rows
+        var l = rows.length 
+        for(i = 1; i < l; i++){
+            if(rows[i].getAttribute('status_belong') == 'open'){
+                if(rows[i].getAttribute('group') != group){
+                    rows[i].style.display = 'none'
+                    rows[i].setAttribute('status_group', 'close')
+                }
+                else{
+                    rows[i].style.display = 'table-row'; 
+                    rows[i].style.verticalAlign = 'inherit';
+                    rows[i].setAttribute('status_group', 'open')
+                }
             }
         }
     }
@@ -190,11 +213,18 @@ export const add_guests_table = (map_name, table)=>{
                     var groupsSwitch = document.getElementById('groupsSwitch')
                     var i = 0
                     var l = groups.length -1
+                    var div = document.createElement('div')
+                    div.classList.add('hive-button')
+                    div.classList.add('hive-switch-l')
+                    div.setAttribute('group', 'all')
+                    div.textContent = 'הכל'
+                    div.style.backgroundColor = 'rgb(91, 209, 130)'
+                    div.addEventListener('click', onGroupsSwitch)
+                    groupsSwitch.append(div)
                     for(let group of groups){
                         var div = document.createElement('div')
                         div.classList.add('hive-button')
-                        if(i == 0) div.classList.add('hive-switch-l')
-                        else if(i == l) div.classList.add('hive-switch-r')
+                        if(i == l) div.classList.add('hive-switch-r')
                         else div.classList.add('hive-switch-m')
                         div.setAttribute('group', group)
                         div.textContent = group

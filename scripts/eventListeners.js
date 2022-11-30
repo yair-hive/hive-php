@@ -2,6 +2,10 @@ import "./lib/jquery.min.js"
 import { seat } from "./api/seat.js"
 import { user } from "./api/user.js"
 
+function switchMouseOut(e){
+    e.target.style.backgroundColor = 'rgb(119, 224, 224)' 
+}
+
 export const onAddPermission = (event)=>{
     if(event.target.id == 'list_td'){
         var list_td = event.target    
@@ -41,12 +45,13 @@ export const onAddPermission = (event)=>{
     }
 }
 export const onShowOnlyWthBelong = (event)=>{
-    document.querySelectorAll('.hive-button').forEach(e => {
+    document.querySelectorAll('#belongSwitch > .hive-button').forEach(e => {
         e.style.backgroundColor = 'rgb(119, 224, 224)'
         e.addEventListener('mouseover', e => e.target.style.backgroundColor = '#7a93b9')
-        e.addEventListener('mouseout', e => e.target.style.backgroundColor = 'rgb(119, 224, 224)')
+        if(e.getAttribute('id') != event.target.getAttribute('id')) e.addEventListener('mouseout', switchMouseOut)
+        else e.removeEventListener('mouseout', switchMouseOut)
     })
-    event.target.style.backgroundColor = '#7a93b9';
+    event.target.style.backgroundColor = 'rgb(91, 209, 130)';
     document.querySelectorAll('td[seat_id = "none"]').forEach(e =>{
         if(e.parentNode.getAttribute('status_group') == 'open'){
             e.parentNode.style.display = 'none'
@@ -65,12 +70,13 @@ export const onShowOnlyWthBelong = (event)=>{
     })
 }
 export const onShowOnlyWthoutBelong = (event)=>{
-    document.querySelectorAll('.hive-button').forEach(e => {
+    document.querySelectorAll('#belongSwitch > .hive-button').forEach(e => {
         e.style.backgroundColor = 'rgb(119, 224, 224)'
-        e.addEventListener('mouseover', e => {e.target.style.backgroundColor = '#7a93b9'})
-        e.addEventListener('mouseout', e => e.target.style.backgroundColor = 'rgb(119, 224, 224)')
+        e.addEventListener('mouseover', e => e.target.style.backgroundColor = '#7a93b9')
+        if(e.getAttribute('id') != event.target.getAttribute('id')) e.addEventListener('mouseout', switchMouseOut)
+        else e.removeEventListener('mouseout', switchMouseOut)
     })
-    event.target.style.backgroundColor = '#7a93b9';
+    event.target.style.backgroundColor = 'rgb(91, 209, 130)';
     document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
         if(e.parentNode.getAttribute('status_group') == 'open'){
             if(e.getAttribute('show') == 'true'){
@@ -89,12 +95,13 @@ export const onShowOnlyWthoutBelong = (event)=>{
     })
 }
 export const onShowAll = (event)=>{
-    document.querySelectorAll('.hive-button').forEach(e => {
+    document.querySelectorAll('#belongSwitch > .hive-button').forEach(e => {
         e.style.backgroundColor = 'rgb(119, 224, 224)'
         e.addEventListener('mouseover', e => e.target.style.backgroundColor = '#7a93b9')
-        e.addEventListener('mouseout', e => e.target.style.backgroundColor = 'rgb(119, 224, 224)')
+        if(e.getAttribute('id') != event.target.getAttribute('id')) e.addEventListener('mouseout', switchMouseOut)
+        else e.removeEventListener('mouseout', switchMouseOut)
     })
-    event.target.style.backgroundColor = '#7a93b9';
+    event.target.style.backgroundColor = 'rgb(91, 209, 130)';
     document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
         if(e.parentNode.getAttribute('status_group') == 'open'){
             if(e.getAttribute('show') == 'true'){
