@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../style/style.css">
+	<link rel="stylesheet" href="../style/popUp.css">
+    <link rel="stylesheet" href="../style/loader.css">
+    <link rel="stylesheet" href="../style/hive_elements.css">
+    <link rel="stylesheet" href="../style/scrollbar.css">
+	<link rel="stylesheet" href="../style/form.css">
+    <script src="../scripts/main.js" type="module" defer></script>
+    <script src="../scripts/pages/index.js" type="module" defer></script>
+	<script defer>
+		const parsedUrl = new URL(window.location.href)
+		const map_name = parsedUrl.searchParams.get("map_name")
+	</script>
+    <title> hive | import guests </title>
+</head>
+<body>
+	<div id="content">
+		<div id="topBar">
+            <div id="user_element" class="user_icon hive-button"> התחבר </div>
+            <ul> </ul>
+		</div>
+		<div id="mainBord"></div>
+		<div id="mneu"></div>
+	</div>
+</body>
+</html>

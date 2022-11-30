@@ -15,7 +15,15 @@
     <script defer>
 		const parsedUrl = new URL(window.location.href)
 		const map_name = parsedUrl.searchParams.get("map_name")
-	</script>
+    </script>
+    <style>
+        input{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
     <title> hive | קבוצות </title>
 </head>
 <body>
@@ -29,6 +37,7 @@
         <div id="mainBord">
             <table id="groups_table">
                 <tr>
+                    <th> X </th>
                     <th> צבע </th>
                     <th> ניקוד </th>
                     <th> שם </th>

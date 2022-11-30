@@ -48,8 +48,10 @@ function onGroupsSwitch(event){
                 if(rows[i].getAttribute('group') != group){
                     rows[i].style.display = 'none'
                     rows[i].setAttribute('status_group', 'close')
+                    rows[i].childNodes[0].classList.add('no_show')
                 }
                 else{
+                    rows[i].childNodes[0].classList.remove('no_show')
                     rows[i].style.display = 'table-row'; 
                     rows[i].style.verticalAlign = 'inherit';
                     rows[i].setAttribute('status_group', 'open')

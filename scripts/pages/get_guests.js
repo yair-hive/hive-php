@@ -22,6 +22,24 @@ document.getElementById('export').addEventListener('click', ()=>{
         row.childNodes[4].remove()
     }
     table.querySelectorAll('.no_show').forEach(e => e.parentNode.remove())
+    var i = 0
+    for(let row of rows){
+        if(i != 0){
+            var td_first = row.childNodes[1]
+            var input = td_first.childNodes[0]
+            var value = input.value
+            td_first.textContent = value
+            var td_last = row.childNodes[2]
+            var input = td_last.childNodes[0]
+            value = input.value
+            td_last.textContent = value
+            var td_group = row.childNodes[3]
+            var input = td_group.childNodes[0]
+            value = input.value
+            td_group.textContent = value
+        }
+        i++
+    }
     $(table).table2excel({
         filename: "list.xls"
     });
