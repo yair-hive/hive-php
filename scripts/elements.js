@@ -15,6 +15,26 @@ const test = (e)=>{
     var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
     guest.update2(data, map_id, guest_id)
 }
+function onGroupsSwitch(e){
+    var group = e.target.getAttribute('group')
+    var table = document.getElementById('names_table')
+    var i
+    var rows = table.rows
+    var l = rows.length 
+    for(i = 1; i < l; i++){
+        if(rows[i].getAttribute('status_belong') == 'open'){
+            if(rows[i].getAttribute('group') != group){
+                rows[i].style.display = 'none'
+                rows[i].setAttribute('status_group', 'close')
+            }
+            else{
+                rows[i].style.display = 'table-row'; 
+                rows[i].style.verticalAlign = 'inherit';
+                rows[i].setAttribute('status_group', 'open')
+            }
+        }
+    }
+}
 export const add_map = (map)=>{
     const main_bord = document.getElementById('mainBord')
     const map_container = document.createElement("div")
@@ -131,6 +151,7 @@ export const add_guests_table = (map_name, table)=>{
             if(names.length == 0) stopMBLoader()
             table_length = names.length
             var i = 1
+            var groups = []
             for(let name of names){
                 i++
                 var td = document.createElement('td')
@@ -150,6 +171,12 @@ export const add_guests_table = (map_name, table)=>{
                 var tr = document.createElement('tr')
                 tr.setAttribute('map_id', map_id)
                 tr.setAttribute('guest_id', name.id)
+                tr.setAttribute('group', name.guest_group)
+                tr.setAttribute('status_group', 'open')
+                tr.setAttribute('status_belong', 'open')
+                if(groups.indexOf(name.guest_group) == -1){
+                    groups.push(name.guest_group)
+                }
                 var tr_j = $(tr)
                 .append(td)
                 .append($('<td>').append($('<input>').val(name.last_name).on('focusout', test)))
@@ -160,6 +187,22 @@ export const add_guests_table = (map_name, table)=>{
                 $(table).append(tr_j)
                 if(i == table_length){
                     respondToVisibility(tr, stopMBLoader)
+                    var groupsSwitch = document.getElementById('groupsSwitch')
+                    var i = 0
+                    var l = groups.length -1
+                    for(let group of groups){
+                        var div = document.createElement('div')
+                        div.classList.add('hive-button')
+                        if(i == 0) div.classList.add('hive-switch-l')
+                        else if(i == l) div.classList.add('hive-switch-r')
+                        else div.classList.add('hive-switch-m')
+                        div.setAttribute('group', group)
+                        div.textContent = group
+                        div.addEventListener('click', onGroupsSwitch)
+                        groupsSwitch.append(div)
+                        i++
+                    }
+                    console.log(groups)
                 }
             }
         })

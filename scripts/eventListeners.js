@@ -48,13 +48,19 @@ export const onShowOnlyWthBelong = (event)=>{
     })
     event.target.style.backgroundColor = '#7a93b9';
     document.querySelectorAll('td[seat_id = "none"]').forEach(e =>{
-        e.parentNode.style.display = 'none'
-        e.classList.add('no_show')
+        if(e.parentNode.getAttribute('status_group') == 'open'){
+            e.parentNode.style.display = 'none'
+            e.parentNode.setAttribute('status_belong', 'close')
+            e.classList.add('no_show')
+        }
     })
     document.querySelectorAll('td[belong]').forEach(e => {
-        if(e.getAttribute('show') == 'true'){
-            e.parentNode.style.display = 'table-row';
-            e.parentNode.style.verticalAlign = 'inherit';
+        if(e.parentNode.getAttribute('status_group') == 'open'){
+            if(e.getAttribute('show') == 'true'){
+                e.parentNode.style.display = 'table-row';
+                e.parentNode.style.verticalAlign = 'inherit';
+                e.parentNode.setAttribute('status_belong', 'open')
+            }
         }
     })
 }
@@ -66,14 +72,20 @@ export const onShowOnlyWthoutBelong = (event)=>{
     })
     event.target.style.backgroundColor = '#7a93b9';
     document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
-        if(e.getAttribute('show') == 'true'){
-            e.parentNode.style.display = 'table-row';
-            e.parentNode.style.verticalAlign = 'inherit';
+        if(e.parentNode.getAttribute('status_group') == 'open'){
+            if(e.getAttribute('show') == 'true'){
+                e.parentNode.style.display = 'table-row';
+                e.parentNode.style.verticalAlign = 'inherit';
+                e.parentNode.setAttribute('status_belong', 'open')
+            }
         }
     })
     document.querySelectorAll('td[belong]').forEach(e => {
-        e.parentNode.style.display = 'none'
-        e.classList.add('no_show')
+        if(e.parentNode.getAttribute('status_group') == 'open'){
+            e.parentNode.style.display = 'none'
+            e.parentNode.setAttribute('status_belong', 'close')
+            e.classList.add('no_show')
+        }
     })
 }
 export const onShowAll = (event)=>{
@@ -84,15 +96,21 @@ export const onShowAll = (event)=>{
     })
     event.target.style.backgroundColor = '#7a93b9';
     document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
-        if(e.getAttribute('show') == 'true'){
-            e.parentNode.style.display = 'table-row';
-            e.parentNode.style.verticalAlign = 'inherit';
+        if(e.parentNode.getAttribute('status_group') == 'open'){
+            if(e.getAttribute('show') == 'true'){
+                e.parentNode.style.display = 'table-row';
+                e.parentNode.style.verticalAlign = 'inherit';
+                e.parentNode.setAttribute('status_belong', 'open')
+            }
         }
     })
     document.querySelectorAll('td[belong]').forEach(e => {
-        if(e.getAttribute('show') == 'true'){
-            e.parentNode.style.display = 'table-row';
-            e.parentNode.style.verticalAlign = 'inherit';
+        if(e.parentNode.getAttribute('status_group') == 'open'){
+            if(e.getAttribute('show') == 'true'){
+                e.parentNode.style.display = 'table-row';
+                e.parentNode.style.verticalAlign = 'inherit';
+                e.parentNode.setAttribute('status_belong', 'open')
+            }
         }
     })
 }
