@@ -21,6 +21,7 @@ $files =
 'guests.sql',
 'belong.sql',
 'permissions.sql',
+'guests_groups.sql',
 'users.sql',];
 
 function update($filename, $link){
