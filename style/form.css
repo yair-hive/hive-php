@@ -11,3 +11,26 @@ select, input{
 .file_input{
     margin: 15px;
 }
+#mainBord{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+form{
+    padding: 50px;
+}
+.form_cont{
+    background-color: #2b4e81;
+    margin: 10px;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.file_input{
+    background-color: #76a8f3;
+    padding: 10px;
+    border-radius: 5px;
+    height: 20px;
+}
