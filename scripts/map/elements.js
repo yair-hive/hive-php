@@ -91,30 +91,48 @@ export const add_belong = ()=>{
 }
 export const add_guests = (guests)=>{
     loader.start()
-    var guests_press = JSON.stringify(guests)
-    document.getElementById('map').setAttribute('guests', guests_press)
-    var name_boxs = document.querySelectorAll('.name_box')
-    var l = guests.length
-    var i = 1
-    if(l == 0){
-        loader.stop()
-    }
-    name_boxs.forEach((name_box)=>{
-        i++
-        var guest_id = name_box.getAttribute('guest_id')
-        for(var corrent of guests){
-            if(corrent.id == guest_id){
-                corrent.name = corrent.last_name+' '+corrent.first_name
-                if(corrent.name.length > 15) name_box.style.fontSize = '11px';
-                corrent.guest_group = corrent.guest_group.replace(" ","_"); 
-                name_box.setAttribute('guest_name', corrent.name)
-                name_box.setAttribute('guest_group', corrent.guest_group)
-                name_box.textContent = corrent.name             
-            }
-            if(i == l){
-                respondToVisibility(name_box, loader.stop)
+    var map_ele = document.getElementById('map')
+    var map_id = map_ele.getAttribute('map_id')
+    api.guest.get_all_groups(map_id)
+    .then((groups)=>{
+        var groups_press = JSON.stringify(groups)
+        var guests_press = JSON.stringify(guests)
+        map_ele.setAttribute('guests', guests_press)
+        map_ele.setAttribute('groups', groups_press)
+        var name_boxs = document.querySelectorAll('.name_box')
+        var l = guests.length
+        var i = 1
+        if(l == 0){
+            loader.stop()
+        }
+        for(var c = 0; c < l; c++){
+            var guest_group = guests[c].guest_group
+            for(let group of groups){
+                if(group.group_name == guest_group){
+                    guests[c].color = group.color
+                }
             }
         }
-    }) 
-    loader.stop()
+        name_boxs.forEach((name_box)=>{
+            i++
+            var guest_id = name_box.getAttribute('guest_id')
+            for(var corrent of guests){
+                if(corrent.id == guest_id){
+                    corrent.name = corrent.last_name+' '+corrent.first_name
+                    if(corrent.name.length > 15) name_box.style.fontSize = '11px';
+                    corrent.guest_group = corrent.guest_group.replace(" ","_"); 
+                    name_box.setAttribute('guest_name', corrent.name)
+                    name_box.setAttribute('guest_group', corrent.guest_group)
+                    name_box.textContent = corrent.name 
+                    if(corrent.color){
+                        name_box.style.backgroundColor = corrent.color
+                    }            
+                }
+                if(i == l){
+                    respondToVisibility(name_box, loader.stop)
+                }
+            }
+        }) 
+        loader.stop()
+    })
 }

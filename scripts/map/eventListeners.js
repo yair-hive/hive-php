@@ -9,6 +9,15 @@ const menu = new dropDown()
 const selection = create_selection()
 const dragToScroll = DragToScroll()
 
+function getGroupColor(guest_group){
+    var groups = JSON.parse(document.getElementById('map').getAttribute('groups'))
+    for(let group of groups){
+        if(group.group_name == guest_group){
+            return group.color
+        }
+    }
+    return false
+}
 const changeSelectables = (selectable, notSelectable)=>{
     document.getElementById('map').setAttribute('selectables', selectable)
     var buttons = {
@@ -99,16 +108,21 @@ export const onAddGuest = (ele)=>{
                         if(other_seat) {
                             other_seat.removeAttribute('guest_group')
                             other_seat.removeAttribute('guest_name')
+                            other_seat.style.backgroundColor = 'rgba(146, 136, 209, 0.8)'
                             other_seat.textContent = ''
                         }
                         name_box.setAttribute('guest_name', guest_name)
                         name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
+                        var color = getGroupColor(guest_group)
+                        if(color) name_box.style.backgroundColor = color
                         name_box.textContent = guest_name 
                     })
                 }
             }else{
                 name_box.setAttribute('guest_name', guest_name)
                 name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
+                var color = getGroupColor(guest_group)
+                if(color) name_box.style.backgroundColor = color
                 name_box.textContent = guest_name 
             }
         })
