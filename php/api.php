@@ -4,8 +4,6 @@ session_start();
 
 $mysql_conf = parse_ini_file('../mysql_conf.ini');
 $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);
-$group_score_file = file_get_contents("actions/group_score.json");
-$group_score = json_decode($group_score_file, true);
 
 include_once 'actions/functions.php';
 include_once 'actions/map_actions.php';

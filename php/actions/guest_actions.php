@@ -1,5 +1,27 @@
 <?php
 
+function getAllGroups($map_id){
+    global $connection;         
+    $query_string = "SELECT * FROM guests_groups WHERE belong='{$map_id}'";
+    if($result = mysqli_query($connection, $query_string)){
+        $results = [];
+        while($row = mysqli_fetch_assoc($result)){
+            $results[] = $row;
+        }
+        return $results;
+    }
+
+};
+function getGroupScore($map_id, $group_name){
+    $groups = getAllGroups($map_id);
+    foreach($groups as $group){
+        if($group['group_name'] == $group_name){
+            return $group['score'];
+        }
+    }
+    return null;
+}
+
 $guest_actions['create'] = function(){
     if(allowed('writing')){
         $first_name = $_POST['first_name'];
@@ -11,13 +33,14 @@ $guest_actions['create'] = function(){
             $query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}' AND guest_group='{$guest_group}' AND belong='{$map_id}'";
             if($result = mysqli_query($connection, $query_string)){
                 if(mysqli_num_rows($result) == 0){
-                    global $group_score;
-                    $score = null;
-                    if(!empty($group_score[$guest_group])){
-                        $score = $group_score[$guest_group];
+                    $score = getGroupScore($map_id, $guest_group);
+                    if($score != null){
+                        $query_string = "INSERT INTO guests(first_name, last_name, guest_group, score, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group}', '{$score}', '{$map_id}')";
+                        db_post($query_string);
+                    }else{
+                        $respons['msg'] = 'group dont axist';
+                        print_r(json_encode($respons));
                     }
-                    $query_string = "INSERT INTO guests(first_name, last_name, guest_group, score, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group}', '{$score}', '{$map_id}')";
-                    db_post($query_string);
                 }else{
                     $respons['msg'] = 'allrdy axist';
                     print_r(json_encode($respons));
