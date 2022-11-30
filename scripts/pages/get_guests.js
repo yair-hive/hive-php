@@ -1,6 +1,6 @@
 import { add_guests_table } from "../elements.js"
 import { onShowAll, onShowOnlyWthBelong, onShowOnlyWthoutBelong } from "../eventListeners.js"
-import { sortTable, startMBLoader } from "../scripts.js"
+import { sortTable, sortTableNumber, startMBLoader } from "../scripts.js"
 import "../lib/jquery.min.js"
 import "../lib/jquery.table2excel.min.js"
 startMBLoader()
@@ -27,9 +27,14 @@ document.getElementById('export').addEventListener('click', ()=>{
     });
 })
 add_guests_table(map_name, table).then(()=>{
-    document.getElementById("status").addEventListener('click', ()=>{sortTable(0)})
+    document.getElementById("status").addEventListener('click', ()=>{sortTableNumber(0)})
     document.getElementById("first").addEventListener('click', ()=>{sortTable(1)}) 
     document.getElementById("last").addEventListener('click', ()=>{sortTable(2)})
     document.getElementById("group").addEventListener('click', ()=>{sortTable(3)})
-    document.getElementById("score").addEventListener('click', ()=>{sortTable(4)})
+    document.getElementById("score").addEventListener('click', ()=>{sortTableNumber(4)})
+    document.addEventListener('keydown', (e)=>{
+        if(e.keyCode == 13){
+            document.activeElement.blur()
+        }
+    })
 })

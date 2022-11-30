@@ -25,9 +25,18 @@ th:hover{
     color: aqua;
 }
 td { 
+    padding: 0;
+    margin: 0;
+    height: 20px;
     border: 1px solid black;
-    padding: 5px;
     background-color: rgb(120, 154, 216);
     font-size: 20px;
+}
+td > input{
+    padding: 5px;
     height: 20px;
+    border: none;
+    outline: none;
+    background-color: rgb(120, 154, 216);
+    font-size: 20px;
 }
