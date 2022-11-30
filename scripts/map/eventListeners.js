@@ -93,8 +93,8 @@ export const onAddGuest = (ele)=>{
         .then((res)=>{
             if(res.msg === 'belong'){
                 if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
-                    api.guest.update(guest_id, seat_id, map)
-                    .then(()=>{
+                    api.guest.update_belong(guest_id, seat_id, map)
+                    .then((res)=>{
                         var other_seat = document.querySelector(`.name_box[guest_name="${guest_name}"]`)
                         if(other_seat) {
                             other_seat.removeAttribute('guest_group')

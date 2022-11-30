@@ -82,7 +82,7 @@ $guest_actions['add'] = function(){
         print_r(json_encode($respons));
     }
 };
-$guest_actions['update'] = function(){
+$guest_actions['update_belong'] = function(){
     if(allowed('writing')){
         global $connection;     
         $map_id = $_POST['map_id'];
@@ -147,7 +147,7 @@ $guest_actions['delete'] = function(){
         print_r(json_encode($respons));
     }
 };
-$guest_actions['update2'] = function(){
+$guest_actions['update'] = function(){
     if(allowed('writing')){
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];

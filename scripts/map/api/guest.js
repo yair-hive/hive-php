@@ -70,10 +70,10 @@ export default {
         return fetch(api_url, options)
         .then(res => res.json())
     },
-    update: (selected_guest_id, selected_seat_class, map_id)=>{
+    update_belong: (selected_guest_id, selected_seat_class, map_id)=>{
         const options = {
             method: 'POST',
-            body: "category=guest&action=update&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_id="+map_id,
+            body: "category=guest&action=update_belong&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_id="+map_id,
             mode: 'no-cors',
             credentials: 'include',
             headers: {

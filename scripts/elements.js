@@ -6,14 +6,14 @@ import { onSeatName } from "./map/eventListeners.js"
 import "./lib/jquery.min.js"
 import { respondToVisibility, startMBLoader, stopMBLoader } from "./scripts.js"
 
-const test = (e)=>{
+const onTdFocusOut = (e)=>{
     var data = []
     data[0] = e.target.parentNode.parentNode.childNodes[2].childNodes[0].value
     data[1] = e.target.parentNode.parentNode.childNodes[1].childNodes[0].value
     data[2] = e.target.parentNode.parentNode.childNodes[3].childNodes[0].value
     var map_id = e.target.parentNode.parentNode.getAttribute('map_id')
     var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
-    guest.update2(data, map_id, guest_id)
+    guest.update(data, map_id, guest_id)
 }
 function switchMouseOut(e){
     e.target.style.backgroundColor = 'rgb(119, 224, 224)' 
@@ -202,9 +202,9 @@ export const add_guests_table = (map_name, table)=>{
                 }
                 var tr_j = $(tr)
                 .append(td)
-                .append($('<td>').append($('<input>').val(name.last_name).on('focusout', test)))
-                .append($('<td>').append($('<input>').val(name.first_name).on('focusout', test)))
-                .append($('<td>').append($('<input>').val(name.guest_group).on('focusout', test)))
+                .append($('<td>').append($('<input>').val(name.last_name).on('focusout', onTdFocusOut)))
+                .append($('<td>').append($('<input>').val(name.first_name).on('focusout', onTdFocusOut)))
+                .append($('<td>').append($('<input>').val(name.guest_group).on('focusout', onTdFocusOut)))
                 .append($('<td>').text(name.score))
                 .append(tdX)
                 $(table).append(tr_j)
