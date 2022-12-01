@@ -96,8 +96,16 @@ $user_actions['sginup'] = function(){
         $user_name = $_POST['user_name'];
         $password = $_POST['password'];
         $password = password_hash($password, PASSWORD_DEFAULT);
-        $query_string = "INSERT INTO users(user_name, password) VALUES('{$user_name}', '{$password}')";
-        db_post($query_string);
+        $query_string = "SELECT * FROM users WHERE user_name='{$user_name}'";
+        if($result = mysqli_query($connection, $query_string)){
+            if(mysqli_num_rows($result) == 0){
+                $query_string = "INSERT INTO users(user_name, password) VALUES('{$user_name}', '{$password}')";
+                db_post($query_string);
+            }else{
+                $respons['msg'] = 'allrade exist';
+                print_r(json_encode($respons));
+            }
+        }
     }else{
         $respons['msg'] = $_POST;
         print_r(json_encode($respons));
@@ -108,9 +116,17 @@ $user_actions['add_permission'] = function(){
     if(allowed("super")){               
         if(!empty($_POST['user_id']) && !empty($_POST['permission'])){
             $user_id = $_POST['user_id'];
-            $permission = $_POST['permission'];        
-            $query_string = "INSERT INTO permissions(user, permission) VALUES('{$user_id}', '{$permission}')";
-            db_post($query_string);
+            $permission = $_POST['permission'];
+            $query_string = "SELECT * FROM permissions WHERE user='{$user_id}' AND permission='{$permission}'";
+            if($result = mysqli_query($connection, $query_string)){
+                if(mysqli_num_rows($result) == 0){
+                    $query_string = "INSERT INTO permissions(user, permission) VALUES('{$user_id}', '{$permission}')";
+                    db_post($query_string);
+                }else{
+                    $respons['msg'] = 'allrade exist';
+                    print_r(json_encode($respons));
+                }
+            }        
         }
     }else{
         $respons['msg'] = 'faild';

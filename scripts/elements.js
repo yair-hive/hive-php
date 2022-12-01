@@ -13,7 +13,21 @@ export function loginForm(){
     var button = document.createElement('div')
     button.classList.add('hive-button')
     button.textContent = 'התחבר'
-    button.addEventListener('click', ()=>{api.user.login().then(json => {alert(json.msg); closePopUp()})})
+    button.addEventListener('click', ()=>{api.user.login().then(json => {alert(json.msg); closePopUp(); location.reload()})})
+    form.append(button)
+    form_cont.append(form)
+    return form_cont
+}
+export function sghinupForm(){
+    var form_cont = document.createElement('div')
+    form_cont.classList.add('form_cont')
+    var form = document.createElement('form')
+    form.setAttribute('id', 'user_form')
+    form.innerHTML = '<label for="user_name"> שם משתמש </label><br /><input type="text" name="user_name"><br /><label for="password"> סיסמה </label><br /><input type="text" name="password"><br />'
+    var button = document.createElement('div')
+    button.classList.add('hive-button')
+    button.textContent = 'הירשם'
+    button.addEventListener('click', ()=>{api.user.sginup().then(json => {alert(json.msg); closePopUp(); location.reload()})})
     form.append(button)
     form_cont.append(form)
     return form_cont

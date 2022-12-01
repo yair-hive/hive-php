@@ -24,6 +24,8 @@ export const user = {
         };
           
         return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
         .then(res => res.json())
     },
     login : ()=>{
@@ -67,9 +69,10 @@ export const user = {
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
-        };
-          
+        };        
         return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
         .then(res => res.json())
     },
     logout : ()=>{
