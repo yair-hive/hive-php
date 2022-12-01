@@ -5,7 +5,22 @@ import { onSeatNum } from "./eventListeners.js"
 import { onSeatName } from "./map/eventListeners.js"
 import "./lib/jquery.min.js"
 import { respondToVisibility, startMBLoader, stopMBLoader } from "./scripts.js"
+import { user } from "./api/user.js"
 
+export function loginForm(){
+    var form_cont = document.createElement('div')
+    form_cont.classList.add('form_cont')
+    var form = document.createElement('form')
+    form.setAttribute('id', 'user_form')
+    form.innerHTML = '<label for="user_name"> שם משתמש </label><br /><input type="text" name="user_name"><br /><label for="password"> סיסמה </label><br /><input type="text" name="password"><br />'
+    var button = document.createElement('div')
+    button.classList.add('hive-button')
+    button.textContent = 'התחבר'
+    button.addEventListener('click', ()=>{user.login().then(json => {alert(json.msg); closePopUp()})})
+    form.append(button)
+    form_cont.append(form)
+    return form_cont
+}
 function onTdFocusOut(e){
     var data = []
     data[0] = e.target.parentNode.parentNode.childNodes[2].childNodes[0].value
@@ -312,7 +327,8 @@ export function addPopUp(){
     blur.style.display = 'none'
 }
 export function openPopUp(title, msg){
+    document.getElementById('popUpBody').innerHTML = ''
     document.getElementById('blur').style.display = 'block'
-    document.getElementById('popUpBody').textContent = msg
+    document.getElementById('popUpBody').append(msg)
     document.getElementById('popUpHead').textContent = title
 }
