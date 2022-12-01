@@ -1,6 +1,6 @@
 import { add_guests_table } from "../elements.js"
 import { onShowAll, onShowOnlyWthBelong, onShowOnlyWthoutBelong } from "../eventListeners.js"
-import { sortTable, sortTableNumber, startMBLoader } from "../scripts.js"
+import { exportTableToExcel, sortTable, sortTableNumber, startMBLoader } from "../scripts.js"
 import "../lib/jquery.min.js"
 import "../lib/jquery.table2excel.min.js"
 startMBLoader()
@@ -19,8 +19,11 @@ document.getElementById('export').addEventListener('click', ()=>{
     var table = document.getElementById('names_table').cloneNode(true)
     var rows = table.rows
     for(let row of rows){
-        row.childNodes[4].remove()
+        row.children[4].remove()
+        row.children[4].remove()
     }
+    var table_title = table.getElementsByTagName('tr')[0]
+    table_title.children[0].textContent = 'כיסא'
     table.querySelectorAll('.no_show').forEach(e => e.parentNode.remove())
     var i = 0
     for(let row of rows){
@@ -40,9 +43,7 @@ document.getElementById('export').addEventListener('click', ()=>{
         }
         i++
     }
-    $(table).table2excel({
-        filename: "list.xls"
-    });
+    exportTableToExcel(table, 'שמות')
 })
 add_guests_table(map_name, table).then(()=>{
     document.getElementById("status").addEventListener('click', ()=>{sortTableNumber(0)})
