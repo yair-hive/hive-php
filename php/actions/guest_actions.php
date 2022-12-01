@@ -217,6 +217,19 @@ $guest_actions['create_group'] = function(){
                         if(mysqli_num_rows($result) == 0){
                             $query_string = "INSERT INTO guests_groups(group_name, color, score, belong) VALUES('{$group_name}', '{$color}', '{$score}', '{$map_id}')";
                             db_post($query_string);
+                            $query_string = "SELECT * FROM guests WHERE belong='{$map_id}'";
+                            $result = mysqli_query($connection, $query_string);
+                            $results = [];
+                            while($row = mysqli_fetch_assoc($result)){
+                                $results[] = $row;
+                            }
+                            foreach($results as $guest){
+                                if($guest['guest_group'] == $group_name){
+                                    $guest_id = $guest['id'];
+                                    $query_string = "UPDATE guests SET score = '{$score}' WHERE id='{$guest_id}'";
+                                    $result = mysqli_query($connection, $query_string);
+                                }
+                            }                           
                         }else{
                             $respons['msg'] = 'color allrdy axist';
                             print_r(json_encode($respons));
