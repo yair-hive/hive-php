@@ -16,13 +16,24 @@
 .hive-button:hover{
     background-color: #7a93b9;
 }
-.hive-switch, .hive-switch:hover{
+.hive-switch{
+    border-radius: 5px;
+    user-select: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    margin: 10px;
     border: none;
     background-color:  rgb(120, 140, 228);
     padding: 0px;
     display: flex;
     align-items: stretch;
     justify-content: stretch;
+    flex-wrap: wrap;
 }
 .hive-switch > .active{
     background-color: rgb(91, 209, 130);
@@ -30,7 +41,6 @@
 .hive-switch > div{
     white-space: nowrap;
     height: 10px;
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;

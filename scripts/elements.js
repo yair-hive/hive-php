@@ -214,25 +214,26 @@ export const add_guests_table = (map_name, table)=>{
                 $(table).append(tr_j)
                 if(i == table_length){
                     respondToVisibility(tr, stopMBLoader)
-                    var groupsSwitch = document.getElementById('groupsSwitch')
-                    var i = 0
-                    var l = groups.length -1
-                    for(var group of groups){
-                        var div = document.createElement('div')
-                        div.textContent = group
-                        group = group.replace(' ', '_')
-                        div.setAttribute('id', group)                        
-                        groupsSwitch.append(div)
-                        i++
-                    }
-                    var groupsSwitchOptions = {
-                        element_id: 'groupsSwitch', 
-                        active: 'all', 
-                        keys: ['q', '/']
-                    } 
-                    hiveSwitch(groupsSwitchOptions, onGroupsSwitch)
                 }
             }
+            var groupsSwitch = document.getElementById('groupsSwitch')
+            var i = 0
+            var l = groups.length -1
+            console.log(groups)
+            for(var group of groups){
+                var div = document.createElement('div')
+                div.textContent = group
+                group = group.replace(' ', '_')
+                div.setAttribute('id', group)                        
+                groupsSwitch.append(div)
+                i++
+            }
+            var groupsSwitchOptions = {
+                element_id: 'groupsSwitch', 
+                active: 'all', 
+                keys: ['q', '/']
+            } 
+            hiveSwitch(groupsSwitchOptions, onGroupsSwitch)
         })
         .then(()=>{
             document.querySelectorAll('.seat_num').forEach(element => {
