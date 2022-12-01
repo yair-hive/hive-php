@@ -1,4 +1,4 @@
-import { add_guests_table } from "../elements.js"
+import { add_guests_table, hiveSwitch } from "../elements.js"
 import { onShowAll, onShowOnlyWthBelong, onShowOnlyWthoutBelong } from "../eventListeners.js"
 import { exportTableToExcel, sortTable, sortTableNumber, startMBLoader } from "../scripts.js"
 import "../lib/jquery.min.js"
@@ -11,10 +11,7 @@ go_back.classList.add('hive-button')
 go_back.textContent = 'חזור למפה'
 go_back.onclick = ()=>{window.location.replace('http://localhost/hive-php/html/edit_map.html?map_name='+map_name)}
 document.getElementById('mneu').append(go_back)
-var table = document.getElementById('names_table')
-document.getElementById('ShowOnlyWthBelong').addEventListener('click', onShowOnlyWthBelong) 
-document.getElementById("ShowOnlyWthoutBelong").addEventListener('click', onShowOnlyWthoutBelong)
-document.getElementById("ShowAll").addEventListener('click', onShowAll)        
+var table = document.getElementById('names_table')       
 document.getElementById('export').addEventListener('click', ()=>{
     var table = document.getElementById('names_table').cloneNode(true)
     var rows = table.rows
@@ -56,4 +53,22 @@ add_guests_table(map_name, table).then(()=>{
             document.activeElement.blur()
         }
     })
+})
+var hiveSwitchOptions = {
+    element_id: 'belongSwitch', 
+    active: 'ShowAll', 
+    keys: ['x', 'ס']
+} 
+hiveSwitch(hiveSwitchOptions, (active)=>{
+    switch(active){
+        case 'ShowOnlyWthBelong':
+            onShowOnlyWthBelong()
+            break;
+        case 'ShowOnlyWthoutBelong':
+            onShowOnlyWthoutBelong()
+            break;
+        case 'ShowAll':
+            onShowAll()
+            break;
+    }
 })

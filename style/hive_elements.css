@@ -24,6 +24,9 @@
     align-items: stretch;
     justify-content: stretch;
 }
+.hive-switch > .active{
+    background-color: rgb(91, 209, 130);
+}
 .hive-switch > div{
     white-space: nowrap;
     height: 10px;

@@ -43,14 +43,7 @@ export const onAddPermission = (event)=>{
         }
     }
 }
-export const onShowOnlyWthBelong = (event)=>{
-    document.querySelectorAll('#belongSwitch > .hive-button').forEach(e => {
-        e.style.backgroundColor = 'rgb(119, 224, 224)'
-        e.addEventListener('mouseover', e => e.target.style.backgroundColor = '#7a93b9')
-        if(e.getAttribute('id') != event.target.getAttribute('id')) e.addEventListener('mouseout', switchMouseOut)
-        else e.removeEventListener('mouseout', switchMouseOut)
-    })
-    event.target.style.backgroundColor = 'rgb(91, 209, 130)';
+export const onShowOnlyWthBelong = ()=>{
     document.querySelectorAll('td[seat_id = "none"]').forEach(e =>{
         if(e.parentNode.getAttribute('status_group') == 'open'){
             e.parentNode.style.display = 'none'
@@ -68,14 +61,7 @@ export const onShowOnlyWthBelong = (event)=>{
         }
     })
 }
-export const onShowOnlyWthoutBelong = (event)=>{
-    document.querySelectorAll('#belongSwitch > .hive-button').forEach(e => {
-        e.style.backgroundColor = 'rgb(119, 224, 224)'
-        e.addEventListener('mouseover', e => e.target.style.backgroundColor = '#7a93b9')
-        if(e.getAttribute('id') != event.target.getAttribute('id')) e.addEventListener('mouseout', switchMouseOut)
-        else e.removeEventListener('mouseout', switchMouseOut)
-    })
-    event.target.style.backgroundColor = 'rgb(91, 209, 130)';
+export const onShowOnlyWthoutBelong = ()=>{
     document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
         if(e.parentNode.getAttribute('status_group') == 'open'){
             if(e.getAttribute('show') == 'true'){
@@ -93,14 +79,7 @@ export const onShowOnlyWthoutBelong = (event)=>{
         }
     })
 }
-export const onShowAll = (event)=>{
-    document.querySelectorAll('#belongSwitch > .hive-button').forEach(e => {
-        e.style.backgroundColor = 'rgb(119, 224, 224)'
-        e.addEventListener('mouseover', e => e.target.style.backgroundColor = '#7a93b9')
-        if(e.getAttribute('id') != event.target.getAttribute('id')) e.addEventListener('mouseout', switchMouseOut)
-        else e.removeEventListener('mouseout', switchMouseOut)
-    })
-    event.target.style.backgroundColor = 'rgb(91, 209, 130)';
+export const onShowAll = ()=>{
     document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
         if(e.parentNode.getAttribute('status_group') == 'open'){
             if(e.getAttribute('show') == 'true'){

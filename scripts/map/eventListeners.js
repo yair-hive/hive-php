@@ -18,7 +18,7 @@ function getGroupColor(guest_group){
     }
     return false
 }
-const changeSelectables = (selectable, notSelectable)=>{
+export const changeSelectables = (selectable, notSelectable)=>{
     document.getElementById('map').setAttribute('selectables', selectable)
     var buttons = {
         seat:document.getElementById('select_seats'),
@@ -35,12 +35,6 @@ const changeSelectables = (selectable, notSelectable)=>{
 const clearSelection = ()=>{
     selection.clearSelection(); 
     document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
-}
-export const onSelectSeats = ()=>{
-    changeSelectables('seat', 'cell')
-}
-export const onSelectCells = ()=>{
-    changeSelectables('cell', 'seat')
 }
 export const onAddSeats = ()=>{
     loader.start()
@@ -168,16 +162,6 @@ export const onKeyBordDown = (event)=>{
     }
     if(event.keyCode == 13){
         onMapAdd()
-    }
-    if(event.ctrlKey || event.metaKey){
-        if(event.key == 'q' || event.key == '/'){
-            event.preventDefault()
-            changeSelectables('cell', 'seat')
-        }
-        if(event.key == 'x' || event.key == 'ס'){
-            event.preventDefault()
-            changeSelectables('seat', 'cell')
-        }
     }
     if(event.keyCode == 38){
         menu.onArrowUp()
