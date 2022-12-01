@@ -26,16 +26,16 @@ export default class {
         box.textContent = ''
         this.empty()
         this.reset()
-        this.inputBox.addEventListener('input', this.onInput)
-        document.getElementById('mainBord').addEventListener('scroll', this.offsetCalculate)
-        window.addEventListener('resize', this.offsetCalculate)  
-        document.getElementById('map').setAttribute('selectables', 'guests')
         var guest_name = this.box.getAttribute('guest_name')
         this.dropDown.style.display = 'block'
         this.inputBox.style.display = 'inline-block'
         this.inputBox.value = guest_name
-        this.inputBox.focus()
         this.offsetCalculate()
+        this.inputBox.focus()
+        this.inputBox.addEventListener('input', this.onInput)
+        document.getElementById('mainBord').addEventListener('scroll', this.offsetCalculate)
+        window.addEventListener('resize', this.offsetCalculate)  
+        document.getElementById('map').setAttribute('selectables', 'guests')
     }
     close = function(){
         this.status = 'close'
