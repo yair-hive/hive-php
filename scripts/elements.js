@@ -1,11 +1,8 @@
-import { guest } from "./api/guest.js"
-import { map } from "./api/map.js"
-import { seat } from "./api/seat.js"
 import { onSeatNum } from "./eventListeners.js"
 import { onSeatName } from "./map/eventListeners.js"
 import "./lib/jquery.min.js"
 import { respondToVisibility, startMBLoader, stopMBLoader } from "./scripts.js"
-import { user } from "./api/user.js"
+import api from './api/api.js'
 
 export function loginForm(){
     var form_cont = document.createElement('div')
@@ -16,7 +13,7 @@ export function loginForm(){
     var button = document.createElement('div')
     button.classList.add('hive-button')
     button.textContent = 'התחבר'
-    button.addEventListener('click', ()=>{user.login().then(json => {alert(json.msg); closePopUp()})})
+    button.addEventListener('click', ()=>{api.user.login().then(json => {alert(json.msg); closePopUp()})})
     form.append(button)
     form_cont.append(form)
     return form_cont
@@ -28,7 +25,7 @@ function onTdFocusOut(e){
     data[2] = e.target.parentNode.parentNode.childNodes[3].childNodes[0].value
     var map_id = e.target.parentNode.parentNode.getAttribute('map_id')
     var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
-    guest.update(data, map_id, guest_id)
+    api.guest.update(data, map_id, guest_id)
 }
 function switchMouseOut(e){
     e.target.style.backgroundColor = 'rgb(119, 224, 224)' 
@@ -140,7 +137,7 @@ export const add_belong = ()=>{
    name_boxs.forEach(element => {
         i++
         var seat_id = element.getAttribute('seat_id')
-        seat.get_belong(seat_id)
+        api.seat.get_belong(seat_id)
         .then(belong => {
             if(belong[0]) element.setAttribute('guest_id', belong[0].guest)
             else return
@@ -183,10 +180,10 @@ export const add_guests = (guests)=>{
 export const add_guests_table = (map_name, table)=>{
     var map_id = ''
     var table_length = 0
-    return map.get(map_name)
+    return api.map.get(map_name)
     .then(res => map_id = res.id)
     .then(()=>{
-        guest.get_all(map_id)
+        api.guest.get_all(map_id)
         .then((names)=>{
             if(names.length == 0) stopMBLoader()
             table_length = names.length
@@ -201,7 +198,7 @@ export const add_guests_table = (map_name, table)=>{
                 tdX.style.backgroundColor = 'red'
                 tdX.textContent = 'X'
                 tdX.addEventListener('click', (event)=>{
-                    guest.delete(name.id)
+                    api.guest.delete(name.id)
                     .then(()=>{
                         event.target.parentNode.style.display = 'none'
                         event.target.parentNode.childNodes[0].setAttribute('show', 'false')
@@ -255,7 +252,7 @@ export const add_guests_table = (map_name, table)=>{
         .then(()=>{
             document.querySelectorAll('.seat_num').forEach(element => {
                 var guest_id = element.getAttribute('guest_id')
-                guest.get_belong(guest_id)
+                api.guest.get_belong(guest_id)
                 .then((res)=>{
                     var color, text
                     if(res[0]){
@@ -265,7 +262,7 @@ export const add_guests_table = (map_name, table)=>{
                         color = 'grey'
                         text = 'none'
                     }
-                    seat.get_number(text)
+                    api.seat.get_number(text)
                     .then(seat => {
                         if(seat[0]) {
                             element.textContent = seat[0].seat_number

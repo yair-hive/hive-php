@@ -1,8 +1,6 @@
 import { onAddGuest } from "./map/eventListeners.js"
 import { offsetCalculate } from "./scripts.js"
 import "./lib/jquery.min.js"
-import { guest } from "./api/guest.js"
-import hiveObject from "./hiveObject.js"
 
 var corrent = 0
 var selected_ele

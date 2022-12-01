@@ -1,6 +1,6 @@
-import { map } from '../api/map.js'
+import api from '../api/api.js'
 document.getElementById('create_map').addEventListener('click', ()=>{
-    map.create().then(()=>{
+    api.map.create().then(()=>{
         window.location.replace('http://localhost/hive-php/html/maps.html')
     })
 })

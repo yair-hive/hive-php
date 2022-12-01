@@ -1,7 +1,7 @@
 import { create_selection, DragToScroll } from "./tooles.js"
 import dropDown from "./dropDown.js"
 import { add_seats } from "./elements.js"
-import api from "./api/api.js"
+import api from "../api/api.js"
 import MBloader from "../MBloader.js"
 
 const loader = new MBloader()

@@ -1,7 +1,7 @@
 import {add_map, add_seats, add_guests, add_belong} from "./elements.js"
 import { onClickOutside, onKeyBordDown, onKeyBordUp, onMapAdd, onSelectCells, onSelectSeats } from "./eventListeners.js"
 import { zoom } from "./tooles.js"
-import api from "./api/api.js"
+import api from "../api/api.js"
 
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")

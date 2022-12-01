@@ -1,7 +1,7 @@
 import { onAddPermission } from "../eventListeners.js"
-import { user } from "../api/user.js"
+import api from '../api/api.js'
 var users_table = document.getElementById('users_table')
-user.get_all()
+api.user.get_all()
 .then((users)=>{
     for(let user of users){
         var tr = document.createElement('tr')

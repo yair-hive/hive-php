@@ -1,7 +1,7 @@
-import { map } from "../api/map.js"
 import { openPopUp } from "../elements.js"
+import api from '../api/api.js'
 var maps_list = document.getElementById('maps_list')
-map.get_all()
+api.map.get_all()
 .then((respons)=>{
     if(respons.msg != 'ok'){
         openPopUp('שגיאה', respons.msg)

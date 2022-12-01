@@ -1,6 +1,5 @@
 import "./lib/jquery.min.js"
-import { seat } from "./api/seat.js"
-import { user } from "./api/user.js"
+import api from './api/api.js'
 
 function switchMouseOut(e){
     e.target.style.backgroundColor = 'rgb(119, 224, 224)' 
@@ -18,14 +17,14 @@ export const onAddPermission = (event)=>{
         button.textContent = 'הוסף'
         button.addEventListener('click', ()=>{
             var user_id = list_td.getAttribute('user_id')
-            user.add_permission(user_id, select.value)
+            api.user.add_permission(user_id, select.value)
             .then(res => res.json())
             .then(res => alert(res.msg))
             .then(()=> window.location.reload())
         })
         if(list_td.getAttribute('state') == 'on'){ 
             list_td.setAttribute('state', 'off')      
-            user.get_permissions_list()            
+            api.user.get_permissions_list()            
             .then((permissions)=>{
                 var option = document.createElement('option')
                 option.setAttribute('value', 'none')
@@ -129,7 +128,7 @@ export const onSeatNum = (event)=>{
     button.addEventListener('click', (event)=>{
         event.preventDefault()
         var seat_id = event.target.getAttribute('seat_id')
-        seat.delete_belong(seat_id)
+        api.seat.delete_belong(seat_id)
         event.target.parentNode.parentNode.style.display = 'none' 
         event.target.parentNode.setAttribute('show', 'false')
      })

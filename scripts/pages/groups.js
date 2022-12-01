@@ -1,13 +1,12 @@
-import { guest } from '../api/guest.js'
-import { map } from '../api/map.js'
+import api from '../api/api.js'
 
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
 if(map_name){
     var map_id
-    map.get(map_name).then(map => map_id = map.id)
+    api.map.get(map_name).then(map => map_id = map.id)
     .then(()=>{
-        guest.get_all_groups(map_id)
+        api.guest.get_all_groups(map_id)
         .then(groups => {
             var table = document.getElementById('groups_table')
             for(let group of groups){
@@ -33,7 +32,7 @@ if(map_name){
                 td_x.style.padding = '5px'
                 td_x.addEventListener('click', (e)=>{
                     var group_id = e.target.getAttribute('group_id')
-                    guest.delete_group(group_id)
+                    api.guest.delete_group(group_id)
                     .then(()=>{
                         e.target.parentNode.style.display = 'none'
                     })
