@@ -271,3 +271,26 @@ $guest_actions['delete_group'] = function(){
         print_r(json_encode($respons));
     }
 };
+$guest_actions['update_group_color'] = function(){
+    if(allowed('writing')){
+        if(!empty($_POST['group_id']) && !empty($_POST['color'])){
+            $group_id = $_POST['group_id'];
+            $color = $_POST['color'];
+            global $connection;
+            $query_string = "UPDATE guests_groups SET color = '{$color}' WHERE id = '{$group_id}'";
+            if($result = mysqli_query($connection, $query_string)){
+                $respons['msg'] = 'ok';
+                print_r(json_encode($respons));
+            }else{
+                $respons['msg'] = 'db error';
+                print_r(json_encode($respons));
+            }
+        }else{
+            $respons['msg'] = 'faild empty';
+            print_r(json_encode($respons));
+        }
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
+    }
+};

@@ -11,6 +11,7 @@ if(map_name){
             var table = document.getElementById('groups_table')
             for(let group of groups){
                 var tr = document.createElement('tr')
+                tr.setAttribute('group_id', group.id)
                 var td_name = document.createElement('td')
                 var td_color = document.createElement('td')
                 var td_score = document.createElement('td')
@@ -25,13 +26,18 @@ if(map_name){
                 color_input.style.padding = '0'
                 color_input.style.margin = '0'
                 color_input.style.height = '100%'
+                color_input.addEventListener('focusout', (e)=>{
+                    var color = e.target.value
+                    var group_id = e.target.parentNode.parentNode.getAttribute('group_id')
+                    api.guest.update_group_color(group_id, color)
+                })
                 td_color.append(color_input)
                 td_x.setAttribute('group_id', group.id)
                 td_x.textContent = 'X'
                 td_x.style.backgroundColor = 'red'
                 td_x.style.padding = '5px'
                 td_x.addEventListener('click', (e)=>{
-                    var group_id = e.target.getAttribute('group_id')
+                    var group_id = e.target.parentNode.getAttribute('group_id')
                     api.guest.delete_group(group_id)
                     .then(()=>{
                         e.target.parentNode.style.display = 'none'
@@ -44,5 +50,10 @@ if(map_name){
                 table.append(tr)
             }
         })
+    })
+    document.addEventListener('keydown', (e)=>{
+        if(e.keyCode == 13){
+            document.activeElement.blur()
+        }
     })
 }
