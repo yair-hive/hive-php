@@ -27,18 +27,8 @@ function onTdFocusOut(e){
     var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
     api.guest.update(data, map_id, guest_id)
 }
-function switchMouseOut(e){
-    e.target.style.backgroundColor = 'rgb(119, 224, 224)' 
-}
-function onGroupsSwitch(event){
-    document.querySelectorAll('#groupsSwitch > .hive-button').forEach(e => {
-        e.style.backgroundColor = 'rgb(119, 224, 224)'
-        e.addEventListener('mouseover', e => e.target.style.backgroundColor = '#7a93b9')
-        if(e.getAttribute('group') != event.target.getAttribute('group')) e.addEventListener('mouseout', switchMouseOut)
-        else e.removeEventListener('mouseout', switchMouseOut)
-        event.target.style.backgroundColor = 'rgb(91, 209, 130)';
-    })
-    var group = event.target.getAttribute('group')
+function onGroupsSwitch(active){
+    var group = active
     var table = document.getElementById('names_table')
     if(group == 'all'){
         var i
@@ -227,25 +217,20 @@ export const add_guests_table = (map_name, table)=>{
                     var groupsSwitch = document.getElementById('groupsSwitch')
                     var i = 0
                     var l = groups.length -1
-                    var div = document.createElement('div')
-                    div.classList.add('hive-button')
-                    div.classList.add('hive-switch-l')
-                    div.setAttribute('group', 'all')
-                    div.textContent = 'הכל'
-                    div.style.backgroundColor = 'rgb(91, 209, 130)'
-                    div.addEventListener('click', onGroupsSwitch)
-                    groupsSwitch.append(div)
-                    for(let group of groups){
+                    for(var group of groups){
                         var div = document.createElement('div')
-                        div.classList.add('hive-button')
-                        if(i == l) div.classList.add('hive-switch-r')
-                        else div.classList.add('hive-switch-m')
-                        div.setAttribute('group', group)
                         div.textContent = group
-                        div.addEventListener('click', onGroupsSwitch)
+                        group = group.replace(' ', '_')
+                        div.setAttribute('id', group)                        
                         groupsSwitch.append(div)
                         i++
                     }
+                    var groupsSwitchOptions = {
+                        element_id: 'groupsSwitch', 
+                        active: 'all', 
+                        keys: ['q', '/']
+                    } 
+                    hiveSwitch(groupsSwitchOptions, onGroupsSwitch)
                 }
             }
         })
@@ -330,6 +315,7 @@ export function openPopUp(title, msg){
     document.getElementById('popUpHead').textContent = title
 }
 function hiveSwitchChenge(element, active){
+    active = active.replace(' ', '_')
     var childrenLength = element.children.length  -1
     for(let i = 0; i < (childrenLength+1); i++){
         element.children[i].classList.remove('active')
@@ -338,7 +324,7 @@ function hiveSwitchChenge(element, active){
 }
 function hiveSwitchMove(itemsList, active){
     var length = itemsList.length -1
-    var activeIndex = itemsList.indexOf(active)
+    var activeIndex = itemsList.indexOf(active.replace(' ', '_'))
     var i
     if(activeIndex == length) i = 0
     else i = activeIndex+1
@@ -360,7 +346,7 @@ export function hiveSwitch(options, callback){
         itemsList.push(corrent.getAttribute('id'))
         corrent.classList.add('hive-button')
         corrent.addEventListener('click', (e)=>{
-            active = e.target.getAttribute('id')
+            active = e.target.getAttribute('id').replace('_', ' ')
             hiveSwitchChenge(element, active)
             callback(active)
         })
@@ -368,7 +354,7 @@ export function hiveSwitch(options, callback){
     document.addEventListener('keydown', (e)=>{
         for(let key of options.keys){
             if(e.key == key){
-                active = hiveSwitchMove(itemsList, active)
+                active = hiveSwitchMove(itemsList, active).replace('_', ' ')
                 hiveSwitchChenge(element, active)
                 callback(active)
             }

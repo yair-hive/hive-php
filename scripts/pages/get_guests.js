@@ -54,12 +54,12 @@ add_guests_table(map_name, table).then(()=>{
         }
     })
 })
-var hiveSwitchOptions = {
+var belongSwitchOptions = {
     element_id: 'belongSwitch', 
     active: 'ShowAll', 
     keys: ['x', 'ס']
 } 
-hiveSwitch(hiveSwitchOptions, (active)=>{
+hiveSwitch(belongSwitchOptions, (active)=>{
     switch(active){
         case 'ShowOnlyWthBelong':
             onShowOnlyWthBelong()
