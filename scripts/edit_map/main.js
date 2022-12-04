@@ -1,12 +1,13 @@
 import {add_map, add_seats, add_guests, add_belong} from "./elements.js"
-import { changeSelectables, onClickOutside, onKeyBordDown, onKeyBordUp, onMapAdd } from "./eventListeners.js"
+import { onClickOutside, onKeyBordDown, onKeyBordUp, onMapAdd, onSelecteblsSwitch } from "./eventListeners.js"
 import { zoom } from "./tooles.js"
 import api from "../api/api.js"
-import { hiveSwitch } from "../elements.js"
+import hiveSwitch from "../hiveSwitch.js"
 
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
 document.getElementsByTagName('title')[0].append(map_name)
+
 var map_id = ''
 api.map.get(map_name).then(map => {add_map(map); map_id = map.id })
 .then(() => api.seat.get_all(map_id))
@@ -26,13 +27,4 @@ var hiveSwitchOptions = {
     active: 'cells', 
     keys: ['x', 'ס']
 } 
-hiveSwitch(hiveSwitchOptions, (active)=>{
-    switch(active){
-        case 'seats':
-            changeSelectables('seat', 'cell')
-            break;
-        case 'cells':
-            changeSelectables('cell', 'seat')
-            break;
-    }
-})
+hiveSwitch(hiveSwitchOptions, onSelecteblsSwitch)

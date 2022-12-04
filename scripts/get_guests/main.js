@@ -1,4 +1,4 @@
-import { hiveSwitch } from "../elements.js"
+import hiveSwitch from "../hiveSwitch.js"
 import { add_guests_table } from "./elements.js"
 import { onExportTable, onBelongSwitch, onKeyBordDown, onGroupsSwitch } from "./eventListeners.js"
 
@@ -16,7 +16,6 @@ var groupsSwitchOptions = {
     active: 'all', 
     keys: ['q', '/']
 } 
-
 document.addEventListener('keydown', onKeyBordDown)
 
 document.getElementById('export').addEventListener('click', onExportTable)

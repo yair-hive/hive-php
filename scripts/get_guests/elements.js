@@ -1,8 +1,12 @@
 import "../lib/jquery.min.js"
-import { respondToVisibility, startMBLoader, stopMBLoader } from "../scripts.js"
+import { respondToVisibility } from "../scripts.js"
 import { sortTable, sortTableNumber } from "../scripts.js"
 import api from '../api/api.js'
 import { onSeatNum, onTdFocusOut } from "./eventListeners.js"
+import MBloader from "../MBloader.js"
+
+var loader = new MBloader()
+loader.add()
 
 function tableDeleteGuestButton(){
     var tdX = document.createElement('td')
@@ -109,7 +113,7 @@ function addThEvent(){
     document.getElementById("score").addEventListener('click', ()=>{sortTableNumber(4)})
 }
 export const add_guests_table = (map_name, table)=>{
-    startMBLoader()
+    loader.start()
     return api.map.get(map_name)
     .then((res)=>{
         table.setAttribute('map_id', res.id)
@@ -118,12 +122,12 @@ export const add_guests_table = (map_name, table)=>{
     .then((names)=>{
         var tr, i
         addGroupsSwitch(getGroups(names))
-        if(names.length == 0) stopMBLoader()
+        if(names.length == 0) loader.stop()
         for (i = 0; i < (names.length - 1); i++){             
             tr = addTableRow(names[i]) 
             table.append(tr)
         }
-        respondToVisibility(tr, stopMBLoader)
+        respondToVisibility(tr, loader.stop)
     })
     .then(addSeatNum)
     .then(addThEvent)

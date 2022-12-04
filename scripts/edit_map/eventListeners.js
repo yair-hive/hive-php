@@ -18,7 +18,7 @@ function getGroupColor(guest_group){
     }
     return false
 }
-export const changeSelectables = (selectable, notSelectable)=>{
+function changeSelectables(selectable, notSelectable){
     document.getElementById('map').setAttribute('selectables', selectable)
     selection.clearSelection()
     document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
@@ -182,5 +182,15 @@ export const onSeatName = (event)=>{
         name_box.addEventListener('click', onSeatName)
         event.target.replaceWith(name_box)
         selection.disable()
+    }
+}
+export function onSelecteblsSwitch(active){
+    switch(active){
+        case 'seats':
+            changeSelectables('seat', 'cell')
+            break;
+        case 'cells':
+            changeSelectables('cell', 'seat')
+            break;
     }
 }
