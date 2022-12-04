@@ -15,6 +15,9 @@ function test(){
             if(col > cols_middle) {i++; score = Math.abs(i);}
             if(col < cols_middle) {i--; score = Math.abs(i);}
             if(col == cols_middle) {i++; score = Math.abs(i);}
+        }else{
+            if(col > cols_middle) {i++; score = Math.abs(i);}
+            if(col < cols_middle) {i--; score = Math.abs(i);}
         }
     }
     i = 0
