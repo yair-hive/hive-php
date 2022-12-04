@@ -4,7 +4,6 @@ import api from './api/api.js'
 function switchMouseOut(e){
     e.target.style.backgroundColor = 'rgb(119, 224, 224)' 
 }
-
 export const onAddPermission = (event)=>{
     if(event.target.id == 'list_td'){
         var list_td = event.target    
@@ -42,74 +41,4 @@ export const onAddPermission = (event)=>{
             list_td.append(button)  
         }
     }
-}
-export const onShowOnlyWthBelong = ()=>{
-    document.querySelectorAll('td[seat_id = "none"]').forEach(e =>{
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            e.parentNode.style.display = 'none'
-            e.parentNode.setAttribute('status_belong', 'close')
-            e.classList.add('no_show')
-        }
-    })
-    document.querySelectorAll('td[belong]').forEach(e => {
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            if(e.getAttribute('show') == 'true'){
-                e.parentNode.style.display = 'table-row';
-                e.parentNode.style.verticalAlign = 'inherit';
-                e.parentNode.setAttribute('status_belong', 'open')
-            }
-        }
-    })
-}
-export const onShowOnlyWthoutBelong = ()=>{
-    document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            if(e.getAttribute('show') == 'true'){
-                e.parentNode.style.display = 'table-row';
-                e.parentNode.style.verticalAlign = 'inherit';
-                e.parentNode.setAttribute('status_belong', 'open')
-            }
-        }
-    })
-    document.querySelectorAll('td[belong]').forEach(e => {
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            e.parentNode.style.display = 'none'
-            e.parentNode.setAttribute('status_belong', 'close')
-            e.classList.add('no_show')
-        }
-    })
-}
-export const onShowAll = ()=>{
-    document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            if(e.getAttribute('show') == 'true'){
-                e.parentNode.style.display = 'table-row';
-                e.parentNode.style.verticalAlign = 'inherit';
-                e.parentNode.setAttribute('status_belong', 'open')
-            }
-        }
-    })
-    document.querySelectorAll('td[belong]').forEach(e => {
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            if(e.getAttribute('show') == 'true'){
-                e.parentNode.style.display = 'table-row';
-                e.parentNode.style.verticalAlign = 'inherit';
-                e.parentNode.setAttribute('status_belong', 'open')
-            }
-        }
-    })
-}
-export const onSeatNum = (event)=>{
-    event.target.innerHTML = ''
-    var button = document.createElement('button')
-    button.textContent = 'הסר'
-    button.setAttribute('seat_id', event.target.getAttribute('seat_id'))
-    button.addEventListener('click', (event)=>{
-        event.preventDefault()
-        var seat_id = event.target.getAttribute('seat_id')
-        api.seat.delete_belong(seat_id)
-        event.target.parentNode.parentNode.style.display = 'none' 
-        event.target.parentNode.setAttribute('show', 'false')
-     })
-    event.target.append(button)
 }
