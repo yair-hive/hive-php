@@ -23,15 +23,15 @@ api.map.get(map_name).then(map => {add_map(map); map_id = map.id })
 })
 var hiveSwitchOptions = {
     element_id: 'selecteblsSwitch', 
-    active: 'select_cells', 
+    active: 'cells', 
     keys: ['x', 'ס']
 } 
 hiveSwitch(hiveSwitchOptions, (active)=>{
     switch(active){
-        case 'select_seats':
+        case 'seats':
             changeSelectables('seat', 'cell')
             break;
-        case 'select_cells':
+        case 'cells':
             changeSelectables('cell', 'seat')
             break;
     }

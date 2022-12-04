@@ -20,12 +20,6 @@ function getGroupColor(guest_group){
 }
 export const changeSelectables = (selectable, notSelectable)=>{
     document.getElementById('map').setAttribute('selectables', selectable)
-    var buttons = {
-        seat:document.getElementById('select_seats'),
-        cell:document.getElementById('select_cells')
-    }
-    buttons[selectable].style.backgroundColor = 'tomato'
-    buttons[notSelectable].style.backgroundColor = 'gray'
     selection.clearSelection()
     document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
     document.querySelectorAll('.'+selectable).forEach(e => e.classList.add('selectable'))
