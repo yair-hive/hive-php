@@ -1,5 +1,5 @@
 import { onSeatNum } from "./eventListeners.js"
-import { onSeatName } from "./map/eventListeners.js"
+import { onSeatName } from "./edit_map/eventListeners.js"
 import "./lib/jquery.min.js"
 import { respondToVisibility, startMBLoader, stopMBLoader } from "./scripts.js"
 import api from './api/api.js'

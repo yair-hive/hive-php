@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../style/scrollbar.css">
     <link rel="stylesheet" href="../style/table.css">
     <script src="../scripts/main.js" type="module" defer></script>
-    <script src="../scripts/pages/get_guests.js" type="module" defer></script>
+    <script src="../scripts/get_guests/main.js" type="module" defer></script>
     <script defer>
         const parsedUrl = new URL(window.location.href)
         const map_name = parsedUrl.searchParams.get("map_name")
@@ -44,6 +44,7 @@
             </table>
         </div>
         <div id="mneu">
+            <div onclick="location.href='http://localhost/hive-php/html/edit_map.html?map_name='+map_name" class="hive-button"> חזור למפה </div>
             <div onclick="location.href='http://localhost/hive-php/html/add_guests.html?map_name='+map_name" class="hive-button"> הוסף בחורים </div>
             <div id="belongSwitch" class="hive-switch">
                 <div id="ShowOnlyWthBelong"> משובצים </div>
