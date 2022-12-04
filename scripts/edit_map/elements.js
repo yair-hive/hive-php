@@ -26,6 +26,8 @@ function map(map){
     map_ele.setAttribute('selectables', 'cell')
     map_ele.setAttribute('isZoomed', 'false')
     map_ele.classList.add('map')
+    map_ele.setAttribute('rows', map.rows_number)
+    map_ele.setAttribute('cols', map.columns_number)
     map_ele.style.setProperty('--map-rows', map.rows_number)
     map_ele.style.setProperty('--map-cols', map.columns_number)
     return map_ele
