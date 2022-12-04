@@ -18,7 +18,7 @@ export function loginForm(){
     form_cont.append(form)
     return form_cont
 }
-function onTdFocusOut(e){
+export function onTdFocusOut(e){
     var data = []
     data[0] = e.target.parentNode.parentNode.childNodes[2].childNodes[0].value
     data[1] = e.target.parentNode.parentNode.childNodes[1].childNodes[0].value
@@ -27,7 +27,7 @@ function onTdFocusOut(e){
     var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
     api.guest.update(data, map_id, guest_id)
 }
-function onGroupsSwitch(active){
+export function onGroupsSwitch(active){
     var group = active
     var table = document.getElementById('names_table')
     if(group == 'all'){

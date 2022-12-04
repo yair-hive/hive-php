@@ -2,6 +2,7 @@ import "../lib/jquery.min.js"
 import { respondToVisibility, stopMBLoader } from "../scripts.js"
 import api from '../api/api.js'
 import { onSeatNum } from "../eventListeners.js"
+import { hiveSwitch, onGroupsSwitch, onTdFocusOut } from "../elements.js"
 
 export const add_guests_table = (map_name, table)=>{
     var map_id = ''
@@ -55,7 +56,6 @@ export const add_guests_table = (map_name, table)=>{
             var groupsSwitch = document.getElementById('groupsSwitch')
             var i = 0
             var l = groups.length -1
-            console.log(groups)
             for(var group of groups){
                 var div = document.createElement('div')
                 div.textContent = group
