@@ -173,12 +173,8 @@ $guest_actions['update'] = function(){
         $guest_id = $_POST['guest_id'];
         $map_id = $_POST['map_id'];  
         if(!empty($first_name) && !empty($last_name) && !empty($guest_group)){
-            global $connection;     
-            global $group_score;
-            $score = null;
-            if(!empty($group_score[$guest_group])){
-                $score = $group_score[$guest_group];
-            }
+            global $connection;   
+            $score = getGroupScore($map_id, $guest_group);  
             $query_string = "UPDATE guests SET first_name = '{$first_name}', last_name = '{$last_name}', guest_group = '{$guest_group}', score = '{$score}', belong = '{$map_id}' WHERE id= '{$guest_id}'";
             db_post($query_string);
         }else{

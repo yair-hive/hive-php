@@ -64,7 +64,7 @@ export const guest = {
     update: (data, map_id, guest_id)=>{
         const options = {
             method: 'POST',
-            body: "category=guest&action=update&guest_id="+guest_id+"&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_id="+map_id,
+            body: "category=guest&action=update&guest_id="+guest_id+"&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&score="+data[3]+"&map_id="+map_id,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }

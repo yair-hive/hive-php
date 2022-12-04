@@ -123,7 +123,7 @@ export const add_guests_table = (map_name, table)=>{
         var tr, i
         addGroupsSwitch(getGroups(names))
         if(names.length == 0) loader.stop()
-        for (i = 0; i < (names.length - 1); i++){             
+        for (i = 0; i < names.length; i++){             
             tr = addTableRow(names[i]) 
             table.append(tr)
         }

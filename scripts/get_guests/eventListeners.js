@@ -1,4 +1,5 @@
 import { exportTableToExcel } from "../scripts.js"
+import api from "../api/api.js"
 
 function onShowOnlyWthBelong(){
     document.querySelectorAll('td[seat_id = "none"]').forEach(e =>{
@@ -160,6 +161,7 @@ export function onTdFocusOut(e){
     data[0] = e.target.parentNode.parentNode.childNodes[2].childNodes[0].value
     data[1] = e.target.parentNode.parentNode.childNodes[1].childNodes[0].value
     data[2] = e.target.parentNode.parentNode.childNodes[3].childNodes[0].value
+    data[3] = e.target.parentNode.parentNode.childNodes[4].textContent
     var map_id = e.target.parentNode.parentNode.parentNode.getAttribute('map_id')
     var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
     api.guest.update(data, map_id, guest_id)

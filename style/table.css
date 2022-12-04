@@ -53,6 +53,9 @@ td > input{
     outline: none;
     background-color: rgb(120, 154, 216);
     font-size: 20px;
+    width: 150px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 .td_color{
     padding: 0 !important;
