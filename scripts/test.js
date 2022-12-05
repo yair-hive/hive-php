@@ -12,12 +12,32 @@ function test(){
             if(seat.children[1]) seat.children[1].append(score)
         })
         if(as_decimal){
-            if(col > cols_middle) {i++; score = Math.abs(i);}
-            if(col < cols_middle) {i--; score = Math.abs(i);}
-            if(col == cols_middle) {i++; score = Math.abs(i);}
+            if(col > cols_middle) {
+                i++; 
+                score = Math.abs(i);
+                score = score * 2;
+            }
+            if(col < cols_middle) {
+                i--; 
+                score = Math.abs(i);
+                score = score * 2
+            }
+            if(col == cols_middle) {
+                i++; 
+                score = Math.abs(i);
+                score = score * 2
+            }
         }else{
-            if(col > cols_middle) {i++; score = Math.abs(i);}
-            if(col < cols_middle) {i--; score = Math.abs(i);}
+            if(col > cols_middle) {
+                i++; 
+                score = Math.abs(i);
+                score = score * 2
+            }
+            if(col < cols_middle) {
+                i--; 
+                score = Math.abs(i);
+                score = score * 2
+            }
         }
     }
     i = 0
@@ -26,7 +46,10 @@ function test(){
         document.querySelectorAll('.cell_cont[row="'+row+'"]').forEach(cell_cont => {
             seat = cell_cont.children[0]
             score = i
-            if(seat.children[1]) seat.children[1].append(' & '+score)
+            if(seat.children[1]) {
+                var p = seat.children[1].innerHTML 
+                seat.children[1].innerHTML  = Number(p) + score
+            }
         })
 
     }
