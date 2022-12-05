@@ -1,3 +1,6 @@
+import api from "./api/api.js"
+import { selection } from "./edit_map/eventListeners.js"
+
 function test(){
     var score, map, map_rows, map_cols, as_decimal, seat, cols_middle, i
     map = document.getElementById('map')
@@ -60,3 +63,30 @@ button.classList.add('hive-button')
 button.textContent = 'test'
 mneu.append(button)
 button.addEventListener('click', test)
+
+function test2(){
+    var selected = selection.getSelection()
+    var group_name = prompt('הכנס שם קבוצה')
+    api.seat_groups.get_id(group_name)
+    .then(id => {
+        selected.forEach(seat => {
+            var seat_id = seat.getAttribute('seat_id')
+            api.seat_groups.add_belong(seat_id, id)
+        })
+    })
+}
+var button2 = document.createElement('div')
+button2.classList.add('hive-button')
+button2.textContent = 'test2'
+mneu.append(button2)
+button2.addEventListener('click', test2)
+function test3(){
+    var group_name = prompt('הכנס שם קבוצה')
+    var score = prompt('הכנס ניקוד')
+    api.seat_groups.create(group_name, score)
+}
+var button3 = document.createElement('div')
+button3.classList.add('hive-button')
+button3.textContent = 'הוסף קבוצת כיסאות'
+mneu.append(button3)
+button3.addEventListener('click', test3)

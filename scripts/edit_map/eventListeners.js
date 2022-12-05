@@ -6,7 +6,7 @@ import MBloader from "../MBloader.js"
 
 const loader = new MBloader()
 const menu = new dropDown()
-const selection = create_selection()
+export const selection = create_selection()
 const dragToScroll = DragToScroll()
 
 function getGroupColor(guest_group){
