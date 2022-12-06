@@ -39,7 +39,10 @@ function test(){
         }
         document.querySelectorAll('.cell_cont[col="'+col+'"]').forEach(cell_cont => {
             seat = cell_cont.children[0]
-            if(seat.children[1]) seat.children[1].innerHTML = score
+            if(seat.children[1]){ 
+                seat.children[1].innerHTML = score
+                seat.setAttribute('col_score', score)
+            }
         })       
     }
     i = 0
@@ -52,6 +55,7 @@ function test(){
             score = i
             if(seat.children[1]) {
                 seat.children[1].append(" & "+score)
+                seat.setAttribute('row_score', score)
             }
         })
     }
@@ -60,7 +64,6 @@ var mneu = document.getElementById('mneu')
 var button = document.createElement('div')
 button.classList.add('hive-button')
 button.textContent = 'test'
-mneu.append(button)
 button.addEventListener('click', test)
 
 function test2(){
@@ -75,7 +78,6 @@ function test2(){
 var button2 = document.createElement('div')
 button2.classList.add('hive-button')
 button2.textContent = 'test2'
-mneu.append(button2)
 button2.addEventListener('click', test2)
 
 function test3(){
@@ -89,12 +91,14 @@ function test3(){
                 names.push(group_name.group_name)
             }
         }
+        console.log(names)
         for(let name of names){
-            var seats_ele = []
-            var seat_ele, col
-            var cols = []
             api.seat_groups.get_seats(map_id, name)
             .then(seats => {
+                var seats_ele = []
+                var seat_ele, col
+                var cols = []
+                console.log(seats)
                 seats = seats.map(seat => seat.seat)
                 for(let seat of seats){
                     seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
@@ -107,33 +111,89 @@ function test3(){
                 }
                 seats_array[name] = seats_ele
                 cols.sort(function(a, b) { return a - b; });               
-                function middleInBetweenNumnbers(min, max) {
-                    return Math.floor((max+min)/2);
-                }
                 var score
-                var mid = middleInBetweenNumnbers(cols[0], cols[cols.length -1])
+                var mid = Math.floor((cols[0]+cols[cols.length -1])/2);
                 var as = ((cols.length /2) %1) != 0
                 if(as) score = Math.floor(cols.length /2)
                 else score = Math.floor(cols.length /2) -1
-                console.log(mid)
+                score = score * score
                 for(let col of cols){
                     document.querySelectorAll('.cell_cont[col="'+col+'"]').forEach(cell_cont => {
                         var seat = cell_cont.children[0]
-                        if(seat.children[1]) seat.children[1].append(" | "+score)
+                        if(seat.children[1]){ 
+                            seat.children[1].append(' & '+score)
+                            seat.setAttribute('pass_score', score)
+                        }
                     }) 
-                    if(col < mid) score --
-                    if(as){
-                        if(col == mid) score ++
-                    }
-                    if(col > mid) score ++ 
+                    if(col < mid) score = score - 2
+                    if(as && col == mid) score = score + 2
+                    if(col > mid) score = score + 2 
                 }
             })
         }
-        // console.log(seats_array)
     })
 }
 var button3 = document.createElement('div')
 button3.classList.add('hive-button')
 button3.textContent = 'test3'
-mneu.append(button3)
 button3.addEventListener('click', test3)
+
+function test4(){
+    document.querySelectorAll('.seat').forEach(seat => {
+        var col_score = seat.getAttribute('col_score')
+        var row_score = seat.getAttribute('row_score')
+        var pass_score = seat.getAttribute('pass_score')
+        // console.log(col_score)
+        // console.log(row_score)
+        // console.log(pass_score)
+        // console.log(seat)
+        col_score = Number(col_score)
+        row_score = Number(row_score)
+        pass_score = Number(pass_score)
+        var total_score = col_score + row_score + pass_score
+        seat.children[1].innerHTML = total_score
+    })
+}
+var button4 = document.createElement('div')
+button4.classList.add('hive-button')
+button4.textContent = 'test4'
+button4.addEventListener('click', test4)
+
+function addOb(){
+    var selected = selection.getSelection()
+    var cols = []
+    var rows = []
+    for(let cell of selected){
+        var col = cell.parentNode.getAttribute('col')
+        var row = cell.parentNode.getAttribute('row')
+        if(cols.indexOf(col) === -1){
+            cols.push(col)
+        }
+        if(rows.indexOf(row) === -1){
+            rows.push(row)
+        }
+        cols = cols.map(col => Number(col))
+        rows = rows.map(row => Number(row))
+        cols.sort(function(a, b) { return a - b; }); 
+        rows.sort(function(a, b) { return a - b; }); 
+    }
+    var name = prompt('הוסף אלמנט')
+    var from_row = rows[0]
+    var from_col = cols[0]
+    var to_row = rows[rows.length -1]
+    var to_col = cols[cols.length -1]
+    var map = document.getElementById('map').getAttribute('map_id')
+    api.seat_groups.add_ob(name, from_row, from_col, to_row, to_col, map)
+    console.log(cols)
+    console.log(rows)
+}
+var addObButton = document.createElement('div')
+addObButton.classList.add('hive-button')
+addObButton.textContent = 'test4'
+addObButton.addEventListener('click', addOb)
+
+// mneu.append(button)
+// mneu.append(button2)
+// mneu.append(button3)
+// mneu.append(button4)
+mneu.append(addObButton)
