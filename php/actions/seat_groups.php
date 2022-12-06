@@ -18,6 +18,18 @@ $seat_groups['get_name'] = function(){
 $seat_groups['add_belong'] = function(){
     $seat = $_POST['seat'];
     $group = $_POST['group'];
-    $query_string = "INSERT INTO seat_groups_belong(seat, belong) VALUES('{$seat}', '{$group}')";
+    $map = $_POST['map'];
+    $query_string = "INSERT INTO seat_groups_belong(seat, group_name, belong) VALUES('{$seat}', '{$group}', '{$map}')";
     db_post($query_string);
+};
+$seat_groups['get_groups'] = function(){
+    $map_id = $_POST['map_id'];
+    $query_string = "SELECT group_name FROM seat_groups_belong WHERE belong = '{$map_id}'";
+    db_get($query_string);
+};
+$seat_groups['get_seats'] = function(){
+    $map_id = $_POST['map_id'];
+    $group_name = $_POST['group_name'];
+    $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_name = '{$group_name}'";
+    db_get($query_string);
 };
