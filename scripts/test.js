@@ -210,6 +210,11 @@ function showOb(){
             var to_col = Number(ob.to_col) + 1
             var to_row = Number(ob.to_row) + 1
             var ob_ele = document.createElement('div')
+            ob_ele.classList.add('ob_ele')
+            var ob_name_ele = document.createElement('div')
+            ob_name_ele.textContent = ob.ob_name
+            // ob_name_ele.style.color = 'rgb(1, 1, 1)'
+            ob_ele.append(ob_name_ele)
             ob_ele.style.gridColumnStart = ob.from_col
             ob_ele.style.gridRowStart = ob.from_row
             ob_ele.style.gridColumnEnd = to_col.toString()

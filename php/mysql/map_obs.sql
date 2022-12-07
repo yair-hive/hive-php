@@ -24,13 +24,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- מבנה טבלה עבור טבלה `seat_groups_belong`
+-- מבנה טבלה עבור טבלה `map_obs`
 --
 
-CREATE TABLE `seat_groups_belong` (
+CREATE TABLE `map_obs` (
   `id` int(11) NOT NULL,
-  `seat` int(11) NOT NULL,
-  `group_name` varchar(25) NOT NULL,
+  `ob_name` varchar(30) NOT NULL,
+  `from_row` int(11) NOT NULL,
+  `from_col` int(11) NOT NULL,
+  `to_row` int(11) NOT NULL,
+  `to_col` int(11) NOT NULL,
   `belong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -39,9 +42,9 @@ CREATE TABLE `seat_groups_belong` (
 --
 
 --
--- אינדקסים לטבלה `seat_groups_belong`
+-- אינדקסים לטבלה `map_obs`
 --
-ALTER TABLE `seat_groups_belong`
+ALTER TABLE `map_obs`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -49,9 +52,9 @@ ALTER TABLE `seat_groups_belong`
 --
 
 --
--- AUTO_INCREMENT for table `seat_groups_belong`
+-- AUTO_INCREMENT for table `map_obs`
 --
-ALTER TABLE `seat_groups_belong`
+ALTER TABLE `map_obs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
