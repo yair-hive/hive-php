@@ -72,7 +72,7 @@ function test2(){
     var map_id = document.getElementById('map').getAttribute('map_id')
     selected.forEach(seat => {
         var seat_id = seat.getAttribute('seat_id')
-        api.seat_groups.add_belong(seat_id, group_name, map_id)
+        api.seat_groups.add_col(seat_id, group_name, map_id)
     })
 }
 var button2 = document.createElement('div')
@@ -84,7 +84,7 @@ function test3(){
     var names = []
     var seats_array = []
     var map_id = document.getElementById('map').getAttribute('map_id')
-    api.seat_groups.get_groups(map_id)
+    api.seat_groups.get_groups_cols(map_id)
     .then(res => {
         for(let group_name of res){
             if(names.indexOf(group_name.group_name) === -1){
@@ -93,7 +93,7 @@ function test3(){
         }
         console.log(names)
         for(let name of names){
-            api.seat_groups.get_seats(map_id, name)
+            api.seat_groups.get_seats_cols(map_id, name)
             .then(seats => {
                 var seats_ele = []
                 var seat_ele, col
@@ -213,7 +213,6 @@ function showOb(){
             ob_ele.classList.add('ob_ele')
             var ob_name_ele = document.createElement('div')
             ob_name_ele.textContent = ob.ob_name
-            // ob_name_ele.style.color = 'rgb(1, 1, 1)'
             ob_ele.append(ob_name_ele)
             ob_ele.style.gridColumnStart = ob.from_col
             ob_ele.style.gridRowStart = ob.from_row
@@ -221,6 +220,8 @@ function showOb(){
             ob_ele.style.gridRowEnd = to_row.toString()
             ob_ele.style.backgroundColor = 'rgb(0, 0, 0, 0)'
             document.getElementById('map').insertBefore(ob_ele, next_cell)
+            var per = ob_ele.getBoundingClientRect()
+            if(per.height > per.width) ob_name_ele.style.transform = 'rotate(90deg)';
         }
     })
 }
@@ -228,11 +229,56 @@ var showObButton = document.createElement('div')
 showObButton.classList.add('hive-button')
 showObButton.textContent = 'show'
 showObButton.addEventListener('click', showOb)
+
+function addTag(){
+    var selected = selection.getSelection()
+    var group_name = prompt('הכנס שם תווית')
+    var map_id = document.getElementById('map').getAttribute('map_id')
+    selected.forEach(seat => {
+        var seat_id = seat.getAttribute('seat_id')
+        api.seat_groups.add_tag(seat_id, group_name, map_id)
+    })
+}
+
+var addTagButton = document.createElement('div')
+addTagButton.classList.add('hive-button')
+addTagButton.textContent = 'addTagButton'
+addTagButton.addEventListener('click', addTag)
+
+function getTag(){
+    var names = []
+    var map_id = document.getElementById('map').getAttribute('map_id')
+    api.seat_groups.get_groups_tags(map_id)
+    .then(res => {
+        for(let group_name of res){
+            if(names.indexOf(group_name.group_name) === -1){
+                names.push(group_name.group_name)
+            }
+        }
+        for(let name of names){
+            api.seat_groups.get_seats_tags(map_id, name)
+            .then(seats => {
+                seats = seats.map(seat => seat.seat)
+                for(let seat of seats){
+                    var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
+                    // console.log(seat_ele)
+                    seat_ele.children[1].textContent = name
+                }
+            })
+        }
+    })
+}
+
+var getTagButton = document.createElement('div')
+getTagButton.classList.add('hive-button')
+getTagButton.textContent = 'getTagButton'
+getTagButton.addEventListener('click', getTag)
+
 // mneu.append(button)
 // mneu.append(button2)
 // mneu.append(button3)
 // mneu.append(button4)
 mneu.append(addObButton)
 mneu.append(showObButton)
-
-
+mneu.append(addTagButton)
+mneu.append(getTagButton)

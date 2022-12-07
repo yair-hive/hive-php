@@ -15,22 +15,22 @@ $seat_groups['get_name'] = function(){
     $query_string = "SELECT group_name FROM seats_groups WHERE id = '{$id}'";
     db_get($query_string);
 };
-$seat_groups['add_belong'] = function(){
+$seat_groups['add_col'] = function(){
     $seat = $_POST['seat'];
     $group = $_POST['group'];
     $map = $_POST['map'];
-    $query_string = "INSERT INTO seat_groups_belong(seat, group_name, belong) VALUES('{$seat}', '{$group}', '{$map}')";
+    $query_string = "INSERT INTO seat_groups_belong(seat, group_name, group_type, belong) VALUES('{$seat}', '{$group}', 'col', '{$map}')";
     db_post($query_string);
 };
-$seat_groups['get_groups'] = function(){
+$seat_groups['get_groups_cols'] = function(){
     $map_id = $_POST['map_id'];
-    $query_string = "SELECT group_name FROM seat_groups_belong WHERE belong = '{$map_id}'";
+    $query_string = "SELECT group_name FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_type = 'col'";
     db_get($query_string);
 };
-$seat_groups['get_seats'] = function(){
+$seat_groups['get_seats_cols'] = function(){
     $map_id = $_POST['map_id'];
     $group_name = $_POST['group_name'];
-    $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_name = '{$group_name}'";
+    $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_name = '{$group_name}' AND group_type = 'col'";
     db_get($query_string);
 };
 $seat_groups['add_ob'] = function(){
@@ -46,5 +46,23 @@ $seat_groups['add_ob'] = function(){
 $seat_groups['get_ob'] = function(){
     $map_id = $_POST['map_id'];
     $query_string = "SELECT * FROM map_obs WHERE belong = '{$map_id}'";
+    db_get($query_string);
+};
+$seat_groups['add_tag'] = function(){
+    $seat = $_POST['seat'];
+    $group = $_POST['group'];
+    $map = $_POST['map'];
+    $query_string = "INSERT INTO seat_groups_belong(seat, group_name, group_type, belong) VALUES('{$seat}', '{$group}', 'tag', '{$map}')";
+    db_post($query_string);
+};
+$seat_groups['get_groups_tags'] = function(){
+    $map_id = $_POST['map_id'];
+    $query_string = "SELECT group_name FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_type = 'tag'";
+    db_get($query_string);
+};
+$seat_groups['get_seats_tags'] = function(){
+    $map_id = $_POST['map_id'];
+    $group_name = $_POST['group_name'];
+    $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_name = '{$group_name}' AND group_type = 'tag'";
     db_get($query_string);
 };
