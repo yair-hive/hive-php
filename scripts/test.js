@@ -198,14 +198,24 @@ function showOb(){
     .then(res => {
         console.log(res)
         for(let ob of res){
-            for(let row = ob.from_row; row <= ob.to_row; row++){
-                for(let col = ob.from_col; col <= ob.to_col; col++){
+            var row, col
+            for(row = ob.from_row; row <= ob.to_row; row++){
+                for(col = ob.from_col; col <= ob.to_col; col++){
                     var cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
-                    cell.children[0].backgroundColor = '#00000000 !important';
-                    console.log(cell.children[0])
-                    cell.children[0].textContent = 'lll'
+                    cell.remove()
                 }
             }
+            row++
+            var next_cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
+            var to_col = Number(ob.to_col) + 1
+            var to_row = Number(ob.to_row) + 1
+            var ob_ele = document.createElement('div')
+            ob_ele.style.gridColumnStart = ob.from_col
+            ob_ele.style.gridRowStart = ob.from_row
+            ob_ele.style.gridColumnEnd = to_col.toString()
+            ob_ele.style.gridRowEnd = to_row.toString()
+            ob_ele.style.backgroundColor = 'rgb(0, 0, 0, 0)'
+            document.getElementById('map').insertBefore(ob_ele, next_cell)
         }
     })
 }
