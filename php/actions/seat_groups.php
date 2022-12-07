@@ -43,3 +43,8 @@ $seat_groups['add_ob'] = function(){
     $query_string = "INSERT INTO map_obs(ob_name, from_row, from_col, to_row, to_col, belong) VALUES('{$name}', '{$from_row}', '{$from_col}', '{$to_row}', '{$to_col}', '{$map}')";
     db_post($query_string);
 };
+$seat_groups['get_ob'] = function(){
+    $map_id = $_POST['map_id'];
+    $query_string = "SELECT * FROM map_obs WHERE belong = '{$map_id}'";
+    db_get($query_string);
+};

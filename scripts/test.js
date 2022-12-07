@@ -166,17 +166,17 @@ function addOb(){
     for(let cell of selected){
         var col = cell.parentNode.getAttribute('col')
         var row = cell.parentNode.getAttribute('row')
+        col = Number(col)
+        row = Number(row)
         if(cols.indexOf(col) === -1){
             cols.push(col)
         }
         if(rows.indexOf(row) === -1){
             rows.push(row)
         }
-        cols = cols.map(col => Number(col))
-        rows = rows.map(row => Number(row))
-        cols.sort(function(a, b) { return a - b; }); 
-        rows.sort(function(a, b) { return a - b; }); 
     }
+    cols.sort(function(a, b) { return a - b; }); 
+    rows.sort(function(a, b) { return a - b; }); 
     var name = prompt('הוסף אלמנט')
     var from_row = rows[0]
     var from_col = cols[0]
@@ -192,8 +192,32 @@ addObButton.classList.add('hive-button')
 addObButton.textContent = 'test4'
 addObButton.addEventListener('click', addOb)
 
+function showOb(){
+    var map = document.getElementById('map').getAttribute('map_id')
+    api.seat_groups.get_ob(map)
+    .then(res => {
+        console.log(res)
+        for(let ob of res){
+            for(let row = ob.from_row; row <= ob.to_row; row++){
+                for(let col = ob.from_col; col <= ob.to_col; col++){
+                    var cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
+                    cell.children[0].backgroundColor = '#00000000 !important';
+                    console.log(cell.children[0])
+                    cell.children[0].textContent = 'lll'
+                }
+            }
+        }
+    })
+}
+var showObButton = document.createElement('div')
+showObButton.classList.add('hive-button')
+showObButton.textContent = 'show'
+showObButton.addEventListener('click', showOb)
 // mneu.append(button)
 // mneu.append(button2)
 // mneu.append(button3)
 // mneu.append(button4)
 mneu.append(addObButton)
+mneu.append(showObButton)
+
+
