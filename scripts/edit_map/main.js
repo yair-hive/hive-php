@@ -33,4 +33,20 @@ var hiveSwitchOptions = {
     active: 'cells', 
     keys: ['x', 'ס']
 } 
+var editSwitchSwitchOptions = {
+    element_id: 'editSwitch', 
+    active: 'no_edit', 
+    keys: ['x', 'ס']
+} 
+hiveSwitch(editSwitchSwitchOptions, (active)=>{
+    var edit_eles = document.getElementById('edit_menu')
+    switch (active) {
+        case 'edit':
+            edit_eles.style.display = 'block'
+            break;
+        case 'no_edit':
+            edit_eles.style.display = 'none'
+            break;
+    }
+})
 hiveSwitch(hiveSwitchOptions, onSelecteblsSwitch)
