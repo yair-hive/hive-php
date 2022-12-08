@@ -39,6 +39,13 @@
     background: #344052;
     color: azure;
 }
+.ele.selected{
+    border-radius: 0.25rem;
+    border-style: solid;
+    border-width: 0.1px;
+    border-color: #7a8392;
+    background: #555b66;
+}
 .num_box, .name_box{
     width: 120px;
     height: 25px;

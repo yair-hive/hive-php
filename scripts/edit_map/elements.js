@@ -169,6 +169,8 @@ export function add_elements(){
             ob_ele.style.gridColumnEnd = to_col.toString()
             ob_ele.style.gridRowEnd = to_row.toString()
             ob_ele.style.backgroundColor = 'rgb(0, 0, 0, 0)'
+            ob_ele.classList.add('selectable')
+            ob_ele.classList.add('ele')
             document.getElementById('map').insertBefore(ob_ele, next_cell)
             var per = ob_ele.getBoundingClientRect()
             if(per.height > per.width) ob_name_ele.style.transform = 'rotate(90deg)';

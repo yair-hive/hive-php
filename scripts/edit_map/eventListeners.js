@@ -1,6 +1,6 @@
 import { create_selection, DragToScroll } from "./tooles.js"
 import dropDown from "./dropDown.js"
-import { add_elements, add_seats } from "./elements.js"
+import { add_elements, add_guests, add_seats } from "./elements.js"
 import api from "../api/api.js"
 import MBloader from "../MBloader.js"
 
@@ -138,7 +138,6 @@ function getGroupColor(guest_group){
     return false
 }
 function changeSelectables(selectable, notSelectable){
-    document.getElementById('map').setAttribute('selectables', selectable)
     selection.clearSelection()
     document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
     document.querySelectorAll('.'+selectable).forEach(e => e.classList.add('selectable'))
@@ -149,7 +148,70 @@ const clearSelection = ()=>{
     selection.clearSelection(); 
     document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
 }
-export const onAddSeats = ()=>{
+function create_col_group(group_name){
+    var selected = selection.getSelection()
+    var map_id = document.getElementById('map').getAttribute('map_id')
+    selected.forEach(seat => {
+        var seat_id = seat.getAttribute('seat_id')
+        api.seat_groups.add_col(seat_id, group_name, map_id)
+    })
+}
+function on_show_tags(){
+    document.querySelectorAll('.seat').forEach(seat => {
+        var tags_cont = document.createElement('div')
+        tags_cont.classList.add('tags_cont')
+        seat.children[1].replaceChildren(tags_cont)
+    })
+    var names = []
+    var map_id = document.getElementById('map').getAttribute('map_id')
+    api.seat_groups.get_groups_tags(map_id)
+    .then(res => {
+        for(let group_name of res){
+            if(names.indexOf(group_name.group_name) === -1){
+                names.push(group_name.group_name)
+            }
+        }
+        for(let name of names){
+            api.seat_groups.get_seats_tags(map_id, name)
+            .then(seats => {
+                seats = seats.map(seat => seat.seat)
+                for(let seat of seats){
+                    var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
+                    // console.log(seat_ele)
+                    var tag_box = document.createElement('div')
+                    tag_box.classList.add('tag_box')
+                    tag_box.textContent = name
+                    var name_box = seat_ele.children[1]
+                    var tags_cont = name_box.children[0]
+                    tags_cont.append(tag_box)
+                    var p = name_box.getBoundingClientRect()
+                    var c = tags_cont.getBoundingClientRect()
+                    var scale = 1
+                    while(p.width < c.width){
+                        scale = scale - 0.01
+                        tags_cont.style.transform = `scale(${scale})`
+                        p = name_box.getBoundingClientRect()
+                        c = tags_cont.getBoundingClientRect()
+                    }
+                }
+            })
+        }
+    })
+}
+function on_show_score(){
+    proximity_score()
+    .then(add_col_group_score)
+    .then(()=>{
+        document.querySelectorAll('.seat').forEach(seat => {
+            var col_score = Number(seat.getAttribute('col_score'))
+            var row_score = Number(seat.getAttribute('row_score'))
+            var pass_score = Number(seat.getAttribute('pass_score'))
+            var total_score = col_score + row_score + pass_score
+            seat.children[1].innerHTML = total_score
+        })
+    })
+}
+function onAddSeats(){
     loader.start()
     var selected = selection.getSelection()
     var map_id = document.getElementById('map').getAttribute('map_id')
@@ -183,9 +245,10 @@ export const onAddSeats = ()=>{
     //     seat.get_all(map_id).then(seats => add_seats(seats))
     // })
 }
-export const onAddNumber = ()=>{
+function onAddNumber(){
     loader.start()
-    var seatNumber = Number(prompt('Please enter number'))
+    var col_name = prompt('Please enter number')
+    var seatNumber = Number(col_name) + 1
     document.querySelectorAll('.selected').forEach(element => {
         var box = element.getElementsByClassName('num_box')[0]
         box.textContent = seatNumber
@@ -193,8 +256,53 @@ export const onAddNumber = ()=>{
         api.seat.create_number(seat_id, seatNumber)     
         seatNumber++
     }) 
+    create_col_group(col_name)
     loader.stop()          
     clearSelection()
+}
+function onAddElement(){
+    var selected = selection.getSelection()
+    var cols = []
+    var rows = []
+    for(let cell of selected){
+        var col = cell.parentNode.getAttribute('col')
+        var row = cell.parentNode.getAttribute('row')
+        col = Number(col)
+        row = Number(row)
+        if(cols.indexOf(col) === -1){
+            cols.push(col)
+        }
+        if(rows.indexOf(row) === -1){
+            rows.push(row)
+        }
+    }
+    cols.sort(function(a, b) { return a - b; }); 
+    rows.sort(function(a, b) { return a - b; }); 
+    var name = prompt('הוסף אלמנט')
+    var from_row = rows[0]
+    var from_col = cols[0]
+    var to_row = rows[rows.length -1]
+    var to_col = cols[cols.length -1]
+    var map = document.getElementById('map').getAttribute('map_id')
+    api.seat_groups.add_ob(name, from_row, from_col, to_row, to_col, map)
+    .then(()=>{
+        add_elements()
+    })
+}
+function onAddTag(){
+    var selected = selection.getSelection()
+    var group_name = prompt('הכנס שם תווית')
+    var map_id = document.getElementById('map').getAttribute('map_id')
+    for(let i = 0; i < selected.length; i++){
+        var seat = selected[i]
+        var seat_id = seat.getAttribute('seat_id')
+        api.seat_groups.add_tag(seat_id, group_name, map_id).then(()=>{
+            if(i == (selected.length -1)) {
+                on_show_tags()
+                clearSelection()
+            }
+        })
+    }
 }
 export const onAddGuest = (ele)=>{
     if(ele.getAttribute('guest_id')){
@@ -238,10 +346,16 @@ export const onAddGuest = (ele)=>{
 export const onMapAdd = ()=>{
     var map = document.getElementById('map')
     if(map.getAttribute('selectables') === 'cell'){
-        onAddSeats()
+        if(selection.getSelection().length != 0) onAddSeats()
     }
     if(map.getAttribute('selectables') === 'seat'){
-        onAddNumber()
+        if(selection.getSelection().length != 0) onAddNumber()
+    }
+    if(map.getAttribute('selectables') === 'element'){
+        if(selection.getSelection().length != 0) onAddElement()
+    }
+    if(map.getAttribute('selectables') === 'tag'){
+        if(selection.getSelection().length != 0) onAddTag()
     }
     if(map.getAttribute('selectables') === 'guests'){
         if(menu.correntItemIndex > -1){
@@ -256,6 +370,11 @@ export const onClickOutside = (event)=>{
     if(edit == 'no'){
         dragToScroll.enable()    
         selection.disable()
+        document.getElementById('map').setAttribute('isZoomed', 'false')
+    }
+    if(edit == 'yes'){
+        dragToScroll.disable()   
+        selection.enable()
         document.getElementById('map').setAttribute('isZoomed', 'true')
     }
     if(event.keyCode != 13){
@@ -265,11 +384,16 @@ export const onClickOutside = (event)=>{
         }
         if(!event.ctrlKey && !event.metaKey && selection.getSelection().length !== 0 && !classList.contains('hive-button')){
             var map = document.getElementById('map')
-            if(map.getAttribute('selectables') === 'cell' && !event.target.classList.contains('cell')){
-                clearSelection()
+            var selectables = map.getAttribute('selectables')
+            if(selectables === 'cell' || selectables === 'element'){
+                if(!event.target.classList.contains('cell')){
+                    clearSelection()
+                }                
             }
-            if(map.getAttribute('selectables') === 'seat' && !event.target.parentNode.classList.contains('seat')){
-                clearSelection()
+            if(selectables === 'seat' || selectables === 'tag'){
+                if(!event.target.parentNode.classList.contains('seat')){
+                    clearSelection()
+                }
             }
         }
     }
@@ -277,7 +401,7 @@ export const onClickOutside = (event)=>{
 export const onKeyBordDown = (event)=>{
     var map = document.getElementById('map')
     var edit = map.getAttribute('edit')
-    if(edit == 'yes'){
+    if(edit == 'no'){
         if(event.key == 'g' || event.key == 'ע'){
             dragToScroll.enable()    
             selection.disable()
@@ -293,7 +417,7 @@ export const onKeyBordDown = (event)=>{
             menu.onArrowDown()
         }
     }
-    if(edit == 'no'){
+    if(edit == 'yes'){
         dragToScroll.enable()    
         selection.disable()
         document.getElementById('map').setAttribute('isZoomed', 'true')
@@ -310,8 +434,12 @@ export const onKeyBordUp = ()=>{
 }
 export const onSeatName = (event)=>{
     if(!event.ctrlKey && !event.metaKey){
-        menu.open(event.target)
-        clearSelection()
+        var map = document.getElementById('map')
+        var isZoomed = map.getAttribute('isZoomed') 
+        if(isZoomed == 'false'){
+            menu.open(event.target)
+            clearSelection()
+        }
     }
     if(event.ctrlKey || event.metaKey){
         var name_box = document.createElement('div')
@@ -323,118 +451,6 @@ export const onSeatName = (event)=>{
         selection.disable()
     }
 }
-export function onSelecteblsSwitch(active){
-    switch(active){
-        case 'seats':
-            changeSelectables('seat', 'cell')
-            break;
-        case 'cells':
-            changeSelectables('cell', 'seat')
-            break;
-    }
-}
-export function show_total_score(){
-    proximity_score()
-    .then(add_col_group_score)
-    .then(()=>{
-        document.querySelectorAll('.seat').forEach(seat => {
-            var col_score = Number(seat.getAttribute('col_score'))
-            var row_score = Number(seat.getAttribute('row_score'))
-            var pass_score = Number(seat.getAttribute('pass_score'))
-            var total_score = col_score + row_score + pass_score
-            seat.children[1].innerHTML = total_score
-        })
-    })
-}
-export function create_col_group(){
-    var selected = selection.getSelection()
-    var group_name = prompt('הכנס שם טור')
-    var map_id = document.getElementById('map').getAttribute('map_id')
-    selected.forEach(seat => {
-        var seat_id = seat.getAttribute('seat_id')
-        api.seat_groups.add_col(seat_id, group_name, map_id)
-    })
-}
-export function addOb(){
-    var selected = selection.getSelection()
-    var cols = []
-    var rows = []
-    for(let cell of selected){
-        var col = cell.parentNode.getAttribute('col')
-        var row = cell.parentNode.getAttribute('row')
-        col = Number(col)
-        row = Number(row)
-        if(cols.indexOf(col) === -1){
-            cols.push(col)
-        }
-        if(rows.indexOf(row) === -1){
-            rows.push(row)
-        }
-    }
-    cols.sort(function(a, b) { return a - b; }); 
-    rows.sort(function(a, b) { return a - b; }); 
-    var name = prompt('הוסף אלמנט')
-    var from_row = rows[0]
-    var from_col = cols[0]
-    var to_row = rows[rows.length -1]
-    var to_col = cols[cols.length -1]
-    var map = document.getElementById('map').getAttribute('map_id')
-    api.seat_groups.add_ob(name, from_row, from_col, to_row, to_col, map)
-    .then(()=>{
-        add_elements()
-    })
-}
-export function addTag(){
-    var selected = selection.getSelection()
-    var group_name = prompt('הכנס שם תווית')
-    var map_id = document.getElementById('map').getAttribute('map_id')
-    selected.forEach(seat => {
-        var seat_id = seat.getAttribute('seat_id')
-        api.seat_groups.add_tag(seat_id, group_name, map_id)
-    })
-}
-export function getTag(){
-    document.querySelectorAll('.seat').forEach(seat => {
-        var tags_cont = document.createElement('div')
-        tags_cont.classList.add('tags_cont')
-        seat.children[1].replaceChildren(tags_cont)
-    })
-    var names = []
-    var map_id = document.getElementById('map').getAttribute('map_id')
-    api.seat_groups.get_groups_tags(map_id)
-    .then(res => {
-        for(let group_name of res){
-            if(names.indexOf(group_name.group_name) === -1){
-                names.push(group_name.group_name)
-            }
-        }
-        for(let name of names){
-            api.seat_groups.get_seats_tags(map_id, name)
-            .then(seats => {
-                seats = seats.map(seat => seat.seat)
-                for(let seat of seats){
-                    var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
-                    // console.log(seat_ele)
-                    var tag_box = document.createElement('div')
-                    tag_box.classList.add('tag_box')
-                    tag_box.textContent = name
-                    var name_box = seat_ele.children[1]
-                    var tags_cont = name_box.children[0]
-                    tags_cont.append(tag_box)
-                    var p = name_box.getBoundingClientRect()
-                    var c = tags_cont.getBoundingClientRect()
-                    var scale = 1
-                    while(p.width < c.width){
-                        scale = scale - 0.01
-                        tags_cont.style.transform = `scale(${scale})`
-                        p = name_box.getBoundingClientRect()
-                        c = tags_cont.getBoundingClientRect()
-                    }
-                }
-            })
-        }
-    })
-}
 export function onEditSwitch(active){
     var map = document.getElementById('map')
     var edit_menu = document.getElementById('edit_menu')
@@ -444,11 +460,47 @@ export function onEditSwitch(active){
             edit_menu.style.display = 'flex'
             map_menu.style.display = 'none'
             map.setAttribute('edit', 'yes')
+            on_show_tags()
             break;
         case 'no edit':
             edit_menu.style.display = 'none'
             map_menu.style.display = 'flex'
             map.setAttribute('edit', 'no')
+            var map_id = document.getElementById('map').getAttribute('map_id')
+            document.querySelectorAll('.name_box').forEach(e => e.textContent = '')
+            api.guest.get_all(map_id)
+            .then(guests => add_guests(guests))
+            break;
+    }
+}
+export function onSelecteblsSwitch(active){
+    var map = document.getElementById('map')
+    switch(active){
+        case 'seats':
+            changeSelectables('seat', 'cell')
+            map.setAttribute('selectables', 'seat')
+            break;
+        case 'cells':
+            changeSelectables('cell', 'seat')
+            map.setAttribute('selectables', 'cell')
+            break;
+        case 'elements':
+            map.setAttribute('selectables', 'element')
+            changeSelectables('cell', 'seat')
+            break;
+        case 'tags':
+            changeSelectables('seat', 'cell')
+            map.setAttribute('selectables', 'tag')
+            break;
+    }
+}
+export function onShowSwitch(active){
+    switch (active) {
+        case 'tags':
+            on_show_tags()
+            break;
+        case 'score':
+            on_show_score()
             break;
     }
 }

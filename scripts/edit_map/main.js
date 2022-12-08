@@ -1,5 +1,5 @@
 import {add_map, add_seats, add_guests, add_belong, add_elements} from "./elements.js"
-import { addOb, addTag, create_col_group, getTag, onClickOutside, onEditSwitch, onKeyBordDown, onKeyBordUp, onMapAdd, onSelecteblsSwitch, show_total_score } from "./eventListeners.js"
+import { onClickOutside, onEditSwitch, onKeyBordDown, onKeyBordUp, onMapAdd, onSelecteblsSwitch, onShowSwitch } from "./eventListeners.js"
 import { zoom } from "./tooles.js"
 import api from "../api/api.js"
 import hiveSwitch from "../hiveSwitch.js"
@@ -20,23 +20,24 @@ api.map.get(map_name).then(map => {add_map(map); map_id = map.id })
     document.addEventListener('mousedown', onClickOutside)
     document.addEventListener("keydown", onKeyBordDown)
     document.addEventListener("keyup", onKeyBordUp)
-    document.getElementById('show_score_button').addEventListener('click', show_total_score)
-    document.getElementById('add_col_button').addEventListener('click', create_col_group)
-    document.getElementById('add_elements_button').addEventListener('click', addOb)
-    document.getElementById('add_tags_button').addEventListener('click', addTag)
-    document.getElementById('show_tags_button').addEventListener('click', getTag)
     add_elements()
     zoom('mainBord')
 })
 var hiveSwitchOptions = {
     element_id: 'selecteblsSwitch', 
     active: 'cells', 
-    keys: ['x', 'ס']
+    keys: ['q', '/']
 } 
 var editSwitchOptions = {
     element_id: 'editSwitch', 
     active: 'no_edit', 
     keys: ['x', 'ס']
 } 
+var showSwitchOptions = {
+    element_id: 'showSwitch', 
+    active: 'tags', 
+    keys: ['y', 'ט']
+} 
+hiveSwitch(showSwitchOptions, onShowSwitch)
 hiveSwitch(editSwitchOptions, onEditSwitch)
 hiveSwitch(hiveSwitchOptions, onSelecteblsSwitch)

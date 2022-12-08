@@ -24,7 +24,7 @@ a:hover{
     height: 100%;
     display: grid;
     grid-template-rows: 8% 92%;
-    grid-template-columns: 85% 15%;
+    grid-template-columns: 78% 22%;
 }
 #topBar{
     display: flex;
