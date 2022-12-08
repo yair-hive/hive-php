@@ -220,13 +220,16 @@ function showOb(){
     var map = document.getElementById('map').getAttribute('map_id')
     api.seat_groups.get_ob(map)
     .then(res => {
-        console.log(res)
         for(let ob of res){
+            ob.from_row = Number(ob.from_row)
+            ob.from_col = Number(ob.from_col)
+            ob.to_col = Number(ob.to_col)
+            ob.to_row = Number(ob.to_row)
             var row, col
             for(row = ob.from_row; row <= ob.to_row; row++){
                 for(col = ob.from_col; col <= ob.to_col; col++){
                     var cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
-                    cell.remove()
+                    if(cell) cell.remove()
                 }
             }
             row++
