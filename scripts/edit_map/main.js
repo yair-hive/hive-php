@@ -1,5 +1,5 @@
 import {add_map, add_seats, add_guests, add_belong, add_elements} from "./elements.js"
-import { addOb, addTag, create_col_group, getTag, onClickOutside, onKeyBordDown, onKeyBordUp, onMapAdd, onSelecteblsSwitch, show_total_score } from "./eventListeners.js"
+import { addOb, addTag, create_col_group, getTag, onClickOutside, onEditSwitch, onKeyBordDown, onKeyBordUp, onMapAdd, onSelecteblsSwitch, show_total_score } from "./eventListeners.js"
 import { zoom } from "./tooles.js"
 import api from "../api/api.js"
 import hiveSwitch from "../hiveSwitch.js"
@@ -33,23 +33,10 @@ var hiveSwitchOptions = {
     active: 'cells', 
     keys: ['x', 'ס']
 } 
-var editSwitchSwitchOptions = {
+var editSwitchOptions = {
     element_id: 'editSwitch', 
     active: 'no_edit', 
     keys: ['x', 'ס']
 } 
-hiveSwitch(editSwitchSwitchOptions, (active)=>{
-    var edit_menu = document.getElementById('edit_menu')
-    var map_menu = document.getElementById('map_menu')
-    switch (active) {
-        case 'edit':
-            edit_menu.style.display = 'flex'
-            map_menu.style.display = 'none'
-            break;
-        case 'no edit':
-            edit_menu.style.display = 'none'
-            map_menu.style.display = 'flex'
-            break;
-    }
-})
+hiveSwitch(editSwitchOptions, onEditSwitch)
 hiveSwitch(hiveSwitchOptions, onSelecteblsSwitch)

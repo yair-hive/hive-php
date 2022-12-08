@@ -251,6 +251,13 @@ export const onMapAdd = ()=>{
     }
 }
 export const onClickOutside = (event)=>{
+    var map = document.getElementById('map')
+    var edit = map.getAttribute('edit')
+    if(edit == 'no'){
+        dragToScroll.enable()    
+        selection.disable()
+        document.getElementById('map').setAttribute('isZoomed', 'true')
+    }
     if(event.keyCode != 13){
         var classList = event.target.classList
         if(!classList.contains('name_box') && !classList.contains('drop_down') && !classList.contains('match_list')){
@@ -268,25 +275,38 @@ export const onClickOutside = (event)=>{
     }
 }
 export const onKeyBordDown = (event)=>{
-    if(event.key == 'g' || event.key == 'ע'){
+    var map = document.getElementById('map')
+    var edit = map.getAttribute('edit')
+    if(edit == 'yes'){
+        if(event.key == 'g' || event.key == 'ע'){
+            dragToScroll.enable()    
+            selection.disable()
+            document.getElementById('map').setAttribute('isZoomed', 'true')
+        }
+        if(event.keyCode == 13){
+            onMapAdd()
+        }
+        if(event.keyCode == 38){
+            menu.onArrowUp()
+        }
+        if(event.keyCode == 40){
+            menu.onArrowDown()
+        }
+    }
+    if(edit == 'no'){
         dragToScroll.enable()    
         selection.disable()
         document.getElementById('map').setAttribute('isZoomed', 'true')
     }
-    if(event.keyCode == 13){
-        onMapAdd()
-    }
-    if(event.keyCode == 38){
-        menu.onArrowUp()
-    }
-    if(event.keyCode == 40){
-        menu.onArrowDown()
-    }
 }
 export const onKeyBordUp = ()=>{
-    dragToScroll.disable()    
-    selection.enable()
-    document.getElementById('map').setAttribute('isZoomed', 'false')
+    var map = document.getElementById('map')
+    var edit = map.getAttribute('edit')
+    if(edit == 'yes'){
+        dragToScroll.disable()    
+        selection.enable()
+        document.getElementById('map').setAttribute('isZoomed', 'false')
+    }
 }
 export const onSeatName = (event)=>{
     if(!event.ctrlKey && !event.metaKey){
@@ -414,4 +434,21 @@ export function getTag(){
             })
         }
     })
+}
+export function onEditSwitch(active){
+    var map = document.getElementById('map')
+    var edit_menu = document.getElementById('edit_menu')
+    var map_menu = document.getElementById('map_menu')
+    switch (active) {
+        case 'edit':
+            edit_menu.style.display = 'flex'
+            map_menu.style.display = 'none'
+            map.setAttribute('edit', 'yes')
+            break;
+        case 'no edit':
+            edit_menu.style.display = 'none'
+            map_menu.style.display = 'flex'
+            map.setAttribute('edit', 'no')
+            break;
+    }
 }
