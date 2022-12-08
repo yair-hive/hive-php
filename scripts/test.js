@@ -1,163 +1,191 @@
 import api from "./api/api.js"
 import { selection } from "./edit_map/eventListeners.js"
+import hiveSwitch from "./hiveSwitch.js"
 
-function test(){
-    var score, map, map_rows, map_cols, seat, cols_middle, i, col_num, row_num
-    map = document.getElementById('map')
-    map_rows = map.getAttribute('rows')
-    map_cols = map.getAttribute('cols')
-    cols_middle = Math.round(map_cols / 2)
-    var cols = []
-    var rows = []
-    document.querySelectorAll('.cell_cont > .seat').forEach(col => {
-        col_num = col.parentNode.getAttribute('col')
-        if(cols.indexOf(col_num) === -1){
-            cols.push(col_num)
-        }
-    })
-    document.querySelectorAll('.cell_cont > .seat').forEach(col => {
-        row_num = col.parentNode.getAttribute('row')
-        row_num = Number(row_num)
-        if(rows.indexOf(row_num) === -1){
-            rows.push(row_num)
-        }
-    })
-    i = 0
-    for(let col of cols){
-        if(col < cols_middle) {
-            i++; 
-            score = Math.abs(i);
-        }
-        if(col > cols_middle) {
-            i--; 
-            score = Math.abs(i);
+function hiveButton(name, callback){
+    var button = document.createElement('div')
+    button.classList.add('hive-button')
+    button.textContent = name
+    button.addEventListener('click', callback)
+    return button
+}
 
-        }
-        if(col == cols_middle) {
-            i++; 
-            score = Math.abs(i); 
-        }
-        document.querySelectorAll('.cell_cont[col="'+col+'"]').forEach(cell_cont => {
-            seat = cell_cont.children[0]
-            if(seat.children[1]){ 
-                seat.children[1].innerHTML = score
-                seat.setAttribute('col_score', score)
-            }
-        })       
-    }
-    i = 0
-    rows.sort(function(a, b) { return a - b; });
-    rows.reverse();
-    for(let row of rows){
-        i++
-        document.querySelectorAll('.cell_cont[row="'+row+'"]').forEach(cell_cont => {
-            seat = cell_cont.children[0]
-            score = i
-            if(seat.children[1]) {
-                seat.children[1].append(" & "+score)
-                seat.setAttribute('row_score', score)
+// function add_edit_switch(){
+//     var mneu = document.getElementById('mneu')
+//     var edit_ele = document.createElement('div')
+//     edit_ele.setAttribute('id', 'edit')
+//     edit_ele.textContent = 'edit'
+//     var no_edit_ele = document.createElement('div')
+//     no_edit_ele.setAttribute('id', 'no_edit')
+//     no_edit_ele.textContent = 'no'
+//     var edit_switch = document.createElement('div') 
+//     edit_switch.classList.add('hive-switch')
+//     edit_switch.append(edit_ele)
+//     edit_switch.append(no_edit_ele)
+//     mneu.append(edit_switch)
+//     var hiveSwitchOptions = {
+//         element_id: 'selecteblsSwitch', 
+//         active: 'no_edit', 
+//         keys: ['q', '/']
+//     } 
+//     hiveSwitch(hiveSwitchOptions, (active)=>{
+//         var edit_eles = document.getElementById('edit_eles')
+//         switch (active) {
+//             case 'edit':
+//                 edit_eles.style.display = 'block'
+//                 break;
+//             case 'no_edit':
+//                 edit_eles.style.display = 'none'
+//                 break;
+//         }
+//     })
+// }
+// add_edit_switch()
+
+function proximity_score(){
+    return new Promise((resolve, reject) => {
+        var score, map, map_rows, map_cols, seat, cols_middle, i, col_num, row_num
+        map = document.getElementById('map')
+        map_rows = map.getAttribute('rows')
+        map_cols = map.getAttribute('cols')
+        cols_middle = Math.round(map_cols / 2)
+        var cols = []
+        var rows = []
+        document.querySelectorAll('.cell_cont > .seat').forEach(col => {
+            col_num = col.parentNode.getAttribute('col')
+            if(cols.indexOf(col_num) === -1){
+                cols.push(col_num)
             }
         })
-    }
+        document.querySelectorAll('.cell_cont > .seat').forEach(col => {
+            row_num = col.parentNode.getAttribute('row')
+            row_num = Number(row_num)
+            if(rows.indexOf(row_num) === -1){
+                rows.push(row_num)
+            }
+        })
+        i = 0
+        for(let col of cols){
+            if(col < cols_middle) {
+                i++; 
+                score = Math.abs(i);
+            }
+            if(col > cols_middle) {
+                i--; 
+                score = Math.abs(i);
+    
+            }
+            if(col == cols_middle) {
+                i++; 
+                score = Math.abs(i); 
+            }
+            document.querySelectorAll('.cell_cont[col="'+col+'"]').forEach(cell_cont => {
+                seat = cell_cont.children[0]
+                if(seat.children[1]){ 
+                    seat.children[1].innerHTML = score
+                    seat.setAttribute('col_score', score)
+                }
+            })       
+        }
+        i = 0
+        rows.sort(function(a, b) { return a - b; });
+        rows.reverse();
+        for(let row of rows){
+            i++
+            document.querySelectorAll('.cell_cont[row="'+row+'"]').forEach(cell_cont => {
+                seat = cell_cont.children[0]
+                score = i
+                if(seat.children[1]) {
+                    seat.children[1].append(" & "+score)
+                    seat.setAttribute('row_score', score)
+                }
+            })
+        }
+        resolve()
+    })
 }
-var mneu = document.getElementById('mneu')
-var button = document.createElement('div')
-button.classList.add('hive-button')
-button.textContent = 'test'
-button.addEventListener('click', test)
 
-function test2(){
+function add_col_group_score(){
+    return new Promise((resolve, reject) => {
+        var names = []
+        var seats_array = []
+        var map_id = document.getElementById('map').getAttribute('map_id')
+        api.seat_groups.get_groups_cols(map_id)
+        .then(res => {
+            for(let group_name of res){
+                if(names.indexOf(group_name.group_name) === -1){
+                    names.push(group_name.group_name)
+                }
+            }
+            for(let i = 0; i < names.length; i++){
+                var name = names[i]
+                api.seat_groups.get_seats_cols(map_id, name)
+                .then(seats => {
+                    var seats_ele = []
+                    var seat_ele, col
+                    var cols = []
+                    seats = seats.map(seat => seat.seat)
+                    for(let seat of seats){
+                        seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
+                        col = seat_ele.parentNode.getAttribute('col')
+                        col = Number(col)
+                        if(cols.indexOf(col) === -1){
+                            cols.push(col)
+                        }
+                        seats_ele.push(seat_ele)
+                    }
+                    seats_array[name] = seats_ele
+                    cols.sort(function(a, b) { return a - b; });               
+                    var score
+                    var mid = Math.floor((cols[0]+cols[cols.length -1])/2);
+                    var as = ((cols.length /2) %1) != 0
+                    if(as) score = Math.floor(cols.length /2)
+                    else score = Math.floor(cols.length /2) -1
+                    score = score * score
+                    for(let col of cols){
+                        document.querySelectorAll('.cell_cont[col="'+col+'"]').forEach(cell_cont => {
+                            var seat = cell_cont.children[0]
+                            if(seat.children[1]){ 
+                                seat.children[1].append(' & '+score)
+                                seat.setAttribute('pass_score', score)
+                            }
+                        }) 
+                        if(col < mid) score = score - 2
+                        if(as && col == mid) score = score + 2
+                        if(col > mid) score = score + 2 
+                    }
+                    if(i == (names.length -1)) {
+                        resolve()
+                    }
+                })
+            }
+        })
+    })
+}
+
+function show_total_score(){
+    proximity_score()
+    .then(add_col_group_score)
+    .then(()=>{
+        document.querySelectorAll('.seat').forEach(seat => {
+            var col_score = Number(seat.getAttribute('col_score'))
+            var row_score = Number(seat.getAttribute('row_score'))
+            var pass_score = Number(seat.getAttribute('pass_score'))
+            var total_score = col_score + row_score + pass_score
+            seat.children[1].innerHTML = total_score
+        })
+    })
+}
+
+function create_col_group(){
     var selected = selection.getSelection()
-    var group_name = prompt('הכנס שם קבוצה')
+    var group_name = prompt('הכנס שם טור')
     var map_id = document.getElementById('map').getAttribute('map_id')
     selected.forEach(seat => {
         var seat_id = seat.getAttribute('seat_id')
         api.seat_groups.add_col(seat_id, group_name, map_id)
     })
 }
-var button2 = document.createElement('div')
-button2.classList.add('hive-button')
-button2.textContent = 'test2'
-button2.addEventListener('click', test2)
-
-function test3(){
-    var names = []
-    var seats_array = []
-    var map_id = document.getElementById('map').getAttribute('map_id')
-    api.seat_groups.get_groups_cols(map_id)
-    .then(res => {
-        for(let group_name of res){
-            if(names.indexOf(group_name.group_name) === -1){
-                names.push(group_name.group_name)
-            }
-        }
-        console.log(names)
-        for(let name of names){
-            api.seat_groups.get_seats_cols(map_id, name)
-            .then(seats => {
-                var seats_ele = []
-                var seat_ele, col
-                var cols = []
-                console.log(seats)
-                seats = seats.map(seat => seat.seat)
-                for(let seat of seats){
-                    seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
-                    col = seat_ele.parentNode.getAttribute('col')
-                    col = Number(col)
-                    if(cols.indexOf(col) === -1){
-                        cols.push(col)
-                    }
-                    seats_ele.push(seat_ele)
-                }
-                seats_array[name] = seats_ele
-                cols.sort(function(a, b) { return a - b; });               
-                var score
-                var mid = Math.floor((cols[0]+cols[cols.length -1])/2);
-                var as = ((cols.length /2) %1) != 0
-                if(as) score = Math.floor(cols.length /2)
-                else score = Math.floor(cols.length /2) -1
-                score = score * score
-                for(let col of cols){
-                    document.querySelectorAll('.cell_cont[col="'+col+'"]').forEach(cell_cont => {
-                        var seat = cell_cont.children[0]
-                        if(seat.children[1]){ 
-                            seat.children[1].append(' & '+score)
-                            seat.setAttribute('pass_score', score)
-                        }
-                    }) 
-                    if(col < mid) score = score - 2
-                    if(as && col == mid) score = score + 2
-                    if(col > mid) score = score + 2 
-                }
-            })
-        }
-    })
-}
-var button3 = document.createElement('div')
-button3.classList.add('hive-button')
-button3.textContent = 'test3'
-button3.addEventListener('click', test3)
-
-function test4(){
-    document.querySelectorAll('.seat').forEach(seat => {
-        var col_score = seat.getAttribute('col_score')
-        var row_score = seat.getAttribute('row_score')
-        var pass_score = seat.getAttribute('pass_score')
-        // console.log(col_score)
-        // console.log(row_score)
-        // console.log(pass_score)
-        // console.log(seat)
-        col_score = Number(col_score)
-        row_score = Number(row_score)
-        pass_score = Number(pass_score)
-        var total_score = col_score + row_score + pass_score
-        seat.children[1].innerHTML = total_score
-    })
-}
-var button4 = document.createElement('div')
-button4.classList.add('hive-button')
-button4.textContent = 'test4'
-button4.addEventListener('click', test4)
 
 function addOb(){
     var selected = selection.getSelection()
@@ -187,10 +215,6 @@ function addOb(){
     console.log(cols)
     console.log(rows)
 }
-var addObButton = document.createElement('div')
-addObButton.classList.add('hive-button')
-addObButton.textContent = 'test4'
-addObButton.addEventListener('click', addOb)
 
 function showOb(){
     var map = document.getElementById('map').getAttribute('map_id')
@@ -225,10 +249,6 @@ function showOb(){
         }
     })
 }
-var showObButton = document.createElement('div')
-showObButton.classList.add('hive-button')
-showObButton.textContent = 'show'
-showObButton.addEventListener('click', showOb)
 
 function addTag(){
     var selected = selection.getSelection()
@@ -239,11 +259,6 @@ function addTag(){
         api.seat_groups.add_tag(seat_id, group_name, map_id)
     })
 }
-
-var addTagButton = document.createElement('div')
-addTagButton.classList.add('hive-button')
-addTagButton.textContent = 'addTagButton'
-addTagButton.addEventListener('click', addTag)
 
 function getTag(){
     var names = []
@@ -269,16 +284,15 @@ function getTag(){
     })
 }
 
-var getTagButton = document.createElement('div')
-getTagButton.classList.add('hive-button')
-getTagButton.textContent = 'getTagButton'
-getTagButton.addEventListener('click', getTag)
+var mneu = document.getElementById('mneu')
 
-// mneu.append(button)
-// mneu.append(button2)
-// mneu.append(button3)
-// mneu.append(button4)
-mneu.append(addObButton)
-mneu.append(showObButton)
-mneu.append(addTagButton)
-mneu.append(getTagButton)
+var edit_eles = document.createElement('div')
+edit_eles.setAttribute('id', 'edit_eles')
+edit_eles.append(hiveButton('סיכום ניקוד', show_total_score))
+edit_eles.append(hiveButton('הוסף טור', create_col_group))
+edit_eles.append(hiveButton('הוסף אלמנטים', addOb))
+edit_eles.append(hiveButton('הצג אלמנטים', showOb))
+edit_eles.append(hiveButton('הוסף תגיות', addTag))
+edit_eles.append(hiveButton('הצג תגיות', getTag))
+// edit_eles.style.display = 'none'
+mneu.append(edit_eles)
