@@ -8,6 +8,19 @@
     grid-template-rows: repeat(var(--map-rows), 55px);
     grid-template-columns: repeat(var(--map-cols), 125px);
 }
+.tags_cont{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tag_box{
+    white-space: nowrap;
+    background-color: #4f90f2;
+    margin: 1px;
+    padding: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
 .ob_ele{
     display: flex;
     align-items: center;
@@ -39,6 +52,9 @@
 .name_box{
     background-color: rgba(146, 136, 209, 0.8);
     border-radius: 0 0 0.25rem 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .seat.selected {
     border-style: solid;

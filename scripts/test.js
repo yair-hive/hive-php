@@ -264,6 +264,11 @@ function addTag(){
 }
 
 function getTag(){
+    document.querySelectorAll('.seat').forEach(seat => {
+        var tags_cont = document.createElement('div')
+        tags_cont.classList.add('tags_cont')
+        seat.children[1].replaceChildren(tags_cont)
+    })
     var names = []
     var map_id = document.getElementById('map').getAttribute('map_id')
     api.seat_groups.get_groups_tags(map_id)
@@ -280,7 +285,21 @@ function getTag(){
                 for(let seat of seats){
                     var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
                     // console.log(seat_ele)
-                    seat_ele.children[1].textContent = name
+                    var tag_box = document.createElement('div')
+                    tag_box.classList.add('tag_box')
+                    tag_box.textContent = name
+                    var name_box = seat_ele.children[1]
+                    var tags_cont = name_box.children[0]
+                    tags_cont.append(tag_box)
+                    var p = name_box.getBoundingClientRect()
+                    var c = tags_cont.getBoundingClientRect()
+                    var scale = 1
+                    while(p.width < c.width){
+                        scale = scale - 0.01
+                        tags_cont.style.transform = `scale(${scale})`
+                        p = name_box.getBoundingClientRect()
+                        c = tags_cont.getBoundingClientRect()
+                    }
                 }
             })
         }
