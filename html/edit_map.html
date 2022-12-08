@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="../style/scrollbar.css">
     <link rel="stylesheet" href="../style/drop_down.css">
     <link rel="stylesheet" href="../style/map.css">
+    <style>
+    input{
+        height: 30px;
+        text-align: center;
+        margin: 5px;
+        padding: 0;
+        border-radius: 5px;
+        font-size: 15px;
+        font-weight: bold;
+    }
+    </style>
     <script src="../scripts/main.js" type='module' defer></script>  
     <script src="../scripts/edit_map/main.js" type="module" defer></script>
     <script src="../scripts/test.js" type="module" defer></script>
@@ -49,10 +60,11 @@
                     <div id='score'> ניקוד </div>
                     <div id='tags'> תגיות </div>
                 </div>
-                <div id='add_button' class='hive-button'> הוסף </div>
+                <div id='add_button' class='hive-button'> הוסף </div>               
             </div>
             <div id="map_menu" class="side_menu">
                 <div onclick="location.href='http://localhost/hive-php/html/get_guests.html?map_name='+map_name" class="hive-button"> שמות </div>
+                <input type="text">
             </div>
         </div>
     </div>
