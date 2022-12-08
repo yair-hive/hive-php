@@ -39,13 +39,16 @@ var editSwitchSwitchOptions = {
     keys: ['x', 'ס']
 } 
 hiveSwitch(editSwitchSwitchOptions, (active)=>{
-    var edit_eles = document.getElementById('edit_menu')
+    var edit_menu = document.getElementById('edit_menu')
+    var map_menu = document.getElementById('map_menu')
     switch (active) {
         case 'edit':
-            edit_eles.style.display = 'block'
+            edit_menu.style.display = 'flex'
+            map_menu.style.display = 'none'
             break;
-        case 'no_edit':
-            edit_eles.style.display = 'none'
+        case 'no edit':
+            edit_menu.style.display = 'none'
+            map_menu.style.display = 'flex'
             break;
     }
 })

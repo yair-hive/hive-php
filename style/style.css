@@ -69,6 +69,10 @@ a:hover{
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    background-color: rgb(95, 122, 239);
+}
+.selecteblsSwitch{
+    background-color: rgb(95, 122, 239);
 }
 #select_seats{
     background-color: gray;
