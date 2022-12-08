@@ -63,10 +63,12 @@ a:hover{
 #mneu{
     z-index: 20;
     padding: 10px;
+    background-color: rgb(120, 140, 228);
+}
+.side_menu{
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    background-color: rgb(120, 140, 228);
 }
 #select_seats{
     background-color: gray;
