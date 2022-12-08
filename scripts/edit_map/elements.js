@@ -138,3 +138,39 @@ export const add_guests = (guests)=>{
         loader.stop()
     })
 }
+export function add_elements(){
+    var map = document.getElementById('map').getAttribute('map_id')
+    api.seat_groups.get_ob(map)
+    .then(res => {
+        for(let ob of res){
+            ob.from_row = Number(ob.from_row)
+            ob.from_col = Number(ob.from_col)
+            ob.to_col = Number(ob.to_col)
+            ob.to_row = Number(ob.to_row)
+            var row, col
+            for(row = ob.from_row; row <= ob.to_row; row++){
+                for(col = ob.from_col; col <= ob.to_col; col++){
+                    var cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
+                    if(cell) cell.remove()
+                }
+            }
+            row++
+            var next_cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
+            var to_col = Number(ob.to_col) + 1
+            var to_row = Number(ob.to_row) + 1
+            var ob_ele = document.createElement('div')
+            ob_ele.classList.add('ob_ele')
+            var ob_name_ele = document.createElement('div')
+            ob_name_ele.textContent = ob.ob_name
+            ob_ele.append(ob_name_ele)
+            ob_ele.style.gridColumnStart = ob.from_col
+            ob_ele.style.gridRowStart = ob.from_row
+            ob_ele.style.gridColumnEnd = to_col.toString()
+            ob_ele.style.gridRowEnd = to_row.toString()
+            ob_ele.style.backgroundColor = 'rgb(0, 0, 0, 0)'
+            document.getElementById('map').insertBefore(ob_ele, next_cell)
+            var per = ob_ele.getBoundingClientRect()
+            if(per.height > per.width) ob_name_ele.style.transform = 'rotate(90deg)';
+        }
+    })
+}
