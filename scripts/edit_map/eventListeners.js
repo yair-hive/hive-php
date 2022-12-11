@@ -357,12 +357,6 @@ export const onMapAdd = ()=>{
     if(map.getAttribute('selectables') === 'tag'){
         if(selection.getSelection().length != 0) onAddTag()
     }
-    if(map.getAttribute('selectables') === 'guests'){
-        if(menu.correntItemIndex > -1){
-            onAddGuest(menu.correntItem)
-            menu.close()
-        }
-    }
 }
 export const onClickOutside = (event)=>{
     var map = document.getElementById('map')
@@ -409,12 +403,6 @@ export const onKeyBordDown = (event)=>{
         }
         if(event.keyCode == 13){
             onMapAdd()
-        }
-        if(event.keyCode == 38){
-            menu.onArrowUp()
-        }
-        if(event.keyCode == 40){
-            menu.onArrowDown()
         }
     }
     if(edit == 'yes'){
