@@ -3,6 +3,7 @@ import { onClickOutside, onEditSwitch, onKeyBordDown, onKeyBordUp, onMapAdd, onS
 import { zoom } from "./tooles.js"
 import api from "../api/api.js"
 import hiveSwitch from "../hiveSwitch.js"
+import scrolling_list from "./scrolling_list.js"
 
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
@@ -22,6 +23,15 @@ api.map.get(map_name).then(map => {add_map(map); map_id = map.id })
     document.addEventListener("keyup", onKeyBordUp)
     add_elements()
     zoom('mainBord')
+    var items = []
+    for(let i = 0; i < 30; i++){
+        var e = document.createElement('div')
+        e.textContent = 'hello world'
+        items.push(e)
+    }
+    var menu = document.getElementById('mneu')
+    var test_list = new scrolling_list(menu)
+    test_list.addItems(items)
 })
 var hiveSwitchOptions = {
     element_id: 'selecteblsSwitch', 
