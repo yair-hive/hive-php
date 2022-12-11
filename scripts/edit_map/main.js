@@ -1,9 +1,8 @@
 import {add_map, add_seats, add_guests, add_belong, add_elements} from "./elements.js"
-import { onClickOutside, onEditSwitch, onKeyBordDown, onKeyBordUp, onMapAdd, onSelecteblsSwitch, onShowSwitch } from "./eventListeners.js"
+import { onClickOutside, onEditSwitch, onGuestList, onKeyBordDown, onKeyBordUp, onMapAdd, onSelecteblsSwitch, onShowSwitch } from "./eventListeners.js"
 import { zoom } from "./tooles.js"
 import api from "../api/api.js"
 import hiveSwitch from "../hiveSwitch.js"
-import scrolling_list from "./scrolling_list.js"
 
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
@@ -21,6 +20,7 @@ api.map.get(map_name).then(map => {add_map(map); map_id = map.id })
     document.addEventListener('mousedown', onClickOutside)
     document.addEventListener("keydown", onKeyBordDown)
     document.addEventListener("keyup", onKeyBordUp)
+    document.getElementById('guest_list_input').addEventListener('input', onGuestList)
     add_elements()
     zoom('mainBord')
 })

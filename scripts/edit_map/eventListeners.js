@@ -401,11 +401,11 @@ export const onKeyBordDown = (event)=>{
             selection.disable()
             document.getElementById('map').setAttribute('isZoomed', 'true')
         }
+    }
+    if(edit == 'yes'){
         if(event.keyCode == 13){
             onMapAdd()
         }
-    }
-    if(edit == 'yes'){
         dragToScroll.enable()    
         selection.disable()
         document.getElementById('map').setAttribute('isZoomed', 'true')
@@ -490,5 +490,47 @@ export function onShowSwitch(active){
         case 'score':
             on_show_score()
             break;
+    }
+}
+export async function onGuestList(event){
+    var createMatchList = function(guests_data, inputBox){
+        var match_list = []
+        var input_str = inputBox.value
+        var search_str = '^'+input_str
+        if(input_str.length != 0){
+            var search_reg = new RegExp(search_str)
+            for(var corrent of guests_data){
+                if(search_reg.test(corrent.full_name)){
+                    match_list.push(corrent)
+                }
+            }
+        }
+        return match_list
+    }
+    var map = document.getElementById('map')
+    var guest_list = map.getAttribute('guests')
+    var res
+    var guests_with_belong = []
+    guest_list = JSON.parse(guest_list)
+    for(let i = 0; i < guest_list.length; i++){
+        var guest = guest_list[i]
+        guest.full_name = guest.last_name + ' ' + guest.first_name
+        res = await api.guest.get_belong(guest.id)
+        if(res[0]){
+            res = await api.seat.get_number(res[0].seat)
+            if(res) {
+                guest.seat_number = res[0].seat_number
+                guests_with_belong.push(guest)
+            }
+        }
+    }
+    var results = document.getElementById('results')
+    results.innerHTML = ''
+    var matchList = createMatchList(guests_with_belong, event.target)
+    for(let match of matchList){
+        var li = document.createElement('li')
+        console.log(match)
+        li.innerHTML = match.full_name+' <span class="seat_number"> | '+match.seat_number+'</span>' + ' <span class="group_name"> | '+match.guest_group+'</span>'
+        results.append(li)
     }
 }
