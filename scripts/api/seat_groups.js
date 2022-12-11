@@ -210,12 +210,12 @@ export const seat_groups = {
             }
         };         
         return fetch(api_url, options)
-        .then(res => res.text())
-        .then(res => alert(res))
-        // .then(res => res.json())
-        // .then((res)=>{
-        //     return res.msg
-        // })
+        // .then(res => res.text())
+        // .then(res => alert(res))
+        .then(res => res.json())
+        .then((res)=>{
+            return res.msg
+        })
     },
     update_tag_color: (id, color)=>{
         const options = {

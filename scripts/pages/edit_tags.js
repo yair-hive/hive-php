@@ -19,7 +19,7 @@ if(map_name){
                 var color_input = document.createElement('input')
                 color_input.setAttribute('type', 'color')
                 color_input.setAttribute('value', group.color)
-                td_name.textContent = group.group_name
+                td_name.textContent = group.tag_name
                 td_color.style.backgroundColor = group.color
                 td_score.textContent = group.score
                 td_color.classList.add('td_color')

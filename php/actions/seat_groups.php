@@ -1,4 +1,35 @@
 <?php
+function getTagId($group_name){
+    global $connection;
+    $query_string = "SELECT id FROM tags WHERE tag_name = '{$group_name}'";
+    $result = mysqli_query($connection, $query_string);
+    $result = mysqli_fetch_assoc($result);
+    if($result){
+        return $result['id'];
+    }else{
+        return false;
+    }
+};
+function getTagName($group_id){
+    global $connection;
+    $query_string = "SELECT tag_name FROM tags WHERE id = '{$group_id}'";
+    $result = mysqli_query($connection, $query_string);
+    $result = mysqli_fetch_assoc($result);
+    if($result){
+        return $result['tag_name'];
+    }else{
+        return false;
+    }
+};
+function createDefaultTag($tag_name, $map){
+    $name = $tag_name;
+    $color = '#2b4e81';
+    $score = 0;
+    $belong = $map;
+    global $connection;
+    $query_string = "INSERT INTO tags(tag_name, color, score, belong) VALUES('{$name}', '{$color}', '{$score}', '{$belong}')";
+    mysqli_query($connection, $query_string);
+}
 $seat_groups['create'] = function(){
     $name = $_POST['name'];
     $score = $_POST['score'];
@@ -17,10 +48,18 @@ $seat_groups['get_name'] = function(){
 };
 $seat_groups['add_col'] = function(){
     $seat = $_POST['seat'];
-    $group = $_POST['group'];
+    $group_name = $_POST['group'];
     $map = $_POST['map'];
-    $query_string = "INSERT INTO seat_groups_belong(seat, group_name, group_type, belong) VALUES('{$seat}', '{$group}', 'col', '{$map}')";
-    db_post($query_string);
+    $group_id = getTagId($group_name);
+    if($group_id){
+        $query_string = "INSERT INTO seat_groups_belong(seat, group_id, group_type, belong) VALUES('{$seat}', '{$group_id}', 'col', '{$map}')";
+        db_post($query_string);
+    }else{
+        createDefaultTag($group_name, $map);
+        $group_id = getTagId($group_name);
+        $query_string = "INSERT INTO seat_groups_belong(seat, group_id, group_type, belong) VALUES('{$seat}', '{$group_id}', 'col', '{$map}')";
+        db_post($query_string);
+    }
 };
 $seat_groups['get_groups_cols'] = function(){
     $map_id = $_POST['map_id'];
@@ -30,7 +69,8 @@ $seat_groups['get_groups_cols'] = function(){
 $seat_groups['get_seats_cols'] = function(){
     $map_id = $_POST['map_id'];
     $group_name = $_POST['group_name'];
-    $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_name = '{$group_name}' AND group_type = 'col'";
+    $group_id = getTagId($group_name);
+    $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_id = '{$group_id}' AND group_type = 'col'";
     db_get($query_string);
 };
 $seat_groups['add_ob'] = function(){
@@ -50,20 +90,45 @@ $seat_groups['get_ob'] = function(){
 };
 $seat_groups['add_tag'] = function(){
     $seat = $_POST['seat'];
-    $group = $_POST['group'];
+    $group_name = $_POST['group'];
     $map = $_POST['map'];
-    $query_string = "INSERT INTO seat_groups_belong(seat, group_name, group_type, belong) VALUES('{$seat}', '{$group}', 'tag', '{$map}')";
-    db_post($query_string);
+    $group_id = getTagId($group_name);
+    if($group_id){
+        $query_string = "INSERT INTO seat_groups_belong(seat, group_id, group_type, belong) VALUES('{$seat}', '{$group_id}', 'tag', '{$map}')";
+        db_post($query_string);
+    }else{
+        createDefaultTag($group_name, $map);
+        $group_id = getTagId($group_name);
+        $query_string = "INSERT INTO seat_groups_belong(seat, group_id, group_type, belong) VALUES('{$seat}', '{$group_id}', 'tag', '{$map}')";
+        db_post($query_string);
+    }
 };
 $seat_groups['get_groups_tags'] = function(){
     $map_id = $_POST['map_id'];
-    $query_string = "SELECT group_name FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_type = 'tag'";
-    db_get($query_string);
+    $query_string = "SELECT group_id FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_type = 'tag'";
+    global $connection;
+    $result = mysqli_query($connection, $query_string);
+    $results = [];
+    while($row = mysqli_fetch_assoc($result)){
+        $results[] = $row;
+    }
+    $tag_names = [];
+    foreach($results as $id){
+        $tagName = getTagName($id['group_id']);
+        if($tagName){
+            $tag_names[] = $tagName;
+        }
+    }
+    $res = [];
+    $res['msg'] = 'ok';
+    $res['data'] = $tag_names;
+    print_r(json_encode($res));
 };
 $seat_groups['get_seats_tags'] = function(){
     $map_id = $_POST['map_id'];
     $group_name = $_POST['group_name'];
-    $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_name = '{$group_name}' AND group_type = 'tag'";
+    $group_id = getTagId($group_name);
+    $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_id = '{$group_id}' AND group_type = 'tag'";
     db_get($query_string);
 };
 $seat_groups['create_tag'] = function(){
