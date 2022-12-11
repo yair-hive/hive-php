@@ -1,3 +1,5 @@
+import "../lib/jquery.min.js"
+
 const api_url = 'http://localhost/hive-php/php/api.php'
 
 export const seat_groups = {
@@ -199,4 +201,54 @@ export const seat_groups = {
             return res.msg
         })
     },
+    create_tag: (belong)=>{
+        const options = {
+            method: 'POST',
+            body: "category=seat_groups&action=create_tag&belong="+belong+"&"+$('#create_tag_form').serialize(),
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };         
+        return fetch(api_url, options)
+        .then(res => res.text())
+        .then(res => alert(res))
+        // .then(res => res.json())
+        // .then((res)=>{
+        //     return res.msg
+        // })
+    },
+    update_tag_color: (id, color)=>{
+        const options = {
+            method: 'POST',
+            body: "category=seat_groups&action=update_tag&color="+color+"&id="+id,
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };         
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
+        .then(res => res.json())
+        .then((res)=>{
+            return res.msg
+        })
+    },
+    get_all_tags: (map_id)=>{
+        const options = {
+            method: 'POST',
+            body: "category=seat_groups&action=get_all_tags&map_id="+map_id,
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };         
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
+        .then(res => res.json())
+        .then((res)=>{
+            if(res.msg == 'ok') return res.data
+            alert(res.msg)
+            return res.msg
+        })
+    }
 }
