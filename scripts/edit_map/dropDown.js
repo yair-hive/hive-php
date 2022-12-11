@@ -9,8 +9,10 @@ export default class {
         this.dropDown = document.getElementById('dropDown')
         this.inputBox = document.getElementById('inputBox')  
         this.scrolling_list = new scrolling_list(this.dropDown)
+        this.scrolling_list.test = function(){this.close()}.bind(this)
         this.scrolling_list.onItem = function(item){
             onAddGuest(item)
+            this.test()
             this.listElement.innerHTML = ''
         }
         this.createMatchList = this.createMatchList.bind(this)
