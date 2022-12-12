@@ -4,6 +4,7 @@ import { sortTable, sortTableNumber } from "../scripts.js"
 import api from '../api/api.js'
 import { onSeatNum, onTdFocusOut } from "./eventListeners.js"
 import MBloader from "../MBloader.js"
+import "../lib/read-excel-file.min.js"
 
 var loader = new MBloader()
 loader.add()
@@ -117,10 +118,10 @@ async function addSeatNum(){
 }
 function addThEvent(){
     document.getElementById("status").addEventListener('click', ()=>{sortTableNumber(0)})
-    document.getElementById("first").addEventListener('click', ()=>{sortTable(1)}) 
-    document.getElementById("last").addEventListener('click', ()=>{sortTable(2)})
-    document.getElementById("group").addEventListener('click', ()=>{sortTable(3)})
-    document.getElementById("score").addEventListener('click', ()=>{sortTableNumber(4)})
+    document.getElementById("first").addEventListener('click', ()=>{sortTable(2)}) 
+    document.getElementById("last").addEventListener('click', ()=>{sortTable(3)})
+    document.getElementById("group").addEventListener('click', ()=>{sortTable(5)})
+    document.getElementById("score").addEventListener('click', ()=>{sortTableNumber(5)})
 }
 function addTags(){
     document.querySelectorAll('.td_tag').forEach(td_tag => {
@@ -185,7 +186,7 @@ export const add_guests_table = (map_name, table)=>{
             tr = addTableRow(names[i]) 
             table.append(tr)
         }
-        respondToVisibility(tr, loader.stop)
+        if(names.length > 0) respondToVisibility(tr, loader.stop)
     })
     .then(addSeatNum)
     .then(addTags)
@@ -252,4 +253,75 @@ export function groups_list_script(){
 }
 export function groups_list(){
     return '<table id="groups_table"><tr><th> X </th><th> צבע </th><th> ניקוד </th><th> שם </th> </tr></table>'
+}
+export function add_guest_form(){
+    return `<form id='add_guest_form'>
+        <label for='first_name'> שם פרטי </label>
+        <br /> 
+        <input type='text' name='first_name'>  
+        <br />           
+        <label for="last_name"> שם משפחה </label>
+        <br /> 
+        <input type='text' name='last_name'>
+        <br /> 
+        <label for='guest_group'> שיעור </label>
+        <br /> 
+        <input type='text' name='guest_group'>
+        <br /> 
+        <div id='add_guest_button' class='hive-button'> הוסף </div> 
+    </form>`
+}
+export function add_guest_form_script(pop_up){
+    const parsedUrl = new URL(window.location.href)
+    var map_name = parsedUrl.searchParams.get("map_name")
+    var map_id = ''
+    api.map.get(map_name)
+    .then(res => map_id = res.id)
+    .then(()=>{
+        document.getElementById('add_guest_button').addEventListener('click', ()=>{
+            var data = []
+            data[0] = document.getElementById('add_guest_form')['first_name'].value
+            data[1] = document.getElementById('add_guest_form')['last_name'].value
+            data[2] = document.getElementById('add_guest_form')['guest_group'].value
+            api.guest.create(data, map_id)
+            .then(()=>{
+                document.getElementById('add_guest_form').reset()
+                pop_up.close()
+                location.reload()
+            })
+        })
+    })
+}
+export function import_guest_form(){
+    return `<form id='import_guests_form'>
+        <h2> ייבא בחורים </h2>
+        <label> בחר קובץ אקסאל </label> 
+        <br />
+        <input class="file_input" type="file" name="file" id="file" accept=".xls,.xlsx">
+        <br />
+        <div type="submit" id="submit" name="import" class="hive-button"> ייבא </div>	
+    </form>`
+}
+export function import_guest_form_script(pop_up){
+    const parsedUrl = new URL(window.location.href)
+    var map_name = parsedUrl.searchParams.get("map_name")
+    var map_id = ''
+    api.map.get(map_name)
+    .then(res => map_id = res.id)
+    .then(()=>{
+        document.getElementById('submit').addEventListener('click', ()=>{
+            var file = document.getElementById('file').files[0]    
+            readXlsxFile(file)
+            .then((rows)=>{
+                for(let i = 0; i < rows.length; i++){
+                    var row = rows[i]
+                    api.guest.create(row, map_id)
+                    if(i == (rows.length -1)) {
+                        pop_up.close()
+                        location.reload()
+                    }
+                }
+            })
+        })
+    })
 }

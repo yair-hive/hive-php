@@ -18,7 +18,6 @@ export default class {
         this.popUpHead.classList.add('popUpHead')
         this.popUpHead.setAttribute('id', 'popUpHead')
         this.popUpHead.addEventListener('click', this.close)
-        this.blur.setAttribute('id', 'blur')
         this.blur.classList.add('blur')
         this.popUp.setAttribute('id', 'popUp')
         this.popUp.classList.add('popUp')
@@ -29,13 +28,13 @@ export default class {
         this.blur.style.display = 'none'
     }
     open = function(){
-        this.popUpBody.innerHTML = this.body
+        // if(this.popUpBody.innerHTML != this.body) this.popUpBody.innerHTML = this.body
         this.blur.style.display = 'block'
-        this.onOpen()
+        this.onOpen(this)
     }
     close = function(){
         this.blur.style.display = 'none'
-        this.onClose()
+        this.onClose(this)
     }
     onClose(){}
     onOpen(){}
