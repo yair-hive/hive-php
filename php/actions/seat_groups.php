@@ -160,11 +160,21 @@ $seat_groups['create_tag'] = function(){
         }
     }
 };
-$seat_groups['update_tag'] = function(){
+$seat_groups['update_tag_color'] = function(){
     $color = $_POST['color'];
     $id = $_POST['id'];
     global $connection;
     $query_string = "UPDATE tags SET color = '{$color}' WHERE  id = '{$id}'";
+    if(mysqli_query($connection, $query_string)){
+        $respons['msg'] = 'ok';
+        print_r(json_encode($respons));
+    }
+};
+$seat_groups['update_tag_name'] = function(){
+    $name = $_POST['name'];
+    $id = $_POST['id'];
+    global $connection;
+    $query_string = "UPDATE tags SET tag_name = '{$name}' WHERE  id = '{$id}'";
     if(mysqli_query($connection, $query_string)){
         $respons['msg'] = 'ok';
         print_r(json_encode($respons));

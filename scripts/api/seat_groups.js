@@ -220,7 +220,23 @@ export const seat_groups = {
     update_tag_color: (id, color)=>{
         const options = {
             method: 'POST',
-            body: "category=seat_groups&action=update_tag&color="+color+"&id="+id,
+            body: "category=seat_groups&action=update_tag_color&color="+color+"&id="+id,
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };         
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
+        .then(res => res.json())
+        .then((res)=>{
+            return res.msg
+        })
+    },
+    update_tag_name: (id, name)=>{
+        const options = {
+            method: 'POST',
+            body: "category=seat_groups&action=update_tag_name&name="+name+"&id="+id,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }

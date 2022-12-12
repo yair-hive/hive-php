@@ -19,7 +19,14 @@ if(map_name){
                 var color_input = document.createElement('input')
                 color_input.setAttribute('type', 'color')
                 color_input.setAttribute('value', group.color)
-                td_name.textContent = group.tag_name
+                var name_input = document.createElement('input')
+                name_input.value = group.tag_name
+                name_input.addEventListener('focusout', (e)=>{
+                    var id = e.target.parentNode.parentNode.getAttribute('group_id')
+                    var name = e.target.value
+                    api.seat_groups.update_tag_name(id, name)
+                })
+                td_name.append(name_input)
                 td_color.style.backgroundColor = group.color
                 td_score.textContent = group.score
                 td_color.classList.add('td_color')
