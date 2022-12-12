@@ -540,7 +540,7 @@ export async function onGuestList(event){
     for(let match of matchList){
         var li = document.createElement('li')
         console.log(match)
-        li.innerHTML = match.full_name+' <span class="seat_number"> | '+match.seat_number+'</span>' + ' <span class="group_name"> | '+match.guest_group+'</span>'
+        li.innerHTML = match.full_name+' <span class="seat_number"> | '+match.seat_number+'</span>' + ' <span class="seat_number"> | '+match.guest_group+'</span>'
         results.append(li)
     }
 }
