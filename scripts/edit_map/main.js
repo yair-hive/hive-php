@@ -4,6 +4,7 @@ import { zoom } from "./tooles.js"
 import api from "../api/api.js"
 import hiveSwitch from "../hiveSwitch.js"
 import popUp from "../popUp.js"
+import { resizeAllInputs } from "../scripts.js"
 
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
@@ -19,7 +20,12 @@ api.map.get(map_name).then(map => {add_map(map); map_id = map.id })
 .then(()=>{
     var tags_pop_up = new popUp('תגיות', tags_list())
     tags_pop_up.onClose = on_show_tags
-    tags_pop_up.onOpen = tags_list_script
+    tags_pop_up.onOpen = function(){
+        tags_list_script()
+        .then(()=>{
+            resizeAllInputs()
+        })
+    }
     document.getElementById('add_button').addEventListener('click', onMapAdd)
     document.addEventListener('mousedown', onClickOutside)
     document.addEventListener("keydown", onKeyBordDown)

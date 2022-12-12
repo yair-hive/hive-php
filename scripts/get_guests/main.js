@@ -1,5 +1,6 @@
 import hiveSwitch from "../hiveSwitch.js"
 import popUp from "../popUp.js"
+import { resizeAllInputs } from "../scripts.js"
 import { add_guests_table, groups_list, groups_list_script } from "./elements.js"
 import { onExportTable, onBelongSwitch, onKeyBordDown, onGroupsSwitch } from "./eventListeners.js"
 
@@ -30,4 +31,5 @@ add_guests_table(map_name, table)
     document.getElementById("groups_list_button").addEventListener('click', ()=> {
         guest_groups_pop_up.open()
     })
+    resizeAllInputs()
 })

@@ -23,6 +23,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     background-color: rgb(110, 184, 174);
     border-radius: 0 0 10px 10px;
     overflow: auto;

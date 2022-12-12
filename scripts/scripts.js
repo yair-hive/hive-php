@@ -267,3 +267,13 @@ export function exportTableToExcel(tableSelect, filename = ''){
         downloadLink.click();
     }
 }
+export function resizeAllInputs(){
+    document.querySelectorAll('input').forEach(function(input){
+        input.addEventListener('input', resizeInput); 
+        resizeInput.call(input)
+    })
+    
+    function resizeInput() {
+      this.style.width = this.value.length + "ch";
+    }
+}
