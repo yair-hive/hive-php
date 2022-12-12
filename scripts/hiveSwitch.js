@@ -36,11 +36,13 @@ export default function(options, callback){
         })
     }
     document.addEventListener('keydown', (e)=>{
-        for(let key of options.keys){
-            if(e.key == key){
-                active = hiveSwitchMove(itemsList, active).replace('_', ' ')
-                hiveSwitchChenge(element, active)
-                callback(active)
+        if(e.ctrlKey || e.metaKey){
+            for(let key of options.keys){
+                if(e.key == key){
+                    active = hiveSwitchMove(itemsList, active).replace('_', ' ')
+                    hiveSwitchChenge(element, active)
+                    callback(active)
+                }
             }
         }
     })

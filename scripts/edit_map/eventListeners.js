@@ -456,6 +456,9 @@ export function onEditSwitch(active){
             selection.enable()
             map.setAttribute('isZoomed', 'true')
             on_show_tags()
+            document.querySelectorAll('.name_box').forEach(box =>{
+                box.style.backgroundColor = 'rgba(146, 136, 209, 0.8)'
+            })
             break;
         case 'no edit':
             edit_menu.style.display = 'none'

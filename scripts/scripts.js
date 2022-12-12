@@ -274,6 +274,8 @@ export function resizeAllInputs(){
     })
     
     function resizeInput() {
-      this.style.width = this.value.length + "ch";
+        var l = Number(this.value.length)
+        l = l + 3
+      this.style.width = l + "ch";
     }
 }

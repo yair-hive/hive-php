@@ -158,10 +158,10 @@ export function onGroupsSwitch(active){
 }
 export function onTdFocusOut(e){
     var data = []
-    data[0] = e.target.parentNode.parentNode.childNodes[2].childNodes[0].value
-    data[1] = e.target.parentNode.parentNode.childNodes[1].childNodes[0].value
-    data[2] = e.target.parentNode.parentNode.childNodes[3].childNodes[0].value
-    data[3] = e.target.parentNode.parentNode.childNodes[4].textContent
+    data[0] = e.target.parentNode.parentNode.childNodes[3].childNodes[0].value
+    data[1] = e.target.parentNode.parentNode.childNodes[2].childNodes[0].value
+    data[2] = e.target.parentNode.parentNode.childNodes[4].childNodes[0].value
+    data[3] = e.target.parentNode.parentNode.childNodes[5].textContent
     var map_id = e.target.parentNode.parentNode.parentNode.getAttribute('map_id')
     var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
     api.guest.update(data, map_id, guest_id)

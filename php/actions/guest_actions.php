@@ -198,10 +198,17 @@ $guest_actions['update'] = function(){
         $guest_id = $_POST['guest_id'];
         $map_id = $_POST['map_id'];  
         if(!empty($first_name) && !empty($last_name) && !empty($guest_group)){
-            global $connection;   
-            $score = getGroupScore($map_id, $guest_group);  
-            $query_string = "UPDATE guests SET first_name = '{$first_name}', last_name = '{$last_name}', guest_group = '{$guest_group}', score = '{$score}', belong = '{$map_id}' WHERE id= '{$guest_id}'";
-            db_post($query_string);
+            global $connection; 
+            $guest_group_id = getGroupId($map_id, $guest_group);
+            if($guest_group_id){
+                $query_string = "UPDATE guests SET first_name = '{$first_name}', last_name = '{$last_name}', guest_group = '{$guest_group_id}', belong = '{$map_id}' WHERE id= '{$guest_id}'";
+                db_post($query_string);
+            }else{
+                createDefaultGroup($map_id, $guest_group);
+                $guest_group_id = getGroupId($map_id, $guest_group);
+                $query_string = "UPDATE guests SET first_name = '{$first_name}', last_name = '{$last_name}', guest_group = '{$guest_group_id}', belong = '{$map_id}' WHERE id= '{$guest_id}'";
+                db_post($query_string);
+            }
         }else{
             $respons['msg'] = 'faild empty';
             print_r(json_encode($respons));
