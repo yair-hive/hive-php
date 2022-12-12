@@ -98,10 +98,6 @@ export const add_guests = (guests)=>{
     var map_id = map_ele.getAttribute('map_id')
     api.guest.get_all_groups(map_id)
     .then((groups)=>{
-        var groups_press = JSON.stringify(groups)
-        var guests_press = JSON.stringify(guests)
-        map_ele.setAttribute('guests', guests_press)
-        map_ele.setAttribute('groups', groups_press)
         var name_boxs = document.querySelectorAll('.name_box')
         var l = guests.length
         var i = 1
@@ -111,8 +107,10 @@ export const add_guests = (guests)=>{
         for(var c = 0; c < l; c++){
             var guest_group = guests[c].guest_group
             for(let group of groups){
-                if(group.group_name == guest_group){
+                if(group.id == guest_group){
                     guests[c].color = group.color
+                    guests[c].group_id = guests[c].guest_group
+                    guests[c].guest_group = group.group_name
                 }
             }
         }
@@ -136,6 +134,10 @@ export const add_guests = (guests)=>{
                 }
             }
         }) 
+        var groups_press = JSON.stringify(groups)
+        var guests_press = JSON.stringify(guests)
+        map_ele.setAttribute('guests', guests_press)
+        map_ele.setAttribute('groups', groups_press)
         loader.stop()
     })
 }

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: דצמבר 12, 2022 בזמן 11:28 AM
--- גרסת שרת: 10.4.6-MariaDB
--- PHP Version: 7.2.22
+-- Generation Time: דצמבר 12, 2022 בזמן 07:45 PM
+-- גרסת שרת: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 

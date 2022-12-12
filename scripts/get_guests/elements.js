@@ -53,6 +53,15 @@ function tdTags(){
 }
 
 function addTableRow(name){
+    var table = document.getElementById('names_table')
+    var groups_to_press = table.getAttribute('groups')
+    var groups = JSON.parse(groups_to_press)
+    for(let group of groups){
+        if(group.id == name.guest_group){
+            name.group_id = name.guest_group
+            name.guest_group = group.group_name
+        }
+    }
     var tdX = tableDeleteGuestButton()
     var tdSeatNum = seatNumCell(name.id)
     var td_tags = tdTags()
@@ -71,8 +80,8 @@ function addTableRow(name){
 function getGroups(names){
     var groups = []
     for(let name of names){
-        if(groups.indexOf(name.guest_group) == -1){
-            groups.push(name.guest_group)
+        if(groups.indexOf(name.group_name) == -1){
+            groups.push(name.group_name)
         }
     }
     return groups
@@ -176,13 +185,27 @@ export const add_guests_table = (map_name, table)=>{
     return api.map.get(map_name)
     .then((res)=>{
         table.setAttribute('map_id', res.id)
-        return api.guest.get_all(res.id)
+    })
+    .then(()=>{
+        var map_id = table.getAttribute('map_id')
+        return api.guest.get_all_groups(map_id)
+        .then((groups)=>{
+            var groups_press = JSON.stringify(groups)
+            table.setAttribute('groups', groups_press)
+            return groups
+        })
+    })
+    .then((groups)=>{
+        addGroupsSwitch(getGroups(groups))
+    })
+    .then(()=>{
+        var map_id = table.getAttribute('map_id')
+        return api.guest.get_all(map_id)
     })
     .then((names)=>{
         var tr, i
-        addGroupsSwitch(getGroups(names))
         if(names.length == 0) loader.stop()
-        for (i = 0; i < names.length; i++){             
+        for (i = 0; i < names.length; i++){          
             tr = addTableRow(names[i]) 
             table.append(tr)
         }
@@ -287,7 +310,7 @@ export function add_guest_form_script(pop_up){
             .then(()=>{
                 document.getElementById('add_guest_form').reset()
                 pop_up.close()
-                location.reload()
+                // location.reload()
             })
         })
     })
@@ -318,7 +341,7 @@ export function import_guest_form_script(pop_up){
                     api.guest.create(row, map_id)
                     if(i == (rows.length -1)) {
                         pop_up.close()
-                        location.reload()
+                        // location.reload()
                     }
                 }
             })

@@ -21,6 +21,24 @@ function getGroupScore($map_id, $group_name){
     }
     return null;
 }
+function getGroupId($map_id, $group_name){
+    global $connection; 
+    $query_string = "SELECT * FROM guests_groups WHERE group_name = '{$group_name}' AND belong = '{$map_id}'";
+    $result = mysqli_query($connection, $query_string);
+    $result = mysqli_fetch_assoc($result);
+    if($result){
+        return $result['id'];
+    }else{
+        return false;
+    }
+}
+function createDefaultGroup($map_id, $group_name){
+    global $connection; 
+    $color = '#2b4e81';
+    $score = 0;
+    $query_string = "INSERT INTO guests_groups(group_name, color, score, belong) VALUES('{$group_name}', '{$color}', '{$score}', '{$map_id}')";
+    mysqli_query($connection, $query_string);
+}
 
 $guest_actions['create'] = function(){
     if(allowed('writing')){
@@ -33,9 +51,16 @@ $guest_actions['create'] = function(){
             $query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}' AND guest_group='{$guest_group}' AND belong='{$map_id}'";
             if($result = mysqli_query($connection, $query_string)){
                 if(mysqli_num_rows($result) == 0){
-                    $score = getGroupScore($map_id, $guest_group);
-                    $query_string = "INSERT INTO guests(first_name, last_name, guest_group, score, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group}', '{$score}', '{$map_id}')";
-                    db_post($query_string);
+                    $guest_group_id = getGroupId($map_id, $guest_group);
+                    if($guest_group_id){
+                        $query_string = "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group_id}', '{$map_id}')";
+                        db_post($query_string);
+                    }else{
+                        createDefaultGroup($map_id, $guest_group);
+                        $guest_group_id = getGroupId($map_id, $guest_group);
+                        $query_string = "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group_id}', '{$map_id}')";
+                        db_post($query_string);
+                    }
                 }else{
                     $respons['msg'] = 'allrdy axist';
                     print_r(json_encode($respons));
