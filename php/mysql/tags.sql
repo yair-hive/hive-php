@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: דצמבר 12, 2022 בזמן 11:28 AM
+-- Generation Time: דצמבר 12, 2022 בזמן 11:30 AM
 -- גרסת שרת: 10.4.6-MariaDB
 -- PHP Version: 7.2.22
 
@@ -25,25 +25,25 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- מבנה טבלה עבור טבלה `seat_groups_belong`
+-- מבנה טבלה עבור טבלה `tags`
 --
 
-CREATE TABLE `seat_groups_belong` (
+CREATE TABLE `tags` (
   `id` int(11) NOT NULL,
-  `seat` int(11) NOT NULL,
-  `group_id` varchar(25) NOT NULL,
-  `group_type` varchar(20) NOT NULL,
+  `tag_name` varchar(25) CHARACTER SET utf8mb4 NOT NULL,
+  `color` varchar(25) CHARACTER SET utf8mb4 NOT NULL,
+  `score` int(11) NOT NULL,
   `belong` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- אינדקסים לטבלה `seat_groups_belong`
+-- אינדקסים לטבלה `tags`
 --
-ALTER TABLE `seat_groups_belong`
+ALTER TABLE `tags`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -51,9 +51,9 @@ ALTER TABLE `seat_groups_belong`
 --
 
 --
--- AUTO_INCREMENT for table `seat_groups_belong`
+-- AUTO_INCREMENT for table `tags`
 --
-ALTER TABLE `seat_groups_belong`
+ALTER TABLE `tags`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
