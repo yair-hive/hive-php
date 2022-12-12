@@ -9,6 +9,9 @@ const menu = new dropDown()
 const selection = create_selection()
 const dragToScroll = DragToScroll()
 
+dragToScroll.enable()    
+selection.disable()
+
 function proximity_score(){
     return new Promise((resolve, reject) => {
         var score, map, map_rows, map_cols, seat, cols_middle, i, col_num, row_num
@@ -451,6 +454,9 @@ export function onEditSwitch(active){
             edit_menu.style.display = 'flex'
             map_menu.style.display = 'none'
             map.setAttribute('edit', 'yes')
+            dragToScroll.disable()   
+            selection.enable()
+            map.setAttribute('isZoomed', 'true')
             on_show_tags()
             break;
         case 'no edit':
