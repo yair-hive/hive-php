@@ -45,13 +45,20 @@ function tableTdInput(value){
     td.append(input)
     return td
 }
+function tdTags(){
+    var td = document.createElement('td')
+    return td
+}
+
 function addTableRow(name){
     var tdX = tableDeleteGuestButton()
     var tdSeatNum = seatNumCell(name.id)
+    var td_tags = tdTags()
     var tdScore = document.createElement('td')
     tdScore.textContent = name.score
     var tr = tableRow(name)
     tr.append(tdSeatNum)
+    tr.append(td_tags)
     tr.append(tableTdInput(name.last_name))
     tr.append(tableTdInput(name.first_name))
     tr.append(tableTdInput(name.guest_group))
@@ -78,31 +85,33 @@ function addGroupsSwitch(groups){
         groupsSwitch.append(div)
     }
 }
-function addSeatNum(){
-    document.querySelectorAll('.seat_num').forEach(element => {
-        var guest_id = element.getAttribute('guest_id')
-        api.guest.get_belong(guest_id)
-        .then((res)=>{
+async function addSeatNum(){
+    return new Promise(async (resolve, reject) => {
+        var num_cells = document.querySelectorAll('.seat_num')
+        for(let i = 0; i < num_cells.length; i++){
+            var element = num_cells[i]
+            var guest_id = element.getAttribute('guest_id')
+            var res = await api.guest.get_belong(guest_id)
             var color, text
             if(res[0]){
                 color = 'green'
                 text = res[0].seat
+                element.parentNode.setAttribute('seat_id', res[0].seat)
             }else{
                 color = 'grey'
                 text = 'none'
             }
-            api.seat.get_number(text)
-            .then(seat => {
-                if(seat[0]) {
-                    element.textContent = seat[0].seat_number
-                    element.addEventListener('click', onSeatNum)
-                    element.setAttribute('belong', 'true')
-                }                          
-            })
+            var seat = await api.seat.get_number(text)
+            if(seat[0]) {
+                element.textContent = seat[0].seat_number
+                element.addEventListener('click', onSeatNum)
+                element.setAttribute('belong', 'true')
+            }                          
             element.style.backgroundColor = color
             element.setAttribute('seat_id', text) 
-            element.setAttribute('show', 'true')                   
-        })
+            element.setAttribute('show', 'true') 
+            if(i == (num_cells.length -1)) resolve()                
+        }
     })
 }
 function addThEvent(){
