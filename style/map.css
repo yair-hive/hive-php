@@ -46,12 +46,16 @@
 .seat_number{
     color: #344052;
 }
+.ele{
+    background-color: rgb(54, 48, 45);
+    margin: 2.5px;
+}
 .ele.selected{
     border-radius: 0.25rem;
     border-style: solid;
     border-width: 0.1px;
     border-color: #7a8392;
-    background: #555b66;
+    background-color: #555b66;
 }
 .num_box, .name_box{
     width: 120px;

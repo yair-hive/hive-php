@@ -140,11 +140,11 @@ function getGroupColor(guest_group){
     }
     return false
 }
-function changeSelectables(selectable, notSelectable){
+function changeSelectables(selectable){
     selection.clearSelection()
     document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+    document.querySelectorAll('.selectable').forEach(e => e.classList.remove("selectable"))
     document.querySelectorAll('.'+selectable).forEach(e => e.classList.add('selectable'))
-    document.querySelectorAll('.'+notSelectable).forEach(e => e.classList.remove('selectable'))
     selection.resolveSelectables()
 }
 const clearSelection = ()=>{
@@ -475,19 +475,20 @@ export function onSelecteblsSwitch(active){
     var map = document.getElementById('map')
     switch(active){
         case 'seats':
-            changeSelectables('seat', 'cell')
+            changeSelectables('seat')
             map.setAttribute('selectables', 'seat')
             break;
         case 'cells':
-            changeSelectables('cell', 'seat')
+            changeSelectables('cell')
             map.setAttribute('selectables', 'cell')
             break;
         case 'elements':
             map.setAttribute('selectables', 'element')
-            changeSelectables('cell', 'seat')
+            changeSelectables('cell')
+            document.querySelectorAll('.map_ob').forEach(e => e.classList.add('selectable'))
             break;
         case 'tags':
-            changeSelectables('seat', 'cell')
+            changeSelectables('seat')
             map.setAttribute('selectables', 'tag')
             break;
     }
