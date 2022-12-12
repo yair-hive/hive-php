@@ -210,5 +210,23 @@ export const guest = {
             alert(res.msg)
             return res.msg
         })
-    }
+    },
+    update_guest_score: (guest_id, score)=>{
+        const options = {
+            method: 'POST',
+            body: "category=guest&action=update_guest_score&guest_id="+guest_id+"&score="+score,
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
+        .then(res => res.json())
+        .then((res)=>{
+            if(res.msg == 'ok') return res.msg
+            alert(res.msg)
+            return res.msg
+        })
+    },
 }

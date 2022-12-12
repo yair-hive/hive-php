@@ -338,3 +338,9 @@ $guest_actions['update_group_score'] = function(){
         print_r(json_encode($respons));
     }
 };
+$guest_actions['update_guest_score'] = function(){
+    $guest_id = $_POST['guest_id'];
+    $score = $_POST['score'];
+    $query_string = "UPDATE guests SET score = '{$score}' WHERE id = '{$guest_id}'";
+    db_post($query_string);
+};
