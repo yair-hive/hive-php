@@ -47,6 +47,7 @@ function tableTdInput(value){
 }
 function tdTags(){
     var td = document.createElement('td')
+    td.classList.add('td_tag')
     return td
 }
 
@@ -121,6 +122,54 @@ function addThEvent(){
     document.getElementById("group").addEventListener('click', ()=>{sortTable(3)})
     document.getElementById("score").addEventListener('click', ()=>{sortTableNumber(4)})
 }
+function addTags(){
+    document.querySelectorAll('.td_tag').forEach(td_tag => {
+        var tags_cont = document.createElement('div')
+        tags_cont.classList.add('tags_cont')
+        td_tag.replaceChildren(tags_cont)
+    })
+    var names = []
+    var tags_data = []
+    var table = document.getElementById('names_table') 
+    var map_id = table.getAttribute('map_id')
+    api.seat_groups.get_groups_tags(map_id)
+    .then(res => {
+        for(let group_name of res){
+            if(names.indexOf(group_name.tag_name) === -1){
+                names.push(group_name.tag_name)
+                tags_data.push(group_name)
+            }
+        }
+        for(let tag of tags_data){
+            var name = tag.tag_name
+            api.seat_groups.get_seats_tags(map_id, name)
+            .then(seats => {
+                seats = seats.map(seat => seat.seat)
+                for(let seat of seats){
+                    var tr_ele = document.querySelector('tr[seat_id = "'+seat+'"]')
+                    if(tr_ele){
+                        var tag_box = document.createElement('div')
+                        tag_box.classList.add('tag_box')
+                        tag_box.style.backgroundColor = tag.color
+                        tag_box.textContent = tag.tag_name
+                        var td_tag = tr_ele.querySelector('.td_tag')
+                        var tags_cont = td_tag.children[0]
+                        tags_cont.append(tag_box)
+                        var p = td_tag.getBoundingClientRect()
+                        var c = tags_cont.getBoundingClientRect()
+                        var scale = 1
+                        while(p.width < c.width){
+                            scale = scale - 0.01
+                            tags_cont.style.transform = `scale(${scale})`
+                            p = td_tag.getBoundingClientRect()
+                            c = tags_cont.getBoundingClientRect()
+                        }
+                    }
+                }
+            })
+        }
+    })
+}
 export const add_guests_table = (map_name, table)=>{
     loader.start()
     return api.map.get(map_name)
@@ -139,6 +188,7 @@ export const add_guests_table = (map_name, table)=>{
         respondToVisibility(tr, loader.stop)
     })
     .then(addSeatNum)
+    .then(addTags)
     .then(addThEvent)
 }
 export function groups_list_script(){

@@ -63,6 +63,19 @@ td > input{
     padding-left: 10px;
     width: 100px;
 }
+.tags_cont{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tag_box{
+    white-space: nowrap;
+    background-color: #4f90f2;
+    margin: 1px;
+    padding: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
 .td_color{
     padding: 0 !important;
 }
