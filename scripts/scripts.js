@@ -268,7 +268,7 @@ export function exportTableToExcel(tableSelect, filename = ''){
     }
 }
 export function resizeAllInputs(){
-    document.querySelectorAll('input').forEach(function(input){
+    document.querySelectorAll('td > input').forEach(function(input){
         input.addEventListener('input', resizeInput); 
         resizeInput.call(input)
     })
