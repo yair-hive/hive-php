@@ -60,6 +60,9 @@ function addTableRow(name){
         if(group.id == name.guest_group){
             name.group_id = name.guest_group
             name.guest_group = group.group_name
+            name.score = Number(name.score)
+            group.score = Number(group.score)
+            name.score = name.score + group.score
         }
     }
     var tdX = tableDeleteGuestButton()
@@ -233,11 +236,21 @@ export function groups_list_script(){
                     var td_score = document.createElement('td')
                     var td_x = document.createElement('td')
                     var color_input = document.createElement('input')
+                    var score_input = document.createElement('input')
+                    score_input.setAttribute('type', 'text')
                     color_input.setAttribute('type', 'color')
                     color_input.setAttribute('value', group.color)
                     td_name.textContent = group.group_name
                     td_color.style.backgroundColor = group.color
-                    td_score.textContent = group.score
+                    score_input.setAttribute('value', group.score)
+                    score_input.style.width = '30px'
+                    score_input.style.textAlign = 'center'
+                    score_input.addEventListener('focusout', (event)=>{
+                        var group_id = event.target.parentNode.parentNode.getAttribute('group_id')
+                        var score = event.target.value
+                        api.guest.update_group_score(group_id, score) 
+                    })
+                    td_score.append(score_input)
                     td_color.classList.add('td_color')
                     color_input.style.padding = '0'
                     color_input.style.margin = '0'
@@ -275,7 +288,14 @@ export function groups_list_script(){
     }
 }
 export function groups_list(){
-    return '<table id="groups_table"><tr><th> X </th><th> צבע </th><th> ניקוד </th><th> שם </th> </tr></table>'
+    return `<table id="groups_table">
+        <tr>
+            <th> X </th>
+            <th> צבע </th>
+            <th> ניקוד </th>
+            <th> שם </th> 
+        </tr>
+    </table>`
 }
 export function add_guest_form(){
     return `<form id='add_guest_form'>
