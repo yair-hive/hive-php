@@ -4,13 +4,14 @@ export default class {
     popUpHead = document.createElement('div')
     popUpBody = document.createElement('div')
     body
+    test = 'sfffs'
     constructor(title, body){
         this.open = this.open.bind(this)
         this.close = this.close.bind(this)
         this.body = body
         var blur = document.getElementById('blur')
         if(blur) blur.remove()
-        this.popUpBody.append(body)
+        this.popUpBody.innerHTML = body
         this.popUpHead.append(title)
         this.popUpBody.setAttribute('id', 'popUpBody')
         this.popUpBody.classList.add('popUpBody')
@@ -28,8 +29,7 @@ export default class {
         this.blur.style.display = 'none'
     }
     open = function(){
-        this.popUpBody.innerHTML = ''
-        this.popUpBody.append(this.body)
+        this.popUpBody.innerHTML = this.body
         this.blur.style.display = 'block'
         this.onOpen()
     }

@@ -1,5 +1,6 @@
 import hiveSwitch from "../hiveSwitch.js"
-import { add_guests_table } from "./elements.js"
+import popUp from "../popUp.js"
+import { add_guests_table, groups_list, groups_list_script } from "./elements.js"
 import { onExportTable, onBelongSwitch, onKeyBordDown, onGroupsSwitch } from "./eventListeners.js"
 
 const parsedUrl = new URL(window.location.href)
@@ -22,6 +23,11 @@ document.getElementById('export').addEventListener('click', onExportTable)
 
 add_guests_table(map_name, table)
 .then(()=>{
+    var guest_groups_pop_up = new popUp('בחורים', groups_list())
+    guest_groups_pop_up.onOpen = groups_list_script
     hiveSwitch(groupsSwitchOptions, onGroupsSwitch)
     hiveSwitch(belongSwitchOptions, onBelongSwitch)
+    document.getElementById("groups_list_button").addEventListener('click', ()=> {
+        guest_groups_pop_up.open()
+    })
 })

@@ -244,7 +244,5 @@ export function tags_list_script(){
     }
 }
 export function tags_list(){
-    var tags_list_ele = document.createElement('div')
-    tags_list_ele.innerHTML = '<table id="tags_table"><tr><th> X </th><th> צבע </th><th> ניקוד </th><th> שם </th></tr></table>'
-    return tags_list_ele
+    return '<table id="tags_table"><tr><th> X </th><th> צבע </th><th> ניקוד </th><th> שם </th></tr></table>'
 }
