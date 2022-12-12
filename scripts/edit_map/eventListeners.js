@@ -156,7 +156,7 @@ function create_col_group(group_name){
         api.seat_groups.add_col(seat_id, group_name, map_id)
     })
 }
-function on_show_tags(){
+export function on_show_tags(){
     document.querySelectorAll('.seat').forEach(seat => {
         var tags_cont = document.createElement('div')
         tags_cont.classList.add('tags_cont')

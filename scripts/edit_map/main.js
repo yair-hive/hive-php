@@ -1,8 +1,9 @@
-import {add_map, add_seats, add_guests, add_belong, add_elements} from "./elements.js"
-import { onClickOutside, onEditSwitch, onGuestList, onKeyBordDown, onKeyBordUp, onMapAdd, onSelecteblsSwitch, onShowSwitch } from "./eventListeners.js"
+import {add_map, add_seats, add_guests, add_belong, add_elements, tags_list, tags_list_script} from "./elements.js"
+import { onClickOutside, onEditSwitch, onGuestList, onKeyBordDown, onKeyBordUp, onMapAdd, onSelecteblsSwitch, onShowSwitch, on_show_tags } from "./eventListeners.js"
 import { zoom } from "./tooles.js"
 import api from "../api/api.js"
 import hiveSwitch from "../hiveSwitch.js"
+import popUp from "../popUp.js"
 
 const parsedUrl = new URL(window.location.href)
 var map_name = parsedUrl.searchParams.get("map_name")
@@ -16,11 +17,18 @@ api.map.get(map_name).then(map => {add_map(map); map_id = map.id })
 .then(() => api.guest.get_all(map_id))
 .then(guests => add_guests(guests))
 .then(()=>{
+    var tags_pop_up = new popUp('תגיות', tags_list())
+    tags_pop_up.onClose = function(){
+        on_show_tags()
+    }
     document.getElementById('add_button').addEventListener('click', onMapAdd)
     document.addEventListener('mousedown', onClickOutside)
     document.addEventListener("keydown", onKeyBordDown)
     document.addEventListener("keyup", onKeyBordUp)
     document.getElementById('guest_list_input').addEventListener('input', onGuestList)
+    document.getElementById('tags_list_button').addEventListener('click', ()=>{
+        tags_pop_up.open(tags_list(), tags_list_script)
+    })
     add_elements()
     zoom('mainBord')
 })
