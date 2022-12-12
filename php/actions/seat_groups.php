@@ -10,13 +10,13 @@ function getTagId($group_name){
         return false;
     }
 };
-function getTagName($group_id){
+function getTagData($group_id){
     global $connection;
-    $query_string = "SELECT tag_name FROM tags WHERE id = '{$group_id}'";
+    $query_string = "SELECT * FROM tags WHERE id = '{$group_id}'";
     $result = mysqli_query($connection, $query_string);
     $result = mysqli_fetch_assoc($result);
     if($result){
-        return $result['tag_name'];
+        return $result;
     }else{
         return false;
     }
@@ -114,7 +114,7 @@ $seat_groups['get_groups_tags'] = function(){
     }
     $tag_names = [];
     foreach($results as $id){
-        $tagName = getTagName($id['group_id']);
+        $tagName = getTagData($id['group_id']);
         if($tagName){
             $tag_names[] = $tagName;
         }

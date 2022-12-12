@@ -163,24 +163,27 @@ function on_show_tags(){
         seat.children[1].replaceChildren(tags_cont)
     })
     var names = []
+    var tags_data = []
     var map_id = document.getElementById('map').getAttribute('map_id')
     api.seat_groups.get_groups_tags(map_id)
     .then(res => {
         for(let group_name of res){
-            if(names.indexOf(group_name.group_name) === -1){
-                names.push(group_name.group_name)
+            if(names.indexOf(group_name.tag_name) === -1){
+                names.push(group_name.tag_name)
+                tags_data.push(group_name)
             }
         }
-        for(let name of names){
+        for(let tag of tags_data){
+            var name = tag.tag_name
             api.seat_groups.get_seats_tags(map_id, name)
             .then(seats => {
                 seats = seats.map(seat => seat.seat)
                 for(let seat of seats){
                     var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
-                    // console.log(seat_ele)
                     var tag_box = document.createElement('div')
                     tag_box.classList.add('tag_box')
-                    tag_box.textContent = name
+                    tag_box.style.backgroundColor = tag.color
+                    tag_box.textContent = tag.tag_name
                     var name_box = seat_ele.children[1]
                     var tags_cont = name_box.children[0]
                     tags_cont.append(tag_box)
