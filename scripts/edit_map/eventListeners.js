@@ -401,19 +401,17 @@ export const onClickOutside = (event)=>{
 export const onKeyBordDown = (event)=>{
     var map = document.getElementById('map')
     var edit = map.getAttribute('edit')
-    if(edit == 'no'){
-        if(event.key == 'g' || event.key == 'ע'){
-            dragToScroll.enable()    
-            selection.disable()
-            document.getElementById('map').setAttribute('isZoomed', 'true')
-        }
-    }
     if(edit == 'yes'){
         if(event.keyCode == 13){
             onMapAdd()
         }
         dragToScroll.enable()    
         selection.disable()
+        if(event.key == 'g' || event.key == 'ע'){
+            dragToScroll.enable()    
+            selection.disable()
+            document.getElementById('map').setAttribute('isZoomed', 'true')
+        }
         document.getElementById('map').setAttribute('isZoomed', 'true')
     }
 }
