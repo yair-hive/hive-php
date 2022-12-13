@@ -1,5 +1,5 @@
-import hiveSwitch from "../hiveSwitch.js"
-import popUp from "../popUp.js"
+import hiveSwitch from "../hiveElements/HiveSwitch.js"
+import popUp from "../hiveElements/PopUp.js"
 import { resizeAllInputs } from "../scripts.js"
 import { addGroupsSwitch, add_guests_table, add_guest_form, add_guest_form_script, add_map_id, groups_list, groups_list_script, import_guest_form, import_guest_form_script } from "./elements.js"
 import { onExportTable, onBelongSwitch, onKeyBordDown, onGroupsSwitch } from "./eventListeners.js"

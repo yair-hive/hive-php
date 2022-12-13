@@ -1,9 +1,5 @@
-import { addMBloader, addPopUp } from "./elements.js"
 import api from './api/api.js'
 import { add_maps_list_pop_up } from "./edit_map/elements.js"
-
-addMBloader()
-addPopUp()
 
 var maps_list_pop_up = add_maps_list_pop_up()
 

@@ -3,7 +3,7 @@ import "../lib/jquery.min.js"
 import { respondToVisibility } from "./tooles.js"
 import api from "../api/api.js"
 import MBloader from "../MBloader.js"
-import popUp from "../popUp.js"
+import popUp from "../hiveElements/PopUp.js"
 
 const loader = new MBloader()
 loader.add()
