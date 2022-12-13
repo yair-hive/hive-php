@@ -6,7 +6,6 @@ import { td_delete, td_input, td_score, td_seat_number, td_tags } from "./table_
 
 const table = document.getElementById('names_table') 
 
-
 function get_group(name){
     var table = document.getElementById('names_table')
     var groups_to_press = table.getAttribute('groups')
