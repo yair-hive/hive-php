@@ -336,6 +336,7 @@ export const onAddGuest = (ele)=>{
                         name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
                         var color = getGroupColor(guest_group)
                         if(color) name_box.style.backgroundColor = color
+                        if(guest_name.length > 15) name_box.style.fontSize = '11px';
                         name_box.textContent = guest_name 
                     })
                 }
@@ -344,6 +345,7 @@ export const onAddGuest = (ele)=>{
                 name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
                 var color = getGroupColor(guest_group)
                 if(color) name_box.style.backgroundColor = color
+                if(guest_name.length > 15) name_box.style.fontSize = '11px';
                 name_box.textContent = guest_name 
             }
         })
@@ -458,6 +460,7 @@ export function onEditSwitch(active){
             on_show_tags()
             document.querySelectorAll('.name_box').forEach(box =>{
                 box.style.backgroundColor = 'rgba(146, 136, 209, 0.8)'
+                box.style.fontSize = '15px'
             })
             break;
         case 'no edit':
@@ -485,7 +488,9 @@ export function onSelecteblsSwitch(active){
         case 'elements':
             map.setAttribute('selectables', 'element')
             changeSelectables('cell')
-            document.querySelectorAll('.map_ob').forEach(e => e.classList.add('selectable'))
+            document.querySelectorAll('.map_ob').forEach(e => {
+                e.classList.add('selectable')
+            })
             break;
         case 'tags':
             changeSelectables('seat')
