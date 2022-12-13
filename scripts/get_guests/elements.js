@@ -33,9 +33,6 @@ function seatNumCell(guest_id){
 function tableRow(name){
     var tr = document.createElement('tr')
     tr.setAttribute('guest_id', name.id)
-    tr.setAttribute('group', name.guest_group)
-    tr.setAttribute('status_group', 'open')
-    tr.setAttribute('status_belong', 'open')
     return tr
 }
 function tableTdInput(value){
@@ -84,6 +81,7 @@ function addTableRow(name){
     })
     tdScore.append(score_input)
     var tr = tableRow(name)
+    tr.setAttribute('guest_group', name.guest_group)
     tr.append(tdSeatNum)
     tr.append(td_tags)
     tr.append(tableTdInput(name.last_name))
@@ -105,9 +103,11 @@ async function addSeatNum(){
                 color = 'green'
                 text = res[0].seat
                 element.parentNode.setAttribute('seat_id', res[0].seat)
+                element.parentNode.setAttribute('belong', 'belong')
             }else{
                 color = 'grey'
                 text = 'none'
+                element.parentNode.setAttribute('belong', 'no belong')
             }
             var seat = await api.seat.get_number(text)
             if(seat[0]) {
@@ -155,6 +155,16 @@ function addTags(){
                 for(let seat of seats){
                     var tr_ele = document.querySelector('tr[seat_id = "'+seat+'"]')
                     if(tr_ele){
+                        var tags_list_to_press = tr_ele.getAttribute('tags_list')
+                        if(tags_list_to_press){
+                            var tags_list = JSON.parse(tags_list_to_press)
+                            tags_list.push(tag.tag_name)
+                            tr_ele.setAttribute('tags_list', JSON.stringify(tags_list))
+                        }else{
+                            var tags_list = []
+                            tags_list.push(tag.tag_name)
+                            tr_ele.setAttribute('tags_list', JSON.stringify(tags_list))
+                        }
                         var tag_box = document.createElement('div')
                         tag_box.classList.add('tag_box')
                         tag_box.style.backgroundColor = tag.color

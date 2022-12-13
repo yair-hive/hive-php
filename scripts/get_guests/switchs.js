@@ -3,7 +3,7 @@ import HiveSwitch from "../hiveElements/HiveSwitch.js"
 
 var belongSwitchOptions = {
     element_id: 'belongSwitch', 
-    active: 'ShowAll', 
+    active: 'all', 
     keys: ['x', 'ס']
 } 
 var groupsSwitchOptions = {
@@ -58,112 +58,45 @@ function addTagsSwitchElement(){
     })
 }
 
-function onShowOnlyWthBelong(){
-    document.querySelectorAll('td[seat_id = "none"]').forEach(e =>{
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            e.parentNode.style.display = 'none'
-            e.parentNode.setAttribute('status_belong', 'close')
-            e.classList.add('no_show')
+function onSwitch(){
+    const table = document.getElementById('names_table') 
+    var belong_switch = table.getAttribute('belong_switch')
+    var groups_switch = table.getAttribute('groups_switch')
+    var tags_switch = table.getAttribute('tags_switch')
+    var trs = document.querySelectorAll('tr')
+    for(let i = 1; i < trs.length; i++){
+        var corrent = trs[i]
+        corrent.classList.remove('no_show')
+        var corrent_group = corrent.getAttribute('guest_group')
+        var corrent_belong = corrent.getAttribute('belong')
+        if(corrent_group != groups_switch && groups_switch != 'all') corrent.classList.add('no_show')
+        if(corrent_belong != belong_switch && belong_switch != 'all') corrent.classList.add('no_show')
+        var corrent_tags = corrent.getAttribute('tags_list')
+        if(corrent_tags){
+            corrent_tags = JSON.parse(corrent_tags)
+            var as_tag = corrent_tags.indexOf(tags_switch) == -1
+            if(as_tag && tags_switch != 'all') corrent.classList.add('no_show')
+        }else
+        {
+            if(tags_switch != 'all') corrent.classList.add('no_show')
         }
-    })
-    document.querySelectorAll('td[belong]').forEach(e => {
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            if(e.getAttribute('show') == 'true'){
-                e.parentNode.style.display = 'table-row';
-                e.parentNode.style.verticalAlign = 'inherit';
-                e.parentNode.setAttribute('status_belong', 'open')
-            }
-        }
-    })
-}
-function onShowOnlyWthoutBelong(){
-    document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            if(e.getAttribute('show') == 'true'){
-                e.parentNode.style.display = 'table-row';
-                e.parentNode.style.verticalAlign = 'inherit';
-                e.parentNode.setAttribute('status_belong', 'open')
-            }
-        }
-    })
-    document.querySelectorAll('td[belong]').forEach(e => {
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            e.parentNode.style.display = 'none'
-            e.parentNode.setAttribute('status_belong', 'close')
-            e.classList.add('no_show')
-        }
-    })
-}
-function onShowAll(){
-    document.querySelectorAll('td[seat_id = "none"]').forEach(e => {
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            if(e.getAttribute('show') == 'true'){
-                e.parentNode.style.display = 'table-row';
-                e.parentNode.style.verticalAlign = 'inherit';
-                e.parentNode.setAttribute('status_belong', 'open')
-            }
-        }
-    })
-    document.querySelectorAll('td[belong]').forEach(e => {
-        if(e.parentNode.getAttribute('status_group') == 'open'){
-            if(e.getAttribute('show') == 'true'){
-                e.parentNode.style.display = 'table-row';
-                e.parentNode.style.verticalAlign = 'inherit';
-                e.parentNode.setAttribute('status_belong', 'open')
-            }
-        }
-    })
-}
-function onBelongSwitch(active){
-    switch(active){
-        case 'ShowOnlyWthBelong':
-            onShowOnlyWthBelong()
-            break;
-        case 'ShowOnlyWthoutBelong':
-            onShowOnlyWthoutBelong()
-            break;
-        case 'ShowAll':
-            onShowAll()
-            break;
     }
+}
+
+function onBelongSwitch(active){
+    var table = document.getElementById('names_table')
+    table.setAttribute('belong_switch', active)
+    onSwitch()
 }
 function onGroupsSwitch(active){
-    var group = active
     var table = document.getElementById('names_table')
-    if(group == 'all'){
-        var i
-        var rows = table.rows
-        var l = rows.length 
-        for(i = 1; i < l; i++){
-            if(rows[i].getAttribute('status_belong') == 'open'){
-                rows[i].style.display = 'table-row'; 
-                rows[i].style.verticalAlign = 'inherit';
-                rows[i].setAttribute('status_group', 'open')
-            }
-        }
-    }else{
-        var i
-        var rows = table.rows
-        var l = rows.length 
-        for(i = 1; i < l; i++){
-            if(rows[i].getAttribute('status_belong') == 'open'){
-                if(rows[i].getAttribute('group') != group){
-                    rows[i].style.display = 'none'
-                    rows[i].setAttribute('status_group', 'close')
-                    rows[i].childNodes[0].classList.add('no_show')
-                }
-                else{
-                    rows[i].childNodes[0].classList.remove('no_show')
-                    rows[i].style.display = 'table-row'; 
-                    rows[i].style.verticalAlign = 'inherit';
-                    rows[i].setAttribute('status_group', 'open')
-                }
-            }
-        }
-    }
+    table.setAttribute('groups_switch', active)
+    onSwitch()
 }
 function onTagsSwitch(active){
-    console.log(active)
+    const table = document.getElementById('names_table') 
+    table.setAttribute('tags_switch', active)
+    onSwitch()
 }
 
 export function addBelongSwitch(){
