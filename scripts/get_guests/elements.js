@@ -331,6 +331,8 @@ export function add_guest_form(){
     </form>`
 }
 export function add_guest_form_script(pop_up){
+    pop_up.popUpBody.classList.add('popUpBodyF')
+    pop_up.popUpBody.setAttribute('dir', 'rtl')
     const parsedUrl = new URL(window.location.href)
     var map_name = parsedUrl.searchParams.get("map_name")
     var map_id = ''
@@ -362,6 +364,8 @@ export function import_guest_form(){
     </form>`
 }
 export function import_guest_form_script(pop_up){
+    pop_up.popUpBody.classList.add('popUpBodyF')
+    pop_up.popUpBody.setAttribute('dir', 'rtl')
     const parsedUrl = new URL(window.location.href)
     var map_name = parsedUrl.searchParams.get("map_name")
     var map_id = ''

@@ -277,6 +277,8 @@ function add_create_map_form(){
     <div id='create_map' class='hive-button'> צור </div>`
 }
 function add_create_map_form_scripts(pop_up){
+    pop_up.popUpBody.classList.add('popUpBodyF')
+    pop_up.popUpBody.setAttribute('dir', 'rtl')
     document.getElementById('create_map').addEventListener('click', ()=>{
         api.map.create()
         pop_up.close()
@@ -293,10 +295,8 @@ function add_maps_list_scripts(pop_up){
         pop_up.close()
         create_map_pop_up.open()
     })
-    pop_up.popUpBody.style.display = 'flex'
-    pop_up.popUpBody.style.alignItems = 'center'
-    pop_up.popUpBody.style.justifyContent = 'center'
-    pop_up.popUpBody.style.flexDirection = 'column'
+    pop_up.popUpBody.classList.add('popUpBodyF')
+    pop_up.popUpBody.setAttribute('dir', 'rtl')
     var maps_list = document.getElementById('maps_list')
     api.map.get_all()
     .then((respons)=>{
