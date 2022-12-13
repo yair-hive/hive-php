@@ -1,4 +1,4 @@
-import {add_map, add_seats, add_guests, add_belong, add_elements, tags_list, tags_list_script, add_maps_list_pop_up} from "./elements.js"
+import {add_map, add_seats, add_guests, add_belong, add_elements, tags_list, tags_list_script} from "./elements.js"
 import { onClickOutside, onEditSwitch, onGuestList, onKeyBordDown, onKeyBordUp, onMapAdd, onSelecteblsSwitch, onShowSwitch, on_show_tags } from "./eventListeners.js"
 import { zoom } from "./tooles.js"
 import api from "../api/api.js"
