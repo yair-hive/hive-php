@@ -1,12 +1,8 @@
 import hiveSwitch from "../hiveSwitch.js"
 import popUp from "../popUp.js"
 import { resizeAllInputs } from "../scripts.js"
-import { add_guests_table, add_guest_form, add_guest_form_script, groups_list, groups_list_script, import_guest_form, import_guest_form_script } from "./elements.js"
+import { addGroupsSwitch, add_guests_table, add_guest_form, add_guest_form_script, add_map_id, groups_list, groups_list_script, import_guest_form, import_guest_form_script } from "./elements.js"
 import { onExportTable, onBelongSwitch, onKeyBordDown, onGroupsSwitch } from "./eventListeners.js"
-
-const parsedUrl = new URL(window.location.href)
-var map_name = parsedUrl.searchParams.get("map_name")
-var table = document.getElementById('names_table') 
 
 var belongSwitchOptions = {
     element_id: 'belongSwitch', 
@@ -22,6 +18,8 @@ document.addEventListener('keydown', onKeyBordDown)
 
 document.getElementById('export').addEventListener('click', onExportTable)
 
+hiveSwitch(belongSwitchOptions, onBelongSwitch)
+
 var add_guests_pop_up = new popUp('הוסף בחור', add_guest_form())
 add_guests_pop_up.onOpen = add_guest_form_script
 document.getElementById('add_guests_button').addEventListener('click', add_guests_pop_up.open)
@@ -31,10 +29,8 @@ document.getElementById('import_guests_button').addEventListener('click', import
 var guest_groups_pop_up = new popUp('בחורים', groups_list())
 guest_groups_pop_up.onOpen = groups_list_script
 document.getElementById("groups_list_button").addEventListener('click', guest_groups_pop_up.open)
-
-add_guests_table(map_name, table)
-.then(()=>{
-    hiveSwitch(groupsSwitchOptions, onGroupsSwitch)
-    hiveSwitch(belongSwitchOptions, onBelongSwitch)
-    resizeAllInputs()
-})
+add_map_id()
+.then(addGroupsSwitch)
+.then(()=>{hiveSwitch(groupsSwitchOptions, onGroupsSwitch)})
+.then(add_guests_table)
+.then(resizeAllInputs)

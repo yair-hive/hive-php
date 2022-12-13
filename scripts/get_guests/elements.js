@@ -94,24 +94,25 @@ function addTableRow(name){
     tr.append(tdX)
     return tr
 }
-function getGroups(names){
-    var groups = []
-    for(let name of names){
-        if(groups.indexOf(name.group_name) == -1){
-            groups.push(name.group_name)
-        }
-    }
-    return groups
-}
-function addGroupsSwitch(groups){
-    var groupsSwitch = document.getElementById('groupsSwitch')
-    for(var group of groups){
-        var div = document.createElement('div')
-        div.textContent = group
-        group = group.replace(' ', '_')
-        div.setAttribute('id', group)                        
-        groupsSwitch.append(div)
-    }
+export function addGroupsSwitch(){
+    return new Promise((resolve, reject) => {
+        const table = document.getElementById('names_table') 
+        var map_id = table.getAttribute('map_id')
+        var group 
+        api.guest.get_all_groups(map_id)
+        .then((groups)=>{
+            var groupsSwitch = document.getElementById('groupsSwitch')
+            for(let i = 0; i < groups.length; i++){
+                group = groups[i]
+                var div = document.createElement('div')
+                div.textContent = group.group_name
+                group.group_name = group.group_name.replace(' ', '_')
+                div.setAttribute('id', group.group_name)                        
+                groupsSwitch.append(div)
+                if(i === (groups.length -1)) resolve()
+            }
+        })
+    })
 }
 async function addSeatNum(){
     return new Promise(async (resolve, reject) => {
@@ -197,23 +198,24 @@ function addTags(){
         }
     })
 }
-export const add_guests_table = (map_name, table)=>{
-    loader.start()
+export function add_map_id(){
+    const parsedUrl = new URL(window.location.href)
+    var map_name = parsedUrl.searchParams.get("map_name")
+    var table = document.getElementById('names_table') 
     return api.map.get(map_name)
     .then((res)=>{
         table.setAttribute('map_id', res.id)
     })
-    .then(()=>{
-        var map_id = table.getAttribute('map_id')
-        return api.guest.get_all_groups(map_id)
-        .then((groups)=>{
-            var groups_press = JSON.stringify(groups)
-            table.setAttribute('groups', groups_press)
-            return groups
-        })
-    })
+}
+export const add_guests_table = ()=>{
+    const table = document.getElementById('names_table') 
+    loader.start()
+    var map_id = table.getAttribute('map_id')
+    return api.guest.get_all_groups(map_id)
     .then((groups)=>{
-        addGroupsSwitch(getGroups(groups))
+        var groups_press = JSON.stringify(groups)
+        table.setAttribute('groups', groups_press)
+        return groups
     })
     .then(()=>{
         var map_id = table.getAttribute('map_id')
