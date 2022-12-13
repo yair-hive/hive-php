@@ -28,7 +28,7 @@ export default class {
         this.blur.style.display = 'none'
     }
     open = function(){
-        // if(this.popUpBody.innerHTML != this.body) this.popUpBody.innerHTML = this.body
+        if(this.popUpBody.innerHTML != this.body) this.popUpBody.innerHTML = this.body
         this.blur.style.display = 'block'
         this.onOpen(this)
     }

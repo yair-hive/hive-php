@@ -28,15 +28,13 @@ document.getElementById('add_guests_button').addEventListener('click', add_guest
 var import_guests_pop_up = new popUp('ייבא בחורים', import_guest_form())
 import_guests_pop_up.onOpen = import_guest_form_script
 document.getElementById('import_guests_button').addEventListener('click', import_guests_pop_up.open)
+var guest_groups_pop_up = new popUp('בחורים', groups_list())
+guest_groups_pop_up.onOpen = groups_list_script
+document.getElementById("groups_list_button").addEventListener('click', guest_groups_pop_up.open)
 
 add_guests_table(map_name, table)
 .then(()=>{
-    var guest_groups_pop_up = new popUp('בחורים', groups_list())
-    guest_groups_pop_up.onOpen = groups_list_script
     hiveSwitch(groupsSwitchOptions, onGroupsSwitch)
     hiveSwitch(belongSwitchOptions, onBelongSwitch)
-    document.getElementById("groups_list_button").addEventListener('click', ()=> {
-        guest_groups_pop_up.open()
-    })
     resizeAllInputs()
 })
