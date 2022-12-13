@@ -50,16 +50,9 @@ $seat_groups['add_col'] = function(){
     $seat = $_POST['seat'];
     $group_name = $_POST['group'];
     $map = $_POST['map'];
-    $group_id = getTagId($group_name, $map);
-    if($group_id){
-        $query_string = "INSERT INTO seat_groups_belong(seat, group_id, group_type, belong) VALUES('{$seat}', '{$group_id}', 'col', '{$map}')";
-        db_post($query_string);
-    }else{
-        createDefaultTag($group_name, $map);
-        $group_id = getTagId($group_name, $map);
-        $query_string = "INSERT INTO seat_groups_belong(seat, group_id, group_type, belong) VALUES('{$seat}', '{$group_id}', 'col', '{$map}')";
-        db_post($query_string);
-    }
+    $group_id = null;
+    $query_string = "INSERT INTO seat_groups_belong(seat, group_id, group_type, belong) VALUES('{$seat}', '{$group_id}', 'col', '{$map}')";
+    db_post($query_string);
 };
 $seat_groups['get_groups_cols'] = function(){
     $map_id = $_POST['map_id'];

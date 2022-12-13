@@ -166,3 +166,6 @@ export function onTdFocusOut(e){
     var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
     api.guest.update(data, map_id, guest_id)
 }
+export function onTagsSwitch(active){
+    console.log(active)
+}
