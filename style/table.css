@@ -92,3 +92,9 @@ td > input{
 .no_show{
     display: none;
 }
+[belong = 'belong'] > .seat_num{
+    background-color: green;
+}
+[belong = 'no belong'] > .seat_num{
+    background-color: grey;
+}

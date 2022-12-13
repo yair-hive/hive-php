@@ -267,15 +267,19 @@ export function exportTableToExcel(tableSelect, filename = ''){
         downloadLink.click();
     }
 }
-export function resizeAllInputs(){
-    document.querySelectorAll('td > input').forEach(function(input){
-        input.addEventListener('input', resizeInput); 
-        resizeInput.call(input)
-    })
-    
+export function resizeAllInputs(){       
     function resizeInput() {
         var l = Number(this.value.length)
         l = l + 3
       this.style.width = l + "ch";
     }
+    return new Promise((resolve) => {
+        var inputs = document.querySelectorAll('td > input')
+        for(let i = 0; i < inputs.length; i++){
+            var input = inputs[i]
+            input.addEventListener('input', resizeInput); 
+            resizeInput.call(input)
+            if(i == (inputs.length -1)) resolve()
+        }
+    })
 }

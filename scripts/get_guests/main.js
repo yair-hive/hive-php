@@ -1,28 +1,33 @@
-import hiveSwitch from "../hiveElements/HiveSwitch.js"
-import popUp from "../hiveElements/PopUp.js"
+import { sortTable, sortTableNumber } from "../scripts.js"
 import { resizeAllInputs } from "../scripts.js"
-import { add_guests_table, add_map_id } from "./elements.js"
-import { add_guest_form, add_guest_form_script, groups_list, groups_list_script, import_guest_form, import_guest_form_script } from "./popUps.js"
+import { add_map_id, add_seat_number, add_table, add_tags } from "./elements.js"
 import { onExportTable, onKeyBordDown } from "./eventListeners.js"
 import { addBelongSwitch, addGroupsSwitch, addTagsSwitch } from "./switchs.js"
-
-document.addEventListener('keydown', onKeyBordDown)
-
-document.getElementById('export').addEventListener('click', onExportTable)
+import pop_ups from "./popUps.js"
+import MBloader from "../hiveElements/MBloader.js"
 
 addBelongSwitch()
 
-var add_guests_pop_up = new popUp('הוסף בחור', add_guest_form())
-add_guests_pop_up.onOpen = add_guest_form_script
-document.getElementById('add_guests_button').addEventListener('click', add_guests_pop_up.open)
-var import_guests_pop_up = new popUp('ייבא בחורים', import_guest_form())
-import_guests_pop_up.onOpen = import_guest_form_script
-document.getElementById('import_guests_button').addEventListener('click', import_guests_pop_up.open)
-var guest_groups_pop_up = new popUp('בחורים', groups_list())
-guest_groups_pop_up.onOpen = groups_list_script
-document.getElementById("groups_list_button").addEventListener('click', guest_groups_pop_up.open)
+var loader = new MBloader()
+loader.add()
+
+document.addEventListener('keydown', onKeyBordDown)
+document.getElementById('export').addEventListener('click', onExportTable)
+document.getElementById("status").addEventListener('click', ()=>{sortTableNumber(0)})
+document.getElementById("first").addEventListener('click', ()=>{sortTable(2)}) 
+document.getElementById("last").addEventListener('click', ()=>{sortTable(3)})
+document.getElementById("group").addEventListener('click', ()=>{sortTable(5)})
+document.getElementById("score").addEventListener('click', ()=>{sortTableNumber(5)})
+document.getElementById('add_guests_button').addEventListener('click', pop_ups.add_guests.open)
+document.getElementById('import_guests_button').addEventListener('click', pop_ups.import_guests.open)
+document.getElementById("groups_list_button").addEventListener('click', pop_ups.guest_groups.open)
+
+loader.start()
 add_map_id()
 .then(addGroupsSwitch)
 .then(addTagsSwitch)
-.then(add_guests_table)
+.then(add_table)
+.then(add_seat_number)
+.then(add_tags)
 .then(resizeAllInputs)
+.then(loader.stop)
