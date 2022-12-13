@@ -3,7 +3,7 @@ import { respondToVisibility } from "../scripts.js"
 import { sortTable, sortTableNumber } from "../scripts.js"
 import api from '../api/api.js'
 import { onSeatNum, onTdFocusOut } from "./eventListeners.js"
-import MBloader from "../MBloader.js"
+import MBloader from "../hiveElements/MBloader.js"
 import "../lib/read-excel-file.min.js"
 
 var loader = new MBloader()

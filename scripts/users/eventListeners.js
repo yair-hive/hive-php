@@ -1,9 +1,6 @@
-import "./lib/jquery.min.js"
-import api from './api/api.js'
+import "../lib/jquery.min.js"
+import api from '../api/api.js'
 
-function switchMouseOut(e){
-    e.target.style.backgroundColor = 'rgb(119, 224, 224)' 
-}
 export const onAddPermission = (event)=>{
     if(event.target.id == 'list_td'){
         var list_td = event.target    

@@ -2,7 +2,7 @@ import { onSeatName } from "./eventListeners.js"
 import "../lib/jquery.min.js"
 import { respondToVisibility } from "./tooles.js"
 import api from "../api/api.js"
-import MBloader from "../MBloader.js"
+import MBloader from "../hiveElements/MBloader.js"
 import popUp from "../hiveElements/PopUp.js"
 
 const loader = new MBloader()

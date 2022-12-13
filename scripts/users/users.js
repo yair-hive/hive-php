@@ -1,4 +1,4 @@
-import { onAddPermission } from "../eventListeners.js"
+import { onAddPermission } from "./eventListeners.js"
 import api from '../api/api.js'
 var users_table = document.getElementById('users_table')
 api.user.get_all()
