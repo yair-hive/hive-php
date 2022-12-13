@@ -49,7 +49,7 @@ function addTagsSwitchElement(){
                 tag = tags[i]
                 var div = document.createElement('div')
                 div.textContent = tag.tag_name
-                tag.group_tag = tag.tag_name.replace(' ', '_')
+                tag.tag_name = tag.tag_name.replace(' ', '_')
                 div.setAttribute('id', tag.tag_name)                        
                 tagsSwitch.append(div)
                 if(i === (tags.length -1)) resolve()
