@@ -1,4 +1,4 @@
-import { onAddGuest } from './eventListeners.js'
+import { onAddGuest } from '../edit_map/eventListeners.js'
 import scrolling_list from './scrolling_list.js'
 
 export default class {
