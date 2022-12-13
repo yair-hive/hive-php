@@ -51,7 +51,6 @@ function tdTags(){
     td.classList.add('td_tag')
     return td
 }
-
 function addTableRow(name){
     var table = document.getElementById('names_table')
     var groups_to_press = table.getAttribute('groups')
@@ -93,46 +92,6 @@ function addTableRow(name){
     tr.append(tdScore)
     tr.append(tdX)
     return tr
-}
-export function addGroupsSwitch(){
-    return new Promise((resolve, reject) => {
-        const table = document.getElementById('names_table') 
-        var map_id = table.getAttribute('map_id')
-        var group 
-        api.guest.get_all_groups(map_id)
-        .then((groups)=>{
-            var groupsSwitch = document.getElementById('groupsSwitch')
-            for(let i = 0; i < groups.length; i++){
-                group = groups[i]
-                var div = document.createElement('div')
-                div.textContent = group.group_name
-                group.group_name = group.group_name.replace(' ', '_')
-                div.setAttribute('id', group.group_name)                        
-                groupsSwitch.append(div)
-                if(i === (groups.length -1)) resolve()
-            }
-        })
-    })
-}
-export function addTagsSwitch(){
-    return new Promise((resolve, reject) => {
-        const table = document.getElementById('names_table') 
-        var map_id = table.getAttribute('map_id')
-        var tag
-        api.seat_groups.get_all_tags(map_id)
-        .then((tags)=>{
-            var tagsSwitch = document.getElementById('tagsSwitch')
-            for(let i = 0; i < tags.length; i++){
-                tag = tags[i]
-                var div = document.createElement('div')
-                div.textContent = tag.tag_name
-                tag.group_tag = tag.tag_name.replace(' ', '_')
-                div.setAttribute('id', tag.tag_name)                        
-                tagsSwitch.append(div)
-                if(i === (tags.length -1)) resolve()
-            }
-        })
-    })
 }
 async function addSeatNum(){
     return new Promise(async (resolve, reject) => {
