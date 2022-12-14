@@ -109,6 +109,7 @@ export function add_tags(){
                 tags_data.push(group_name)
             }
         }
+        if(!table.getAttribute('tags')) table.setAttribute('tags', JSON.stringify(tags_data))
         for(let i = 0; i < tags_data.length; i++){
             var tag = tags_data[i]
             var name = tag.tag_name

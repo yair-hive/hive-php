@@ -1,7 +1,7 @@
 import { sortTable, sortTableNumber } from "../scripts.js"
 import { resizeAllInputs } from "../scripts.js"
 import { add_map_id, add_seat_number, add_table, add_tags } from "./elements.js"
-import { onExportTable, onKeyBordDown } from "./eventListeners.js"
+import { onClickOutside, onExportTable, onKeyBordDown } from "./eventListeners.js"
 import { addBelongSwitch, addGroupsSwitch, addTagsSwitch } from "./switchs.js"
 import pop_ups from "./popUps.js"
 import MBloader from "../hiveElements/MBloader.js"
@@ -12,6 +12,7 @@ var loader = new MBloader()
 loader.add()
 
 document.addEventListener('keydown', onKeyBordDown)
+document.addEventListener('mousedown', onClickOutside)
 document.getElementById('export').addEventListener('click', onExportTable)
 document.getElementById("status").addEventListener('click', ()=>{sortTableNumber(0)})
 document.getElementById("first").addEventListener('click', ()=>{sortTable(2)}) 

@@ -1,5 +1,13 @@
 import { exportTableToExcel } from "../scripts.js"
 import api from "../api/api.js"
+import dropDown from "../hiveElements/dropDown.js"
+import scrolling_list from '../hiveElements/scrolling_list.js'
+
+var mainBord = document.getElementById('mainBord')
+const menu = new dropDown(mainBord)
+menu.onClose = function(){
+    this.drop_element.innerHTML = ''
+}
 
 export function onExportTable(){
     {
@@ -38,6 +46,17 @@ export function onKeyBordDown(e){
         document.activeElement.blur()
     }
 }
+export const onClickOutside = (event)=>{
+    if(event.keyCode != 13){
+        var classList = event.target.classList
+        if(!classList.contains('td_requests') && !classList.contains('drop_down') && !classList.contains('request_list')){
+            menu.close()
+        }
+        if(!event.ctrlKey && !event.metaKey && !classList.contains('hive-button')){
+            menu.close()
+        }
+    }
+}
 export function onSeatNum(event){
     event.target.innerHTML = ''
     var button = document.createElement('button')
@@ -61,4 +80,20 @@ export function onTdFocusOut(e){
     var map_id = e.target.parentNode.parentNode.parentNode.getAttribute('map_id')
     var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
     api.guest.update(data, map_id, guest_id)
+}
+export function onRequests(event){
+    const guest_scrolling_list = new scrolling_list(menu.drop_element)
+    const table = document.getElementById('names_table') 
+    var tags = JSON.parse(table.getAttribute('tags'))
+    var list_elements = []
+    for(let i = 0; i < tags.length; i++){
+        var tag = tags[i]
+        var li = document.createElement('li')
+        li.innerHTML = tag.tag_name
+        li.classList.add('request_list')
+        list_elements.push(li)
+    }
+    guest_scrolling_list.replaceItems(list_elements)
+    menu.open(event.target)
+    console.log(tags)
 }
