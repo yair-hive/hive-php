@@ -78,20 +78,30 @@ export function onTdFocusOut(e){
     var guest_id = e.target.parentNode.parentNode.getAttribute('guest_id')
     api.guest.update(data, map_id, guest_id)
 }
+function onRequestsListItem(target){
+    var tag_id = target.getAttribute(tag_id)
+    var guest_id = target.getAttribute(guest_id)
+    api.tags.add_request({tag_id: tag_id, guest_id: guest_id})
+    .then(res => console.log(res))
+}
 export function onTdRequests(event){
     if(menu.status != 'open'){
         const guest_scrolling_list = new scrolling_list(menu.drop_element)
         const table = document.getElementById('names_table') 
         var tags = JSON.parse(table.getAttribute('tags'))
         var list_elements = []
+        console.log(tags)
         for(let i = 0; i < tags.length; i++){
             var tag = tags[i]
             var li = document.createElement('li')
+            li.setAttribute('tag_id', tag.id)
+            li.setAttribute('guest_id', event.target.parentNode.getAttribute('guest_id'))
             li.innerHTML = tag.tag_name
             li.classList.add('request_list')
             list_elements.push(li)
         }
         guest_scrolling_list.replaceItems(list_elements)
+        guest_scrolling_list.onItem = onRequestsListItem
         menu.open(event.target)
     }
 }

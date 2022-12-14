@@ -1,8 +1,12 @@
 <?php
 $tags_actions['add_request'] = function(){
-    $guest_id = $_POST['guest'];
-    $request_id = $_POST['request'];
-    $map_id = $_POST['map'];
-    $query_string = "INSERT INTO guests_requests(guest, request, belong) VALUES('{$guest_id}', '{$request_id}', '{$map_id}')";
+    $guest_id = $NEW_POST['guest_id'];
+    $request_id = $NEW_POST['tag_id'];
+    $query_string = "INSERT INTO guests_requests(guest, request, belong) VALUES('{$guest_id}', '{$request_id}')";
     db_post($query_string);
+};
+$tags_actions['get_requests'] = function(){
+    $guest_id = $NEW_POST['guest_id'];
+    $query_string = "SELECT * FROM guests_requests WHERE guest = '{$guest_id}'";
+    db_get($query_string);
 };
