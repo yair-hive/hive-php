@@ -34,6 +34,10 @@ export function td_tags(){
     td.classList.add('td_tag')
     return td
 }
+export function td_requests(){
+    var td = document.createElement('td')
+    return td
+}
 export function td_score(name){
     var tdScore = document.createElement('td')
     var score_input = document.createElement('input')

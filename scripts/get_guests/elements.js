@@ -2,7 +2,7 @@ import "../lib/jquery.min.js"
 import api from '../api/api.js'
 import { onSeatNum } from "./eventListeners.js"
 import "../lib/read-excel-file.min.js"
-import { row, td_delete, td_input, td_score, td_seat_number, td_tags } from "./table_elements.js"
+import { row, td_requests, td_delete, td_input, td_score, td_seat_number, td_tags } from "./table_elements.js"
 
 const table = document.getElementById('names_table') 
 
@@ -33,6 +33,7 @@ function add_row(name){
     tr.append(td_input(name.first_name))
     tr.append(td_input(name.guest_group))
     tr.append(td_score(name))
+    tr.append(td_requests())
     tr.append(td_delete())
     return tr
 }

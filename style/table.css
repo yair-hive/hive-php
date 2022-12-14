@@ -27,8 +27,8 @@ th {
     padding: 10px;
     font-size: 15px;
     height: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 th:hover{
     background-color: rgb(97, 96, 96);
@@ -50,18 +50,17 @@ td {
     height: 20px;
     border: 1px solid black;
     background-color: rgb(120, 154, 216);
-    font-size: 20px;
+    font-size: 18px;
 }
 td > input{
-    padding: 5px;
+    padding: 2px;
     height: 20px;
     border: none;
     outline: none;
+    font-size: 18px;
     background-color: rgb(120, 154, 216);
-    font-size: 20px;
-    padding-right: 10px;
-    padding-left: 10px;
-    width: 100px;
+    padding-right: 5px;
+    padding-left: 5px;
 }
 .tags_cont{
     display: flex;
@@ -75,6 +74,7 @@ td > input{
     padding: 1px;
     padding-left: 5px;
     padding-right: 5px;
+    font-size: 14px;
 }
 .td_color{
     padding: 0 !important;
