@@ -3,17 +3,21 @@ import dropDown from "../hiveElements/dropDown.js"
 import { add_elements, add_guests, add_seats } from "./elements.js"
 import api from "../api/api.js"
 import MBloader from "../hiveElements/MBloader.js"
+import scrolling_list from '../hiveElements/scrolling_list.js'
+
+var mainBord = document.getElementById('mainBord')
 
 const loader = new MBloader()
-const menu = new dropDown()
+const menu = new dropDown(mainBord)
 const selection = create_selection()
 const dragToScroll = DragToScroll()
+const guest_scrolling_list = new scrolling_list(menu.drop_element)
 
 dragToScroll.enable()    
 selection.disable()
 
 function proximity_score(){
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         var score, map, map_rows, map_cols, seat, cols_middle, i, col_num, row_num
         map = document.getElementById('map')
         map_rows = map.getAttribute('rows')
@@ -427,12 +431,76 @@ export const onKeyBordUp = ()=>{
     }
 }
 export const onSeatName = (event)=>{
+    guest_scrolling_list.onItem = function(item){
+        onAddGuest(item)
+        this.listElement.innerHTML = ''
+        menu.close()
+    }
+    const inputBox = document.getElementById('inputBox')
+    menu.onOpen = function(){
+        event.target.textContent = ''
+        var guest_name = event.target.getAttribute('guest_name')
+        inputBox.style.display = 'inline-block'
+        inputBox.value = guest_name
+        inputBox.focus()
+        offsetCalculate()
+        inputBox.addEventListener('input', onInput)
+        clearSelection()
+        document.getElementById('map').setAttribute('selectables', 'guests')
+    }  
+    menu.onClose = function(){
+        inputBox.style.display = 'none'
+    }
+    function createMatchList(input_str){
+        var guests_data = JSON.parse(document.getElementById('map').getAttribute('guests')) 
+        var match_list = []
+        var search_str = '^'+input_str
+        if(input_str.length != 0){
+            var search_reg = new RegExp(search_str)
+            for(var corrent of guests_data){
+                corrent.name = corrent.last_name+' '+corrent.first_name
+                if(search_reg.test(corrent.name)){
+                    match_list.push(corrent)
+                }
+            }
+        }
+        return match_list
+    }
+    function createGuestsList(input_str){
+        var arr = []
+        var seat = event.target.getAttribute('seat_id')           
+        var guestsList = document.createElement('ul')
+        guestsList.setAttribute('id', 'guestsList')
+        var MatchList = createMatchList(input_str)
+        for(let corrent of MatchList){
+            corrent.name = corrent.last_name+' '+corrent.first_name
+            var li = document.createElement('li') 
+            li.innerHTML = corrent.name+' <span class="group_name">'+corrent.guest_group+'   |</span>'
+            li.classList.add('match_list')
+            li.setAttribute('guest_id', corrent.id)
+            li.setAttribute('guest_name', corrent.name)
+            li.setAttribute('guest_group', corrent.guest_group.replace("_"," "))
+            li.setAttribute('seat', seat)                             
+            arr.push(li)
+        }
+        return arr
+    }
+    function offsetCalculate(){
+        var parent = event.target.getBoundingClientRect()
+        inputBox.style.position = 'absolute'
+        inputBox.style.margin = 0
+        inputBox.style.padding = 0
+        inputBox.style.top = parent.top+'px'
+        inputBox.style.left = parent.left+'px'
+    }
+    function onInput(event){
+        guest_scrolling_list.replaceItems(createGuestsList(event.target.value))
+    }
     if(!event.ctrlKey && !event.metaKey){
         var map = document.getElementById('map')
         var isZoomed = map.getAttribute('isZoomed') 
         if(isZoomed == 'false'){
             menu.open(event.target)
-            clearSelection()
         }
     }
     if(event.ctrlKey || event.metaKey){

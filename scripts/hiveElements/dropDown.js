@@ -1,51 +1,29 @@
-import { onAddGuest } from '../edit_map/eventListeners.js'
-import scrolling_list from './scrolling_list.js'
-
 export default class {
-    correntItemIndex = -1
-    matchLength = 0
     status = 'close'
-    constructor(){
-        this.dropDown = document.getElementById('dropDown')
-        this.inputBox = document.getElementById('inputBox')  
-        this.scrolling_list = new scrolling_list(this.dropDown)
-        this.scrolling_list.test = function(){this.close()}.bind(this)
-        this.scrolling_list.onItem = function(item){
-            onAddGuest(item)
-            this.test()
-            this.listElement.innerHTML = ''
-        }
-        this.createMatchList = this.createMatchList.bind(this)
-        this.createGuestsList = this.createGuestsList.bind(this)
+    drop_element = document.createElement('div')
+    constructor(parent){
+        this.drop_element.classList.add('drop_down')
+        this.drop_element.style.display = 'none'
+        parent.append(this.drop_element)
         this.offsetCalculate = this.offsetCalculate.bind(this)
         this.open = this.open.bind(this)
-        this.close = this.close.bind(this)  
-        this.onInput = this.onInput.bind(this)   
-    }
-    onInput = function(){
-        this.scrolling_list.replaceItems(this.createGuestsList())
+        this.close = this.close.bind(this)
     }
     open = function(box){
-        this.status = 'open'
         this.box = box
-        box.textContent = ''
-        var guest_name = this.box.getAttribute('guest_name')
-        this.dropDown.style.display = 'block'
-        this.inputBox.style.display = 'inline-block'
-        this.inputBox.value = guest_name
+        this.status = 'open'
+        this.drop_element.style.display = 'block'
         this.offsetCalculate()
-        this.inputBox.focus()
-        this.inputBox.addEventListener('input', this.onInput)
         document.getElementById('mainBord').addEventListener('scroll', this.offsetCalculate)
         window.addEventListener('resize', this.offsetCalculate)  
-        document.getElementById('map').setAttribute('selectables', 'guests')
+        this.onOpen()
     }
     close = function(){
         this.status = 'close'
         document.getElementById('mainBord').removeEventListener('scroll', this.offsetCalculate)
         window.removeEventListener('resize', this.offsetCalculate)  
-        this.inputBox.style.display = 'none'
-        this.dropDown.style.display = 'none'
+        this.drop_element.style.display = 'none'
+        this.onClose()
     }
     offsetCalculate = function(){
         var parent = this.box.getBoundingClientRect()
@@ -55,50 +33,12 @@ export default class {
         var drop_down_top = parent.bottom
         var drop_down_width = parent_width + list_width_over
         var drop_down_left = parent.left - list_width_over_d 
-        this.inputBox.style.position = 'absolute'
-        this.inputBox.style.margin = 0
-        this.inputBox.style.padding = 0
-        this.inputBox.style.top = parent.top+'px'
-        this.inputBox.style.left = parent.left+'px'
-        this.dropDown.style.position = 'absolute'
-        this.dropDown.style.width = drop_down_width+'px'
-        this.dropDown.style.top = drop_down_top+'px'
-        this.dropDown.style.left = drop_down_left+'px'
-        this.dropDown.style.overflow = 'auto'
+        this.drop_element.style.position = 'absolute'
+        this.drop_element.style.width = drop_down_width+'px'
+        this.drop_element.style.top = drop_down_top+'px'
+        this.drop_element.style.left = drop_down_left+'px'
+        this.drop_element.style.overflow = 'auto'
     }
-    createMatchList = function(){
-        var guests_data = JSON.parse(document.getElementById('map').getAttribute('guests')) 
-        var match_list = []
-        var input_str = this.inputBox.value
-        var search_str = '^'+input_str
-        if(input_str.length != 0){
-            var search_reg = new RegExp(search_str)
-            for(var corrent of guests_data){
-                corrent.name = corrent.last_name+' '+corrent.first_name
-                if(search_reg.test(corrent.name)){
-                    match_list.push(corrent)
-                }
-            }
-        }
-        this.matchLength = match_list.length 
-        return match_list
-    }
-    createGuestsList = function(){
-        var arr = []
-        var seat = this.box.getAttribute('seat_id')           
-        var guestsList = document.createElement('ul')
-        guestsList.setAttribute('id', 'guestsList')
-        for(let corrent of this.createMatchList()){
-            corrent.name = corrent.last_name+' '+corrent.first_name
-            var li = document.createElement('li') 
-            li.innerHTML = corrent.name+' <span class="group_name">'+corrent.guest_group+'   |</span>'
-            li.classList.add('match_list')
-            li.setAttribute('guest_id', corrent.id)
-            li.setAttribute('guest_name', corrent.name)
-            li.setAttribute('guest_group', corrent.guest_group.replace("_"," "))
-            li.setAttribute('seat', seat)                             
-            arr.push(li)
-        }
-        return arr
-    }
+    onOpen(){}
+    onClose(){}
 }
