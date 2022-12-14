@@ -2,12 +2,11 @@ import "../lib/jquery.min.js"
 import api from '../api/api.js'
 import { onSeatNum } from "./eventListeners.js"
 import "../lib/read-excel-file.min.js"
-import { td_delete, td_input, td_score, td_seat_number, td_tags } from "./table_cells.js"
+import { row, td_delete, td_input, td_score, td_seat_number, td_tags } from "./table_elements.js"
 
 const table = document.getElementById('names_table') 
 
 function get_group(name){
-    var table = document.getElementById('names_table')
     var groups_to_press = table.getAttribute('groups')
     var groups = JSON.parse(groups_to_press)
     for(let group of groups){
@@ -24,12 +23,6 @@ function get_group(name){
 }
 function add_groups(groups){
     table.setAttribute('groups', JSON.stringify(groups))
-}
-function row(name){
-    var tr = document.createElement('tr')
-    tr.setAttribute('guest_id', name.id)
-    tr.setAttribute('guest_group', name.guest_group)
-    return tr
 }
 function add_row(name){
     name = get_group(name)

@@ -52,3 +52,9 @@ export function td_score(name){
     tdScore.append(score_input)
     return tdScore
 }
+export function row(name){
+    var tr = document.createElement('tr')
+    tr.setAttribute('guest_id', name.id)
+    tr.setAttribute('guest_group', name.guest_group)
+    return tr
+}
