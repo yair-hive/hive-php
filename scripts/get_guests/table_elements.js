@@ -1,5 +1,5 @@
 import api from '../api/api.js'
-import { onRequests, onTdFocusOut } from "./eventListeners.js"
+import { onTdRequests, onTdFocusOut } from "./eventListeners.js"
 
 export function td_delete(){
     var tdX = document.createElement('td')
@@ -37,7 +37,7 @@ export function td_tags(){
 export function td_requests(){
     var td = document.createElement('td')
     td.classList.add('td_requests')
-    td.addEventListener('click', onRequests)
+    td.addEventListener('click', onTdRequests)
     return td
 }
 export function td_score(name){
