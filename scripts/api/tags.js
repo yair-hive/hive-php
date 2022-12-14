@@ -9,14 +9,9 @@ export const tags = {
             body: JSON.stringify(data_a),
         }
         return fetch(api_url, options)
-        .then(res => res.text())
-        .then(res => {
-            // var st = JSON.parse(res)
-            // if(st) return st
-            // else 
-            return res
-        })
-        // .then(res => res.json())
+        // .then(res => res.text())
+        // .then(res => console.log(res))
+        .then(res => res.json())
     },
     get_requests: function(data){
         var action_data = {category: 'tag', action: 'get_requests'}

@@ -151,3 +151,34 @@ export function add_tags(){
         }
     })
 }
+export function add_requests(){
+    return new Promise(async (resolve) => {
+        document.querySelectorAll('.td_requests').forEach(td_tag => {
+            var tags_cont = document.createElement('div')
+            tags_cont.classList.add('tags_cont')
+            td_tag.replaceChildren(tags_cont)
+        })
+        var tds = document.querySelectorAll('.td_requests')
+        if(tds.length == 0) resolve()
+        for(let i = 0; i < tds.length; i++){
+            var td = tds[i]
+            var tr_ele = td.parentNode
+            var guest_id = tr_ele.getAttribute('guest_id')
+            var tags = JSON.parse(table.getAttribute('tags'))
+            var requests = await api.tags.get_requests({guest_id: guest_id})
+            requests = requests.data
+            if(requests){
+                for(let i = 0; i < requests.length; i++){
+                    var request = requests[i]
+                    for(let i = 0; i < tags.length; i++){
+                        var tag = tags[i]
+                        if(request.request == tag.id) request.request = tag.tag_name
+                    }
+                    var tags_cont = tr_ele.querySelector('.td_requests').children[0]
+                    tags_cont.append(' | '+request.request+' | ')
+                }
+            }
+            if(i == (tds.length -1)) resolve()
+        }
+    })
+}

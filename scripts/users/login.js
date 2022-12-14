@@ -5,6 +5,7 @@ document.getElementById('login_button').addEventListener('click', ()=>{
     var user_form_data = new FormData(user_form)
     const formDataObj = {};
     user_form_data.forEach((value, key) => (formDataObj[key] = value));
+    console.log(formDataObj)
     api.user.login(formDataObj)
     .then(json => alert(json.msg))
 })

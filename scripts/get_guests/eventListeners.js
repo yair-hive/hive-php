@@ -79,10 +79,9 @@ export function onTdFocusOut(e){
     api.guest.update(data, map_id, guest_id)
 }
 function onRequestsListItem(target){
-    var tag_id = target.getAttribute(tag_id)
-    var guest_id = target.getAttribute(guest_id)
+    var tag_id = target.getAttribute('tag_id')
+    var guest_id = target.getAttribute('guest_id')
     api.tags.add_request({tag_id: tag_id, guest_id: guest_id})
-    .then(res => console.log(res))
 }
 export function onTdRequests(event){
     if(menu.status != 'open'){
@@ -90,7 +89,6 @@ export function onTdRequests(event){
         const table = document.getElementById('names_table') 
         var tags = JSON.parse(table.getAttribute('tags'))
         var list_elements = []
-        console.log(tags)
         for(let i = 0; i < tags.length; i++){
             var tag = tags[i]
             var li = document.createElement('li')

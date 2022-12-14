@@ -6,7 +6,8 @@ $permissions_list[] = 'reading';
 $permissions_list[] = 'writing';
 
 $user_actions['login'] = function(){
-    global $connection;              
+    global $NEW_POST;
+    global $connection;             
     if(!empty($NEW_POST['user_name'])){
         $user_name = $NEW_POST['user_name']; 
         $password = $NEW_POST['password'];
@@ -25,7 +26,7 @@ $user_actions['login'] = function(){
                             }
                         }
                     }
-                    $_SESSION['user_name'] = $_POST['user_name'];
+                    $_SESSION['user_name'] = $NEW_POST['user_name'];
                     $_SESSION['permissions'] = $permissions;
                     $respons['msg'] = 'all ok';
                     print_r(json_encode($respons));
