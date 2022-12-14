@@ -7,9 +7,9 @@ $permissions_list[] = 'writing';
 
 $user_actions['login'] = function(){
     global $connection;              
-    if(!empty($_POST['user_name'])){
-        $user_name = $_POST['user_name']; 
-        $password = $_POST['password'];
+    if(!empty($NEW_POST['user_name'])){
+        $user_name = $NEW_POST['user_name']; 
+        $password = $NEW_POST['password'];
         $query_string = "SELECT * FROM users WHERE user_name='{$user_name}'";
         if($result = mysqli_query($connection, $query_string)){
             if(mysqli_num_rows($result) != 0){

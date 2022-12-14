@@ -4,14 +4,14 @@ const api_url = '/hive-php/php/api.php'
 
 export const user = {
     get: ()=>{
+        var data = {category: 'user', action: 'get'}
         const options = {
             method: 'POST',
-            body: "category=user&action=get",
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
+            body: JSON.stringify(data),
         };
         return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
         .then(res => res.json())
     },
     get_all: ()=>{
@@ -26,15 +26,20 @@ export const user = {
         return fetch(api_url, options)
         .then(res => res.json())
     },
-    login : ()=>{
+    login : (form_data)=>{
+        var data = {
+            category: 'user', 
+            action: 'login'
+        }
+        var data_a = Object.assign(data, form_data)
         const options = {
             method: 'POST',
-            body: "category=user&action=login&"+$('#user_form').serialize(),
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        };
+            body: JSON.stringify(data_a),
+            headers: {}
+        }
         return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
         .then(res => res.json())
     },
     sginup : ()=>{
