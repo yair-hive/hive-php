@@ -39,7 +39,6 @@ function update($filename, $link){
         if (substr($line, 0, 2) == '--' || $line == '')
             continue;
 
-        // Add this line to the current segment
         $tempLine .= $line;
         // If its semicolon at the end, so that is the end of one query
         if (substr(trim($line), -1, 1) == ';')  {
