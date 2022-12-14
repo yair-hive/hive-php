@@ -275,6 +275,7 @@ export function resizeAllInputs(){
     }
     return new Promise((resolve) => {
         var inputs = document.querySelectorAll('td > input')
+        if(inputs.length == 0) resolve()
         for(let i = 0; i < inputs.length; i++){
             var input = inputs[i]
             input.addEventListener('input', resizeInput); 

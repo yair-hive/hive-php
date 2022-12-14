@@ -18,12 +18,13 @@ var tagsSwitchOptions = {
 }
 
 function addGroupsSwitchElement(){
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const table = document.getElementById('names_table') 
         var map_id = table.getAttribute('map_id')
         var group 
         api.guest.get_all_groups(map_id)
         .then((groups)=>{
+            if(groups.length == 0) resolve()
             var groupsSwitch = document.getElementById('groupsSwitch')
             for(let i = 0; i < groups.length; i++){
                 group = groups[i]
@@ -38,12 +39,13 @@ function addGroupsSwitchElement(){
     })
 }
 function addTagsSwitchElement(){
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const table = document.getElementById('names_table') 
         var map_id = table.getAttribute('map_id')
         var tag
         api.seat_groups.get_all_tags(map_id)
         .then((tags)=>{
+            if(tags.length == 0) resolve()
             var tagsSwitch = document.getElementById('tagsSwitch')
             for(let i = 0; i < tags.length; i++){
                 tag = tags[i]

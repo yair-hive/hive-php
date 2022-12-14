@@ -68,6 +68,7 @@ export function add_table(){
 export function add_seat_number(){
     return new Promise(async (resolve) => {
         var num_cells = document.querySelectorAll('.seat_num')
+        if(num_cells.length == 0) resolve()
         for(let i = 0; i < num_cells.length; i++){
             var element = num_cells[i]
             var corrent_tr = element.parentNode
@@ -101,6 +102,7 @@ export function add_tags(){
         var table = document.getElementById('names_table') 
         var map_id = table.getAttribute('map_id')
         var res = await api.seat_groups.get_groups_tags(map_id)
+        if(res.length == 0) resolve()
         for(let group_name of res){
             if(names.indexOf(group_name.tag_name) === -1){
                 names.push(group_name.tag_name)
