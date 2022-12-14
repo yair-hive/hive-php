@@ -58,13 +58,11 @@ export function onSeatNum(event){
     event.target.innerHTML = ''
     var button = document.createElement('button')
     button.textContent = 'הסר'
-    button.setAttribute('seat_id', event.target.getAttribute('seat_id'))
     button.addEventListener('click', (event)=>{
         event.preventDefault()
-        var seat_id = event.target.getAttribute('seat_id')
+        var seat_id = event.target.parentNode.parentNode.getAttribute('seat_id')
         api.seat.delete_belong(seat_id)
-        event.target.parentNode.parentNode.style.display = 'none' 
-        event.target.parentNode.setAttribute('show', 'false')
+        location.reload()
      })
     event.target.append(button)
 }

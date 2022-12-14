@@ -46,11 +46,9 @@ export function td_score(name){
     score_input.setAttribute('value', name.score)
     score_input.setAttribute('group_score', name.group_score)
     score_input.addEventListener('focusout', (event)=>{
-        var guest_id = event.target.parentNode.parentNode.querySelector('.seat_num').getAttribute('guest_id')
+        var guest_id = event.target.parentNode.parentNode.getAttribute('guest_id')
         var p_score = Number(event.target.getAttribute('group_score'))
         var c_score = Number(event.target.value)
-        console.log(c_score)
-        console.log(p_score)
         var score = c_score - p_score
         api.guest.update_guest_score(guest_id, score)
 
