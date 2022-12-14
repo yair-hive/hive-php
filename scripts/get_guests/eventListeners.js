@@ -82,6 +82,7 @@ function onRequestsListItem(target){
     var tag_id = target.getAttribute('tag_id')
     var guest_id = target.getAttribute('guest_id')
     api.tags.add_request({tag_id: tag_id, guest_id: guest_id})
+    menu.close()
 }
 export function onTdRequests(event){
     if(menu.status != 'open'){
