@@ -114,7 +114,7 @@ function import_guests(){
                         api.guest.create(row, map_id)
                         if(i == (rows.length -1)) {
                             pop_up.close()
-                            // location.reload()
+                            location.reload()
                         }
                     }
                 })
@@ -161,7 +161,7 @@ function add_guests(){
                 .then(()=>{
                     document.getElementById('add_guest_form').reset()
                     pop_up.close()
-                    // location.reload()
+                    location.reload()
                 })
             })
         })

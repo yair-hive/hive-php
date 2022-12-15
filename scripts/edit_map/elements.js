@@ -178,7 +178,7 @@ export function add_elements(){
         }
     })
 }
-export function tags_list_script(){
+export function tags_list_script(pop_up){
     return new Promise((resolve) => {
         const parsedUrl = new URL(window.location.href)
         var map_name = parsedUrl.searchParams.get("map_name")
@@ -228,7 +228,7 @@ export function tags_list_script(){
                         td_x.addEventListener('click', (e)=>{
                             var group_id = e.target.parentNode.getAttribute('group_id')
                             api.tags.delete_tag({tag_id: group_id})
-                            .then(() => location.reload())
+                            .then(pop_up.close)
                         })
                         tr.append(td_x)
                         tr.append(td_color)

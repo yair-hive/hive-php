@@ -23,8 +23,8 @@ if(map_name){
     .then(()=>{
         var tags_pop_up = new popUp('תגיות', tags_list())
         tags_pop_up.onClose = on_show_tags
-        tags_pop_up.onOpen = function(){
-            tags_list_script()
+        tags_pop_up.onOpen = function(pop_up){
+            tags_list_script(pop_up)
             .then(()=>{
                 resizeAllInputs()
             })
