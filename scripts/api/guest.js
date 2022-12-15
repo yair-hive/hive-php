@@ -90,6 +90,8 @@ export const guest = {
             }
         }
         return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
         .then(res => res.json())
     },
     update_belong: (selected_guest_id, selected_seat_class, map_id)=>{
