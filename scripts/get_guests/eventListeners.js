@@ -2,6 +2,7 @@ import { exportTableToExcel } from "../scripts.js"
 import api from "../api/api.js"
 import dropDown from "../hiveElements/dropDown.js"
 import scrolling_list from '../hiveElements/scrolling_list.js'
+import { add_requests } from "./elements.js"
 
 var mainBord = document.getElementById('mainBord')
 const menu = new dropDown(mainBord)
@@ -80,8 +81,8 @@ function onRequestsListItem(target){
     var tag_id = target.getAttribute('tag_id')
     var guest_id = target.getAttribute('guest_id')
     api.tags.add_request({tag_id: tag_id, guest_id: guest_id})
-    menu.close()
-    location.reload()
+    add_requests()
+    .then(menu.close)
 }
 export function onTdRequests(event){
     if(menu.status != 'open'){
@@ -100,6 +101,6 @@ export function onTdRequests(event){
         }
         guest_scrolling_list.replaceItems(list_elements)
         guest_scrolling_list.onItem = onRequestsListItem
-        menu.open(event.target)
     }
+    menu.open(event.target)
 }
