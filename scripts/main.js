@@ -23,7 +23,11 @@ function add_create_map_form_scripts(pop_up){
     pop_up.popUpBody.classList.add('popUpBodyF')
     pop_up.popUpBody.setAttribute('dir', 'rtl')
     document.getElementById('create_map').addEventListener('click', ()=>{
-        api.map.create()
+        var map_form = document.getElementById('create_map_form')
+        var form_data = new FormData(map_form)
+        const formDataObj = {};
+        form_data.forEach((value, key) => (formDataObj[key] = value));
+        api.map.create(formDataObj)
         pop_up.close()
     })
 }

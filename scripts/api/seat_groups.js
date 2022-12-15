@@ -201,22 +201,6 @@ export const seat_groups = {
             return res.msg
         })
     },
-    create_tag: (belong)=>{
-        const options = {
-            method: 'POST',
-            body: "category=seat_groups&action=create_tag&belong="+belong+"&"+$('#create_tag_form').serialize(),
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        };         
-        return fetch(api_url, options)
-        // .then(res => res.text())
-        // .then(res => alert(res))
-        .then(res => res.json())
-        .then((res)=>{
-            return res.msg
-        })
-    },
     update_tag_color: (id, color)=>{
         const options = {
             method: 'POST',

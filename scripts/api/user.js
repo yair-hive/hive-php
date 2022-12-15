@@ -42,15 +42,20 @@ export const user = {
         // .then(res => console.log(res))
         .then(res => res.json())
     },
-    sginup : ()=>{
+    sginup : (form_data)=>{
+        var data = {
+            category: 'user', 
+            action: 'sginup'
+        }
+        var data_a = Object.assign(data, form_data)
         const options = {
             method: 'POST',
-            body: "category=user&action=sginup&"+$('#user_form').serialize(),
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        };
+            body: JSON.stringify(data_a),
+            headers: {}
+        }
         return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
         .then(res => res.json())
     },
     add_permission : (user_id, permission)=>{

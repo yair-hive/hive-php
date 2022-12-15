@@ -161,35 +161,6 @@ $seat_groups['get_seats_tags'] = function(){
     $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_id = '{$group_id}' AND group_type = 'tag'";
     db_get($query_string);
 };
-$seat_groups['create_tag'] = function(){
-    print_r($_POST);
-    $name = $_POST['name'];
-    $color = $_POST['color'];
-    $score = $_POST['score'];
-    $belong = $_POST['belong'];
-    global $connection;
-    $query_string = "SELECT * FROM tags WHERE tag_name='{$name}'";
-    if($result = mysqli_query($connection, $query_string)){
-        if(mysqli_num_rows($result) == 0){
-            $query_string = "SELECT * FROM tags WHERE color = '{$color}'";
-            if($result = mysqli_query($connection, $query_string)){
-                if(mysqli_num_rows($result) == 0){
-                    $query_string = "INSERT INTO tags(tag_name, color, score, belong) VALUES('{$name}', '{$color}', '{$score}', '{$belong}')";
-                    if(mysqli_query($connection, $query_string)){
-                        $respons['msg'] = 'ok';
-                        print_r(json_encode($respons));
-                    }
-                }else{
-                    $respons['msg'] = 'color allrdy axist';
-                    print_r(json_encode($respons));
-                }
-            }
-        }else{
-            $respons['msg'] = 'name allrdy axist';
-            print_r(json_encode($respons));
-        }
-    }
-};
 $seat_groups['update_tag_color'] = function(){
     $color = $_POST['color'];
     $id = $_POST['id'];

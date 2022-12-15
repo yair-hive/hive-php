@@ -33,22 +33,20 @@ export const map = {
             return res.msg
         })
     },
-    create: () => {
+    create: (form_data) => {
+        var data = {
+            category: 'map', 
+            action: 'create'
+        }
+        var data_a = Object.assign(data, form_data)
         const options = {
             method: 'POST',
-            body: "category=map&action=create&"+$('#create_map_form').serialize(),
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
+            body: JSON.stringify(data_a),
+            headers: {}
         }
         return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
         .then(res => res.json())
-        .then((res)=>{
-            if(res.msg == 'ok') return
-            alert(res.msg)
-            return res.msg
-        })
     } 
 }

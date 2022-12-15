@@ -137,26 +137,6 @@ export const guest = {
             return res.msg
         })
     },
-    creae_group: (map_id)=>{
-        const options = {
-            method: 'POST',
-            body: "category=guest&action=create_group&"+$('#create_group_form').serialize()+"&map_id="+map_id,
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        }
-        return fetch(api_url, options)
-        // .then(res => res.text())
-        // .then(res => alert(res))
-        .then(res => res.json())
-        .then((res)=>{
-            if(res.msg == 'ok') return res.msg
-            alert(res.msg)
-            return res.msg
-        })
-    },
     delete_group: (group_id)=>{
         const options = {
             method: 'POST',

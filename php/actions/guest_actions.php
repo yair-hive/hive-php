@@ -229,57 +229,6 @@ $guest_actions['get_all_groups'] = function(){
         print_r(json_encode($respons));
     }
 };
-$guest_actions['create_group'] = function(){
-    if(allowed('writing')){
-        if(!empty($_POST['group_name']) && !empty($_POST['color']) && !empty($_POST['score']) && !empty($_POST['map_id'])){
-            $group_name = $_POST['group_name'] ;
-            $color = $_POST['color'];
-            $score = $_POST['score'];                        
-            $map_id = $_POST['map_id'];  
-            global $connection;     
-            $query_string = "SELECT * FROM guests_groups WHERE group_name='{$group_name}' AND belong='{$map_id}'";
-            if($result = mysqli_query($connection, $query_string)){
-                if(mysqli_num_rows($result) == 0){
-                    $query_string = "SELECT * FROM guests_groups WHERE color='{$color}' AND belong='{$map_id}'";
-                    if($result = mysqli_query($connection, $query_string)){
-                        if(mysqli_num_rows($result) == 0){
-                            $query_string = "INSERT INTO guests_groups(group_name, color, score, belong) VALUES('{$group_name}', '{$color}', '{$score}', '{$map_id}')";
-                            db_post($query_string);
-                            $query_string = "SELECT * FROM guests WHERE belong='{$map_id}'";
-                            $result = mysqli_query($connection, $query_string);
-                            $results = [];
-                            while($row = mysqli_fetch_assoc($result)){
-                                $results[] = $row;
-                            }
-                            foreach($results as $guest){
-                                if($guest['guest_group'] == $group_name){
-                                    $guest_id = $guest['id'];
-                                    $query_string = "UPDATE guests SET score = '{$score}' WHERE id='{$guest_id}'";
-                                    $result = mysqli_query($connection, $query_string);
-                                }
-                            }                           
-                        }else{
-                            $respons['msg'] = 'color allrdy axist';
-                            print_r(json_encode($respons));
-                        }
-                    }
-                }else{
-                    $respons['msg'] = 'allrdy axist';
-                    print_r(json_encode($respons));
-                }
-            }else{
-                $respons['msg'] = 'db error';
-                print_r(json_encode($respons));
-            }
-        }else{
-            $respons['msg'] = 'faild empty';
-            print_r(json_encode($respons));
-        }
-    }else{
-        $respons['msg'] = 'dinaid';
-        print_r(json_encode($respons));
-    }
-};
 $guest_actions['delete_group'] = function(){
     if(allowed('writing')){
         if(!empty($_POST['group_id'])){

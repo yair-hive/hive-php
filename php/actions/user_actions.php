@@ -92,15 +92,16 @@ $user_actions['logout'] = function(){
     print_r(json_encode($respons));
 };
 $user_actions['sginup'] = function(){
-    global $connection;  
-    if(!empty($_POST['user_name']) && !empty($_POST['password'])){
-        $user_name = $_POST['user_name'];
-        $password = $_POST['password'];
+    global $connection; 
+    global $NEW_POST; 
+    if(!empty($NEW_POST['user_name']) && !empty($NEW_POST['password'])){
+        $user_name = $NEW_POST['user_name'];
+        $password = $NEW_POST['password'];
         $password = password_hash($password, PASSWORD_DEFAULT);
         $query_string = "INSERT INTO users(user_name, password) VALUES('{$user_name}', '{$password}')";
         db_post($query_string);
     }else{
-        $respons['msg'] = $_POST;
+        $respons['msg'] = $NEW_POST;
         print_r(json_encode($respons));
     }
 };
