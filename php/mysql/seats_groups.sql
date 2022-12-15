@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: דצמבר 05, 2022 בזמן 08:02 PM
+-- Generation Time: דצמבר 15, 2022 בזמן 02:36 PM
 -- גרסת שרת: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `hive`
+-- Database: `hive-1`
 --
 
 -- --------------------------------------------------------
@@ -30,7 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `seats_groups` (
   `id` int(11) NOT NULL,
   `group_name` varchar(25) NOT NULL,
-  `score` int(11) NOT NULL
+  `score` int(11) NOT NULL,
+  `belong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

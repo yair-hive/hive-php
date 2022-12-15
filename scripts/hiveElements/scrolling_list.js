@@ -31,6 +31,7 @@ export default class {
     reset = function(){
         this.correntItemIndex = -1
         this.correntItem = false
+        this.listElement.innerHTML = ''
     }
     onItem = function(item){}
     addItems = function(items){

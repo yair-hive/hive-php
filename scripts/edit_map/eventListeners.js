@@ -457,6 +457,7 @@ export const onSeatName = (event)=>{
     }
     const inputBox = document.getElementById('inputBox')
     menu.onOpen = function(){
+        guest_scrolling_list.reset()
         event.target.textContent = ''
         var guest_name = event.target.getAttribute('guest_name')
         inputBox.style.display = 'inline-block'
