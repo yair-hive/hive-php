@@ -10,9 +10,31 @@ function getTagId($group_name, $map_id){
         return false;
     }
 };
+function getSeatsGroupId($group_name, $map_id){
+    global $connection;
+    $query_string = "SELECT id FROM seats_groups WHERE group_name = '{$group_name}' AND belong = '{$map_id}'";
+    $result = mysqli_query($connection, $query_string);
+    $result = mysqli_fetch_assoc($result);
+    if($result){
+        return $result['id'];
+    }else{
+        return false;
+    }
+}
 function getTagData($group_id){
     global $connection;
     $query_string = "SELECT * FROM tags WHERE id = '{$group_id}'";
+    $result = mysqli_query($connection, $query_string);
+    $result = mysqli_fetch_assoc($result);
+    if($result){
+        return $result;
+    }else{
+        return false;
+    }
+};
+function getSeatGroupData($group_id){
+    global $connection;
+    $query_string = "SELECT * FROM seats_groups WHERE id = '{$group_id}'";
     $result = mysqli_query($connection, $query_string);
     $result = mysqli_fetch_assoc($result);
     if($result){
@@ -28,6 +50,14 @@ function createDefaultTag($tag_name, $map){
     $belong = $map;
     global $connection;
     $query_string = "INSERT INTO tags(tag_name, color, score, belong) VALUES('{$name}', '{$color}', '{$score}', '{$belong}')";
+    mysqli_query($connection, $query_string);
+}
+function createDefaultSeatGroup($group_name, $map){
+    $name = $group_name;
+    $score = 0;
+    $belong = $map;
+    global $connection;
+    $query_string = "INSERT INTO seats_groups(group_name, score, belong) VALUES('{$name}', '{$score}', '{$belong}')";
     mysqli_query($connection, $query_string);
 }
 $seat_groups['create'] = function(){
@@ -50,19 +80,26 @@ $seat_groups['add_col'] = function(){
     $seat = $_POST['seat'];
     $group_name = $_POST['group'];
     $map = $_POST['map'];
-    $group_id = null;
-    $query_string = "INSERT INTO seat_groups_belong(seat, group_id, group_type, belong) VALUES('{$seat}', '{$group_id}', 'col', '{$map}')";
-    db_post($query_string);
+    $group_id = getSeatsGroupId($group_name, $map);
+    if($group_id){
+        $query_string = "INSERT INTO seat_groups_belong(seat, group_id, group_type, belong) VALUES('{$seat}', '{$group_id}', 'col', '{$map}')";
+        db_post($query_string);
+    }else{
+        createDefaultSeatGroup($group_name, $map);
+        $group_id = getSeatsGroupId($group_name, $map);
+        $query_string = "INSERT INTO seat_groups_belong(seat, group_id, group_type, belong) VALUES('{$seat}', '{$group_id}', 'col', '{$map}')";
+        db_post($query_string);
+    }
 };
 $seat_groups['get_groups_cols'] = function(){
     $map_id = $_POST['map_id'];
-    $query_string = "SELECT group_name FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_type = 'col'";
+    $query_string = "SELECT group_name FROM seats_groups WHERE belong = '{$map_id}'";
     db_get($query_string);
 };
 $seat_groups['get_seats_cols'] = function(){
     $map_id = $_POST['map_id'];
     $group_name = $_POST['group_name'];
-    $group_id = getTagId($group_name, $map_id);
+    $group_id = getSeatsGroupId($group_name, $map_id);
     $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_id = '{$group_id}' AND group_type = 'col'";
     db_get($query_string);
 };

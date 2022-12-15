@@ -18,11 +18,12 @@ selection.disable()
 
 function proximity_score(){
     return new Promise((resolve) => {
-        var score, map, map_rows, map_cols, seat, cols_middle, i, col_num, row_num
+        var score, map, map_rows, map_cols, seat, cols_middle, i, col_num, row_num, cols_middle2
         map = document.getElementById('map')
         map_rows = map.getAttribute('rows')
         map_cols = map.getAttribute('cols')
         cols_middle = Math.round(map_cols / 2)
+        cols_middle2 = Math.floor(map_cols / 2)
         var cols = []
         var rows = []
         document.querySelectorAll('.cell_cont > .seat').forEach(col => {
@@ -38,20 +39,38 @@ function proximity_score(){
                 rows.push(row_num)
             }
         })
+        console.log(cols_middle2)
+        console.log(cols_middle)
         i = 0
         for(let col of cols){
-            if(col < cols_middle) {
-                i++; 
-                score = Math.abs(i);
-            }
-            if(col > cols_middle) {
-                i--; 
-                score = Math.abs(i);
-    
-            }
-            if(col == cols_middle) {
-                i++; 
-                score = Math.abs(i); 
+            if(cols_middle == cols_middle2){
+                if(col != (cols_middle + 1)){
+                    if(col < cols_middle) {
+                        i++; 
+                        score = Math.abs(i);
+                    }
+                    if(col > cols_middle) {
+                        i--; 
+                        score = Math.abs(i);    
+                    }
+                }
+                if(col == cols_middle) {
+                    i++; 
+                    score = Math.abs(i); 
+                }
+            }else{
+                if(col < cols_middle) {
+                    i++; 
+                    score = Math.abs(i);
+                }
+                if(col > cols_middle) {
+                    i--; 
+                    score = Math.abs(i);    
+                }
+                if(col == cols_middle) {
+                    i++; 
+                    score = Math.abs(i); 
+                }
             }
             document.querySelectorAll('.cell_cont[col="'+col+'"]').forEach(cell_cont => {
                 seat = cell_cont.children[0]
@@ -79,7 +98,7 @@ function proximity_score(){
     })
 }
 function add_col_group_score(){
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         var names = []
         var seats_array = []
         var map_id = document.getElementById('map').getAttribute('map_id')
@@ -216,7 +235,7 @@ function on_show_score(){
             var col_score = Number(seat.getAttribute('col_score'))
             var row_score = Number(seat.getAttribute('row_score'))
             var pass_score = Number(seat.getAttribute('pass_score'))
-            var total_score = col_score + row_score + pass_score
+            var total_score = col_score +' & '+ row_score +' & '+ pass_score
             seat.children[1].innerHTML = total_score
         })
     })
