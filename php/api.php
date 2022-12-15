@@ -1,5 +1,15 @@
 <?php 
-header("Access-Control-Allow-Origin: *");
+$allowedOrigins = [
+   'http://localhost',
+   'http://localhost:3000' 
+];
+ 
+if(in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)){
+    $http_origin = $_SERVER['HTTP_ORIGIN'];
+}else{
+    $http_origin = "*";
+}
+header("Access-Control-Allow-Origin: $http_origin");
 session_start();
 
 $NEW_POST = json_decode(file_get_contents('php://input'), true);

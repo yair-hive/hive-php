@@ -18,13 +18,13 @@ $map_actions['create'] = function(){
     }
 };
 $map_actions['get_all'] = function(){
-    if(allowed("reading")){    
+    // if(allowed("reading")){    
         $query_string = "SELECT map_name FROM maps";
         db_get($query_string, true);
-    }else{
-        $respons['msg'] = 'dinaid';
-        print_r(json_encode($respons));
-    }
+    // }else{
+    //     $respons['msg'] = 'dinaid';
+    //     print_r(json_encode($respons));
+    // }
 };
 $map_actions['get'] = function(){
     if(allowed("reading")){
