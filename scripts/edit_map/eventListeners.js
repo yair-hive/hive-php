@@ -22,12 +22,14 @@ function proximity_score(){
         map = document.getElementById('map')
         map_rows = map.getAttribute('rows')
         map_cols = map.getAttribute('cols')
+        map_cols = Number(map_cols)
         cols_middle = Math.round(map_cols / 2)
         cols_middle2 = Math.floor(map_cols / 2)
         var cols = []
         var rows = []
         document.querySelectorAll('.cell_cont > .seat').forEach(col => {
             col_num = col.parentNode.getAttribute('col')
+            col_num = Number(col_num)
             if(cols.indexOf(col_num) === -1){
                 cols.push(col_num)
             }
@@ -39,6 +41,8 @@ function proximity_score(){
                 rows.push(row_num)
             }
         })
+        cols.sort(function(a, b) { return a - b; });
+        cols.reverse()
         i = 0
         for(let col of cols){
             if(cols_middle == cols_middle2){
@@ -58,12 +62,14 @@ function proximity_score(){
                 }
             }else{
                 if(col < cols_middle) {
-                    i++; 
-                    score = Math.abs(i);
+                    i--;
+                    score = i
+                    // score = Math.abs(i);
                 }
                 if(col > cols_middle) {
-                    i--; 
-                    score = Math.abs(i);    
+                    i++;
+                    score = i
+                    // score = Math.abs(i);    
                 }
                 if(col == cols_middle) {
                     i++; 
@@ -308,7 +314,6 @@ export function onScheduling(){
                 // console.log(random_for_guest)
                 for(let i = 0; i < seats_score.length; i++){
                     var corrent_seats_group = seats_s[seats_score[i]]
-                    console.log(corrent_seats_group)
                     if(corrent_seats_group.length > 0){
                         var random_for_seat = getRandomNumber(0, (corrent_seats_group.length - 1))
                         var random_seat = corrent_seats_group[random_for_seat]
