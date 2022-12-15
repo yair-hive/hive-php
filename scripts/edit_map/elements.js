@@ -111,7 +111,7 @@ export const add_guests = (guests)=>{
                     guests[c].color = group.color
                     guests[c].group_id = guests[c].guest_group
                     guests[c].guest_group = group.group_name
-                    guests[c].score = group.score
+                    guests[c].score = Number(guests[c].score) + Number(group.score)
                 }
             }
         }
