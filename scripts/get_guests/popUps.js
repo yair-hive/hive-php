@@ -112,10 +112,12 @@ function import_guests(){
                     for(let i = 0; i < rows.length; i++){
                         var row = rows[i]
                         api.guest.create(row, map_id)
-                        if(i == (rows.length -1)) {
-                            pop_up.close()
-                            location.reload()
-                        }
+                        .then(()=>{
+                            if(i == (rows.length -1)) {
+                                pop_up.close()
+                                location.reload()
+                            }
+                        })
                     }
                 })
             })
