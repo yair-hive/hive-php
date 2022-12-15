@@ -179,7 +179,7 @@ export function add_elements(){
     })
 }
 export function tags_list_script(){
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const parsedUrl = new URL(window.location.href)
         var map_name = parsedUrl.searchParams.get("map_name")
         if(map_name){
@@ -218,6 +218,7 @@ export function tags_list_script(){
                             var color = e.target.value
                             var group_id = e.target.parentNode.parentNode.getAttribute('group_id')
                             api.seat_groups.update_tag_color(group_id, color)
+                            .then(() => location.reload())
                         })
                         td_color.append(color_input)
                         td_x.setAttribute('group_id', group.id)
@@ -226,10 +227,8 @@ export function tags_list_script(){
                         td_x.style.padding = '5px'
                         td_x.addEventListener('click', (e)=>{
                             var group_id = e.target.parentNode.getAttribute('group_id')
-                            api.seat_groups.delete_tag(group_id)
-                            .then(()=>{
-                                e.target.parentNode.style.display = 'none'
-                            })
+                            api.tags.delete_tag({tag_id: group_id})
+                            .then(() => location.reload())
                         })
                         tr.append(td_x)
                         tr.append(td_color)

@@ -24,5 +24,17 @@ export const tags = {
         // .then(res => res.text())
         // .then(res => console.log(res))
         .then(res => res.json())
+    },
+    delete_tag: function(data){
+        var action_data = {category: 'tag', action: 'delete_tag'}
+        var data_a = Object.assign(action_data, data)
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(data_a),
+        }
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
+        .then(res => res.json())
     }
 }
