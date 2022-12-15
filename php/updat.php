@@ -26,6 +26,7 @@ $files =
 'seat_groups_belong.sql',
 'map_obs.sql',
 'tags.sql',
+'guests_requests.sql',
 'users.sql',];
 
 function update($filename, $link){
