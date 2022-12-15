@@ -27,13 +27,13 @@ $map_actions['get_all'] = function(){
     // }
 };
 $map_actions['get'] = function(){
-    if(allowed("reading")){
+    // if(allowed("reading")){
         $map_name = $_POST['map_name'];
         global $connection;        
         $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
         db_get($query_string);
-    }else{
-        $respons['msg'] = 'dinaid';
-        print_r(json_encode($respons));
-    }
+    // }else{
+    //     $respons['msg'] = 'dinaid';
+    //     print_r(json_encode($respons));
+    // }
 };
