@@ -154,6 +154,19 @@ function add_col_group_score(){
         })
     })
 }
+function on_show_score(){
+    proximity_score()
+    .then(add_col_group_score)
+    .then(()=>{
+        document.querySelectorAll('.seat').forEach(seat => {
+            var col_score = Number(seat.getAttribute('col_score'))
+            var row_score = Number(seat.getAttribute('row_score'))
+            var pass_score = Number(seat.getAttribute('pass_score'))
+            var total_score = col_score + row_score + pass_score
+            seat.children[1].innerHTML = total_score
+        })
+    })
+}
 function getGroupColor(guest_group){
     var groups = JSON.parse(document.getElementById('map').getAttribute('groups'))
     for(let group of groups){
@@ -227,17 +240,65 @@ export function on_show_tags(){
         }
     })
 }
-function on_show_score(){
+function getRandomNumber(min, max) {
+    let step1 = max - min + 1;
+    let step2 = Math.random() * step1;
+    let result = Math.floor(step2) + min;
+    return result;
+}
+export function onScheduling(){
+    var seats_score = []
+    var guests_score = []
+    var guest_s = {}
+    var seats_s = {}
     proximity_score()
     .then(add_col_group_score)
     .then(()=>{
-        document.querySelectorAll('.seat').forEach(seat => {
+        var seats = document.querySelectorAll('.seat')
+        for(let i = 0; i < seats.length; i++){
+            var seat = seats[i]
             var col_score = Number(seat.getAttribute('col_score'))
             var row_score = Number(seat.getAttribute('row_score'))
             var pass_score = Number(seat.getAttribute('pass_score'))
-            var total_score = col_score +' & '+ row_score +' & '+ pass_score
-            seat.children[1].innerHTML = total_score
-        })
+            var total_score = col_score + row_score + pass_score
+            seat.setAttribute('total_score', total_score)
+            if(seats_score.indexOf(total_score) === -1){
+                seats_score.push(total_score)
+            }
+        }
+        var guests_list = JSON.parse(document.getElementById('map').getAttribute('guests'))
+        for(let i = 0; i < guests_list.length; i++){
+            var guest = guests_list[i]
+            if(guests_score.indexOf(guest.score) === -1){
+                guests_score.push(guest.score)
+            }
+        }
+        guests_score.map(s => Number(s))
+        guests_score.sort(function(a, b) { return a - b; });
+        guests_score.reverse()
+        for(let i = 0; i < guests_score.length; i++){
+            var guest_score = guests_score[i]
+            guest_s[guest_score] = []
+        }
+        for(let i = 0; i < guests_list.length; i++){
+            var guest = guests_list[i]
+            guest_s[guest.score].push(guest.id)
+        }
+        seats_score.sort(function(a, b) { return a - b; });
+        seats_score.reverse()
+        seats_score
+        for(let i = 0; i < seats_score.length; i++){
+            var seat_score = seats_score[i]
+            seats_s[seat_score] = []
+        }
+        for(let i = 0; i < seats.length; i++){
+            var seat = seats[i]
+            seats_s[seat.getAttribute('total_score')].push(seat.getAttribute('seat_id')) 
+        }
+        console.log(seats_score)
+        console.log(guests_score)
+        console.log(guest_s)
+        console.log(seats_s)
     })
 }
 function onAddSeats(){
