@@ -10,6 +10,7 @@ if(in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)){
     $http_origin = "*";
 }
 header("Access-Control-Allow-Origin: $http_origin");
+header("Access-Control-Allow-Credentials: true");
 session_start();
 
 $NEW_POST = json_decode(file_get_contents('php://input'), true);

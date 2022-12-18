@@ -29,6 +29,7 @@ $user_actions['login'] = function(){
                     $_SESSION['user_name'] = $NEW_POST['user_name'];
                     $_SESSION['permissions'] = $permissions;
                     $respons['msg'] = 'all ok';
+                    $respons['h'] = json_encode($_SESSION);
                     print_r(json_encode($respons));
                 }else{
                     $respons['msg'] = 'login faild';
@@ -54,6 +55,7 @@ $user_actions['get'] = function(){
         print_r(json_encode($respons));
     }else{
         $respons['msg'] = 'parameter misseng';
+        $respons['d'] = json_encode($_SESSION);
         print_r(json_encode($respons));
     }
 };
