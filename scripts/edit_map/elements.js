@@ -2,10 +2,6 @@ import { onSeatName } from "./eventListeners.js"
 import "../lib/jquery.min.js"
 import { respondToVisibility } from "./tooles.js"
 import api from "../api/api.js"
-import MBloader from "../hiveElements/MBloader.js"
-
-const loader = new MBloader()
-loader.add()
 
 function cell(row, col){
     var cellContainer = document.createElement('div')
@@ -53,130 +49,140 @@ function cellContainer(seat, seat_ele){
     var cellContainer = document.querySelector(`.cell_cont[row ="${seat.row_num}"][col = "${seat.col_num}"]`)
     cellContainer.replaceChildren(seat_ele)
 }
-export const add_map = (map_data)=>{
-    loader.start()
-    const map_ele = map(map_data)
-    for(var rowsCounter = 1; rowsCounter <= map_data.rows_number; rowsCounter++){
-        for(var colsCounter = 1; colsCounter <= map_data.columns_number; colsCounter++){
-            map_ele.appendChild(cell(rowsCounter, colsCounter))
-        }
-    }
-    document.getElementById('map_container').append(map_ele)
-    loader.stop()
-}
-export const add_seats = (seats)=>{
-    loader.start()
-    if(seats.length == 0) loader.stop()
-    for(let seat_data of seats){
-        cellContainer(seat_data, seat(seat_data))
-    }
-    loader.stop()
-}
-export const add_belong = ()=>{
-    loader.start()
-    var name_boxs =  document.querySelectorAll('.name_box')
-    var l = name_boxs.length
-    var i = 1
-   name_boxs.forEach(element => {
-        i++
-        var seat_id = element.getAttribute('seat_id')
-        api.seat.get_belong(seat_id)
-        .then(belong => {
-            if(belong[0]) element.setAttribute('guest_id', belong[0].guest)
-            else return
-        })
-        .then(()=>{
-            if(i == l){
-                loader.stop()
+export const add_map = (map_name)=>{
+    return new Promise((resolve) => {
+        api.map.get(map_name).then(map_data => {
+            const map_ele = map(map_data)
+            for(var rowsCounter = 1; rowsCounter <= map_data.rows_number; rowsCounter++){
+                for(var colsCounter = 1; colsCounter <= map_data.columns_number; colsCounter++){
+                    map_ele.appendChild(cell(rowsCounter, colsCounter))
+                }
             }
+            resolve()
+            document.getElementById('map_container').append(map_ele)
         })
     })
 }
-export const add_guests = (guests)=>{
-    loader.start()
-    var map_ele = document.getElementById('map')
-    var map_id = map_ele.getAttribute('map_id')
-    api.guest.get_all_groups(map_id)
-    .then((groups)=>{
-        var name_boxs = document.querySelectorAll('.name_box')
-        var l = guests.length
-        var i = 1
-        if(l == 0){
-            loader.stop()
-        }
-        for(var c = 0; c < l; c++){
-            var guest_group = guests[c].guest_group
-            for(let group of groups){
-                if(group.id == guest_group){
-                    guests[c].color = group.color
-                    guests[c].group_id = guests[c].guest_group
-                    guests[c].guest_group = group.group_name
-                    guests[c].score = Number(guests[c].score) + Number(group.score)
-                }
+export const add_seats = ()=>{
+    return new Promise((resolve) => {
+        var map_id = document.getElementById('map').getAttribute('map_id')
+        api.seat.get_all(map_id)
+        .then(seats => {
+            if(seats.length == 0) loader.stop()
+            for(let seat_data of seats){
+                cellContainer(seat_data, seat(seat_data))
             }
-        }
-        name_boxs.forEach((name_box)=>{
+            resolve()
+        })
+    })
+}
+export const add_belong = ()=>{
+    return new Promise((resolve) => {
+        var name_boxs =  document.querySelectorAll('.name_box')
+        var l = name_boxs.length
+        var i = 0
+        name_boxs.forEach(element => {
             i++
-            var guest_id = name_box.getAttribute('guest_id')
-            for(var corrent of guests){
-                if(corrent.id == guest_id){
-                    corrent.name = corrent.last_name+' '+corrent.first_name
-                    if(corrent.name.length > 15) name_box.style.fontSize = '11px';
-                    corrent.guest_group = corrent.guest_group.replace(" ","_"); 
-                    name_box.setAttribute('guest_name', corrent.name)
-                    name_box.setAttribute('guest_group', corrent.guest_group)
-                    name_box.textContent = corrent.name 
-                    if(corrent.color){
-                        name_box.style.backgroundColor = corrent.color
-                    }            
+            var seat_id = element.getAttribute('seat_id')
+            if(i == l) resolve()
+            api.seat.get_belong(seat_id)
+            .then(belong => {
+                if(belong[0]) element.setAttribute('guest_id', belong[0].guest)
+                else return
+            })
+        })
+    })
+}
+export const add_guests = ()=>{
+    return new Promise((resolve) => {
+        var map_ele = document.getElementById('map')
+        var map_id = map_ele.getAttribute('map_id')
+        api.guest.get_all(map_id)
+        .then((guests)=> {
+            api.guest.get_all_groups(map_id)
+            .then((groups)=>{
+                var name_boxs = document.querySelectorAll('.name_box')
+                var l = guests.length
+                var i = 1
+                if(l == 0) resolve()
+                for(var c = 0; c < l; c++){
+                    var guest_group = guests[c].guest_group
+                    for(let group of groups){
+                        if(group.id == guest_group){
+                            guests[c].color = group.color
+                            guests[c].group_id = guests[c].guest_group
+                            guests[c].guest_group = group.group_name
+                            guests[c].score = Number(guests[c].score) + Number(group.score)
+                        }
+                    }
                 }
-                if(i == l){
-                    respondToVisibility(name_box, loader.stop)
-                }
-            }
-        }) 
-        var groups_press = JSON.stringify(groups)
-        var guests_press = JSON.stringify(guests)
-        map_ele.setAttribute('guests', guests_press)
-        map_ele.setAttribute('groups', groups_press)
-        loader.stop()
+                name_boxs.forEach((name_box)=>{
+                    i++
+                    var guest_id = name_box.getAttribute('guest_id')
+                    for(var corrent of guests){
+                        if(corrent.id == guest_id){
+                            corrent.name = corrent.last_name+' '+corrent.first_name
+                            if(corrent.name.length > 15) name_box.style.fontSize = '11px';
+                            corrent.guest_group = corrent.guest_group.replace(" ","_"); 
+                            name_box.setAttribute('guest_name', corrent.name)
+                            name_box.setAttribute('guest_group', corrent.guest_group)
+                            name_box.textContent = corrent.name 
+                            if(corrent.color){
+                                name_box.style.backgroundColor = corrent.color
+                            }            
+                        }
+                        if(i == l){
+                            respondToVisibility(name_box, resolve)
+                        }
+                    }
+                }) 
+                var groups_press = JSON.stringify(groups)
+                var guests_press = JSON.stringify(guests)
+                map_ele.setAttribute('guests', guests_press)
+                map_ele.setAttribute('groups', groups_press)
+                resolve()
+            })
+        })
     })
 }
 export function add_elements(){
-    var map = document.getElementById('map').getAttribute('map_id')
-    api.seat_groups.get_ob(map)
-    .then(res => {
-        for(let ob of res){
-            ob.from_row = Number(ob.from_row)
-            ob.from_col = Number(ob.from_col)
-            ob.to_col = Number(ob.to_col)
-            ob.to_row = Number(ob.to_row)
-            var row, col
-            for(row = ob.from_row; row <= ob.to_row; row++){
-                for(col = ob.from_col; col <= ob.to_col; col++){
-                    var cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
-                    if(cell) cell.remove()
+    return new Promise((resolve) => {
+        var map = document.getElementById('map').getAttribute('map_id')
+        api.seat_groups.get_ob(map)
+        .then(res => {
+            for(let ob of res){
+                ob.from_row = Number(ob.from_row)
+                ob.from_col = Number(ob.from_col)
+                ob.to_col = Number(ob.to_col)
+                ob.to_row = Number(ob.to_row)
+                var row, col
+                for(row = ob.from_row; row <= ob.to_row; row++){
+                    for(col = ob.from_col; col <= ob.to_col; col++){
+                        var cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
+                        if(cell) cell.remove()
+                    }
                 }
+                row++
+                var next_cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
+                var to_col = Number(ob.to_col) + 1
+                var to_row = Number(ob.to_row) + 1
+                var ob_ele = document.createElement('div')
+                ob_ele.classList.add('ob_ele')
+                var ob_name_ele = document.createElement('div')
+                ob_name_ele.textContent = ob.ob_name
+                ob_ele.append(ob_name_ele)
+                ob_ele.style.gridColumnStart = ob.from_col
+                ob_ele.style.gridRowStart = ob.from_row
+                ob_ele.style.gridColumnEnd = to_col.toString()
+                ob_ele.style.gridRowEnd = to_row.toString()
+                ob_ele.classList.add('map_ob')
+                ob_ele.classList.add('ele')
+                document.getElementById('map').insertBefore(ob_ele, next_cell)
+                var per = ob_ele.getBoundingClientRect()
+                if(per.height > per.width) ob_name_ele.style.transform = 'rotate(90deg)';               
             }
-            row++
-            var next_cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
-            var to_col = Number(ob.to_col) + 1
-            var to_row = Number(ob.to_row) + 1
-            var ob_ele = document.createElement('div')
-            ob_ele.classList.add('ob_ele')
-            var ob_name_ele = document.createElement('div')
-            ob_name_ele.textContent = ob.ob_name
-            ob_ele.append(ob_name_ele)
-            ob_ele.style.gridColumnStart = ob.from_col
-            ob_ele.style.gridRowStart = ob.from_row
-            ob_ele.style.gridColumnEnd = to_col.toString()
-            ob_ele.style.gridRowEnd = to_row.toString()
-            ob_ele.classList.add('map_ob')
-            ob_ele.classList.add('ele')
-            document.getElementById('map').insertBefore(ob_ele, next_cell)
-            var per = ob_ele.getBoundingClientRect()
-            if(per.height > per.width) ob_name_ele.style.transform = 'rotate(90deg)';
-        }
+            resolve()
+        })
     })
 }
 export function tags_list_script(pop_up){

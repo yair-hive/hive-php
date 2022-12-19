@@ -5,21 +5,23 @@ import api from "../api/api.js"
 import hiveSwitch from "../hiveElements/HiveSwitch.js"
 import popUp from "../hiveElements/PopUp.js"
 import { resizeAllInputs } from "../scripts.js"
+import { editSwitchOptions, hiveSwitchOptions, showSwitchOptions } from "./switchs.js"
+import MBloader from "../hiveElements/MBloader.js"
 
 const parsedUrl = new URL(window.location.href)
+const loader = new MBloader()
+loader.add()
 var map_name = parsedUrl.searchParams.get("map_name")
 
 if(map_name){
-    
+    loader.start()
     document.getElementsByTagName('title')[0].append(map_name)
-
-    var map_id = ''
-    api.map.get(map_name).then(map => {add_map(map); map_id = map.id })
-    .then(() => api.seat.get_all(map_id))
-    .then(seats => add_seats(seats))
-    .then(() => add_belong())
-    .then(() => api.guest.get_all(map_id))
-    .then(guests => add_guests(guests))
+    add_map(map_name)
+    .then(add_seats)
+    .then(add_belong)
+    .then(add_guests)
+    .then(add_elements)
+    .then(loader.stop)
     .then(()=>{
         var tags_pop_up = new popUp('תגיות', tags_list())
         tags_pop_up.onClose = on_show_tags
@@ -34,31 +36,15 @@ if(map_name){
         document.addEventListener("keydown", onKeyBordDown)
         document.addEventListener("keyup", onKeyBordUp)
         document.getElementById('guest_list_input').addEventListener('input', onGuestList)
+        document.getElementById('scheduling_button').addEventListener('click', onScheduling)
         document.getElementById('tags_list_button').addEventListener('click', ()=>{
             tags_pop_up.open()
         })
-        add_elements()
         zoom('mainBord')
     })
-    var hiveSwitchOptions = {
-        element_id: 'selecteblsSwitch', 
-        active: 'cells', 
-        keys: ['q', '/']
-    } 
-    var editSwitchOptions = {
-        element_id: 'editSwitch', 
-        active: 'no_edit', 
-        keys: ['x', 'ס']
-    } 
-    var showSwitchOptions = {
-        element_id: 'showSwitch', 
-        active: 'tags', 
-        keys: ['y', 'ט']
-    } 
     hiveSwitch(showSwitchOptions, onShowSwitch)
     hiveSwitch(editSwitchOptions, onEditSwitch)
     hiveSwitch(hiveSwitchOptions, onSelecteblsSwitch)
-    document.getElementById('scheduling_button').addEventListener('click', onScheduling)
 }else{
     var menu = document.getElementById('mneu')
     menu.innerHTML = ''
