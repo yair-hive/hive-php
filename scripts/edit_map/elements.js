@@ -2,6 +2,7 @@ import { onSeatName } from "./eventListeners.js"
 import "../lib/jquery.min.js"
 import { respondToVisibility } from "./tooles.js"
 import api from "../api/api.js"
+import { zoom } from "./tooles.js"
 
 function cell(row, col){
     var cellContainer = document.createElement('div')
@@ -27,6 +28,7 @@ function map(map){
     map_ele.setAttribute('cols', map.columns_number)
     map_ele.style.setProperty('--map-rows', map.rows_number)
     map_ele.style.setProperty('--map-cols', map.columns_number)
+    zoom('mainBord')
     return map_ele
 }
 function seat(seat_data){
@@ -185,82 +187,34 @@ export function add_elements(){
         })
     })
 }
-export function tags_list_script(pop_up){
-    return new Promise((resolve) => {
-        const parsedUrl = new URL(window.location.href)
-        var map_name = parsedUrl.searchParams.get("map_name")
-        if(map_name){
-            var map_id
-            api.map.get(map_name).then(map => map_id = map.id)
-            .then(()=>{
-                api.seat_groups.get_all_tags(map_id)
-                .then(groups => {
-                    var table = document.getElementById('tags_table')
-                    for(let i = 0; i < groups.length; i++){
-                        var group = groups[i]
-                        var tr = document.createElement('tr')
-                        tr.setAttribute('group_id', group.id)
-                        var td_name = document.createElement('td')
-                        var td_color = document.createElement('td')
-                        var td_score = document.createElement('td')
-                        var td_x = document.createElement('td')
-                        var color_input = document.createElement('input')
-                        color_input.setAttribute('type', 'color')
-                        color_input.setAttribute('value', group.color)
-                        var name_input = document.createElement('input')
-                        name_input.value = group.tag_name
-                        name_input.addEventListener('focusout', (e)=>{
-                            var id = e.target.parentNode.parentNode.getAttribute('group_id')
-                            var name = e.target.value
-                            api.seat_groups.update_tag_name(id, name)
-                        })
-                        td_name.append(name_input)
-                        td_color.style.backgroundColor = group.color
-                        td_score.textContent = group.score
-                        td_color.classList.add('td_color')
-                        color_input.style.padding = '0'
-                        color_input.style.margin = '0'
-                        color_input.style.height = '100%'
-                        color_input.addEventListener('focusout', (e)=>{
-                            var color = e.target.value
-                            var group_id = e.target.parentNode.parentNode.getAttribute('group_id')
-                            api.seat_groups.update_tag_color(group_id, color)
-                            .then(() => location.reload())
-                        })
-                        td_color.append(color_input)
-                        td_x.setAttribute('group_id', group.id)
-                        td_x.textContent = 'X'
-                        td_x.style.backgroundColor = 'red'
-                        td_x.style.padding = '5px'
-                        td_x.addEventListener('click', (e)=>{
-                            var group_id = e.target.parentNode.getAttribute('group_id')
-                            api.tags.delete_tag({tag_id: group_id})
-                            .then(pop_up.close)
-                        })
-                        tr.append(td_x)
-                        tr.append(td_color)
-                        tr.append(td_score)
-                        tr.append(td_name)
-                        table.append(tr)
-                        if(i == (groups.length -1)) resolve()
-                    }
-                })
-            })
-            document.addEventListener('keydown', (e)=>{
-                if(e.keyCode == 13){
-                    document.activeElement.blur()
-                }
-            })
+export function add_tags(){
+    return new Promise(async (resolve) => {
+        var names = []
+        var tags_data = []
+        var map_id = document.getElementById('map').getAttribute('map_id')
+        var res = await api.seat_groups.get_groups_tags(map_id)
+        for(let group_name of res){
+            if(names.indexOf(group_name.tag_name) === -1){
+                names.push(group_name.tag_name)
+                tags_data.push(group_name)
+            }
         }
+        for(let tag of tags_data){
+            var name = tag.tag_name
+            var seats = await api.seat_groups.get_seats_tags(map_id, name)
+            seats = seats.map(seat => seat.seat)
+            for(let seat of seats){
+                var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
+                var seat_tags = seat_ele.getAttribute('tags')
+                if(seat_tags){
+                    var seat_tags_press = JSON.parse(seat_tags)
+                }else{
+                    var seat_tags_press = []
+                }
+                seat_tags_press.push(tag)
+                seat_ele.setAttribute('tags', JSON.stringify(seat_tags_press))
+            }
+        }
+        resolve()
     })
-}
-export function tags_list(){
-    return `<table id="tags_table">
-        <tr>
-            <th> X </th>
-            <th> צבע </th>
-            <th> ניקוד </th>
-            <th> שם </th>
-        </tr>
-    </table>`
 }
