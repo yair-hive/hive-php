@@ -89,9 +89,10 @@ export function onTdRequests(event){
         const guest_scrolling_list = new scrolling_list(menu.drop_element)
         const table = document.getElementById('names_table') 
         var tags = JSON.parse(table.getAttribute('tags'))
+        tags = Object.entries(tags)
         var list_elements = []
         for(let i = 0; i < tags.length; i++){
-            var tag = tags[i]
+            var tag = tags[i][1]
             var li = document.createElement('li')
             li.setAttribute('tag_id', tag.id)
             li.setAttribute('guest_id', event.target.parentNode.getAttribute('guest_id'))
