@@ -32,3 +32,9 @@ $tags_actions['delete_tag'] = function(){
         print_r(json_encode($respons));
     }
 };
+$tags_actions['get_all_tags'] = function(){
+    global $NEW_POST;
+    $map_id = $NEW_POST['map_id'];
+    $query_string = "SELECT * FROM tags WHERE belong = '{$map_id}'";
+    db_get($query_string);
+};

@@ -36,5 +36,20 @@ export const tags = {
         // .then(res => res.text())
         // .then(res => console.log(res))
         .then(res => res.json())
+    },
+    get_all_tags: function(data){
+        var action_data = {category: 'tag', action: 'get_all_tags'}
+        var data_a = Object.assign(action_data, data)
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(data_a),
+        }
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
+        .then(res => res.json())
+        .then(res => {
+            if(res.msg === 'ok') return res.data
+        })
     }
 }

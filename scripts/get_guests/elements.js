@@ -27,8 +27,9 @@ function add_groups(groups){
 function add_row(name){
     name = get_group(name)
     var tr = row(name)
-    tr.append(td_seat_number())
-    tr.append(td_tags())
+    tr.append(td_seat_number(name.seat))
+    if(name.seat) tr.append(td_tags(name.seat.tags))
+    else tr.append(td_tags())
     tr.append(td_input(name.last_name))
     tr.append(td_input(name.first_name))
     tr.append(td_input(name.guest_group))
@@ -55,12 +56,25 @@ export function add_map_id(){
         table.setAttribute('map_id', res.id)
     })
 }
+export function add_tags_id(){
+    return new Promise(async (resolve) => {
+        var table = document.getElementById('names_table') 
+        var map_id = table.getAttribute('map_id')
+        var res = await api.tags.get_all_tags({map_id: map_id})
+        var tags = {}
+        for(let tag of res){
+            tags[tag.id] = tag
+        }
+        table.setAttribute('tags', JSON.stringify(tags))
+        resolve()
+    })
+}
 export function add_table(){
     const map_id = table.getAttribute('map_id')
     return new Promise((resolve) => {
         api.guest.get_all_groups(map_id)
         .then(add_groups)
-        .then(()=> api.guest.get_all(map_id))
+        .then(()=> api.guest.get_all_and_ditails(map_id))
         .then(add_rows)
         .then(resolve)
     })

@@ -89,6 +89,41 @@ $guest_actions['get_all'] = function(){
         print_r(json_encode($respons));
     }
 };
+$guest_actions['get_all_and_ditails'] = function(){
+    global $connection; 
+    if(allowed("reading")){
+        global $connection;        
+        $map_id = $_POST['map_id'];  
+        $query_string = "SELECT * FROM guests WHERE belong='{$map_id}'";
+        $result = mysqli_query($connection, $query_string);
+        $results = [];
+        while($row = mysqli_fetch_assoc($result)){
+            $query_string = "SELECT seat FROM belong WHERE guest = '{$row['id']}'";
+            $belong_result = mysqli_query($connection, $query_string);
+            while($belong_row = mysqli_fetch_assoc($belong_result)){
+                $query_string = "SELECT * FROM seats WHERE id = '{$belong_row['seat']}'";
+                $seat_result = mysqli_query($connection, $query_string);
+                while($seat_row = mysqli_fetch_assoc($seat_result)){
+                    $query_string = "SELECT group_id FROM seat_groups_belong WHERE seat = '{$seat_row['id']}'";
+                    $tag_result = mysqli_query($connection, $query_string);
+                    $tags = [];
+                    while($tag_row = mysqli_fetch_assoc($tag_result)){
+                        $tags[] = $tag_row; 
+                    }
+                    $seat_row['tags'] = $tags;
+                    $row['seat'] = $seat_row;
+                }
+            }
+            $results[] = $row;
+        }
+        $respons['msg'] = 'ok';
+        $respons['data'] = $results;
+        print_r(json_encode($respons));
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
+    }
+};
 $guest_actions['get_belong'] = function(){
     if(allowed("reading")){
         $guest_id = $_POST['guest_id'];
