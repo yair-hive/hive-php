@@ -201,16 +201,16 @@ function create_col_group(group_name){
     })
 }
 export function on_show_tags(){
-    document.querySelectorAll('.seat').forEach(seat => {
-        var tags_cont = document.createElement('div')
-        tags_cont.classList.add('tags_cont')
-        seat.children[1].replaceChildren(tags_cont)
-    })
-    var names = []
-    var tags_data = []
-    var map_id = document.getElementById('map').getAttribute('map_id')
-    api.seat_groups.get_groups_tags(map_id)
-    .then(res => {
+    return new Promise(async (resolve) => {
+        document.querySelectorAll('.seat').forEach(seat => {
+            var tags_cont = document.createElement('div')
+            tags_cont.classList.add('tags_cont')
+            seat.children[1].replaceChildren(tags_cont)
+        })
+        var names = []
+        var tags_data = []
+        var map_id = document.getElementById('map').getAttribute('map_id')
+        var res = await api.seat_groups.get_groups_tags(map_id)
         for(let group_name of res){
             if(names.indexOf(group_name.tag_name) === -1){
                 names.push(group_name.tag_name)
@@ -219,30 +219,29 @@ export function on_show_tags(){
         }
         for(let tag of tags_data){
             var name = tag.tag_name
-            api.seat_groups.get_seats_tags(map_id, name)
-            .then(seats => {
-                seats = seats.map(seat => seat.seat)
-                for(let seat of seats){
-                    var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
-                    var tag_box = document.createElement('div')
-                    tag_box.classList.add('tag_box')
-                    tag_box.style.backgroundColor = tag.color
-                    tag_box.textContent = tag.tag_name
-                    var name_box = seat_ele.children[1]
-                    var tags_cont = name_box.children[0]
-                    tags_cont.append(tag_box)
-                    var p = name_box.getBoundingClientRect()
-                    var c = tags_cont.getBoundingClientRect()
-                    var scale = 1
-                    while(p.width < c.width){
-                        scale = scale - 0.01
-                        tags_cont.style.transform = `scale(${scale})`
-                        p = name_box.getBoundingClientRect()
-                        c = tags_cont.getBoundingClientRect()
-                    }
+            var seats = await api.seat_groups.get_seats_tags(map_id, name)
+            seats = seats.map(seat => seat.seat)
+            for(let seat of seats){
+                var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
+                var tag_box = document.createElement('div')
+                tag_box.classList.add('tag_box')
+                tag_box.style.backgroundColor = tag.color
+                tag_box.textContent = tag.tag_name
+                var name_box = seat_ele.children[1]
+                var tags_cont = name_box.children[0]
+                tags_cont.append(tag_box)
+                var p = name_box.getBoundingClientRect()
+                var c = tags_cont.getBoundingClientRect()
+                var scale = 1
+                while(p.width < c.width){
+                    scale = scale - 0.01
+                    tags_cont.style.transform = `scale(${scale})`
+                    p = name_box.getBoundingClientRect()
+                    c = tags_cont.getBoundingClientRect()
                 }
-            })
+            }
         }
+        resolve()
     })
 }
 function getRandomNumber(min, max) {
@@ -687,7 +686,9 @@ export function onSelecteblsSwitch(active){
 export function onShowSwitch(active){
     switch (active) {
         case 'tags':
+            loader.start()
             on_show_tags()
+            .then(loader.stop)
             break;
         case 'score':
             on_show_score()

@@ -104,7 +104,7 @@ $guest_actions['get_all_and_ditails'] = function(){
                 $query_string = "SELECT * FROM seats WHERE id = '{$belong_row['seat']}'";
                 $seat_result = mysqli_query($connection, $query_string);
                 while($seat_row = mysqli_fetch_assoc($seat_result)){
-                    $query_string = "SELECT group_id FROM seat_groups_belong WHERE seat = '{$seat_row['id']}'";
+                    $query_string = "SELECT group_id FROM seat_groups_belong WHERE seat = '{$seat_row['id']}' AND group_type = 'tag'";
                     $tag_result = mysqli_query($connection, $query_string);
                     $tags = [];
                     while($tag_row = mysqli_fetch_assoc($tag_result)){

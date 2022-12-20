@@ -41,6 +41,8 @@ export function td_tags(tags){
     var tags_cont = document.createElement('div')
     tags_cont.classList.add('tags_cont')
     if(tags) {
+        console.log(tags)
+        console.log(map_tags)
         for(let tag of tags){
             var tag_box = document.createElement('div')
             tag_box.classList.add('tag_box')

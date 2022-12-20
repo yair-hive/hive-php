@@ -27,6 +27,7 @@ function add_groups(groups){
 function add_row(name){
     name = get_group(name)
     var tr = row(name)
+    console.log(name)
     tr.append(td_seat_number(name.seat))
     if(name.seat) tr.append(td_tags(name.seat.tags))
     else tr.append(td_tags())
