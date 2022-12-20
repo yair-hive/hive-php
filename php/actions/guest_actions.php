@@ -192,6 +192,25 @@ $guest_actions['update_belong'] = function(){
         print_r(json_encode($respons));
     }
 };
+$guest_actions['update_belong_multiple'] = function(){
+    if(allowed('writing')){
+        global $connection;     
+        $map_id = $_POST['map_id'];
+        $data = json_decode($_POST['data']);
+        $query_string = "";
+        foreach($data as $row){
+            $guest = $row->guest;
+            $seat = $row->seat;
+            $query_string .= "DELETE FROM belong WHERE guest='{$guest}';";
+            $query_string .= "DELETE FROM belong WHERE seat='{$seat}';";
+            $query_string .= "INSERT INTO belong(guest, seat, map_belong) VALUES('{$guest}', '{$seat}', '{$map_id}');";
+        }
+        db_post_multi($query_string);
+    }else{
+        $respons['msg'] = 'dinaid';
+        print_r(json_encode($respons));
+    }
+};
 $guest_actions['check_belong'] = function(){
     if(allowed("reading")){
         if(!empty($_POST['guest_id'])){

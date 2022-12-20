@@ -144,11 +144,14 @@ export const seat = {
             }
         }
         return fetch(api_url, options)
+        // .then((res)=> res.text())
+        // .then((res)=> console.log(res))
         .then(res => res.json())
         .then((res)=>{
-            if(res.msg == 'ok') return
-            alert(res.msg)
-            return res.msg
+            console.log(res)
+            // if(res.msg == 'ok') return
+            // alert(res.msg)
+            // return res.msg
         })
     }
 }

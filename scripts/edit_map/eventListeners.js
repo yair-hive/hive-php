@@ -146,7 +146,6 @@ function add_col_group_score(){
                                 seat.setAttribute('pass_score', score)
                             }
                         }) 
-                        console.log(mid)
                         if(col < mid) score = score - 2
                         if(as && col == mid) score = score + 2
                         if(col > mid) score = score + 2 
@@ -255,10 +254,8 @@ function getRandomNumber(min, max) {
 function add_m(arr){
     return new Promise(async (resolve) => {
         console.log(arr)
-        for(let corrent of arr){
-            var map_id = document.getElementById('map').getAttribute('map_id')
-            await api.guest.update_belong(corrent.guest, corrent.seat, map_id)
-        }
+        var map_id = document.getElementById('map').getAttribute('map_id')
+        await api.guest.update_belong_multiple(map_id, arr)
         resolve()
     })
 }
@@ -340,38 +337,40 @@ export function onScheduling(){
     })
 }
 function onAddSeats(){
-    loader.start()
+    // loader.start()
     var selected = selection.getSelection()
     var map_id = document.getElementById('map').getAttribute('map_id')
-    var i = 0
-    selected.forEach((cell) => {
-        i++
-        var row = cell.parentNode.getAttribute('row') 
-        var col = cell.parentNode.getAttribute('col')
-        api.seat.create(map_id, row, col)
-        .then(()=> {
-            if(i === selected.length){
-                api.seat.get_all(map_id)
-                .then(seats => add_seats(seats))
-                loader.stop()
-                clearSelection()
-            }
-        })
+    // var i = 0
+    // selected.forEach((cell) => {
+    //     i++
+    //     var row = cell.parentNode.getAttribute('row') 
+    //     var col = cell.parentNode.getAttribute('col')
+    //     api.seat.create(map_id, row, col)
+    //     .then(()=> {
+    //         if(i === selected.length){
+    //             api.seat.get_all(map_id)
+    //             .then(seats => add_seats(seats))
+    //             loader.stop()
+    //             clearSelection()
+    //         }
+    //     })
 
-    })
-    // var cells_list = []
-    // for(let cell of selected){
-    //     var cell_data = {}
-    //     cell_data.row = cell.getAttribute('row') 
-    //     cell_data.col = cell.getAttribute('col')
-    //     cells_list.push(cell_data)
-    // }
-    // var data = JSON.stringify(cells_list)
-    // seat.create_multiple(map_id, data)
-    // .then(()=> {
-    //     clearSelection()
-    //     seat.get_all(map_id).then(seats => add_seats(seats))
     // })
+    loader.start()
+    var cells_list = []
+    for(let cell of selected){
+        var cell_data = {}
+        cell_data.row = cell.parentNode.getAttribute('row') 
+        cell_data.col = cell.parentNode.getAttribute('col')
+        cells_list.push(cell_data)
+    }
+    var data = JSON.stringify(cells_list)
+    api.seat.create_multiple(map_id, data)
+    .then(()=> {
+        loader.stop()
+        clearSelection()
+        api.seat.get_all(map_id).then(seats => add_seats(seats))
+    })
 }
 function onAddNumber(){
     loader.start()

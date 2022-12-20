@@ -128,6 +128,22 @@ export const guest = {
         return fetch(api_url, options)
         .then(res => res.json())
     },
+    update_belong_multiple: (map_id, data)=>{
+        data = JSON.stringify(data)
+        const options = {
+            method: 'POST',
+            body: "category=guest&action=update_belong_multiple&data="+data+"&map_id="+map_id,
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }
+        return fetch(api_url, options)
+        // .then(res => res.json())
+        .then(res => res.text())
+        .then(res => console.log(res))
+    },
     delete: (guest_id)=>{
         const options = {
             method: 'POST',
