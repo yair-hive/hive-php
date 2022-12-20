@@ -95,6 +95,15 @@ export function row(name){
     tr.setAttribute('guest_id', name.id)
     tr.setAttribute('guest_group', name.guest_group)
     if(name.seat){
+        if(name.seat.tags){
+            var table = document.getElementById('names_table') 
+            var map_tags = JSON.parse(table.getAttribute('tags'))
+            var tags_names = []
+            for(let tag of name.seat.tags){
+                tags_names.push(map_tags[tag.group_id].tag_name)
+            }
+            tr.setAttribute('tags', JSON.stringify(tags_names))
+        }
         tr.setAttribute('seat_id', name.seat.id)
         tr.setAttribute('belong', 'belong')
     }else{

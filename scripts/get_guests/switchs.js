@@ -73,7 +73,7 @@ function onSwitch(){
         var corrent_belong = corrent.getAttribute('belong')
         if(corrent_group != groups_switch && groups_switch != 'all') corrent.classList.add('no_show')
         if(corrent_belong != belong_switch && belong_switch != 'all') corrent.classList.add('no_show')
-        var corrent_tags = corrent.getAttribute('tags_list')
+        var corrent_tags = corrent.getAttribute('tags')
         if(corrent_tags){
             corrent_tags = JSON.parse(corrent_tags)
             var as_tag = corrent_tags.indexOf(tags_switch) == -1
