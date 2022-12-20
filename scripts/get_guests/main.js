@@ -23,7 +23,7 @@ document.getElementById('add_guests_button').addEventListener('click', pop_ups.a
 document.getElementById('import_guests_button').addEventListener('click', pop_ups.import_guests.open)
 document.getElementById("groups_list_button").addEventListener('click', pop_ups.guest_groups.open)
 
-// loader.start()
+loader.start()
 add_map_id()
 .then(addGroupsSwitch)
 .then(addTagsSwitch)
