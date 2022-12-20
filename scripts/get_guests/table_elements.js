@@ -56,14 +56,21 @@ export function td_tags(tags){
     while(p.width < c.width){
         scale = scale - 0.01
         tags_cont.style.transform = `scale(${scale})`
-        p = td_tag.getBoundingClientRect()
+        p = td.getBoundingClientRect()
         c = tags_cont.getBoundingClientRect()
     }
     return td
 }
-export function td_requests(){
+export function td_requests(requests){
     var td = document.createElement('td')
     td.classList.add('td_requests')
+    var table = document.getElementById('names_table') 
+    var map_tags = JSON.parse(table.getAttribute('tags'))
+    if(requests){
+        for(let request of requests){
+            td.append(' | '+map_tags[request].tag_name+' | ')
+        }
+    }
     td.addEventListener('click', onTdRequests)
     return td
 }

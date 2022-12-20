@@ -40,7 +40,6 @@ export const guest = {
         // .then(res => alert(res))
         .then(res => res.json())
         .then((res)=>{
-            console.log(res)
             if(res.msg == 'ok') return res.data
             alert(res.msg)
             return res.msg

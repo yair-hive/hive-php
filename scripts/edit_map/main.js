@@ -1,4 +1,4 @@
-import {add_map, add_seats, add_guests, add_belong, add_elements, add_tags } from "./elements.js"
+import {add_map, add_seats, add_guests, add_belong, add_elements, add_tags, add_groups, add_guests_names } from "./elements.js"
 import { onClickOutside, onEditSwitch, onGuestList, onKeyBordDown, onKeyBordUp, onMapAdd, onScheduling, onSelecteblsSwitch, onShowSwitch } from "./eventListeners.js"
 import hiveSwitch from "../hiveElements/HiveSwitch.js"
 import { editSwitchOptions, hiveSwitchOptions, showSwitchOptions } from "./switchs.js"
@@ -14,9 +14,11 @@ if(map_name){
     loader.start()
     document.getElementsByTagName('title')[0].append(map_name)
     add_map(map_name)
+    .then(add_groups)
     .then(add_seats)
-    .then(add_belong)
-    .then(add_guests)
+    // .then(add_belong)
+    // .then(add_guests)
+    .then(add_guests_names)
     .then(add_elements)
     .then(add_tags)
     .then(loader.stop)

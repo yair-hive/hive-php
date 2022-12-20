@@ -15,6 +15,29 @@ export const seat = {
         };
           
         return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
+        .then(res => res.json())
+        .then((res)=>{
+            if(res.msg == 'ok') return res.data
+            alert(res.msg)
+            return res.msg
+        })
+    },
+    get_all_and_all: (map_id)=>{
+        const options = {
+            method: 'POST',
+            body: "category=seat&action=get_all_and_all&map_id="+map_id,
+            mode: 'no-cors',
+            credentials: 'include',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };
+          
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
         .then(res => res.json())
         .then((res)=>{
             if(res.msg == 'ok') return res.data

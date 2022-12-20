@@ -34,7 +34,8 @@ function add_row(name){
     tr.append(td_input(name.first_name))
     tr.append(td_input(name.guest_group))
     tr.append(td_score(name))
-    tr.append(td_requests())
+    if(name.requets) tr.append(td_requests(name.requets))
+    else tr.append(td_requests())
     tr.append(td_delete())
     return tr
 }
@@ -60,7 +61,7 @@ export function add_tags_id(){
     return new Promise(async (resolve) => {
         var table = document.getElementById('names_table') 
         var map_id = table.getAttribute('map_id')
-        var res = await api.tags.get_all_tags({map_id: map_id})
+        var res = await api.tags.get_tags({map_id: map_id})
         var tags = {}
         for(let tag of res){
             tags[tag.id] = tag

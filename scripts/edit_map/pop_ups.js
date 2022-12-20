@@ -1,6 +1,7 @@
 import popUp from "../hiveElements/PopUp.js"
 import { resizeAllInputs } from "../scripts.js"
 import { on_show_tags } from "./eventListeners.js"
+import api from "../api/api.js"
 
 function tags(){
     function tags_list_script(pop_up){
@@ -43,7 +44,7 @@ function tags(){
                                 var color = e.target.value
                                 var group_id = e.target.parentNode.parentNode.getAttribute('group_id')
                                 api.seat_groups.update_tag_color(group_id, color)
-                                .then(() => location.reload())
+                                .then(pop_up.close)
                             })
                             td_color.append(color_input)
                             td_x.setAttribute('group_id', group.id)

@@ -37,7 +37,7 @@ export const tags = {
         // .then(res => console.log(res))
         .then(res => res.json())
     },
-    get_all_tags: function(data){
+    get_tags: function(data){
         var action_data = {category: 'tag', action: 'get_all_tags'}
         var data_a = Object.assign(action_data, data)
         const options = {

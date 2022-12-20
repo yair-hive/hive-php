@@ -32,10 +32,22 @@ function map(map){
     return map_ele
 }
 function seat(seat_data){
+    var map_ele = document.getElementById('map')
+    var groups = JSON.parse(map_ele.getAttribute('new_groups'))
     var seat_ele = document.createElement('div')
     seat_ele.setAttribute('seat_id', seat_data.id)
     var num_box = document.createElement('div')
     var name_box = document.createElement('div')
+    if(seat_data.guest) {
+        seat_data.guest.group_data = groups[seat_data.guest.guest_group]
+        seat_data.guest.full_name = seat_data.guest.first_name + " " + seat_data.guest.last_name
+        name_box.setAttribute('guest_id', seat_data.guest.id)
+        name_box.setAttribute('guest_name', seat_data.guest.name)
+        name_box.setAttribute('guest_group', seat_data.guest.group_data.group_name)
+        name_box.textContent = seat_data.guest.full_name
+        if(seat_data.guest.full_name.length > 15) name_box.style.fontSize = '11px';
+        name_box.style.backgroundColor = seat_data.guest.group_data.color
+    }
     num_box.classList.add('num_box')
     name_box.classList.add('name_box')
     seat_ele.classList.add('seat')
@@ -65,12 +77,26 @@ export const add_map = (map_name)=>{
         })
     })
 }
+export const add_groups = ()=>{
+    var map_ele = document.getElementById('map')
+    var map_id = map_ele.getAttribute('map_id')
+    api.guest.get_all_groups(map_id)
+    .then((groups)=>{
+        var groups_to_press = {}
+        for(let group of groups){
+            groups_to_press[group.id] = group
+        }
+        map_ele.setAttribute('new_groups', JSON.stringify(groups_to_press))
+    })
+}
 export const add_seats = ()=>{
     return new Promise((resolve) => {
         var map_id = document.getElementById('map').getAttribute('map_id')
-        api.seat.get_all(map_id)
+        api.seat.get_all_and_all(map_id)
+        // .then(res => console.log(res))
+        // api.seat.get_all(map_id)
         .then(seats => {
-            if(seats.length == 0) loader.stop()
+            if(seats.length == 0) resolve()
             for(let seat_data of seats){
                 cellContainer(seat_data, seat(seat_data))
             }
@@ -145,6 +171,27 @@ export const add_guests = ()=>{
                 resolve()
             })
         })
+    })
+}
+export const add_guests_names = ()=>{
+    return new Promise(async (resolve) => {
+        var groups_s = {}
+        var map_ele = document.getElementById('map')
+        var map_id = map_ele.getAttribute('map_id')
+        var guests = await api.guest.get_all(map_id)
+        var groups = await api.guest.get_all_groups(map_id)
+        for(let group of groups){
+            groups_s[group.id] = group
+        }
+        guests.map(guest => {
+            guest.score = Number(guest.score) + Number(groups_s[guest.guest_group].score)
+            return guest
+        })
+        var groups_press = JSON.stringify(groups)
+        var guests_press = JSON.stringify(guests)
+        map_ele.setAttribute('guests', guests_press)
+        map_ele.setAttribute('groups', groups_press)
+        resolve()
     })
 }
 export function add_elements(){

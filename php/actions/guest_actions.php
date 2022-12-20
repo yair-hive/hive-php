@@ -114,6 +114,13 @@ $guest_actions['get_all_and_ditails'] = function(){
                     $row['seat'] = $seat_row;
                 }
             }
+            $query_string = "SELECT request FROM guests_requests WHERE guest = '{$row['id']}'";
+            $request_result = mysqli_query($connection, $query_string);
+            $requets = [];
+            while($requet_row = mysqli_fetch_assoc($request_result)){
+                $requets[] = $requet_row['request'];
+            }
+            $row['requets'] = $requets;
             $results[] = $row;
         }
         $respons['msg'] = 'ok';

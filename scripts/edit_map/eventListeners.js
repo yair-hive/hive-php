@@ -131,13 +131,13 @@ function add_col_group_score(){
                         seats_ele.push(seat_ele)
                     }
                     seats_array[name] = seats_ele
-                    cols.sort(function(a, b) { return a - b; });               
-                    var score
+                    cols.sort(function(a, b) { return a - b; });             
+                    var score = 20
                     var mid = Math.floor((cols[0]+cols[cols.length -1])/2);
                     var as = ((cols.length /2) %1) != 0
-                    if(as) score = Math.floor(cols.length /2)
-                    else score = Math.floor(cols.length /2) -1
-                    score = score * score
+                    // if(as) score = Math.floor(cols.length /2)
+                    // else score = Math.floor(cols.length /2) -1
+                    // score = score * score
                     for(let col of cols){
                         document.querySelectorAll('.cell_cont[col="'+col+'"]').forEach(cell_cont => {
                             var seat = cell_cont.children[0]
@@ -146,6 +146,7 @@ function add_col_group_score(){
                                 seat.setAttribute('pass_score', score)
                             }
                         }) 
+                        console.log(mid)
                         if(col < mid) score = score - 2
                         if(as && col == mid) score = score + 2
                         if(col > mid) score = score + 2 
@@ -167,6 +168,7 @@ function on_show_score(){
             var row_score = Number(seat.getAttribute('row_score'))
             var pass_score = Number(seat.getAttribute('pass_score'))
             var total_score = col_score + row_score + pass_score
+            var total_score = col_score +' & '+ row_score +' & '+ pass_score
             seat.children[1].innerHTML = total_score
         })
     })
@@ -250,14 +252,18 @@ function getRandomNumber(min, max) {
     let result = Math.floor(step2) + min;
     return result;
 }
-async function add_m(arr){
-    console.log(arr)
-    for(let corrent of arr){
-        var map_id = document.getElementById('map').getAttribute('map_id')
-        await api.guest.update_belong(corrent.guest, corrent.seat, map_id)
-    }
+function add_m(arr){
+    return new Promise(async (resolve) => {
+        console.log(arr)
+        for(let corrent of arr){
+            var map_id = document.getElementById('map').getAttribute('map_id')
+            await api.guest.update_belong(corrent.guest, corrent.seat, map_id)
+        }
+        resolve()
+    })
 }
 export function onScheduling(){
+    loader.start()
     var seats_score = []
     var guests_score = []
     var guest_s = {}
@@ -330,6 +336,7 @@ export function onScheduling(){
         // console.log(guest_s)
         // console.log(seats_s)
         add_m(scheduling_list)
+        .then(loader.stop)
     })
 }
 function onAddSeats(){
