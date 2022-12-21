@@ -361,6 +361,19 @@ export function onScheduling(){
         }
         return guests_requests
     }
+    function get_seats_tags(seats){
+        var seats_tags = []
+        for (const [key] of Object.entries(seats)){
+            seats_tags.push(key)
+        }
+        for (const [key, value] of Object.entries(seats_tags)){
+            if(seats[value].length == 0){
+                delete seats[value]
+                seats_tags.splice(key, 1)
+            }
+        }
+        return seats_tags
+    }
     // loader.start()
     proximity_score()
     .then(add_col_group_score)
@@ -384,19 +397,10 @@ export function onScheduling(){
                     // console.log(n_guests)
                     var random_for_guest = getRandomNumber((n_guests.length - 1))
                     var random_guest = n_guests[random_for_guest]
-                    var duop = false
+                    var is_in_plase = false
                     for(let i = 0; i < seats_score.length; i++){
                         var seats = seats_s[seats_score[i]]
-                        var seats_tags = []
-                        for (const [key] of Object.entries(seats)){
-                            seats_tags.push(key)
-                        }
-                        for (const [key, value] of Object.entries(seats_tags)){
-                            if(seats[value].length == 0){
-                                delete seats[value]
-                                seats_tags.splice(key, 1)
-                            }
-                        }
+                        var seats_tags = get_seats_tags(seats)
                         if(seats_tags.indexOf(req) == -1 && req != 'all') continue
                         if(seats_tags.length == 0) continue
                         if(req === 'all'){
@@ -409,7 +413,7 @@ export function onScheduling(){
                                     seats.splice(random_for_seat, 1)
                                     n_guests.splice(random_for_guest, 1)
                                     scheduling_list.push({seat: random_seat, guest: random_guest})
-                                    duop = true
+                                    is_in_plase = true
                                     break
                                 }
                             }
@@ -424,13 +428,13 @@ export function onScheduling(){
                                     seats.splice(random_for_seat, 1)
                                     n_guests.splice(random_for_guest, 1)
                                     scheduling_list.push({seat: random_seat, guest: random_guest})
-                                    duop = true
+                                    is_in_plase = true
                                     break
                                 }
                             }
                         }
                     }
-                    if(!duop){
+                    if(!is_in_plase){
                         for(let i = 0; i < seats_score.length; i++){
                             var seats = seats_s[seats_score[i]]
                             var random_tag = seats_tags[getRandomNumber((seats_tags.length - 1))]
