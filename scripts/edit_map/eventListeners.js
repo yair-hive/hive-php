@@ -349,6 +349,18 @@ export function onScheduling(){
         }
         return guest_s
     }
+    function get_guests_requests(guests){
+        var guests_requests = []
+        for (const [key] of Object.entries(guests)){
+            guests_requests.push(key)
+        }
+        var in_of_all = guests_requests.indexOf('all')
+        if(in_of_all != -1){
+            guests_requests.splice(in_of_all, 1)
+            guests_requests.push('all')
+        }
+        return guests_requests
+    }
     // loader.start()
     proximity_score()
     .then(add_col_group_score)
@@ -362,68 +374,85 @@ export function onScheduling(){
         // console.log(guest_s)
         for(let i = 0; i < guests_score.length; i++){
             var guests = guest_s[guests_score[i]]
-            var guests_requests = []
-            for (const [key] of Object.entries(guests)){
-                guests_requests.push(key)
-            }
-            var in_of_all = guests_requests.indexOf('all')
-            if(in_of_all != -1){
-                guests_requests.splice(in_of_all, 1)
-                guests_requests.push('all')
-            }
-            for(let i = 0; i < guests_requests.length; i++){
-                var requests = guests_requests[i]
-                if(guests[requests].length == 0){
-                    delete guests[requests]
-                    guests_requests.splice(i, 1)
-                }
-            }
+            var guests_requests = get_guests_requests(guests)
+            // console.log(guests_requests)
             for(let req of guests_requests){
                 // var random_request = guests_requests[getRandomNumber((guests_requests.length -1))]
                 // guests = guests[random_request]
                 var n_guests = guests[req]
                 while(n_guests.length != 0){
+                    // console.log(n_guests)
                     var random_for_guest = getRandomNumber((n_guests.length - 1))
                     var random_guest = n_guests[random_for_guest]
-                    n_guests.splice(random_for_guest, 1)
+                    var duop = false
                     for(let i = 0; i < seats_score.length; i++){
                         var seats = seats_s[seats_score[i]]
                         var seats_tags = []
                         for (const [key] of Object.entries(seats)){
                             seats_tags.push(key)
                         }
-                        if(seats_tags.indexOf(req) == -1) break
-                        for(let i = 0; i < seats_tags.length; i++){
-                            var tag = seats_tags[i]
-                            if(seats[tag].length == 0){
-                                delete seats[tag]
-                                seats_tags.splice(i, 1)
+                        for (const [key, value] of Object.entries(seats_tags)){
+                            if(seats[value].length == 0){
+                                delete seats[value]
+                                seats_tags.splice(key, 1)
                             }
                         }
-                        if(seats_tags.length > 0){
-                            if(req === 'all'){
-                                var random_tag = seats_tags[getRandomNumber((seats_tags.length - 1))]
-                                seats = seats[random_tag]
-                                var random_for_seat = getRandomNumber((seats.length - 1))
-                                var random_seat = seats[random_for_seat]                      
-                                seats.splice(random_for_seat, 1)
-                            }else{
-                                console.log(req)
-                                console.log(seats)
-                                seats = seats[req]
-                                var random_for_seat = getRandomNumber((seats.length - 1))
-                                var random_seat = seats[random_for_seat]                      
-                                seats.splice(random_for_seat, 1)
+                        if(seats_tags.indexOf(req) == -1 && req != 'all') continue
+                        if(seats_tags.length == 0) continue
+                        if(req === 'all'){
+                            var random_tag = seats_tags[getRandomNumber((seats_tags.length - 1))]
+                            seats = seats[random_tag]
+                            if(seats){
+                                if(seats.length){
+                                    var random_for_seat = getRandomNumber((seats.length - 1))
+                                    var random_seat = seats[random_for_seat]                      
+                                    seats.splice(random_for_seat, 1)
+                                    n_guests.splice(random_for_guest, 1)
+                                    scheduling_list.push({seat: random_seat, guest: random_guest})
+                                    duop = true
+                                    break
+                                }
                             }
-                            scheduling_list.push({seat: random_seat, guest: random_guest})
-                            break
+                        }else{
+                            // console.log(req)
+                            // console.log(seats)
+                            seats = seats[req]
+                            if(seats){
+                                if(seats.length){
+                                    var random_for_seat = getRandomNumber((seats.length - 1))
+                                    var random_seat = seats[random_for_seat]                      
+                                    seats.splice(random_for_seat, 1)
+                                    n_guests.splice(random_for_guest, 1)
+                                    scheduling_list.push({seat: random_seat, guest: random_guest})
+                                    duop = true
+                                    break
+                                }
+                            }
                         }
+                    }
+                    if(!duop){
+                        for(let i = 0; i < seats_score.length; i++){
+                            var seats = seats_s[seats_score[i]]
+                            var random_tag = seats_tags[getRandomNumber((seats_tags.length - 1))]
+                            seats = seats[random_tag]
+                            if(seats){
+                                if(seats.length){
+                                    var random_for_seat = getRandomNumber((seats.length - 1))
+                                    var random_seat = seats[random_for_seat]                      
+                                    seats.splice(random_for_seat, 1)
+                                    n_guests.splice(random_for_guest, 1)
+                                    scheduling_list.push({seat: random_seat, guest: random_guest})
+                                    break
+                                }
+                            }
+                        }
+                        n_guests.splice(random_for_guest, 1)
                     }
                 }
             }
         }
-        console.log(seats_s)
-        console.log(guest_s)
+        // console.log(seats_s)
+        // console.log(guest_s)
         add_m(scheduling_list)
         .then(loader.stop)
     })
