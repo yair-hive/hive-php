@@ -245,7 +245,7 @@ export function add_tags(){
         res.map(tag => {
             map_tags[tag.id] = tag
         })
-        map.setAttribute('tags', map_tags)
+        map.setAttribute('tags', JSON.stringify(map_tags))
         var res = await api.seat_groups.get_groups_tags(map_id)
         for(let group_name of res){
             if(names.indexOf(group_name.tag_name) === -1){
