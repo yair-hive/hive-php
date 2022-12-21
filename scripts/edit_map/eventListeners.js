@@ -158,7 +158,7 @@ function add_col_group_score(){
         })
     })
 }
-function on_show_score(){
+export function on_show_score(){
     proximity_score()
     .then(add_col_group_score)
     .then(()=>{
@@ -180,13 +180,6 @@ function getGroupColor(guest_group){
         }
     }
     return false
-}
-function changeSelectables(selectable){
-    selection.clearSelection()
-    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
-    document.querySelectorAll('.selectable').forEach(e => e.classList.remove("selectable"))
-    document.querySelectorAll('.'+selectable).forEach(e => e.classList.add('selectable'))
-    selection.resolveSelectables()
 }
 const clearSelection = ()=>{
     selection.clearSelection(); 
@@ -244,7 +237,8 @@ export function on_show_tags(){
         resolve()
     })
 }
-function getRandomNumber(min, max) {
+function getRandomNumber(max) {
+    let min = 0
     let step1 = max - min + 1;
     let step2 = Math.random() * step1;
     let result = Math.floor(step2) + min;
@@ -259,18 +253,14 @@ function add_m(arr){
     })
 }
 export function onScheduling(){
-    loader.start()
-    var seats_score = []
-    var guests_score = []
-    var guest_s = {}
-    var seats_s = {}
-    var scheduling_list = []
-    proximity_score()
-    .then(add_col_group_score)
-    .then(()=>{
-        var seats = document.querySelectorAll('.seat')
-        for(let i = 0; i < seats.length; i++){
-            var seat = seats[i]
+    const map = document.getElementById('map')
+    const guests_list = JSON.parse(map.getAttribute('guests'))
+    const map_tags = JSON.parse(map.getAttribute('tags'))
+    const seats_list = document.querySelectorAll('.seat')
+    function get_seats_score(){
+        var seats_score = []
+        for(let i = 0; i < seats_list.length; i++){
+            var seat = seats_list[i]
             var col_score = Number(seat.getAttribute('col_score'))
             var row_score = Number(seat.getAttribute('row_score'))
             var pass_score = Number(seat.getAttribute('pass_score'))
@@ -280,7 +270,12 @@ export function onScheduling(){
                 seats_score.push(total_score)
             }
         }
-        var guests_list = JSON.parse(document.getElementById('map').getAttribute('guests'))
+        seats_score.sort(function(a, b) { return a - b; });
+        seats_score.reverse()
+        return seats_score
+    }
+    function get_guests_score(){
+        var guests_score = []
         for(let i = 0; i < guests_list.length; i++){
             var guest = guests_list[i]
             if(guests_score.indexOf(Number(guest.score)) === -1){
@@ -289,48 +284,128 @@ export function onScheduling(){
         }
         guests_score.sort(function(a, b) { return a - b; });
         guests_score.reverse()
+        return guests_score
+    }
+    function sort_seats_score(seats_score){
+        var seats_s = {}
+        for(let i = 0; i < seats_score.length; i++){
+            var seat_score = seats_score[i]
+            seats_s[seat_score] = []
+        }
+        // for(let i = 0; i < seats_list.length; i++){
+        //     var seat = seats_list[i]
+        //     seats_s[seat.getAttribute('total_score')].push(seat.getAttribute('seat_id'))  
+        // }
+
+        for(let i = 0; i < seats_list.length; i++){
+            var seat = seats_list[i]
+            seats_s[seat.getAttribute('total_score')].push(seat)  
+        }
+        for (const [key, value] of Object.entries(seats_s)) {
+            var tags = {}
+            for(let seat of value){
+                var seat_tags = JSON.parse(seat.getAttribute('tags'))
+                if(seat_tags) tags[seat_tags[0].tag_name] = []
+                else tags['all'] = []
+            }
+            for(let seat of value){
+                var seat_tags = JSON.parse(seat.getAttribute('tags'))
+                if(seat_tags) tags[seat_tags[0].tag_name].push(seat.getAttribute('seat_id'))
+                else tags['all'].push(seat.getAttribute('seat_id'))
+            }
+            seats_s[key] = tags
+        }
+        return seats_s
+    }
+    function sort_guests_score(guests_score){
+        var guest_s = {}
         for(let i = 0; i < guests_score.length; i++){
             var guest_score = guests_score[i]
             guest_s[guest_score] = []
         }
         for(let i = 0; i < guests_list.length; i++){
             var guest = guests_list[i]
-            guest_s[guest.score].push(guest.id)
+            guest_s[guest.score].push(guest)
         }
-        seats_score.sort(function(a, b) { return a - b; });
-        seats_score.reverse()
-        for(let i = 0; i < seats_score.length; i++){
-            var seat_score = seats_score[i]
-            seats_s[seat_score] = []
+        for (const [key, value] of Object.entries(guest_s)) {
+            var requests = {}
+            for(let guest of value){
+                if(guest.requets > 0) {
+                    var request_id = guest.requets[0]
+                    var request_name = map_tags[request_id].tag_name
+                    requests[request_name] = []
+                }
+                else requests['all'] = []
+            }
+            for(let guest of value){
+                if(guest.requets > 0) {
+                    var request_id = guest.requets[0]
+                    var request_name = map_tags[request_id].tag_name
+                    requests[request_name].push(guest.id)
+                }
+                else requests['all'].push(guest.id)
+            }
+            guest_s[key] = requests
         }
-        for(let i = 0; i < seats.length; i++){
-            var seat = seats[i]
-            seats_s[seat.getAttribute('total_score')].push(seat.getAttribute('seat_id')) 
-        }
+        return guest_s
+    }
+    // loader.start()
+    proximity_score()
+    .then(add_col_group_score)
+    .then(()=>{
+        var scheduling_list = []
+        var seats_score = get_seats_score()
+        var guests_score = get_guests_score()
+        var seats_s = sort_seats_score(seats_score)
+        var guest_s = sort_guests_score(guests_score)
+        // console.log(seats_s)
+        // console.log(guest_s)
         for(let i = 0; i < guests_score.length; i++){
-            var corrent_guests_group = guest_s[guests_score[i]]
-            while(corrent_guests_group.length != 0){
-                var random_for_guest = getRandomNumber(0, (corrent_guests_group.length - 1))
-                var random_guest = corrent_guests_group[random_for_guest]
-                corrent_guests_group.splice(random_for_guest, 1)
-                // console.log(random_for_guest)
+            var guests = guest_s[guests_score[i]]
+            var guests_requests = []
+            for (const [key] of Object.entries(guests)){
+                guests_requests.push(key)
+            }
+            for(let i = 0; i < guests_requests.length; i++){
+                var requests = guests_requests[i]
+                if(guests[requests].length == 0){
+                    delete guests[requests]
+                    guests_requests.splice(i, 1)
+                }
+            }
+            var random_request = guests_requests[getRandomNumber((guests_requests.length -1))]
+            guests = guests[random_request]
+            while(guests.length != 0){
+                var random_for_guest = getRandomNumber((guests.length - 1))
+                var random_guest = guests[random_for_guest]
+                guests.splice(random_for_guest, 1)
                 for(let i = 0; i < seats_score.length; i++){
-                    var corrent_seats_group = seats_s[seats_score[i]]
-                    if(corrent_seats_group.length > 0){
-                        var random_for_seat = getRandomNumber(0, (corrent_seats_group.length - 1))
-                        var random_seat = corrent_seats_group[random_for_seat]
+                    var seats = seats_s[seats_score[i]]
+                    var seats_tags = []
+                    for (const [key] of Object.entries(seats)){
+                        seats_tags.push(key)
+                    }
+                    for(let i = 0; i < seats_tags.length; i++){
+                        var tag = seats_tags[i]
+                        if(seats[tag].length == 0){
+                            delete seats[tag]
+                            seats_tags.splice(i, 1)
+                        }
+                    }
+                    if(seats_tags.length > 0){
+                        var random_tag = seats_tags[getRandomNumber((seats_tags.length - 1))]
+                        seats = seats[random_tag]
+                        var random_for_seat = getRandomNumber((seats.length - 1))
+                        var random_seat = seats[random_for_seat]                      
+                        seats.splice(random_for_seat, 1)
                         scheduling_list.push({seat: random_seat, guest: random_guest})
-                        corrent_seats_group.splice(random_for_seat, 1)
-                        // console.log(random_for_seat)
                         break
                     }
                 }
             }
         }
-        // console.log(seats_score)
-        // console.log(guests_score)
-        // console.log(guest_s)
-        // console.log(seats_s)
+        console.log(seats_s)
+        console.log(guest_s)
         add_m(scheduling_list)
         .then(loader.stop)
     })
@@ -521,6 +596,9 @@ export const onClickOutside = (event)=>{
     }
 }
 export const onKeyBordDown = (event)=>{
+    if(event.keyCode == 13){
+        document.activeElement.blur()
+    }
     var map = document.getElementById('map')
     var edit = map.getAttribute('edit')
     if(edit == 'yes'){
@@ -628,71 +706,6 @@ export const onSeatName = (event)=>{
         name_box.addEventListener('click', onSeatName)
         event.target.replaceWith(name_box)
         selection.disable()
-    }
-}
-export function onEditSwitch(active){
-    var map = document.getElementById('map')
-    var edit_menu = document.getElementById('edit_menu')
-    var map_menu = document.getElementById('map_menu')
-    switch (active) {
-        case 'edit':
-            edit_menu.style.display = 'flex'
-            map_menu.style.display = 'none'
-            map.setAttribute('edit', 'yes')
-            dragToScroll.disable()   
-            selection.enable()
-            map.setAttribute('isZoomed', 'true')
-            on_show_tags()
-            document.querySelectorAll('.name_box').forEach(box =>{
-                box.style.backgroundColor = 'rgba(146, 136, 209, 0.8)'
-                box.style.fontSize = '15px'
-            })
-            break;
-        case 'no edit':
-            edit_menu.style.display = 'none'
-            map_menu.style.display = 'flex'
-            map.setAttribute('edit', 'no')
-            var map_id = document.getElementById('map').getAttribute('map_id')
-            document.querySelectorAll('.name_box').forEach(e => e.textContent = '')
-            api.guest.get_all(map_id)
-            .then(guests => add_guests(guests))
-            break;
-    }
-}
-export function onSelecteblsSwitch(active){
-    var map = document.getElementById('map')
-    switch(active){
-        case 'seats':
-            changeSelectables('seat')
-            map.setAttribute('selectables', 'seat')
-            break;
-        case 'cells':
-            changeSelectables('cell')
-            map.setAttribute('selectables', 'cell')
-            break;
-        case 'elements':
-            map.setAttribute('selectables', 'element')
-            changeSelectables('cell')
-            document.querySelectorAll('.map_ob').forEach(e => {
-                e.classList.add('selectable')
-            })
-            break;
-        case 'tags':
-            changeSelectables('seat')
-            map.setAttribute('selectables', 'tag')
-            break;
-    }
-}
-export function onShowSwitch(active){
-    switch (active) {
-        case 'tags':
-            loader.start()
-            on_show_tags()
-            .then(loader.stop)
-            break;
-        case 'score':
-            on_show_score()
-            break;
     }
 }
 export async function onGuestList(event){

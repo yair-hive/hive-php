@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');
 
 html, body{
     width: 100%;
@@ -6,7 +5,7 @@ html, body{
     margin: 0;
     font-size: 13px;
     color: white;
-    font-family: 'Open Sans', sans-serif;
+    font-family: sans-serif;
 }
 form{
     margin: 10px;

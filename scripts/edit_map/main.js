@@ -1,7 +1,7 @@
 import {add_map, add_seats, add_guests, add_belong, add_elements, add_tags, add_groups, add_guests_names } from "./elements.js"
-import { onClickOutside, onEditSwitch, onGuestList, onKeyBordDown, onKeyBordUp, onMapAdd, onScheduling, onSelecteblsSwitch, onShowSwitch } from "./eventListeners.js"
+import { onClickOutside, onGuestList, onKeyBordDown, onKeyBordUp, onMapAdd, onScheduling } from "./eventListeners.js"
 import hiveSwitch from "../hiveElements/HiveSwitch.js"
-import { editSwitchOptions, hiveSwitchOptions, showSwitchOptions } from "./switchs.js"
+import { editSwitchOptions, hiveSwitchOptions, showSwitchOptions, onSelecteblsSwitch, onShowSwitch, onEditSwitch } from "./switchs.js"
 import MBloader from "../hiveElements/MBloader.js"
 import pop_ups from "./pop_ups.js"
 

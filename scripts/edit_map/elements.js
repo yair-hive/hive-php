@@ -178,7 +178,7 @@ export const add_guests_names = ()=>{
         var groups_s = {}
         var map_ele = document.getElementById('map')
         var map_id = map_ele.getAttribute('map_id')
-        var guests = await api.guest.get_all(map_id)
+        var guests = await api.guest.get_all_and_ditails(map_id)
         var groups = await api.guest.get_all_groups(map_id)
         for(let group of groups){
             groups_s[group.id] = group
@@ -238,7 +238,14 @@ export function add_tags(){
     return new Promise(async (resolve) => {
         var names = []
         var tags_data = []
-        var map_id = document.getElementById('map').getAttribute('map_id')
+        var map = document.getElementById('map')
+        var map_id = map.getAttribute('map_id')
+        var res = await api.tags.get_tags({map_id: map_id})
+        var map_tags = {}
+        res.map(tag => {
+            map_tags[tag.id] = tag
+        })
+        map.setAttribute('tags', map_tags)
         var res = await api.seat_groups.get_groups_tags(map_id)
         for(let group_name of res){
             if(names.indexOf(group_name.tag_name) === -1){
