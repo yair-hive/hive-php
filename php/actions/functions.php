@@ -79,3 +79,25 @@ function db_get($query_string, $breake = false){
         print_r(json_encode($respons));
     }
 }
+function db_get_f($query_string, $breake = false){
+    global $connection; 
+    if($result = mysqli_query($connection, $query_string)){
+        $results = [];
+        while($row = mysqli_fetch_assoc($result)){
+            $results[] = $row;
+        }
+        $respons = $results;
+        if($breake){
+            $new_results = [];
+            foreach($results as $result){
+                foreach($result as $item){
+                    $new_results[] = $item;
+                }
+            }
+            $respons = $new_results;
+        }        
+    }else{
+        $respons = false;
+    }
+    return $respons;
+}

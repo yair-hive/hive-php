@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: דצמבר 15, 2022 בזמן 10:59 AM
--- גרסת שרת: 10.4.6-MariaDB
--- PHP Version: 7.2.22
+-- Generation Time: דצמבר 22, 2022 בזמן 01:15 PM
+-- גרסת שרת: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -31,7 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `guests_requests` (
   `id` int(11) NOT NULL,
   `guest` int(11) NOT NULL,
-  `request` int(11) NOT NULL
+  `request` int(11) NOT NULL,
+  `belong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

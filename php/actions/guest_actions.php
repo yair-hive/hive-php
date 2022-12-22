@@ -91,40 +91,63 @@ $guest_actions['get_all'] = function(){
 };
 $guest_actions['get_all_and_ditails'] = function(){
     global $connection; 
-    if(allowed("reading")){
-        global $connection;        
+    if(allowed("reading")){     
         $map_id = $_POST['map_id'];  
-        $query_string = "SELECT * FROM guests WHERE belong='{$map_id}'";
-        $result = mysqli_query($connection, $query_string);
-        $results = [];
-        while($row = mysqli_fetch_assoc($result)){
-            $query_string = "SELECT seat FROM belong WHERE guest = '{$row['id']}'";
-            $belong_result = mysqli_query($connection, $query_string);
-            while($belong_row = mysqli_fetch_assoc($belong_result)){
-                $query_string = "SELECT * FROM seats WHERE id = '{$belong_row['seat']}'";
-                $seat_result = mysqli_query($connection, $query_string);
-                while($seat_row = mysqli_fetch_assoc($seat_result)){
-                    $query_string = "SELECT group_id FROM seat_groups_belong WHERE seat = '{$seat_row['id']}' AND group_type = 'tag'";
-                    $tag_result = mysqli_query($connection, $query_string);
-                    $tags = [];
-                    while($tag_row = mysqli_fetch_assoc($tag_result)){
-                        $tags[] = $tag_row; 
+        $guests_query = "SELECT * FROM guests WHERE belong='{$map_id}'";
+        $belongs_query = "SELECT * FROM belong WHERE map_belong = '{$map_id}'";
+        $seats_query = "SELECT * FROM seats WHERE belong = '{$map_id}'";
+        $tags_query = "SELECT * FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_type = 'tag'";
+        $requests_query = "SELECT * FROM guests_requests WHERE belong = '{$map_id}'";
+        $guests_results = db_get_f($guests_query);
+        $belongs_results = db_get_f($belongs_query);
+        $seats_results = db_get_f($seats_query);
+        $tags_results = db_get_f($tags_query);
+        $requests_results = db_get_f($requests_query);
+        if($guests_results && $belongs_results && $seats_results && $tags_results){
+            $new_belongs_results = [];
+            foreach($belongs_results as $belong){
+                $new_belongs_results[$belong['guest']] = $belong;
+            }
+            $new_seats_results = [];
+            foreach($seats_results as $seat){
+                $new_seats_results[$seat['id']] = $seat;
+            }
+            $new_tags_results = [];
+            foreach($tags_results as $tag){
+                $new_tags_results[$tag['seat']] = [];
+            }
+            foreach($tags_results as $tag){
+                $new_tags_results[$tag['seat']][] = $tag;
+            }
+            $new_requests_results = [];
+            foreach($requests_results as $request){
+                $new_requests_results[$request['guest']] = [];
+            }
+            foreach($requests_results as $request){
+                $new_requests_results[$request['guest']][] = $request['request'];
+            }
+            $new_guests_results = [];
+            foreach($guests_results as $guest){
+                $guest_id = $guest['id'];
+                if(array_key_exists($guest_id, $new_belongs_results)){
+                    $seat_id = $new_belongs_results[$guest_id]['seat'];
+                    $seat = $new_seats_results[$seat_id];
+                    if(array_key_exists($seat_id, $new_tags_results)){
+                        $seat['tags'] = $new_tags_results[$seat_id];
                     }
-                    $seat_row['tags'] = $tags;
-                    $row['seat'] = $seat_row;
+                    $guest['seat'] = $seat;
                 }
+                if(array_key_exists($guest_id, $new_requests_results)){
+                    $guest['requets'] = $new_requests_results[$guest_id];
+                }
+                $new_guests_results[] = $guest;
             }
-            $query_string = "SELECT request FROM guests_requests WHERE guest = '{$row['id']}'";
-            $request_result = mysqli_query($connection, $query_string);
-            $requets = [];
-            while($requet_row = mysqli_fetch_assoc($request_result)){
-                $requets[] = $requet_row['request'];
-            }
-            $row['requets'] = $requets;
-            $results[] = $row;
+        }else{
+            $respons['msg'] = 'db error';
+            print_r(json_encode($respons));
         }
         $respons['msg'] = 'ok';
-        $respons['data'] = $results;
+        $respons['data'] = $new_guests_results;
         print_r(json_encode($respons));
     }else{
         $respons['msg'] = 'dinaid';

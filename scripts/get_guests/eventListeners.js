@@ -78,9 +78,11 @@ export function onTdFocusOut(e){
     api.guest.update(data, map_id, guest_id)
 }
 function onRequestsListItem(target){
+    const table = document.getElementById('names_table') 
+    const map_id = table.getAttribute('map_id')
     var tag_id = target.getAttribute('tag_id')
     var guest_id = target.getAttribute('guest_id')
-    api.tags.add_request({tag_id: tag_id, guest_id: guest_id})
+    api.tags.add_request({tag_id: tag_id, guest_id: guest_id, map_id: map_id})
     add_requests()
     .then(menu.close)
 }
