@@ -42,7 +42,7 @@ function seat(seat_data){
         seat_data.guest.group_data = groups[seat_data.guest.guest_group]
         seat_data.guest.full_name = seat_data.guest.first_name + " " + seat_data.guest.last_name
         name_box.setAttribute('guest_id', seat_data.guest.id)
-        name_box.setAttribute('guest_name', seat_data.guest.name)
+        name_box.setAttribute('guest_name', seat_data.guest.full_name)
         name_box.setAttribute('guest_group', seat_data.guest.group_data.group_name)
         name_box.textContent = seat_data.guest.full_name
         if(seat_data.guest.full_name.length > 15) name_box.style.fontSize = '11px';

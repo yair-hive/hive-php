@@ -237,26 +237,26 @@ export function on_show_tags(){
         resolve()
     })
 }
-function getRandomNumber(max) {
-    let min = 0
-    let step1 = max - min + 1;
-    let step2 = Math.random() * step1;
-    let result = Math.floor(step2) + min;
-    return result;
-}
-function add_m(arr){
-    return new Promise(async (resolve) => {
-        console.log(arr)
-        var map_id = document.getElementById('map').getAttribute('map_id')
-        await api.guest.update_belong_multiple(map_id, arr)
-        resolve()
-    })
-}
 export function onScheduling(){
     const map = document.getElementById('map')
     const guests_list = JSON.parse(map.getAttribute('guests'))
     const map_tags = JSON.parse(map.getAttribute('tags'))
     const seats_list = document.querySelectorAll('.seat')
+    function getRandomNumber(max) {
+        let min = 0
+        let step1 = max - min + 1;
+        let step2 = Math.random() * step1;
+        let result = Math.floor(step2) + min;
+        return result;
+    }
+    function add_m(arr){
+        return new Promise(async (resolve) => {
+            console.log(arr)
+            var map_id = document.getElementById('map').getAttribute('map_id')
+            await api.guest.update_belong_multiple(map_id, arr)
+            resolve()
+        })
+    }
     function get_seats_score(){
         var seats_score = []
         for(let i = 0; i < seats_list.length; i++){
@@ -666,25 +666,24 @@ export const onKeyBordUp = ()=>{
     }
 }
 export const onSeatName = (event)=>{
+    const inputBox = document.getElementById('inputBox')
+    var guest_name = event.target.getAttribute('guest_name')
     guest_scrolling_list.onItem = function(item){
         onAddGuest(item)
         this.listElement.innerHTML = ''
         menu.close()
     }
-    const inputBox = document.getElementById('inputBox')
     menu.onOpen = function(){
         guest_scrolling_list.reset()
         event.target.textContent = ''
-        var guest_name = event.target.getAttribute('guest_name')
-        inputBox.style.display = 'inline-block'
         inputBox.value = guest_name
-        inputBox.focus()
         offsetCalculate()
         inputBox.addEventListener('input', onInput)
         clearSelection()
         document.getElementById('map').setAttribute('selectables', 'guests')
     }  
     menu.onClose = function(){
+        event.target.textContent = guest_name
         inputBox.style.display = 'none'
     }
     function createMatchList(input_str){
@@ -728,6 +727,8 @@ export const onSeatName = (event)=>{
         inputBox.style.padding = 0
         inputBox.style.top = parent.top+'px'
         inputBox.style.left = parent.left+'px'
+        inputBox.style.display = 'inline-block'
+        inputBox.focus()
     }
     function onInput(event){
         guest_scrolling_list.replaceItems(createGuestsList(event.target.value))
