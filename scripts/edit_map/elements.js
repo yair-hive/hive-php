@@ -96,21 +96,14 @@ export const add_seats = ()=>{
     return new Promise((resolve) => {
         var map_ele = document.getElementById('map')
         var map_id = map_ele.getAttribute('map_id')
-        var groups_s = JSON.parse(map_ele.getAttribute('new_groups'))
-        var guests = []
         api.seat.get_all_and_all(map_id)
         // .then(res => console.log(res))
         // api.seat.get_all(map_id)
         .then(seats => {
             if(seats.length == 0) resolve()
             for(let seat_data of seats){
-                if(seat_data.guest){
-                    seat_data.guest.score = Number(seat_data.guest.score) + Number(groups_s[seat_data.guest.guest_group].score)
-                    guests.push(seat_data.guest)
-                }
                 cellContainer(seat_data, seat(seat_data))
             }
-            map_ele.setAttribute('guests', JSON.stringify(guests))
             resolve()
         })
     })
@@ -200,6 +193,7 @@ export const add_guests_names = ()=>{
         })
         var groups_press = JSON.stringify(groups)
         var guests_press = JSON.stringify(guests)
+        // console.log(guests)
         map_ele.setAttribute('guests', guests_press)
         map_ele.setAttribute('groups', groups_press)
         resolve()

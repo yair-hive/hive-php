@@ -18,7 +18,7 @@ if(map_name){
     .then(add_seats)
     // .then(add_belong)
     // .then(add_guests)
-    // .then(add_guests_names)
+    .then(add_guests_names)
     .then(add_elements)
     .then(add_tags)
     .then(loader.stop)
