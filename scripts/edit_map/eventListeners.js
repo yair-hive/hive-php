@@ -32,13 +32,8 @@ export function on_show_score(){
     })
 }
 function getGroupColor(guest_group){
-    var groups = JSON.parse(document.getElementById('map').getAttribute('groups'))
-    for(let group of groups){
-        if(group.group_name == guest_group){
-            return group.color
-        }
-    }
-    return false
+    var groups = JSON.parse(document.getElementById('map').getAttribute('new_groups'))
+    return groups[guest_group].color
 }
 const clearSelection = ()=>{
     selection.clearSelection(); 
@@ -218,8 +213,10 @@ export const onAddGuest = (ele)=>{
                         }
                         name_box.setAttribute('guest_name', guest_name)
                         name_box.setAttribute('guest_group', guest_group.replace(" ","_"))
+                        console.log(guest_group)
                         var color = getGroupColor(guest_group)
                         if(color) name_box.style.backgroundColor = color
+                        name_box.style.fontSize = '15px';
                         if(guest_name.length > 15) name_box.style.fontSize = '11px';
                         name_box.textContent = guest_name 
                     })

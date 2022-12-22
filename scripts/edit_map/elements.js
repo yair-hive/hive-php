@@ -40,7 +40,7 @@ function seat(seat_data){
     var name_box = document.createElement('div')
     if(seat_data.guest) {
         seat_data.guest.group_data = groups[seat_data.guest.guest_group]
-        seat_data.guest.full_name = seat_data.guest.first_name + " " + seat_data.guest.last_name
+        seat_data.guest.full_name = seat_data.guest.last_name  + " " + seat_data.guest.first_name
         name_box.setAttribute('guest_id', seat_data.guest.id)
         name_box.setAttribute('guest_name', seat_data.guest.full_name)
         name_box.setAttribute('guest_group', seat_data.guest.group_data.group_name)
@@ -100,6 +100,7 @@ export const add_seats = ()=>{
         // .then(res => console.log(res))
         // api.seat.get_all(map_id)
         .then(seats => {
+            console.log(seats)
             if(seats.length == 0) resolve()
             for(let seat_data of seats){
                 cellContainer(seat_data, seat(seat_data))
