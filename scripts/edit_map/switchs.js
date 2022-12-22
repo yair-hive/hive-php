@@ -5,8 +5,10 @@ import MBloader from "../hiveElements/MBloader.js"
 import { on_show_score, on_show_tags } from "./eventListeners.js"
 
 const loader = new MBloader()
-const selection = create_selection()
-const dragToScroll = DragToScroll()
+export const selection = create_selection()
+export const dragToScroll = DragToScroll()
+dragToScroll.enable()    
+selection.disable()
 
 export var hiveSwitchOptions = {
     element_id: 'selecteblsSwitch', 

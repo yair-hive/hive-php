@@ -100,7 +100,6 @@ export const add_seats = ()=>{
         // .then(res => console.log(res))
         // api.seat.get_all(map_id)
         .then(seats => {
-            console.log(seats)
             if(seats.length == 0) resolve()
             for(let seat_data of seats){
                 cellContainer(seat_data, seat(seat_data))
@@ -223,6 +222,7 @@ export function add_elements(){
                 var to_row = Number(ob.to_row) + 1
                 var ob_ele = document.createElement('div')
                 ob_ele.classList.add('ob_ele')
+                ob_ele.setAttribute('ob_id', ob.id)
                 var ob_name_ele = document.createElement('div')
                 ob_name_ele.textContent = ob.ob_name
                 ob_ele.append(ob_name_ele)

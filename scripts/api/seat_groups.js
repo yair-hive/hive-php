@@ -147,6 +147,25 @@ export const seat_groups = {
             return res.msg
         })
     },
+    delete_ob: (ob_id)=>{
+        const options = {
+            method: 'POST',
+            body: "category=seat_groups&action=delete_ob&ob_id="+ob_id,
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };         
+        return fetch(api_url, options)
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
+        .then(res => res.json())
+        .then((res)=>{
+            if(res.msg == 'ok') return
+            alert(res.msg)
+            return res.msg
+        })
+    },
     add_tag: (seat, group, map)=>{
         const options = {
             method: 'POST',

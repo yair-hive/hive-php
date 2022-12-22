@@ -133,6 +133,11 @@ $seat_groups['get_ob'] = function(){
     $query_string = "SELECT * FROM map_obs WHERE belong = '{$map_id}'";
     db_get($query_string);
 };
+$seat_groups['delete_ob'] = function(){
+    $ob_id = $_POST['ob_id'];
+    $query_string = "DELETE FROM map_obs WHERE id = '{$ob_id}'";
+    db_post($query_string);
+};
 $seat_groups['add_tag'] = function(){
     $seat = $_POST['seat'];
     $group_name = $_POST['group'];

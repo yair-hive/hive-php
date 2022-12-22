@@ -1,5 +1,5 @@
 import {add_map, add_seats, add_guests, add_belong, add_elements, add_tags, add_groups, add_guests_names } from "./elements.js"
-import { onClickOutside, onGuestList, onKeyBordDown, onKeyBordUp, onMapAdd, onScheduling } from "./eventListeners.js"
+import { onClickOutside, onGuestList, onKeyBordDown, onKeyBordUp, onMapAdd, onMapDelete, onScheduling } from "./eventListeners.js"
 import hiveSwitch from "../hiveElements/HiveSwitch.js"
 import { editSwitchOptions, hiveSwitchOptions, showSwitchOptions, onSelecteblsSwitch, onShowSwitch, onEditSwitch } from "./switchs.js"
 import MBloader from "../hiveElements/MBloader.js"
@@ -24,6 +24,7 @@ if(map_name){
     .then(loader.stop)
     .then(()=>{
         document.getElementById('add_button').addEventListener('click', onMapAdd)
+        document.getElementById('delete_button').addEventListener('click', onMapDelete)
         document.addEventListener('mousedown', onClickOutside)
         document.addEventListener("keydown", onKeyBordDown)
         document.addEventListener("keyup", onKeyBordUp)

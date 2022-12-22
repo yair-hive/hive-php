@@ -1,21 +1,16 @@
-import { create_selection, DragToScroll } from "./tooles.js"
 import dropDown from "../hiveElements/dropDown.js"
 import { add_elements, add_guests, add_seats } from "./elements.js"
 import api from "../api/api.js"
 import MBloader from "../hiveElements/MBloader.js"
 import scrolling_list from '../hiveElements/scrolling_list.js'
 import { add_col_group_score, proximity_score, scheduling } from "./schedulingActions.js"
+import { dragToScroll, selection } from "./switchs.js"
 
 var mainBord = document.getElementById('mainBord')
 
 const loader = new MBloader()
 const menu = new dropDown(mainBord)
-const selection = create_selection()
-const dragToScroll = DragToScroll()
 const guest_scrolling_list = new scrolling_list(menu.drop_element)
-
-dragToScroll.enable()    
-selection.disable()
 
 export function on_show_score(){
     proximity_score
@@ -245,6 +240,56 @@ export const onMapAdd = ()=>{
     }
     if(map.getAttribute('selectables') === 'tag'){
         if(selection.getSelection().length != 0) onAddTag()
+    }
+}
+function onDeleteCell(){
+    console.log('TODO delete cell')
+}
+function onDeleteSeat(){
+    return new Promise(async (resolve, reject) => {
+        var selected = selection.getSelection()
+        for(let seat of selected){
+            var seat_id = seat.getAttribute('seat_id')
+            await api.seat.delete(seat_id)
+            await api.seat.delete_belong(seat_id)
+        }
+        resolve()
+    })
+} 
+function onDeleteElement(){
+    return new Promise(async (resolve) => {
+        var selected = selection.getSelection()
+        for(let ob of selected){
+            var ob_id = ob.getAttribute('ob_id')
+            if(ob_id) await api.seat_groups.delete_ob(ob_id)
+        }
+        resolve()
+    })
+}
+function onDeleteTag(){
+    console.log('TODO delete tag')
+}
+export function onMapDelete(){
+    var map = document.getElementById('map')
+    if(map.getAttribute('selectables') === 'cell'){
+        if(selection.getSelection().length != 0) onDeleteCell()
+    }
+    if(map.getAttribute('selectables') === 'seat'){
+        if(selection.getSelection().length != 0) {
+            loader.start()
+            onDeleteSeat()
+            .then(loader.stop)
+        }
+    }
+    if(map.getAttribute('selectables') === 'element'){
+        if(selection.getSelection().length != 0) {
+            loader.start()
+            onDeleteElement()
+            .then(loader.stop)
+        }
+    }
+    if(map.getAttribute('selectables') === 'tag'){
+        if(selection.getSelection().length != 0) onDeleteTag()
     }
 }
 export const onClickOutside = (event)=>{
