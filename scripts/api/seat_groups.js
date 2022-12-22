@@ -156,7 +156,6 @@ export const seat_groups = {
             }
         };         
         return fetch(api_url, options)
-        return fetch(api_url, options)
         // .then(res => res.text())
         // .then(res => alert(res))
         .then(res => res.json())

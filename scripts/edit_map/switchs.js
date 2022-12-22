@@ -38,8 +38,13 @@ export function onEditSwitch(active){
     var map = document.getElementById('map')
     var edit_menu = document.getElementById('edit_menu')
     var map_menu = document.getElementById('map_menu')
+    var map_rows = Number(map.getAttribute('rows'))
+    var map_cols = Number(map.getAttribute('cols')) 
     switch (active) {
         case 'edit':
+            document.querySelectorAll('.selector_cont').forEach(e => e.classList.add('active'))
+            map.style.setProperty('--map-rows', (map_rows +1))
+            map.style.setProperty('--map-cols', (map_cols +1))
             edit_menu.style.display = 'flex'
             map_menu.style.display = 'none'
             map.setAttribute('edit', 'yes')
@@ -53,6 +58,9 @@ export function onEditSwitch(active){
             })
             break;
         case 'no edit':
+            document.querySelectorAll('.selector_cont').forEach(e => e.classList.remove('active'))
+            map.style.setProperty('--map-rows', map_rows)
+            map.style.setProperty('--map-cols', map_cols)
             edit_menu.style.display = 'none'
             map_menu.style.display = 'flex'
             map.setAttribute('edit', 'no')

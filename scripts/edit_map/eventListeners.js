@@ -184,6 +184,15 @@ function onAddTag(){
         })
     }
 }
+function onAddRow(){
+    var map = document.getElementById('map')
+    var map_id = map.getAttribute('map_id')
+    var row = map.getAttribute('to_delete')
+    api.map.add_row(row, map_id)
+}
+function onAddCol(){
+    console.log('TODO add col')
+}
 export const onAddGuest = (ele)=>{
     if(ele.getAttribute('guest_id')){
         var map = document.getElementById('map').getAttribute('map_id')
@@ -229,17 +238,24 @@ export const onAddGuest = (ele)=>{
 }
 export const onMapAdd = ()=>{
     var map = document.getElementById('map')
-    if(map.getAttribute('selectables') === 'cell'){
+    var selectables = map.getAttribute('selectables')
+    if(selectables === 'cell'){
         if(selection.getSelection().length != 0) onAddSeats()
     }
-    if(map.getAttribute('selectables') === 'seat'){
+    if(selectables === 'seat'){
         if(selection.getSelection().length != 0) onAddNumber()
     }
-    if(map.getAttribute('selectables') === 'element'){
+    if(selectables === 'element'){
         if(selection.getSelection().length != 0) onAddElement()
     }
-    if(map.getAttribute('selectables') === 'tag'){
+    if(selectables === 'tag'){
         if(selection.getSelection().length != 0) onAddTag()
+    }
+    if(selectables === 'col'){
+        onAddCol()
+    }
+    if(selectables === 'row'){
+        onAddRow()
     }
 }
 function onDeleteCell(){
@@ -269,27 +285,46 @@ function onDeleteElement(){
 function onDeleteTag(){
     console.log('TODO delete tag')
 }
+function onDeleteRow(){
+    var map = document.getElementById('map')
+    var map_id = map.getAttribute('map_id')
+    var row = map.getAttribute('to_delete')
+    api.map.delete_row(row, map_id)
+    console.log(map.getAttribute('to_delete'))
+}
+function onDeleteCol(){
+    console.log('TODO delete col')
+}
 export function onMapDelete(){
     var map = document.getElementById('map')
-    if(map.getAttribute('selectables') === 'cell'){
+    var selectables = map.getAttribute('selectables')
+    if(selectables === 'cell'){
         if(selection.getSelection().length != 0) onDeleteCell()
     }
-    if(map.getAttribute('selectables') === 'seat'){
+    if(selectables === 'seat'){
         if(selection.getSelection().length != 0) {
             loader.start()
             onDeleteSeat()
             .then(loader.stop)
+            .then(()=> location.reload())
         }
     }
-    if(map.getAttribute('selectables') === 'element'){
+    if(selectables === 'element'){
         if(selection.getSelection().length != 0) {
             loader.start()
             onDeleteElement()
             .then(loader.stop)
+            .then(()=> location.reload())
         }
     }
-    if(map.getAttribute('selectables') === 'tag'){
+    if(selectables === 'tag'){
         if(selection.getSelection().length != 0) onDeleteTag()
+    }
+    if(selectables === 'col'){
+        onDeleteCol()
+    }
+    if(selectables === 'row'){
+        onDeleteRow()
     }
 }
 export const onClickOutside = (event)=>{
@@ -309,6 +344,10 @@ export const onClickOutside = (event)=>{
         var classList = event.target.classList
         if(!classList.contains('name_box') && !classList.contains('drop_down') && !classList.contains('match_list')){
             menu.close()
+        }
+        if(!classList.contains('hive-button')){
+            document.querySelectorAll('.row_selector').forEach(e => e.classList.remove('active'))      
+            document.querySelectorAll('.sle').forEach(e => e.classList.remove('sle'))
         }
         if(!event.ctrlKey && !event.metaKey && selection.getSelection().length !== 0 && !classList.contains('hive-button')){
             var map = document.getElementById('map')

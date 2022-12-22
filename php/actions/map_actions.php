@@ -37,3 +37,28 @@ $map_actions['get'] = function(){
     //     print_r(json_encode($respons));
     // }
 };
+$map_actions['delete_row'] = function(){
+    print_r($_POST);
+};
+$map_actions['add_row'] = function(){
+    $map_id = $_POST['map_id'];
+    $row = $_POST['row'];
+    $map_rows = $_POST['map_rows'];
+    $query_string = "SELECT * FROM seats WHERE belong = '{$map_id}'";
+    $results = db_get_f($query_string);
+    $new_results = [];
+    for($i = 0; $i < $map_rows; $i++){
+        print_r($i);
+        echo '/n';
+    }
+    print_r('kp');
+    foreach($results as $seat){
+
+    }
+};
+$map_actions['delete_col'] = function(){
+    print_r($_POST);
+};
+$map_actions['add_col'] = function(){
+    print_r($_POST);
+};

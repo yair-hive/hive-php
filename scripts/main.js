@@ -26,8 +26,9 @@ function add_create_map_form_scripts(pop_up){
         var form_data = new FormData(map_form)
         const formDataObj = {};
         form_data.forEach((value, key) => (formDataObj[key] = value));
+        var map_name = formDataObj.map_name
         api.map.create(formDataObj)
-        pop_up.close()
+        .then(()=> location.replace(`/hive-php/html/edit_map.html?map_name=${map_name}`))
     })
 }
 function add_maps_list(){

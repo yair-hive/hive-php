@@ -21,7 +21,6 @@ function tags(){
                 var color = e.target.value
                 var group_id = e.target.parentNode.parentNode.getAttribute('group_id')
                 api.seat_groups.update_tag_color(group_id, color)
-                .then(pop_up.close)
             })
             td_color.append(color_input)
             return td_color
@@ -35,7 +34,6 @@ function tags(){
             td.addEventListener('click', (e)=>{
                 var group_id = e.target.parentNode.getAttribute('group_id')
                 api.tags.delete_tag({tag_id: group_id})
-                .then(pop_up.close)
             })
             return td
         }

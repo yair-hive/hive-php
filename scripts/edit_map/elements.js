@@ -59,6 +59,33 @@ function seat(seat_data){
     name_box.addEventListener('click', onSeatName)
     return seat_ele
 }
+function rowSelector(num, type){
+    var selector_cont = document.createElement('div')
+    selector_cont.classList.add('selector_cont')
+    var selector = document.createElement('div')
+    selector.classList.add('row_selector')
+    selector.textContent = num
+    selector.setAttribute('num', num)
+    selector.setAttribute('type', type)
+    selector.classList.add('hive-button')
+    selector_cont.append(selector)
+    selector.addEventListener('click', (event)=>{ 
+        var map = document.getElementById('map')
+        document.querySelectorAll('.row_selector').forEach(e => e.classList.remove('active'))      
+        event.target.classList.add('active')
+        document.querySelectorAll('.sle').forEach(e => e.classList.remove('sle'))
+        var num = event.target.getAttribute('num')
+        var type = event.target.getAttribute('type')
+        map.setAttribute('p_selectables', map.getAttribute('selectables'))
+        map.setAttribute('selectables', type)
+        map.setAttribute('to_delete', num)
+        document.querySelectorAll(`[${type} = '${num}']`).forEach((e)=>{
+            e.classList.add('sle')
+        })
+    })
+    if(num == 0) selector_cont.style.opacity = 0
+    return selector_cont
+}
 function cellContainer(seat, seat_ele){
     var cellContainer = document.querySelector(`.cell_cont[row ="${seat.row_num}"][col = "${seat.col_num}"]`)
     cellContainer.replaceChildren(seat_ele)
@@ -67,9 +94,19 @@ export const add_map = (map_name)=>{
     return new Promise((resolve) => {
         api.map.get(map_name).then(map_data => {
             const map_ele = map(map_data)
-            for(var rowsCounter = 1; rowsCounter <= map_data.rows_number; rowsCounter++){
-                for(var colsCounter = 1; colsCounter <= map_data.columns_number; colsCounter++){
-                    map_ele.appendChild(cell(rowsCounter, colsCounter))
+            for(var rowsCounter = 0; rowsCounter <= map_data.rows_number; rowsCounter++){
+                if(rowsCounter != 0){
+                    for(var colsCounter = 0; colsCounter <= map_data.columns_number; colsCounter++){
+                        if(colsCounter != 0){
+                            map_ele.appendChild(cell(rowsCounter, colsCounter))
+                        }else{
+                            map_ele.appendChild(rowSelector(rowsCounter, 'row'))
+                        }
+                    }
+                }else{
+                    for(var colsCounter = 0; colsCounter <= map_data.columns_number; colsCounter++){
+                        map_ele.appendChild(rowSelector(colsCounter, 'col'))
+                    }
                 }
             }
             resolve()
