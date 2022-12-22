@@ -1,7 +1,6 @@
 import api from './api/api.js'
 import PopUp from './hiveElements/PopUp.js'
 
-
 function add_create_map_form(){
     return `<form id='create_map_form'>
         <label for="map_name"> שם המפה </label>

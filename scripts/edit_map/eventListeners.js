@@ -333,8 +333,11 @@ export const onKeyBordDown = (event)=>{
     var map = document.getElementById('map')
     var edit = map.getAttribute('edit')
     if(edit == 'yes'){
-        if(event.keyCode == 13){
+        if(event.code == 'Enter'){
             onMapAdd()
+        }
+        if(event.code == 'Delete'){
+            onMapDelete()
         }
         dragToScroll.enable()    
         selection.disable()
