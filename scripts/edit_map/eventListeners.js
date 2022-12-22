@@ -392,11 +392,11 @@ export function onScheduling(){
             for(let req of guests_requests){
                 // var random_request = guests_requests[getRandomNumber((guests_requests.length -1))]
                 // guests = guests[random_request]
-                var n_guests = guests[req]
-                while(n_guests.length != 0){
+                var guests_by_req = guests[req]
+                while(guests_by_req.length != 0){
                     // console.log(n_guests)
-                    var random_for_guest = getRandomNumber((n_guests.length - 1))
-                    var random_guest = n_guests[random_for_guest]
+                    var random_for_guest = getRandomNumber((guests_by_req.length - 1))
+                    var random_guest = guests_by_req[random_for_guest]
                     var is_in_plase = false
                     for(let i = 0; i < seats_score.length; i++){
                         var seats = seats_s[seats_score[i]]
@@ -411,7 +411,7 @@ export function onScheduling(){
                                     var random_for_seat = getRandomNumber((seats.length - 1))
                                     var random_seat = seats[random_for_seat]                      
                                     seats.splice(random_for_seat, 1)
-                                    n_guests.splice(random_for_guest, 1)
+                                    guests_by_req.splice(random_for_guest, 1)
                                     scheduling_list.push({seat: random_seat, guest: random_guest})
                                     is_in_plase = true
                                     break
@@ -426,7 +426,7 @@ export function onScheduling(){
                                     var random_for_seat = getRandomNumber((seats.length - 1))
                                     var random_seat = seats[random_for_seat]                      
                                     seats.splice(random_for_seat, 1)
-                                    n_guests.splice(random_for_guest, 1)
+                                    guests_by_req.splice(random_for_guest, 1)
                                     scheduling_list.push({seat: random_seat, guest: random_guest})
                                     is_in_plase = true
                                     break
@@ -435,8 +435,8 @@ export function onScheduling(){
                         }
                     }
                     if(!is_in_plase){
-                        for(let i = 0; i < seats_score.length; i++){
-                            var seats = seats_s[seats_score[i]]
+                        for(let seat_score of seats_score){
+                            var seats = seats_s[seat_score]
                             var random_tag = seats_tags[getRandomNumber((seats_tags.length - 1))]
                             seats = seats[random_tag]
                             if(seats){
@@ -444,13 +444,13 @@ export function onScheduling(){
                                     var random_for_seat = getRandomNumber((seats.length - 1))
                                     var random_seat = seats[random_for_seat]                      
                                     seats.splice(random_for_seat, 1)
-                                    n_guests.splice(random_for_guest, 1)
+                                    guests_by_req.splice(random_for_guest, 1)
                                     scheduling_list.push({seat: random_seat, guest: random_guest})
                                     break
                                 }
                             }
                         }
-                        n_guests.splice(random_for_guest, 1)
+                        guests_by_req.splice(random_for_guest, 1)
                     }
                 }
             }
