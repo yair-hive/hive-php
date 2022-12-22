@@ -75,10 +75,11 @@ export const guest = {
         };
         return fetch(api_url, options)
         // .then(res => res.text())
-        // .then(res => alert(res))
+        // .then(res => console.log(res))
+        .then(res => alert(res))
         .then(res => res.json())
         .then((res)=>{
-            if(res.msg == 'ok') return
+            // if(res.msg == 'ok') return
             alert(res.msg)
             return res.msg
         })
