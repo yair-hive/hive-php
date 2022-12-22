@@ -398,7 +398,7 @@ export const onSeatName = (event)=>{
         selection.disable()
     }
 }
-export async function onGuestList(event){
+export function onGuestList(event){
     var createMatchList = function(guests_data, inputBox){
         var match_list = []
         var input_str = inputBox.value
@@ -422,7 +422,7 @@ export async function onGuestList(event){
         if(guest.seat) {
             guest.group_id = guest.guest_group
             guest.guest_group = groups[guest.group_id].group_name
-            guest.full_name = guest.last_name + ' ' + guest.first_name
+            guest.full_name = guest.last_name  + ' ' + guest.first_name
             guests_with_belong.push(guest)
         }
     }
@@ -431,7 +431,7 @@ export async function onGuestList(event){
     var matchList = createMatchList(guests_with_belong, event.target)
     for(let match of matchList){
         var li = document.createElement('li')
-        li.innerHTML = match.full_name+' <span class="seat_number"> | '+match.seat.seat_number+'</span>' + ' <span class="seat_number"> | '+match.guest_group+'</span>'
+        li.innerHTML = '<span>'+match.full_name+'</span><span><span class="seat_number"> | '+match.seat.seat_number+' | </span>' + ' <span class="guest_group"> '+match.guest_group+'</span></span>'
         results.append(li)
     }
 }

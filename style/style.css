@@ -80,3 +80,23 @@ a:hover{
 #select_cells{
     background-color: tomato;
 }
+.guest_group{
+    color: yellow;
+}
+.side_menu{
+    border-radius: 5px;
+}
+#results{
+    margin: 5px;
+    border-radius: 5px;
+    padding: 10px;
+    overflow: auto;
+    max-height: 40vh;
+    background-color: rgb(171, 150, 255);
+}
+#results > li{
+    padding-top: 1px;
+    padding-bottom: 1px;
+    display: flex;
+    justify-content: space-between;
+}

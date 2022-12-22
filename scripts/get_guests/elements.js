@@ -77,7 +77,7 @@ export function add_table(){
         .then(add_groups)
         .then(()=> api.guest.get_all_and_ditails(map_id))
         .then(add_rows)
-        .then(resolve)
+        .then(resolve) 
     })
 }
 export function add_seat_number(){

@@ -101,48 +101,43 @@ $guest_actions['get_all_and_ditails'] = function(){
         $seats_results = db_get_f($seats_query);
         $tags_results = db_get_f($tags_query);
         $requests_results = db_get_f($requests_query);
-        if($guests_results && $belongs_results && $seats_results && $tags_results){
-            $new_belongs_results = [];
-            foreach($belongs_results as $belong){
-                $new_belongs_results[$belong['guest']] = $belong;
-            }
-            $new_seats_results = [];
-            foreach($seats_results as $seat){
-                $new_seats_results[$seat['id']] = $seat;
-            }
-            $new_tags_results = [];
-            foreach($tags_results as $tag){
-                $new_tags_results[$tag['seat']] = [];
-            }
-            foreach($tags_results as $tag){
-                $new_tags_results[$tag['seat']][] = $tag;
-            }
-            $new_requests_results = [];
-            foreach($requests_results as $request){
-                $new_requests_results[$request['guest']] = [];
-            }
-            foreach($requests_results as $request){
-                $new_requests_results[$request['guest']][] = $request['request'];
-            }
-            $new_guests_results = [];
-            foreach($guests_results as $guest){
-                $guest_id = $guest['id'];
-                if(array_key_exists($guest_id, $new_belongs_results)){
-                    $seat_id = $new_belongs_results[$guest_id]['seat'];
-                    $seat = $new_seats_results[$seat_id];
-                    if(array_key_exists($seat_id, $new_tags_results)){
-                        $seat['tags'] = $new_tags_results[$seat_id];
-                    }
-                    $guest['seat'] = $seat;
+        $new_belongs_results = [];
+        foreach($belongs_results as $belong){
+            $new_belongs_results[$belong['guest']] = $belong;
+        }
+        $new_seats_results = [];
+        foreach($seats_results as $seat){
+            $new_seats_results[$seat['id']] = $seat;
+        }
+        $new_tags_results = [];
+        foreach($tags_results as $tag){
+            $new_tags_results[$tag['seat']] = [];
+        }
+        foreach($tags_results as $tag){
+            $new_tags_results[$tag['seat']][] = $tag;
+        }
+        $new_requests_results = [];
+        foreach($requests_results as $request){
+            $new_requests_results[$request['guest']] = [];
+        }
+        foreach($requests_results as $request){
+            $new_requests_results[$request['guest']][] = $request['request'];
+        }
+        $new_guests_results = [];
+        foreach($guests_results as $guest){
+            $guest_id = $guest['id'];
+            if(array_key_exists($guest_id, $new_belongs_results)){
+                $seat_id = $new_belongs_results[$guest_id]['seat'];
+                $seat = $new_seats_results[$seat_id];
+                if(array_key_exists($seat_id, $new_tags_results)){
+                    $seat['tags'] = $new_tags_results[$seat_id];
                 }
-                if(array_key_exists($guest_id, $new_requests_results)){
-                    $guest['requets'] = $new_requests_results[$guest_id];
-                }
-                $new_guests_results[] = $guest;
+                $guest['seat'] = $seat;
             }
-        }else{
-            $respons['msg'] = 'db error';
-            print_r(json_encode($respons));
+            if(array_key_exists($guest_id, $new_requests_results)){
+                $guest['requets'] = $new_requests_results[$guest_id];
+            }
+            $new_guests_results[] = $guest;
         }
         $respons['msg'] = 'ok';
         $respons['data'] = $new_guests_results;

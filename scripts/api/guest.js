@@ -40,11 +40,7 @@ export const guest = {
         // .then(res => console.log(res))
         // .then(res => alert(res))
         .then(res => res.json())
-        .then((res)=>{
-            if(res.msg == 'ok') return res.data
-            alert(res.msg)
-            return res.msg
-        })
+        .then(res => {return res.data})
     },
     get_belong: (guest_id)=>{
         const options = {
@@ -76,11 +72,11 @@ export const guest = {
         return fetch(api_url, options)
         // .then(res => res.text())
         // .then(res => console.log(res))
-        .then(res => alert(res))
+        // .then(res => alert(res))
         .then(res => res.json())
         .then((res)=>{
-            // if(res.msg == 'ok') return
-            alert(res.msg)
+            if(res.msg == 'ok') return
+            console.log(res)
             return res.msg
         })
     },
