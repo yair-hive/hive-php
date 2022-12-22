@@ -415,10 +415,13 @@ export async function onGuestList(event){
     }
     var map = document.getElementById('map')
     var guest_list = map.getAttribute('guests')
+    var groups = JSON.parse(map.getAttribute('new_groups'))
     var guests_with_belong = []
     guest_list = JSON.parse(guest_list)
     for(let guest of guest_list){
         if(guest.seat) {
+            guest.group_id = guest.guest_group
+            guest.guest_group = groups[guest.group_id].group_name
             guest.full_name = guest.last_name + ' ' + guest.first_name
             guests_with_belong.push(guest)
         }
