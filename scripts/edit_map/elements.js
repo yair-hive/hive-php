@@ -78,28 +78,39 @@ export const add_map = (map_name)=>{
     })
 }
 export const add_groups = ()=>{
-    var map_ele = document.getElementById('map')
-    var map_id = map_ele.getAttribute('map_id')
-    api.guest.get_all_groups(map_id)
-    .then((groups)=>{
-        var groups_to_press = {}
-        for(let group of groups){
-            groups_to_press[group.id] = group
-        }
-        map_ele.setAttribute('new_groups', JSON.stringify(groups_to_press))
+    return new Promise((resolve, reject) => {
+        var map_ele = document.getElementById('map')
+        var map_id = map_ele.getAttribute('map_id')
+        api.guest.get_all_groups(map_id)
+        .then((groups)=>{
+            var groups_to_press = {}
+            for(let group of groups){
+                groups_to_press[group.id] = group
+            }
+            map_ele.setAttribute('new_groups', JSON.stringify(groups_to_press))
+        })
+        .then(resolve)
     })
 }
 export const add_seats = ()=>{
     return new Promise((resolve) => {
-        var map_id = document.getElementById('map').getAttribute('map_id')
+        var map_ele = document.getElementById('map')
+        var map_id = map_ele.getAttribute('map_id')
+        var groups_s = JSON.parse(map_ele.getAttribute('new_groups'))
+        var guests = []
         api.seat.get_all_and_all(map_id)
         // .then(res => console.log(res))
         // api.seat.get_all(map_id)
         .then(seats => {
             if(seats.length == 0) resolve()
             for(let seat_data of seats){
+                if(seat_data.guest){
+                    seat_data.guest.score = Number(seat_data.guest.score) + Number(groups_s[seat_data.guest.guest_group].score)
+                    guests.push(seat_data.guest)
+                }
                 cellContainer(seat_data, seat(seat_data))
             }
+            map_ele.setAttribute('guests', JSON.stringify(guests))
             resolve()
         })
     })

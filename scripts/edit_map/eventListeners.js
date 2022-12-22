@@ -374,7 +374,7 @@ export function onScheduling(){
         }
         return seats_tags
     }
-    // loader.start()
+    loader.start()
     proximity_score()
     .then(add_col_group_score)
     .then(()=>{
@@ -383,18 +383,12 @@ export function onScheduling(){
         var guests_score = get_guests_score()
         var seats_s = sort_seats_score(seats_score)
         var guest_s = sort_guests_score(guests_score)
-        // console.log(seats_s)
-        // console.log(guest_s)
         for(let i = 0; i < guests_score.length; i++){
             var guests = guest_s[guests_score[i]]
             var guests_requests = get_guests_requests(guests)
-            // console.log(guests_requests)
             for(let req of guests_requests){
-                // var random_request = guests_requests[getRandomNumber((guests_requests.length -1))]
-                // guests = guests[random_request]
                 var guests_by_req = guests[req]
                 while(guests_by_req.length != 0){
-                    // console.log(n_guests)
                     var random_for_guest = getRandomNumber((guests_by_req.length - 1))
                     var random_guest = guests_by_req[random_for_guest]
                     var is_in_plase = false
@@ -418,8 +412,6 @@ export function onScheduling(){
                                 }
                             }
                         }else{
-                            // console.log(req)
-                            // console.log(seats)
                             seats = seats[req]
                             if(seats){
                                 if(seats.length){
@@ -455,8 +447,6 @@ export function onScheduling(){
                 }
             }
         }
-        // console.log(seats_s)
-        // console.log(guest_s)
         add_m(scheduling_list)
         .then(loader.stop)
     })
