@@ -111,7 +111,13 @@ $seat_actions['delete'] = function(){
         if(!empty($_POST['seat_id'])){
             $seat_id = $_POST['seat_id'];
             $query_string = "DELETE FROM seats WHERE id='{$seat_id}'";
-            db_post($query_string);
+            db_post_f($query_string);
+            $query_string = "DELETE FROM belong WHERE seat='{$seat_id}'";
+            db_post_f($query_string);
+            $query_string = "DELETE FROM seat_groups_belong WHERE seat='{$seat_id}'";
+            db_post_f($query_string);
+            $respons['msg'] = 'ok';
+            print_r(json_encode($respons));
         }   
     }else{
         $respons['msg'] = 'dinaid';

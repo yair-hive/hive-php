@@ -16,6 +16,10 @@ function db_post($query_string){
         print_r(json_encode($respons));
     }
 }
+function db_post_f($query_string){
+    global $connection;
+    mysqli_query($connection, $query_string);
+}
 function db_post_multi($query_string){
     global $connection;
     if(mysqli_multi_query($connection, $query_string)){
