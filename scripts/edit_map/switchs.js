@@ -56,8 +56,32 @@ export function onEditSwitch(active){
                 box.style.backgroundColor = 'rgba(146, 136, 209, 0.8)'
                 box.style.fontSize = '15px'
             })
+            document.querySelectorAll('.ob_ele').forEach(e => {
+                var from_col = e.getAttribute('from_col')
+                var from_row = e.getAttribute('from_row')
+                var to_col = e.getAttribute('to_col')
+                var to_row = e.getAttribute('to_row')
+                from_col = Number(from_col) +1
+                from_row = Number(from_row) +1
+                to_col = Number(to_col) +1
+                to_row = Number(to_row) +1
+                e.style.gridColumnStart = from_col.toString()
+                e.style.gridRowStart = from_row.toString()
+                e.style.gridColumnEnd = to_col.toString()
+                e.style.gridRowEnd = to_row.toString()
+            })
             break;
         case 'no edit':
+            document.querySelectorAll('.ob_ele').forEach(e => {
+                var from_col = e.getAttribute('from_col')
+                var from_row = e.getAttribute('from_row')
+                var to_col = e.getAttribute('to_col')
+                var to_row = e.getAttribute('to_row')
+                e.style.gridColumnStart = from_col
+                e.style.gridRowStart = from_row
+                e.style.gridColumnEnd = to_col
+                e.style.gridRowEnd = to_row
+            })
             document.querySelectorAll('.selector_cont').forEach(e => e.classList.remove('active'))
             map.style.setProperty('--map-rows', map_rows)
             map.style.setProperty('--map-cols', map_cols)

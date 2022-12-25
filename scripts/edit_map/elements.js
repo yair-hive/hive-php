@@ -90,6 +90,24 @@ function cellContainer(seat, seat_ele){
     var cellContainer = document.querySelector(`.cell_cont[row ="${seat.row_num}"][col = "${seat.col_num}"]`)
     cellContainer.replaceChildren(seat_ele)
 }
+export function addRowsSelector(){
+    const mainBord = document.getElementById('mainBord')
+    const map = document.getElementById('map')
+    const rows = map.getAttribute('rows')
+    const cols = map.getAttribute('cols')
+    const rows_selectors = document.createElement('div')
+    rows_selectors.classList.add('rows_selectors')
+    const cols_selectors = document.createElement('div')
+    cols_selectors.classList.add('cols_selectors')
+    for(let r = 0; r <= rows; r++){
+        rows_selectors.append(rowSelector(r, 'row'))
+    }
+    for(let c = 0; c <= cols; c++){
+        cols_selectors.append(rowSelector(c, 'col'))
+    }
+    mainBord.append(cols_selectors)
+    mainBord.append(rows_selectors)
+}
 export const add_map = (map_name)=>{
     return new Promise((resolve) => {
         api.map.get(map_name).then(map_data => {
@@ -255,9 +273,13 @@ export function add_elements(){
                 }
                 row++
                 var next_cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
-                var to_col = Number(ob.to_col) + 1
-                var to_row = Number(ob.to_row) + 1
+                var to_col = Number(ob.to_col) +1
+                var to_row = Number(ob.to_row) +1
                 var ob_ele = document.createElement('div')
+                ob_ele.setAttribute('from_col', ob.from_col)
+                ob_ele.setAttribute('from_row', ob.from_row)
+                ob_ele.setAttribute('to_col', to_col.toString())
+                ob_ele.setAttribute('to_row', to_row.toString())
                 ob_ele.classList.add('ob_ele')
                 ob_ele.setAttribute('ob_id', ob.id)
                 var ob_name_ele = document.createElement('div')
