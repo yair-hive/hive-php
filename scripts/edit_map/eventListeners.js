@@ -188,13 +188,13 @@ function onAddRow(){
     var map = document.getElementById('map')
     var map_id = map.getAttribute('map_id')
     var row = map.getAttribute('to_delete')
-    api.map.add_row(row, map_id)
+    return api.map.add_row(row, map_id)
 }
 function onAddCol(){
     var map = document.getElementById('map')
     var map_id = map.getAttribute('map_id')
     var col = map.getAttribute('to_delete')
-    api.map.add_col(col, map_id)
+    return api.map.add_col(col, map_id)
 }
 export const onAddGuest = (ele)=>{
     if(ele.getAttribute('guest_id')){
@@ -255,10 +255,16 @@ export const onMapAdd = ()=>{
         if(selection.getSelection().length != 0) onAddTag()
     }
     if(selectables === 'col'){
+        loader.start()
         onAddCol()
+        .then(loader.stop)
+        .then(()=> location.reload())
     }
     if(selectables === 'row'){
+        loader.start()
         onAddRow()
+        .then(loader.stop)
+        .then(()=> location.reload())
     }
 }
 function onDeleteCell(){
@@ -296,13 +302,13 @@ function onDeleteRow(){
     var map = document.getElementById('map')
     var map_id = map.getAttribute('map_id')
     var row = map.getAttribute('to_delete')
-    api.map.delete_row(row, map_id)
+    return api.map.delete_row(row, map_id)
 }
 function onDeleteCol(){
     var map = document.getElementById('map')
     var map_id = map.getAttribute('map_id')
     var col = map.getAttribute('to_delete')
-    api.map.delete_col(col, map_id)
+    return api.map.delete_col(col, map_id)
 }
 export function onMapDelete(){
     var map = document.getElementById('map')
@@ -330,10 +336,16 @@ export function onMapDelete(){
         if(selection.getSelection().length != 0) onDeleteTag()
     }
     if(selectables === 'col'){
+        loader.start()
         onDeleteCol()
+        .then(loader.stop)
+        .then(()=> location.reload())
     }
     if(selectables === 'row'){
+        loader.start()
         onDeleteRow()
+        .then(loader.stop)
+        .then(()=> location.reload())
     }
 }
 export const onClickOutside = (event)=>{

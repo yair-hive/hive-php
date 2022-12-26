@@ -42,6 +42,8 @@ export function onEditSwitch(active){
     var map_cols = Number(map.getAttribute('cols')) 
     switch (active) {
         case 'edit':
+            document.querySelectorAll('.row_selector').forEach(e => e.classList.remove('active'))      
+            document.querySelectorAll('.sle').forEach(e => e.classList.remove('sle'))
             document.querySelectorAll('.selector_cont').forEach(e => e.classList.add('active'))
             map.style.setProperty('--map-rows', (map_rows +1))
             map.style.setProperty('--map-cols', (map_cols +1))
@@ -72,6 +74,8 @@ export function onEditSwitch(active){
             })
             break;
         case 'no edit':
+            document.querySelectorAll('.row_selector').forEach(e => e.classList.remove('active'))      
+            document.querySelectorAll('.sle').forEach(e => e.classList.remove('sle'))
             document.querySelectorAll('.ob_ele').forEach(e => {
                 var from_col = e.getAttribute('from_col')
                 var from_row = e.getAttribute('from_row')

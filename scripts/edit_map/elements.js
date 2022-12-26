@@ -256,6 +256,7 @@ export const add_guests_names = ()=>{
 }
 export function add_elements(){
     return new Promise((resolve) => {
+        var map_ele = document.getElementById('map')
         var map = document.getElementById('map').getAttribute('map_id')
         api.seat_groups.get_ob(map)
         .then(res => {
@@ -275,6 +276,13 @@ export function add_elements(){
                 var next_cell = document.querySelector('.cell_cont[row="'+row+'"][col="'+col+'"]')
                 var to_col = Number(ob.to_col) +1
                 var to_row = Number(ob.to_row) +1
+                if(map_ele.getAttribute('edit') == 'yes'){
+                    to_col++
+                    to_row++
+                    ob.from_col = Number(ob.from_col) +1
+                    ob.from_row = Number(ob.from_row) +1
+
+                }
                 var ob_ele = document.createElement('div')
                 ob_ele.setAttribute('from_col', ob.from_col)
                 ob_ele.setAttribute('from_row', ob.from_row)
