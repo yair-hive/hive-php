@@ -114,10 +114,9 @@ $map_actions['delete_col'] = function(){
             $query_string .= "DELETE FROM seats WHERE id = '{$seat_id}';";
             $query_string .= "DELETE FROM belong WHERE seat = '{$seat_id}';";
         }
-        $query_string = '';
         if($col_num > $col){
             $col_num--;
-            $query_string .= "UPDATE seats SET row_num = '{$col_num}' WHERE id = '{$seat_id}';";
+            $query_string .= "UPDATE seats SET col_num = '{$col_num}' WHERE id = '{$seat_id}';";
         }
     }
     if(!empty($query_string)){
