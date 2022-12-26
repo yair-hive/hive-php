@@ -269,7 +269,7 @@ function onDeleteCell(){
     // console.log(map.getAttribute('to_delete'))
 }
 function onDeleteSeat(){
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
         var selected = selection.getSelection()
         for(let seat of selected){
             var seat_id = seat.getAttribute('seat_id')
@@ -297,14 +297,12 @@ function onDeleteRow(){
     var map_id = map.getAttribute('map_id')
     var row = map.getAttribute('to_delete')
     api.map.delete_row(row, map_id)
-    console.log(map.getAttribute('to_delete'))
 }
 function onDeleteCol(){
     var map = document.getElementById('map')
     var map_id = map.getAttribute('map_id')
     var col = map.getAttribute('to_delete')
     api.map.delete_col(col, map_id)
-    console.log(map.getAttribute('to_delete'))
 }
 export function onMapDelete(){
     var map = document.getElementById('map')
