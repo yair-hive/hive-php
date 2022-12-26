@@ -191,7 +191,10 @@ function onAddRow(){
     api.map.add_row(row, map_id)
 }
 function onAddCol(){
-    console.log('TODO add col')
+    var map = document.getElementById('map')
+    var map_id = map.getAttribute('map_id')
+    var col = map.getAttribute('to_delete')
+    api.map.add_col(col, map_id)
 }
 export const onAddGuest = (ele)=>{
     if(ele.getAttribute('guest_id')){
@@ -259,7 +262,11 @@ export const onMapAdd = ()=>{
     }
 }
 function onDeleteCell(){
-    console.log('TODO delete cell')
+    // var map = document.getElementById('map')
+    // var map_id = map.getAttribute('map_id')
+    // var col = map.getAttribute('to_delete')
+    // api.map.delete_col(col, map_id)
+    // console.log(map.getAttribute('to_delete'))
 }
 function onDeleteSeat(){
     return new Promise(async (resolve, reject) => {
@@ -293,7 +300,11 @@ function onDeleteRow(){
     console.log(map.getAttribute('to_delete'))
 }
 function onDeleteCol(){
-    console.log('TODO delete col')
+    var map = document.getElementById('map')
+    var map_id = map.getAttribute('map_id')
+    var col = map.getAttribute('to_delete')
+    api.map.delete_col(col, map_id)
+    console.log(map.getAttribute('to_delete'))
 }
 export function onMapDelete(){
     var map = document.getElementById('map')

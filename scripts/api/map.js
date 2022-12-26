@@ -36,7 +36,9 @@ export const map = {
             }
         };         
         return fetch(api_url, options)
-        .then(res => res.json())
+        // .then(res => res.json())
+        .then(res => res.text())
+        .then(res => console.log(res))
     },
     add_row: (row, map_id, map_rows)=>{
         const options = {
@@ -60,7 +62,9 @@ export const map = {
             }
         };         
         return fetch(api_url, options)
-        .then(res => res.json())
+        // .then(res => res.json())
+        .then(res => res.text())
+        .then(res => console.log(res))
     },
     get: (map_name)=>{
         const options = {
