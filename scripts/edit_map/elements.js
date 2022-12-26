@@ -90,6 +90,29 @@ function cellContainer(seat, seat_ele){
     var cellContainer = document.querySelector(`.cell_cont[row ="${seat.row_num}"][col = "${seat.col_num}"]`)
     cellContainer.replaceChildren(seat_ele)
 }
+export function add_col(col){
+    col = Number(col)
+    const map = document.getElementById('map')
+    const rows = Number(map.getAttribute('rows'))
+    const cols = Number(map.getAttribute('cols')) +2
+    var next_col = col +2
+    document.querySelectorAll('.cell_cont').forEach(e =>{
+        var e_col = Number(e.getAttribute('col'))
+        if(e_col > col) e.setAttribute('col', e_col+1)
+    })
+    for(let i = 1; i <= rows; i++){
+        var cell_cont = cell(i, col+1)
+        var next_cell = document.querySelector(`.cell_cont[row ="${i}"][col = "${next_col}"]`)
+        map.insertBefore(cell_cont, next_cell)
+    }
+    var next_selector_cont = document.querySelector(`.row_selector[type = "row"][num = "1"]`).parentNode
+    var new_row_selector = rowSelector(cols, 'col')
+    new_row_selector.classList.add('active')
+    console.log(new_row_selector)
+    map.insertBefore(new_row_selector, next_selector_cont)
+    map.style.setProperty('--map-cols', cols)
+    map.setAttribute('cols', (cols -1))
+}
 export function addRowsSelector(){
     const mainBord = document.getElementById('mainBord')
     const map = document.getElementById('map')

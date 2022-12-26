@@ -1,5 +1,5 @@
 import dropDown from "../hiveElements/dropDown.js"
-import { add_elements, add_guests, add_seats } from "./elements.js"
+import { add_col, add_elements, add_guests, add_seats } from "./elements.js"
 import api from "../api/api.js"
 import MBloader from "../hiveElements/MBloader.js"
 import scrolling_list from '../hiveElements/scrolling_list.js'
@@ -195,6 +195,9 @@ function onAddCol(){
     var map_id = map.getAttribute('map_id')
     var col = map.getAttribute('to_delete')
     return api.map.add_col(col, map_id)
+    .then(()=> {
+        add_col(col)
+    })
 }
 export const onAddGuest = (ele)=>{
     if(ele.getAttribute('guest_id')){
@@ -258,7 +261,7 @@ export const onMapAdd = ()=>{
         loader.start()
         onAddCol()
         .then(loader.stop)
-        .then(()=> location.reload())
+        // .then(()=> location.reload())
     }
     if(selectables === 'row'){
         loader.start()
