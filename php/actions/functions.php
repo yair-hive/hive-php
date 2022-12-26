@@ -18,7 +18,7 @@ function db_post($query_string){
 }
 function db_post_f($query_string){
     global $connection;
-    mysqli_query($connection, $query_string);
+    return mysqli_query($connection, $query_string);
 }
 function db_post_multi($query_string){
     global $connection;

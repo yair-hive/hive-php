@@ -14,7 +14,7 @@ export const map = {
         return fetch(api_url, options)
         .then(res => res.json())
     },
-    delete_row: (row, map_id, map_rows)=>{
+    delete_row: (row, map_id)=>{
         const options = {
             method: 'POST',
             body: "category=map&action=delete_row&row="+row+"&map_id="+map_id,
@@ -25,6 +25,7 @@ export const map = {
         return fetch(api_url, options)
         .then(res => res.text())
         .then(res => console.log(res))
+        // .then(()=> alert())
         // .then(res => res.json())
     },
     delete_col: (col, map_id)=>{
@@ -40,10 +41,10 @@ export const map = {
         .then(res => res.text())
         .then(res => console.log(res))
     },
-    add_row: (row, map_id, map_rows)=>{
+    add_row: (row, map_id)=>{
         const options = {
             method: 'POST',
-            body: "category=map&action=add_row&row="+row+"&map_id="+map_id+"&map_rows="+map_rows,
+            body: "category=map&action=add_row&row="+row+"&map_id="+map_id,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
@@ -51,6 +52,7 @@ export const map = {
         return fetch(api_url, options)
         .then(res => res.text())
         .then(res => console.log(res))
+        // .then(()=> alert())
         // .then(res => res.json())
     },
     add_col: (col, map_id)=>{
