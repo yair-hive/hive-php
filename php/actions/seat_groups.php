@@ -32,17 +32,6 @@ function getTagData($group_id){
         return false;
     }
 };
-function getSeatGroupData($group_id){
-    global $connection;
-    $query_string = "SELECT * FROM seats_groups WHERE id = '{$group_id}'";
-    $result = mysqli_query($connection, $query_string);
-    $result = mysqli_fetch_assoc($result);
-    if($result){
-        return $result;
-    }else{
-        return false;
-    }
-};
 function createDefaultTag($tag_name, $map){
     $name = $tag_name;
     $color = '#2b4e81';

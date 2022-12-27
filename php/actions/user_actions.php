@@ -150,3 +150,26 @@ $user_actions['get_permission'] = function(){
         print_r(json_encode($respons));
     }
 };
+$user_actions['create_group'] = function(){
+    $group_name = $_POST['group_name'];
+    $query_string = "SELECT * FROM users_groups WHERE group_name = '{$group_name}'";
+    check_exists($query_string);
+    $query_string = "INSERT INTO users_groups(group_name) VALUES('{$group_name}')";
+    db_post($query_string);
+};
+$user_actions['add_permission_to_group'] = function(){
+    $action_name = $_POST['action_name'];
+    $group_id = $_POST['group_id'];
+    $query_string = "SELECT * FROM user_group_permissions WHERE action_name = '{$action_name}' AND group_id = '{$group_id }'";
+    check_exists($query_string);
+    $query_string = "INSERT INTO user_group_permissions(action_name, group_id) VALUES ('{$action_name}', '{$group_id}')";
+    db_post($query_string);
+};
+$user_actions['add_user_to_group'] = function(){
+    $user_id = $_POST['user_id'];
+    $group_id = $_POST['group_id'];
+    $query_string = "SELECT * FROM user_group_belong WHERE user_id = '{$user_id}' AND group_id = '{$group_id}'";
+    check_exists($query_string);
+    $query_string = "INSERT INTO user_group_belong(user_id, group_id) VALUES('{$user_id}', '{$group_id}')";
+    db_post($query_string);
+};

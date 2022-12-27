@@ -19,18 +19,28 @@ $mysql_conf = parse_ini_file('../mysql_conf.ini');
 $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);
 
 if(array_key_exists('action', $_POST)){
-    try {
-        if($_POST['action'] == 'test'){
+    // if($_POST['action'] == 'test'){
+    //     try {
+    //         throw new Exception('op');
+    //         // $query_string = "SELECT * FROM pop";
+    //         // if(!$result = mysqli_query($connection, $query_string)){
+    //         //     $res['msg'] = mysqli_error($connection);
+    //         //     print_r(json_encode($res));
+    //         // }
+    //     } catch (Exception $e) {
+    //         print_r($e->getMessage());
+    //     }
+    // }
+    if($_POST['action'] == 'test'){
+        try {
             $query_string = "SELECT * FROM pop";
-            $result = mysqli_query($connection, $query_string);
-            if(!$result){
-                throw mysqli_error($connection);
+            if(!$result = mysqli_query($connection, $query_string)){
+                $res['msg'] = mysqli_error($connection);
+                print_r(json_encode($res));
             }
+        } catch (Exception $e) {
+            print_r($e->getMessage());
         }
-    } catch (\Throwable $th) {
-        $res = [];
-        $res['msg'] = $th;
-        print_r(json_encode($res));
     }
 }
 include_once 'actions/functions.php';
@@ -59,7 +69,12 @@ if(!empty($_POST['category']) && !empty($_POST['action']) || !empty($NEW_POST['c
     }
     if(array_key_exists($category, $actions)){
         if(array_key_exists($action, $actions[$category])){
-            $actions[$category][$action]();
+            try {
+                $actions[$category][$action]();
+            } catch (Exception $e) {
+                $respons['msg'] = $e->getMessage();
+                print_r(json_encode($respons));
+            }
         }else{
             $respons['msg'] = 'action dont exists';
             print_r(json_encode($respons));

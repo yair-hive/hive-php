@@ -118,18 +118,19 @@ export function add_row(row){
     const map = document.getElementById('map')
     const rows = Number(map.getAttribute('rows')) +2
     const cols = Number(map.getAttribute('cols')) 
-    var next_row = row +1
+    var next_row = row +2
     document.querySelectorAll('.cell_cont').forEach(e =>{
         var e_row = Number(e.getAttribute('row'))
         if(e_row > row) e.setAttribute('row', e_row+1)
     })
-    var next_cell = document.querySelector(`.row_selector[type = "row"][num = "${next_row}"]`).parentNode
+    var next_cell = document.querySelector(`.cell_cont[row = "${next_row}"][col = "1"]`)
+    console.log(next_row)
     for(let i = 1; i <= cols; i++){
         var cell_cont = cell(row+1, i)
         map.insertBefore(cell_cont, next_cell)
     }
     var next_selector_cont = document.querySelector(`.cell_cont[row = "${rows-1}"][col = "1"]`)
-    var new_row_selector = rowSelector(rows, 'row')
+    var new_row_selector = rowSelector(rows-1, 'row')
     new_row_selector.classList.add('active')
     map.insertBefore(new_row_selector, next_selector_cont)
     map.style.setProperty('--map-rows', rows)

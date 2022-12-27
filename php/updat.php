@@ -44,7 +44,7 @@ function update($filename, $link){
         // If its semicolon at the end, so that is the end of one query
         if (substr(trim($line), -1, 1) == ';')  {
             // Perform the query
-            mysqli_query($link, $tempLine) or print("Error in " . $tempLine .":". mysqli_error());
+            mysqli_query($link, $tempLine) or print("Error in " . $tempLine .":". mysqli_error($link));
             // Reset temp variable to empty
             $tempLine = '';
         }

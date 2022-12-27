@@ -79,6 +79,7 @@ export const guest = {
             console.log(res)
             return res.msg
         })
+        .then(()=> alert())
     },
     update: (data, map_id, guest_id)=>{
         const options = {
