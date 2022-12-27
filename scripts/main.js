@@ -1,6 +1,27 @@
 import api from './api/api.js'
 import PopUp from './hiveElements/PopUp.js'
 
+const api_url = '/hive-php/php/api.php'
+
+function test(){
+    const options = {
+        method: 'POST',
+        body: "action=test",
+        mode: 'no-cors',
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+      
+    return fetch(api_url, options)
+    .then(res => res.text())
+    .then(res => console.log(res))
+    // .then(res => alert(res))
+    // .then(res => res.json())
+    // .then(res => console.log(res))
+}
+// test()
 function add_create_map_form(){
     return `<form id='create_map_form'>
         <label for="map_name"> שם המפה </label>

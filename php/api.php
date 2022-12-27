@@ -18,6 +18,21 @@ $NEW_POST = json_decode(file_get_contents('php://input'), true);
 $mysql_conf = parse_ini_file('../mysql_conf.ini');
 $connection = mysqli_connect($mysql_conf["DB_HOST"], $mysql_conf['DB_USER'], $mysql_conf['DB_PASS'], $mysql_conf['DB_NAME']);
 
+if(array_key_exists('action', $_POST)){
+    try {
+        if($_POST['action'] == 'test'){
+            $query_string = "SELECT * FROM pop";
+            $result = mysqli_query($connection, $query_string);
+            if(!$result){
+                throw mysqli_error($connection);
+            }
+        }
+    } catch (\Throwable $th) {
+        $res = [];
+        $res['msg'] = $th;
+        print_r(json_encode($res));
+    }
+}
 include_once 'actions/functions.php';
 include_once 'actions/map_actions.php';
 include_once 'actions/seat_actions.php';
