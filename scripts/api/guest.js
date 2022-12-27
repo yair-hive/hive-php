@@ -70,15 +70,15 @@ export const guest = {
             }
         };
         return fetch(api_url, options)
-        // .then(res => res.text())
-        // .then(res => console.log(res))
+        .then(res => res.text())
+        .then(res => console.log(res))
         // .then(res => alert(res))
-        .then(res => res.json())
-        .then((res)=>{
-            if(res.msg == 'ok') return
-            console.log(res)
-            return res.msg
-        })
+        // .then(res => res.json())
+        // .then((res)=>{
+        //     if(res.msg == 'ok') return
+        //     console.log(res)
+        //     return res.msg
+        // })
         .then(()=> alert())
     },
     update: (data, map_id, guest_id)=>{

@@ -12,7 +12,7 @@ $seat_actions['get_all'] = function () {
     check_parameters(['map_id']);    
     $map_id = $_POST['map_id'];
     $query_string = "SELECT * FROM seats WHERE belong='{$map_id}'";
-    db_get($query_string);
+    return db_get($query_string);
 };
 $seat_actions['get_all_and_all'] = function(){ 
     check_parameters(['map_id']); 
@@ -33,21 +33,19 @@ $seat_actions['get_all_and_all'] = function(){
         }
         $results[] = $seats_row;
     }
-    $respons['msg'] = 'ok';
-    $respons['data'] = $results;
-    print_r(json_encode($respons));
+    return $results;
 };
 $seat_actions['get_belong'] = function () {
     check_parameters(['seat_id']);
     $seat_id = $_POST['seat_id'];
     $query_string = "SELECT * FROM belong WHERE seat='{$seat_id}'";
-    db_get($query_string);
+    return db_get($query_string);
 };
 $seat_actions['get_number'] = function(){
     check_parameters(['seat_id']);
     $seat_id = $_POST['seat_id'];
     $query_string = "SELECT * FROM seats WHERE id='{$seat_id}'";
-    db_get($query_string);
+    return db_get($query_string);
 };
 $seat_actions['add_number'] = function () {
     check_parameters(['seat_id', 'seat_number']);
@@ -76,11 +74,9 @@ $seat_actions['delete'] = function () {
     check_parameters(['seat_id']);
     $seat_id = $_POST['seat_id'];
     $query_string = "DELETE FROM seats WHERE id='{$seat_id}'";
-    db_post_f($query_string);
+    db_post($query_string);
     $query_string = "DELETE FROM belong WHERE seat='{$seat_id}'";
-    db_post_f($query_string);
+    db_post($query_string);
     $query_string = "DELETE FROM seat_groups_belong WHERE seat='{$seat_id}'";
-    db_post_f($query_string);
-    $respons['msg'] = 'ok';
-    print_r(json_encode($respons));
+    db_post($query_string);
 };

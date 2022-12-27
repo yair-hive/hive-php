@@ -58,12 +58,12 @@ $seat_groups['create'] = function(){
 $seat_groups['get_id'] = function(){
     $name = $_POST['name'];
     $query_string = "SELECT id FROM seats_groups WHERE group_name = '{$name}'";
-    db_get($query_string);
+    return db_get($query_string);
 };
 $seat_groups['get_name'] = function(){
     $id = $_POST['id'];
     $query_string = "SELECT group_name FROM seats_groups WHERE id = '{$id}'";
-    db_get($query_string);
+    return db_get($query_string);
 };
 $seat_groups['add_col'] = function(){
     global $connection;
@@ -98,14 +98,14 @@ $seat_groups['add_col'] = function(){
 $seat_groups['get_groups_cols'] = function(){
     $map_id = $_POST['map_id'];
     $query_string = "SELECT group_name FROM seats_groups WHERE belong = '{$map_id}'";
-    db_get($query_string);
+    return db_get($query_string);
 };
 $seat_groups['get_seats_cols'] = function(){
     $map_id = $_POST['map_id'];
     $group_name = $_POST['group_name'];
     $group_id = getSeatsGroupId($group_name, $map_id);
     $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_id = '{$group_id}' AND group_type = 'col'";
-    db_get($query_string);
+    return db_get($query_string);
 };
 $seat_groups['add_ob'] = function(){
     $map = $_POST["map"];
@@ -120,7 +120,7 @@ $seat_groups['add_ob'] = function(){
 $seat_groups['get_ob'] = function(){
     $map_id = $_POST['map_id'];
     $query_string = "SELECT * FROM map_obs WHERE belong = '{$map_id}'";
-    db_get($query_string);
+    return db_get($query_string);
 };
 $seat_groups['delete_ob'] = function(){
     $ob_id = $_POST['ob_id'];
@@ -168,30 +168,23 @@ $seat_groups['get_seats_tags'] = function(){
     $group_name = $_POST['group_name'];
     $group_id = getTagId($group_name, $map_id);
     $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_id = '{$group_id}' AND group_type = 'tag'";
-    db_get($query_string);
+    return db_get($query_string);
 };
-$seat_groups['update_tag_color'] = function(){
+$seat_groups['update_tag_color'] = function () {
+    check_parameters(['color', 'id']);
     $color = $_POST['color'];
     $id = $_POST['id'];
-    global $connection;
     $query_string = "UPDATE tags SET color = '{$color}' WHERE  id = '{$id}'";
-    if(mysqli_query($connection, $query_string)){
-        $respons['msg'] = 'ok';
-        print_r(json_encode($respons));
-    }
+    db_post($query_string);
 };
 $seat_groups['update_tag_name'] = function(){
     $name = $_POST['name'];
     $id = $_POST['id'];
-    global $connection;
     $query_string = "UPDATE tags SET tag_name = '{$name}' WHERE  id = '{$id}'";
-    if(mysqli_query($connection, $query_string)){
-        $respons['msg'] = 'ok';
-        print_r(json_encode($respons));
-    }
+    db_post($query_string);
 };
 $seat_groups['get_all_tags'] = function(){
     $map_id = $_POST['map_id'];
     $query_string = "SELECT * FROM tags WHERE belong = '{$map_id}'";
-    db_get($query_string);
+    return db_get($query_string);
 };

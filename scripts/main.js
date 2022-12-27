@@ -104,7 +104,7 @@ if(get_maps_button){
 
 api.user.get()
 .then((respons) => {
-    if(respons.msg === 'all ok'){
-        document.getElementById('user_element').innerText = respons.user_name
+    if(respons.msg === 'ok'){
+        document.getElementById('user_element').innerText = respons.data
     }
 })

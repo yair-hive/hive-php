@@ -70,7 +70,12 @@ if(!empty($_POST['category']) && !empty($_POST['action']) || !empty($NEW_POST['c
     if(array_key_exists($category, $actions)){
         if(array_key_exists($action, $actions[$category])){
             try {
-                $actions[$category][$action]();
+                $data = $actions[$category][$action]();
+                if($data){
+                    $respons['data'] = $data;
+                }
+                $respons['msg'] = 'ok';
+                print_r(json_encode($respons));
             } catch (Exception $e) {
                 $respons['msg'] = $e->getMessage();
                 print_r(json_encode($respons));

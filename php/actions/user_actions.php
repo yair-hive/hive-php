@@ -50,13 +50,9 @@ $user_actions['login'] = function(){
 };
 $user_actions['get'] = function(){
     if(!empty($_SESSION['user_name'])){
-        $respons['msg'] = 'all ok';
-        $respons['user_name'] = $_SESSION['user_name'];
-        print_r(json_encode($respons));
+        return $_SESSION['user_name'];
     }else{
-        $respons['msg'] = 'parameter misseng';
-        $respons['d'] = json_encode($_SESSION);
-        print_r(json_encode($respons));
+        throw new Exception('parameter misseng');
     }
 };
 $user_actions['get_all'] = function(){
@@ -108,18 +104,12 @@ $user_actions['sginup'] = function(){
     }
 };
 $user_actions['add_permission'] = function(){  
-    global $connection;
-    if(allowed("super")){               
-        if(!empty($_POST['user_id']) && !empty($_POST['permission'])){
-            $user_id = $_POST['user_id'];
-            $permission = $_POST['permission'];        
-            $query_string = "INSERT INTO permissions(user, permission) VALUES('{$user_id}', '{$permission}')";
-            db_post($query_string);
-        }
-    }else{
-        $respons['msg'] = 'faild';
-        print_r(json_encode($respons));
-    }
+    global $connection;              
+    check_parameters(['user_id', 'permission']);
+    $user_id = $_POST['user_id'];
+    $permission = $_POST['permission'];        
+    $query_string = "INSERT INTO permissions(user, permission) VALUES('{$user_id}', '{$permission}')";
+    db_post($query_string);
 };
 $user_actions['get_permissions_list'] = function(){
     global $permissions_list;
