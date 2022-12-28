@@ -50,6 +50,7 @@ export const tags = {
         .then(res => res.json())
         .then(res => {
             if(res.msg === 'ok') return res.data
+            alert(res)
         })
     }
 }

@@ -158,10 +158,7 @@ $seat_groups['get_groups_tags'] = function(){
             $tag_names[] = $tagName;
         }
     }
-    $res = [];
-    $res['msg'] = 'ok';
-    $res['data'] = $tag_names;
-    print_r(json_encode($res));
+    return $tag_names;
 };
 $seat_groups['get_seats_tags'] = function(){
     $map_id = $_POST['map_id'];

@@ -230,7 +230,7 @@ export const add_guests = ()=>{
     return new Promise((resolve) => {
         var map_ele = document.getElementById('map')
         var map_id = map_ele.getAttribute('map_id')
-        api.guest.get_all(map_id)
+        api.guest.get_all({map_id: map_id})
         .then((guests)=> {
             api.guest.get_all_groups(map_id)
             .then((groups)=>{
@@ -283,7 +283,7 @@ export const add_guests_names = ()=>{
         var groups_s = {}
         var map_ele = document.getElementById('map')
         var map_id = map_ele.getAttribute('map_id')
-        var guests = await api.guest.get_all_and_ditails(map_id)
+        var guests = await api.guest.get_all_and_ditails({map_id: map_id})
         var groups = await api.guest.get_all_groups(map_id)
         for(let group of groups){
             groups_s[group.id] = group
@@ -360,32 +360,34 @@ export function add_tags(){
         var map = document.getElementById('map')
         var map_id = map.getAttribute('map_id')
         var res = await api.tags.get_tags({map_id: map_id})
-        var map_tags = {}
-        res.map(tag => {
-            map_tags[tag.id] = tag
-        })
-        map.setAttribute('tags', JSON.stringify(map_tags))
-        var res = await api.seat_groups.get_groups_tags(map_id)
-        for(let group_name of res){
-            if(names.indexOf(group_name.tag_name) === -1){
-                names.push(group_name.tag_name)
-                tags_data.push(group_name)
-            }
-        }
-        for(let tag of tags_data){
-            var name = tag.tag_name
-            var seats = await api.seat_groups.get_seats_tags(map_id, name)
-            seats = seats.map(seat => seat.seat)
-            for(let seat of seats){
-                var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
-                var seat_tags = seat_ele.getAttribute('tags')
-                if(seat_tags){
-                    var seat_tags_press = JSON.parse(seat_tags)
-                }else{
-                    var seat_tags_press = []
+        if(res){
+            var map_tags = {}
+            res.map(tag => {
+                map_tags[tag.id] = tag
+            })
+            map.setAttribute('tags', JSON.stringify(map_tags))
+            var res = await api.seat_groups.get_groups_tags(map_id)
+            for(let group_name of res){
+                if(names.indexOf(group_name.tag_name) === -1){
+                    names.push(group_name.tag_name)
+                    tags_data.push(group_name)
                 }
-                seat_tags_press.push(tag)
-                seat_ele.setAttribute('tags', JSON.stringify(seat_tags_press))
+            }
+            for(let tag of tags_data){
+                var name = tag.tag_name
+                var seats = await api.seat_groups.get_seats_tags(map_id, name)
+                seats = seats.map(seat => seat.seat)
+                for(let seat of seats){
+                    var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
+                    var seat_tags = seat_ele.getAttribute('tags')
+                    if(seat_tags){
+                        var seat_tags_press = JSON.parse(seat_tags)
+                    }else{
+                        var seat_tags_press = []
+                    }
+                    seat_tags_press.push(tag)
+                    seat_ele.setAttribute('tags', JSON.stringify(seat_tags_press))
+                }
             }
         }
         resolve()

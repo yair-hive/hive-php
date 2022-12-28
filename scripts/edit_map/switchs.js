@@ -94,7 +94,7 @@ export function onEditSwitch(active){
             map.setAttribute('edit', 'no')
             var map_id = document.getElementById('map').getAttribute('map_id')
             document.querySelectorAll('.name_box').forEach(e => e.textContent = '')
-            api.guest.get_all(map_id)
+            api.guest.get_all({map_id: map_id})
             .then(guests => add_guests(guests))
             break;
     }

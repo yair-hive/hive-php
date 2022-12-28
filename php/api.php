@@ -73,6 +73,8 @@ if(!empty($_POST['category']) && !empty($_POST['action']) || !empty($NEW_POST['c
                 $data = $actions[$category][$action]();
                 if($data){
                     $respons['data'] = $data;
+                }else{
+                    $respons['data'] = [];
                 }
                 $respons['msg'] = 'ok';
                 print_r(json_encode($respons));

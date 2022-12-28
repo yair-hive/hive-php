@@ -111,7 +111,13 @@ function import_guests(){
                 .then((rows)=>{
                     for(let i = 0; i < rows.length; i++){
                         var row = rows[i]
-                        api.guest.create(row, map_id)
+                        var req = {
+                            map_id: map_id,
+                            first_name: row[0],
+                            last_name: row[1],
+                            guest_group: row[2]
+                        }
+                        api.guest.create(req)
                         .then(()=>{
                             if(i == (rows.length -1)) {
                                 pop_up.close()
@@ -159,7 +165,13 @@ function add_guests(){
                 data[0] = document.getElementById('add_guest_form')['first_name'].value
                 data[1] = document.getElementById('add_guest_form')['last_name'].value
                 data[2] = document.getElementById('add_guest_form')['guest_group'].value
-                api.guest.create(data, map_id)
+                var req = {
+                    map_id: map_id,
+                    first_name: data[0],
+                    last_name: data[1],
+                    guest_group: data[2]
+                }
+                api.guest.create(req)
                 .then(()=>{
                     document.getElementById('add_guest_form').reset()
                     pop_up.close()

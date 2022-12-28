@@ -45,16 +45,20 @@ function addTagsSwitchElement(){
         var tag
         api.seat_groups.get_all_tags(map_id)
         .then((tags)=>{
-            if(tags.length == 0) resolve()
-            var tagsSwitch = document.getElementById('tagsSwitch')
-            for(let i = 0; i < tags.length; i++){
-                tag = tags[i]
-                var div = document.createElement('div')
-                div.textContent = tag.tag_name
-                tag.tag_name = tag.tag_name.replace(' ', '_')
-                div.setAttribute('id', tag.tag_name)                        
-                tagsSwitch.append(div)
-                if(i === (tags.length -1)) resolve()
+            if(tags){
+                if(tags.length == 0) resolve()
+                var tagsSwitch = document.getElementById('tagsSwitch')
+                for(let i = 0; i < tags.length; i++){
+                    tag = tags[i]
+                    var div = document.createElement('div')
+                    div.textContent = tag.tag_name
+                    tag.tag_name = tag.tag_name.replace(' ', '_')
+                    div.setAttribute('id', tag.tag_name)                        
+                    tagsSwitch.append(div)
+                    if(i === (tags.length -1)) resolve()
+                }
+            }else{
+                resolve()
             }
         })
     })

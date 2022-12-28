@@ -20,26 +20,29 @@ function getGroupId($map_id, $group_name){
     }
 }
 $guest_actions['create'] = function () {
-    check_parameters(['first_name', 'last_name', 'guest_group']);
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $guest_group = $_POST['guest_group']; 
-    $map_id = $_POST['map_id']; 
+    global $NEW_POST;
+    check_parameters(['first_name', 'last_name', 'guest_group'], $NEW_POST);
+    $first_name = $NEW_POST['first_name'];
+    $last_name = $NEW_POST['last_name'];
+    $guest_group = $NEW_POST['guest_group']; 
+    $map_id = $NEW_POST['map_id']; 
     $guest_group_id = getGroupId($map_id, $guest_group);
     $query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}' AND guest_group='{$guest_group}' AND belong='{$map_id}'";
     check_exists($query_string);               
     $query_string = "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group_id}', '{$map_id}')";
     db_post($query_string);
 };
-$guest_actions['get_all'] = function(){
-    check_parameters(['map_id']);
-    $map_id = $_POST['map_id'];  
+$guest_actions['get_all'] = function () {
+    global $NEW_POST;
+    check_parameters(['map_id'], $NEW_POST);
+    $map_id = $NEW_POST['map_id'];  
     $query_string = "SELECT * FROM guests WHERE belong='{$map_id}'";
     return db_get($query_string);
 };
 $guest_actions['get_all_and_ditails'] = function () {
-    check_parameters(['map_id']);
-    $map_id = $_POST['map_id'];  
+    global $NEW_POST;
+    check_parameters(['map_id'], $NEW_POST);
+    $map_id = $NEW_POST['map_id']; 
     $guests_query = "SELECT * FROM guests WHERE belong='{$map_id}'";
     $belongs_query = "SELECT * FROM belong WHERE map_belong = '{$map_id}'";
     $seats_query = "SELECT * FROM seats WHERE belong = '{$map_id}'";

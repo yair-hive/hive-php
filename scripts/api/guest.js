@@ -2,18 +2,16 @@ import "../lib/jquery.min.js"
 
 const api_url = '/hive-php/php/api.php'
 
+const options = {
+    method: 'POST',
+    credentials: 'include',
+}; 
+
 export const guest = {
-    get_all: (map_id)=>{
-        const options = {
-            method: 'POST',
-            body: "category=guest&action=get_all&map_id="+map_id,
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        };
-          
+    get_all: (req)=>{  
+        var action_params = {category: 'guest', action: 'get_all'}
+        var req_body = Object.assign(action_params, req)
+        options.body = JSON.stringify(req_body)       
         return fetch(api_url, options)
         // .then(res => res.text())
         // .then(res => alert(res))
@@ -24,17 +22,10 @@ export const guest = {
             return res.msg
         })
     },
-    get_all_and_ditails: (map_id)=>{
-        const options = {
-            method: 'POST',
-            body: "category=guest&action=get_all_and_ditails&map_id="+map_id,
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        };
-          
+    get_all_and_ditails: (req)=>{
+        var action_params = {category: 'guest', action: 'get_all_and_ditails'}
+        var req_body = Object.assign(action_params, req)
+        options.body = JSON.stringify(req_body)  
         return fetch(api_url, options)
         // .then(res => res.text())
         // .then(res => console.log(res))
@@ -42,33 +33,10 @@ export const guest = {
         .then(res => res.json())
         .then(res => {return res.data})
     },
-    get_belong: (guest_id)=>{
-        const options = {
-            method: 'POST',
-            body: "category=guest&action=get_belong&guest_id="+guest_id,
-            mode: 'no-cors',
-            credentials: 'include',
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        };
-          
-        return fetch(api_url, options)
-        .then(res => res.json())
-        .then((res)=>{
-            if(res.msg == 'ok') return res.data
-            alert(res.msg)
-            return res.msg
-        })
-    },
-    create: (data, map_id)=>{
-        const options = {
-            method: 'POST',
-            body: "category=guest&action=create&first_name="+data[0]+"&last_name="+data[1]+"&guest_group="+data[2]+"&map_id="+map_id,
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        };
+    create: (req)=>{
+        var action_params = {category: 'guest', action: 'get_all_and_ditails'}
+        var req_body = Object.assign(action_params, req)
+        options.body = JSON.stringify(req_body)  
         return fetch(api_url, options)
         .then(res => res.text())
         .then(res => console.log(res))

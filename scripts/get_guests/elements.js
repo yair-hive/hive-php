@@ -62,11 +62,13 @@ export function add_tags_id(){
         var table = document.getElementById('names_table') 
         var map_id = table.getAttribute('map_id')
         var res = await api.tags.get_tags({map_id: map_id})
-        var tags = {}
-        for(let tag of res){
-            tags[tag.id] = tag
+        if(res){
+            var tags = {}
+            for(let tag of res){
+                tags[tag.id] = tag
+            }
+            table.setAttribute('tags', JSON.stringify(tags))
         }
-        table.setAttribute('tags', JSON.stringify(tags))
         resolve()
     })
 }
@@ -75,34 +77,9 @@ export function add_table(){
     return new Promise((resolve) => {
         api.guest.get_all_groups(map_id)
         .then(add_groups)
-        .then(()=> api.guest.get_all_and_ditails(map_id))
+        .then(()=> api.guest.get_all_and_ditails({map_id: map_id}))
         .then(add_rows)
         .then(resolve) 
-    })
-}
-export function add_seat_number(){
-    return new Promise(async (resolve) => {
-        var num_cells = document.querySelectorAll('.seat_num')
-        if(num_cells.length == 0) resolve()
-        for(let i = 0; i < num_cells.length; i++){
-            var element = num_cells[i]
-            var corrent_tr = element.parentNode
-            var guest_id = corrent_tr.getAttribute('guest_id')
-            var res = await api.guest.get_belong(guest_id)
-            if(res[0]){
-                var seat_id = res[0].seat
-                corrent_tr.setAttribute('seat_id', seat_id)
-                corrent_tr.setAttribute('belong', 'belong')
-                var seat = await api.seat.get_number(seat_id)
-                if(seat[0]) {
-                    element.textContent = seat[0].seat_number
-                    element.addEventListener('click', onSeatNum)
-                }
-            }else{
-                corrent_tr.setAttribute('belong', 'no belong')
-            }                          
-            if(i == (num_cells.length -1)) resolve()                
-        }
     })
 }
 export function add_tags(){
