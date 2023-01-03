@@ -108,3 +108,5 @@ api.user.get()
         document.getElementById('user_element').innerText = respons.data
     }
 })
+
+api.user.get_all_actions()

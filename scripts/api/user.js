@@ -14,6 +14,18 @@ export const user = {
         // .then(res => console.log(res))
         .then(res => res.json())
     },
+    get_all_actions: ()=>{
+        var data = {category: 'sys', action: 'get_all_actions'}
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(data),
+        };
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
+        .then(res => res.json())
+        .then((res) => console.log(res))
+    },
     get_all: ()=>{
         const options = {
             method: 'POST',

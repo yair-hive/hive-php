@@ -59,6 +59,18 @@ $actions['user'] = $user_actions;
 $actions['tag'] = $tag_actions;
 $actions['map_element'] = $map_element_actions;
 $actions['seat_groups'] = $map_col_actions;
+$sys_actions['get_all_actions'] = function(){
+    global $actions;
+    $all_actions = [];
+    foreach($actions as $corr_cat_name => $corr_cat){
+        foreach($corr_cat as $corr_act_name => $corr_act){
+
+            $all_actions[] = $corr_act_name . ' ' . $corr_cat_name;
+        }
+    }
+    return $all_actions;
+};
+$actions['sys'] = $sys_actions;
  
 if(!empty($_POST['category']) && !empty($_POST['action']) || !empty($NEW_POST['category']) && !empty($NEW_POST['action'])){
     if(!empty($_POST['category']) && !empty($_POST['action'])){
