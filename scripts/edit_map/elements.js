@@ -304,7 +304,7 @@ export function add_elements(){
     return new Promise((resolve) => {
         var map_ele = document.getElementById('map')
         var map = document.getElementById('map').getAttribute('map_id')
-        api.seat_groups.get_ob(map)
+        api.map_elements.get(map)
         .then(res => {
             for(let ob of res){
                 ob.from_row = Number(ob.from_row)
@@ -366,7 +366,7 @@ export function add_tags(){
                 map_tags[tag.id] = tag
             })
             map.setAttribute('tags', JSON.stringify(map_tags))
-            var res = await api.seat_groups.get_groups_tags(map_id)
+            var res = await api.tags.get_groups_tags(map_id)
             for(let group_name of res){
                 if(names.indexOf(group_name.tag_name) === -1){
                     names.push(group_name.tag_name)
@@ -375,7 +375,7 @@ export function add_tags(){
             }
             for(let tag of tags_data){
                 var name = tag.tag_name
-                var seats = await api.seat_groups.get_seats_tags(map_id, name)
+                var seats = await api.tags.get_seats_tags(map_id, name)
                 seats = seats.map(seat => seat.seat)
                 for(let seat of seats){
                     var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')

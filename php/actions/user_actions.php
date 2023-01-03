@@ -28,24 +28,17 @@ $user_actions['login'] = function(){
                     }
                     $_SESSION['user_name'] = $NEW_POST['user_name'];
                     $_SESSION['permissions'] = $permissions;
-                    $respons['msg'] = 'all ok';
-                    $respons['h'] = json_encode($_SESSION);
-                    print_r(json_encode($respons));
                 }else{
-                    $respons['msg'] = 'login faild';
-                    print_r(json_encode($respons));
+                    throw new Exception('login faild');
                 }
             }else{
-                $respons['msg'] = 'no user';
-                print_r(json_encode($respons));
+                throw new Exception('no user');
             }
         }else{
-            $respons['msg'] = 'db error';
-            print_r(json_encode($respons));
+            throw new Exception('db error');
         }
     }else{
-        $respons['msg'] = 'parameter misseng';
-        print_r(json_encode($respons));
+        throw new Exception('parameter misseng');
     }
 };
 $user_actions['get'] = function(){

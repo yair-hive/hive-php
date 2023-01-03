@@ -80,8 +80,8 @@ function add_maps_list_scripts(pop_up){
             for(let map of maps){
                 var li = document.createElement('li')
                 var a = document.createElement('a')
-                a.setAttribute('href', `edit_map.html?map_name=${map}`)
-                a.textContent = map
+                a.setAttribute('href', `edit_map.html?map_name=${map.map_name}`)
+                a.textContent = map.map_name
                 li.append(a)
                 maps_list.append(li)
             }

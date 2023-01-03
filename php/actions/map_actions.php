@@ -140,7 +140,7 @@ $map_actions['create'] = function () {
 };
 $map_actions['get_all'] = function(){   
     $query_string = "SELECT map_name FROM maps";
-    return db_get($query_string, true);
+    return db_get($query_string);
 };
 $map_actions['get'] = function () {
     check_parameters(['map_name']);

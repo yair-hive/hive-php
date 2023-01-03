@@ -20,7 +20,7 @@ function tags(){
             color_input.addEventListener('focusout', (e)=>{
                 var color = e.target.value
                 var group_id = e.target.parentNode.parentNode.getAttribute('group_id')
-                api.seat_groups.update_tag_color(group_id, color)
+                api.tags.update_color(group_id, color)
             })
             td_color.append(color_input)
             return td_color
@@ -44,7 +44,7 @@ function tags(){
             name_input.addEventListener('focusout', (e)=>{
                 var id = e.target.parentNode.parentNode.getAttribute('group_id')
                 var name = e.target.value
-                api.seat_groups.update_tag_name(id, name)
+                api.tags.update_name(id, name)
             })
             td_name.append(name_input)
             return td_name
@@ -62,7 +62,7 @@ function tags(){
                 table.append(tr)
             }
         }
-        return api.seat_groups.get_all_tags(map_id)
+        return api.tags.get_all_tags(map_id)
         .then((groups)=> add_rows(groups, pop_up))
         .then(resizeAllInputs)
     }

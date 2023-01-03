@@ -52,7 +52,7 @@ export function on_show_tags(){
         var names = []
         var tags_data = []
         var map_id = document.getElementById('map').getAttribute('map_id')
-        var res = await api.seat_groups.get_groups_tags(map_id)
+        var res = await api.tags.get_groups_tags(map_id)
         for(let group_name of res){
             if(names.indexOf(group_name.tag_name) === -1){
                 names.push(group_name.tag_name)
@@ -61,7 +61,7 @@ export function on_show_tags(){
         }
         for(let tag of tags_data){
             var name = tag.tag_name
-            var seats = await api.seat_groups.get_seats_tags(map_id, name)
+            var seats = await api.tags.get_seats_tags(map_id, name)
             seats = seats.map(seat => seat.seat)
             for(let seat of seats){
                 var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
@@ -164,7 +164,7 @@ function onAddElement(){
     var to_row = rows[rows.length -1]
     var to_col = cols[cols.length -1]
     var map = document.getElementById('map').getAttribute('map_id')
-    api.seat_groups.add_ob(name, from_row, from_col, to_row, to_col, map)
+    api.map_elements.add(name, from_row, from_col, to_row, to_col, map)
     .then(()=>{
         add_elements()
     })
@@ -176,7 +176,7 @@ function onAddTag(){
     for(let i = 0; i < selected.length; i++){
         var seat = selected[i]
         var seat_id = seat.getAttribute('seat_id')
-        api.seat_groups.add_tag(seat_id, group_name, map_id).then(()=>{
+        api.tags.add(seat_id, group_name, map_id).then(()=>{
             if(i == (selected.length -1)) {
                 on_show_tags()
                 clearSelection()
@@ -296,7 +296,7 @@ function onDeleteElement(){
         var selected = selection.getSelection()
         for(let ob of selected){
             var ob_id = ob.getAttribute('ob_id')
-            if(ob_id) await api.seat_groups.delete_ob(ob_id)
+            if(ob_id) await api.map_elements.delete(ob_id)
         }
         resolve()
     })

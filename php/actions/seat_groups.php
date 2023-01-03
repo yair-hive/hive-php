@@ -49,22 +49,6 @@ function createDefaultSeatGroup($group_name, $map){
     $query_string = "INSERT INTO seats_groups(group_name, score, belong) VALUES('{$name}', '{$score}', '{$belong}')";
     mysqli_query($connection, $query_string);
 }
-$seat_groups['create'] = function(){
-    $name = $_POST['name'];
-    $score = $_POST['score'];
-    $query_string = "INSERT INTO seats_groups(group_name, score) VALUES('{$name}', '{$score}')";
-    db_post($query_string);
-};
-$seat_groups['get_id'] = function(){
-    $name = $_POST['name'];
-    $query_string = "SELECT id FROM seats_groups WHERE group_name = '{$name}'";
-    return db_get($query_string);
-};
-$seat_groups['get_name'] = function(){
-    $id = $_POST['id'];
-    $query_string = "SELECT group_name FROM seats_groups WHERE id = '{$id}'";
-    return db_get($query_string);
-};
 $seat_groups['add_col'] = function(){
     global $connection;
     $seat = $_POST['seat'];
@@ -106,26 +90,6 @@ $seat_groups['get_seats_cols'] = function(){
     $group_id = getSeatsGroupId($group_name, $map_id);
     $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_id = '{$group_id}' AND group_type = 'col'";
     return db_get($query_string);
-};
-$seat_groups['add_ob'] = function(){
-    $map = $_POST["map"];
-    $name = $_POST["name"];
-    $from_row = $_POST["from_row"];
-    $from_col = $_POST["from_col"];
-    $to_row = $_POST["to_row"];
-    $to_col = $_POST["to_col"];
-    $query_string = "INSERT INTO map_obs(ob_name, from_row, from_col, to_row, to_col, belong) VALUES('{$name}', '{$from_row}', '{$from_col}', '{$to_row}', '{$to_col}', '{$map}')";
-    db_post($query_string);
-};
-$seat_groups['get_ob'] = function(){
-    $map_id = $_POST['map_id'];
-    $query_string = "SELECT * FROM map_obs WHERE belong = '{$map_id}'";
-    return db_get($query_string);
-};
-$seat_groups['delete_ob'] = function(){
-    $ob_id = $_POST['ob_id'];
-    $query_string = "DELETE FROM map_obs WHERE id = '{$ob_id}'";
-    db_post($query_string);
 };
 $seat_groups['add_tag'] = function(){
     $seat = $_POST['seat'];
@@ -184,4 +148,27 @@ $seat_groups['get_all_tags'] = function(){
     $map_id = $_POST['map_id'];
     $query_string = "SELECT * FROM tags WHERE belong = '{$map_id}'";
     return db_get($query_string);
+};
+
+//TODO chenge the api
+
+$seat_groups['add_ob'] = function(){
+    $map = $_POST["map"];
+    $name = $_POST["name"];
+    $from_row = $_POST["from_row"];
+    $from_col = $_POST["from_col"];
+    $to_row = $_POST["to_row"];
+    $to_col = $_POST["to_col"];
+    $query_string = "INSERT INTO map_obs(ob_name, from_row, from_col, to_row, to_col, belong) VALUES('{$name}', '{$from_row}', '{$from_col}', '{$to_row}', '{$to_col}', '{$map}')";
+    db_post($query_string);
+};
+$seat_groups['get_ob'] = function(){
+    $map_id = $_POST['map_id'];
+    $query_string = "SELECT * FROM map_obs WHERE belong = '{$map_id}'";
+    return db_get($query_string);
+};
+$seat_groups['delete_ob'] = function(){
+    $ob_id = $_POST['ob_id'];
+    $query_string = "DELETE FROM map_obs WHERE id = '{$ob_id}'";
+    db_post($query_string);
 };

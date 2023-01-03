@@ -93,7 +93,7 @@ export function add_tags(){
         var tags_data = []
         var table = document.getElementById('names_table') 
         var map_id = table.getAttribute('map_id')
-        var res = await api.seat_groups.get_groups_tags(map_id)
+        var res = await api.tags.get_groups_tags(map_id)
         if(res.length == 0) resolve()
         for(let group_name of res){
             if(names.indexOf(group_name.tag_name) === -1){
@@ -105,7 +105,7 @@ export function add_tags(){
         for(let i = 0; i < tags_data.length; i++){
             var tag = tags_data[i]
             var name = tag.tag_name
-            var seats = await api.seat_groups.get_seats_tags(map_id, name)
+            var seats = await api.tags.get_seats_tags(map_id, name)
             seats = seats.map(seat => seat.seat)
             for(let i = 0; i < seats.length; i++){
                 if(i == (seats.length -1)) resolve()

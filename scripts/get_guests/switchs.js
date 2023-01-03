@@ -43,7 +43,7 @@ function addTagsSwitchElement(){
         const table = document.getElementById('names_table') 
         var map_id = table.getAttribute('map_id')
         var tag
-        api.seat_groups.get_all_tags(map_id)
+        api.tags.get_all_tags(map_id)
         .then((tags)=>{
             if(tags){
                 if(tags.length == 0) resolve()
