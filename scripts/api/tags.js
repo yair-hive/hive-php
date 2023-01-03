@@ -4,7 +4,7 @@ export const tags = {
     add: (seat, group, map)=>{
         const options = {
             method: 'POST',
-            body: "category=seat_groups&action=add_tag&seat="+seat+"&group="+group+"&map="+map,
+            body: "category=tag&action=add_tag&seat="+seat+"&group="+group+"&map="+map,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
@@ -22,7 +22,7 @@ export const tags = {
     get_groups_tags: (map_id)=>{
         const options = {
             method: 'POST',
-            body: "category=seat_groups&action=get_groups_tags&map_id="+map_id,
+            body: "category=tag&action=get_groups_tags&map_id="+map_id,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
@@ -40,7 +40,7 @@ export const tags = {
     get_seats_tags: (map_id, group_name)=>{
         const options = {
             method: 'POST',
-            body: "category=seat_groups&action=get_seats_tags&map_id="+map_id+"&group_name="+group_name,
+            body: "category=tag&action=get_seats_tags&map_id="+map_id+"&group_name="+group_name,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
@@ -58,7 +58,7 @@ export const tags = {
     update_color: (id, color)=>{
         const options = {
             method: 'POST',
-            body: "category=seat_groups&action=update_tag_color&color="+color+"&id="+id,
+            body: "category=tag&action=update_tag_color&color="+color+"&id="+id,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
@@ -74,7 +74,7 @@ export const tags = {
     update_name: (id, name)=>{
         const options = {
             method: 'POST',
-            body: "category=seat_groups&action=update_tag_name&name="+name+"&id="+id,
+            body: "category=tag&action=update_tag_name&name="+name+"&id="+id,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
@@ -84,24 +84,6 @@ export const tags = {
         // .then(res => alert(res))
         .then(res => res.json())
         .then((res)=>{
-            return res.msg
-        })
-    },
-    get_all_tags: (map_id)=>{
-        const options = {
-            method: 'POST',
-            body: "category=seat_groups&action=get_all_tags&map_id="+map_id,
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            }
-        };         
-        return fetch(api_url, options)
-        // .then(res => res.text())
-        // .then(res => alert(res))
-        .then(res => res.json())
-        .then((res)=>{
-            if(res.msg == 'ok') return res.data
-            alert(res.msg)
             return res.msg
         })
     },

@@ -61,7 +61,7 @@ $seat_actions['delete_belong'] = function () {
     db_post($query_string);
 };
 $seat_actions['create_multiple'] = function () {
-    check_parameters(['map_id, data']);
+    check_parameters(['map_id', 'data']);
     $map_id = $_POST['map_id'];    
     $data = json_decode($_POST['data']);
     $query_string = "";

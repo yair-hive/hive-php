@@ -48,15 +48,17 @@ include_once 'actions/map_actions.php';
 include_once 'actions/seat_actions.php';
 include_once 'actions/guest_actions.php';
 include_once 'actions/user_actions.php';
-include_once 'actions/seat_groups.php';
+include_once 'actions/map_col_actions.php';
 include_once 'actions/tag_actions.php';
+include_once 'actions/map_element_actions.php';
 
 $actions['map'] = $map_actions;
 $actions['seat'] = $seat_actions;
 $actions['guest'] = $guest_actions;
 $actions['user'] = $user_actions;
-$actions['tag'] = $tags_actions;
-$actions['seat_groups'] = $seat_groups;
+$actions['tag'] = $tag_actions;
+$actions['map_element'] = $map_element_actions;
+$actions['seat_groups'] = $map_col_actions;
  
 if(!empty($_POST['category']) && !empty($_POST['action']) || !empty($NEW_POST['category']) && !empty($NEW_POST['action'])){
     if(!empty($_POST['category']) && !empty($_POST['action'])){

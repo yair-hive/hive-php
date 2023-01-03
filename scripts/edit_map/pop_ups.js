@@ -62,7 +62,7 @@ function tags(){
                 table.append(tr)
             }
         }
-        return api.tags.get_all_tags(map_id)
+        return api.tags.get_tags({map_id: map_id})
         .then((groups)=> add_rows(groups, pop_up))
         .then(resizeAllInputs)
     }
