@@ -1,14 +1,12 @@
 import dropDown from "../hiveElements/dropDown.js"
 import { add_col, add_elements, add_guests, add_row, add_seats } from "./elements.js"
 import api from "../api/api.js"
-import MBloader from "../hiveElements/MBloader.js"
 import scrolling_list from '../hiveElements/scrolling_list.js'
 import { add_col_group_score, proximity_score, scheduling } from "./schedulingActions.js"
-import { dragToScroll, selection } from "./switchs.js"
+import { dragToScroll, loader, selection } from "./switchs.js"
 
 var mainBord = document.getElementById('mainBord')
 
-const loader = new MBloader()
 const menu = new dropDown(mainBord)
 const guest_scrolling_list = new scrolling_list(menu.drop_element)
 
@@ -27,7 +25,7 @@ export function on_show_score(){
     })
 }
 function getGroupColor(guest_group){
-    var groups = JSON.parse(document.getElementById('map').getAttribute('new_groups'))
+    var groups = JSON.parse(document.getElementById('map').getAttribute('groups'))
     return groups[guest_group].color
 }
 const clearSelection = ()=>{
@@ -42,48 +40,34 @@ function create_col_group(group_name){
         api.seat_groups.add_col(seat_id, group_name, map_id)
     })
 }
+
 export function on_show_tags(){
     return new Promise(async (resolve) => {
         document.querySelectorAll('.seat').forEach(seat => {
             var tags_cont = document.createElement('div')
             tags_cont.classList.add('tags_cont')
             seat.children[1].replaceChildren(tags_cont)
-        })
-        var names = []
-        var tags_data = []
-        var map_id = document.getElementById('map').getAttribute('map_id')
-        var res = await api.tags.get_groups_tags(map_id)
-        for(let group_name of res){
-            if(names.indexOf(group_name.tag_name) === -1){
-                names.push(group_name.tag_name)
-                tags_data.push(group_name)
-            }
-        }
-        for(let tag of tags_data){
-            var name = tag.tag_name
-            var seats = await api.tags.get_seats_tags(map_id, name)
-            seats = seats.map(seat => seat.seat)
-            for(let seat of seats){
-                var seat_ele = document.querySelector('.seat[seat_id = "'+seat+'"]')
-                var tag_box = document.createElement('div')
-                tag_box.classList.add('tag_box')
-                tag_box.style.backgroundColor = tag.color
-                tag_box.textContent = tag.tag_name
-                var name_box = seat_ele.children[1]
-                var tags_cont = name_box.children[0]
-                tags_cont.append(tag_box)
-                var p = name_box.getBoundingClientRect()
-                var c = tags_cont.getBoundingClientRect()
-                var scale = 1
-                while(p.width < c.width){
-                    scale = scale - 0.01
-                    tags_cont.style.transform = `scale(${scale})`
-                    p = name_box.getBoundingClientRect()
-                    c = tags_cont.getBoundingClientRect()
+            var seat_tags = JSON.parse(seat.getAttribute('tags'))
+            if(seat_tags){
+                for(let tag of seat_tags){
+                    var tag_box = document.createElement('div')
+                    tag_box.classList.add('tag_box')
+                    tag_box.style.backgroundColor = tag.color
+                    tag_box.textContent = tag.tag_name
+                    var name_box = seat.children[1]
+                    tags_cont.append(tag_box)
+                    var p = name_box.getBoundingClientRect()
+                    var c = tags_cont.getBoundingClientRect()
+                    var scale = 1
+                    while(p.width < c.width){
+                        scale = scale - 0.01
+                        tags_cont.style.transform = `scale(${scale})`
+                        p = name_box.getBoundingClientRect()
+                        c = tags_cont.getBoundingClientRect()
+                    }
                 }
             }
-        }
-        resolve()
+        })
     })
 }
 export function onScheduling(){
@@ -526,7 +510,7 @@ export function onGuestList(event){
     }
     var map = document.getElementById('map')
     var guest_list = map.getAttribute('guests')
-    var groups = JSON.parse(map.getAttribute('new_groups'))
+    var groups = JSON.parse(map.getAttribute('groups'))
     var guests_with_belong = []
     guest_list = JSON.parse(guest_list)
     for(let guest of guest_list){

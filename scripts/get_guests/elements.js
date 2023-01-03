@@ -93,7 +93,7 @@ export function add_tags(){
         var tags_data = []
         var table = document.getElementById('names_table') 
         var map_id = table.getAttribute('map_id')
-        var res = await api.tags.get_groups_tags(map_id)
+        var res = await api.tags.get_tags(map_id)
         if(res.length == 0) resolve()
         for(let group_name of res){
             if(names.indexOf(group_name.tag_name) === -1){

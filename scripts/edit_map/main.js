@@ -1,25 +1,20 @@
-import {add_map, add_seats, add_guests, add_belong, add_elements, add_tags, add_groups, add_guests_names, addRowsSelector } from "./elements.js"
+import {add_map, add_seats, add_elements, add_tags, add_groups, add_guests } from "./elements.js"
 import { onClickOutside, onGuestList, onKeyBordDown, onKeyBordUp, onMapAdd, onMapDelete, onScheduling } from "./eventListeners.js"
 import hiveSwitch from "../hiveElements/HiveSwitch.js"
-import { editSwitchOptions, hiveSwitchOptions, showSwitchOptions, onSelecteblsSwitch, onShowSwitch, onEditSwitch } from "./switchs.js"
-import MBloader from "../hiveElements/MBloader.js"
+import { editSwitchOptions, hiveSwitchOptions, showSwitchOptions, onSelecteblsSwitch, onShowSwitch, onEditSwitch, loader } from "./switchs.js"
 import pop_ups from "./pop_ups.js"
 
 const parsedUrl = new URL(window.location.href)
-const loader = new MBloader()
-loader.add()
 var map_name = parsedUrl.searchParams.get("map_name")
 
 if(map_name){
     loader.start()
     document.getElementsByTagName('title')[0].append(map_name)
+
     add_map(map_name)
-    // .then(addRowsSelector)
     .then(add_groups)
     .then(add_seats)
-    // .then(add_belong)
-    // .then(add_guests)
-    .then(add_guests_names)
+    .then(add_guests)
     .then(add_elements)
     .then(add_tags)
     .then(loader.stop)

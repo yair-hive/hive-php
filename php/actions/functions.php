@@ -51,10 +51,10 @@ function check_parameters($parameters, $req = false){
     if (!$req) {$req = $_POST;}
     foreach($parameters as $param){
         if(!array_key_exists($param, $req)){
-            throw new Exception('חסר פרמטר');
+            throw new Exception('חסר פרמטר '.$param);
         }
         if(empty($req[$param])){
-            throw new Exception('חסר פרמטר');
+            throw new Exception('חסר פרמטר '.$param);
         }
     }
 }

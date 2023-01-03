@@ -1,7 +1,5 @@
 import api from "../api/api.js"
-import MBloader from "../hiveElements/MBloader.js"
-
-const loader = new MBloader()
+import { loader } from "./switchs.js"
 
 export function proximity_score(){
     return new Promise((resolve) => {

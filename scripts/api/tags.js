@@ -19,10 +19,10 @@ export const tags = {
             return res.msg
         })
     },
-    get_groups_tags: (map_id)=>{
+    get_seats_tags: (map_id, group_name)=>{
         const options = {
             method: 'POST',
-            body: "category=tag&action=get_groups_tags&map_id="+map_id,
+            body: "category=tag&action=get_belong&map_id="+map_id+"&group_name="+group_name,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
@@ -37,10 +37,10 @@ export const tags = {
             return res.msg
         })
     },
-    get_seats_tags: (map_id, group_name)=>{
+    get_all_belongs: (map_id)=>{
         const options = {
             method: 'POST',
-            body: "category=tag&action=get_seats_tags&map_id="+map_id+"&group_name="+group_name,
+            body: "category=tag&action=get_all_belongs&map_id="+map_id,
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }

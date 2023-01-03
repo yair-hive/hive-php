@@ -10,7 +10,7 @@ addBelongSwitch()
 
 const parsedUrl = new URL(window.location.href)
 const loader = new MBloader()
-loader.add()
+
 var map_name = parsedUrl.searchParams.get("map_name")
 if(map_name){
     document.getElementsByTagName('title')[0].append(' | '+map_name)

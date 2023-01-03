@@ -104,5 +104,53 @@ export const user = {
         };
         return fetch(api_url, options)
         .then(res => res.json())
-    }
+    },
+    create_group : (data)=>{
+        var param = {
+            category: 'user', 
+            action: 'create_group'
+        }
+        var data_a = Object.assign(param, data)
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(data_a),
+            headers: {}
+        }
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
+        .then(res => res.json())
+    },
+    add_permission_to_group : (data)=>{
+        var param = {
+            category: 'user', 
+            action: 'add_permission_to_group'
+        }
+        var data_a = Object.assign(param, data)
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(data_a),
+            headers: {}
+        }
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
+        .then(res => res.json())
+    },
+    add_user_to_group : (data)=>{
+        var param = {
+            category: 'user', 
+            action: 'add_user_to_group'
+        }
+        var data_a = Object.assign(param, data)
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(data_a),
+            headers: {}
+        }
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
+        .then(res => res.json())
+    },
 }

@@ -10,17 +10,6 @@ function getTagId($group_name, $map_id){
         return false;
     }
 };
-function getTagData($group_id){
-    global $connection;
-    $query_string = "SELECT * FROM tags WHERE id = '{$group_id}'";
-    $result = mysqli_query($connection, $query_string);
-    $result = mysqli_fetch_assoc($result);
-    if($result){
-        return $result;
-    }else{
-        return false;
-    }
-};
 function createDefaultTag($tag_name, $map){
     $name = $tag_name;
     $color = '#2b4e81';
@@ -45,29 +34,9 @@ $tag_actions['add_tag'] = function(){
         db_post($query_string);
     }
 };
-$tag_actions['get_groups_tags'] = function(){
+$tag_actions['get_all_belongs'] = function(){
     $map_id = $_POST['map_id'];
-    $query_string = "SELECT group_id FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_type = 'tag'";
-    global $connection;
-    $result = mysqli_query($connection, $query_string);
-    $results = [];
-    while($row = mysqli_fetch_assoc($result)){
-        $results[] = $row;
-    }
-    $tag_names = [];
-    foreach($results as $id){
-        $tagName = getTagData($id['group_id']);
-        if($tagName){
-            $tag_names[] = $tagName;
-        }
-    }
-    return $tag_names;
-};
-$tag_actions['get_seats_tags'] = function(){
-    $map_id = $_POST['map_id'];
-    $group_name = $_POST['group_name'];
-    $group_id = getTagId($group_name, $map_id);
-    $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_id = '{$group_id}' AND group_type = 'tag'";
+    $query_string = "SELECT * FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_type = 'tag'";
     return db_get($query_string);
 };
 $tag_actions['update_tag_color'] = function () {
@@ -117,5 +86,14 @@ $tag_actions['get_all_tags'] = function(){
     global $NEW_POST;
     $map_id = $NEW_POST['map_id'];
     $query_string = "SELECT * FROM tags WHERE belong = '{$map_id}'";
+    return db_get($query_string);
+};
+
+//TODO mybey depracted
+$tag_actions['get_belong'] = function(){
+    $map_id = $_POST['map_id'];
+    $group_name = $_POST['group_name'];
+    $group_id = getTagId($group_name, $map_id);
+    $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_id = '{$group_id}' AND group_type = 'tag'";
     return db_get($query_string);
 };

@@ -1,10 +1,12 @@
 export default class {
-    add(){
-        var loader = document.createElement('div')
-        var loaderContainer = document.createElement('div')
+    loader = document.createElement('div')
+    loaderContainer = document.createElement('div')
+    constructor(){
+        this.start = this.start.bind(this)
+        this.stop = this.stop.bind(this)
         var main_bord = document.getElementById('mainBord')
         var perent = main_bord.getBoundingClientRect()
-        $(loaderContainer) .css({
+        $(this.loaderContainer) .css({
             'position': 'absolute',
             'width': perent.width,
             'height': perent.height, 
@@ -14,19 +16,19 @@ export default class {
             'padding': 0,
             'backgroundColor' : 'rgb(67, 167, 167)'
         })
-        loader.setAttribute('id', "MBloader")
-        loaderContainer.setAttribute('id', "MBloader-container")
-        document.body.insertBefore(loader, document.body.children[0])
-        document.body.insertBefore(loaderContainer, document.body.children[0])
-        loader.style.display = 'none'
-        loaderContainer.style.display = 'none'
+        this.loader.setAttribute('id', "MBloader")
+        this.loaderContainer.setAttribute('id', "MBloader-container")
+        document.body.insertBefore(this.loader, document.body.children[0])
+        document.body.insertBefore(this.loaderContainer, document.body.children[0])
+        this.loader.style.display = 'none'
+        this.loaderContainer.style.display = 'none'
     }
     start(){
-        document.getElementById('MBloader').style.display = 'block'
-        document.getElementById('MBloader-container').style.display = 'block'
+        this.loader.style.display = 'block'
+        this.loaderContainer.style.display = 'block'
     }
     stop(){
-        document.getElementById('MBloader').style.display = 'none'
-        document.getElementById('MBloader-container').style.display = 'none'
+        this.loader.style.display = 'none'
+        this.loaderContainer.style.display = 'none'
     }
 }

@@ -4,7 +4,7 @@ import api from "../api/api.js"
 import MBloader from "../hiveElements/MBloader.js"
 import { on_show_score, on_show_tags } from "./eventListeners.js"
 
-const loader = new MBloader()
+export const loader = new MBloader()
 export const selection = create_selection()
 export const dragToScroll = DragToScroll()
 dragToScroll.enable()    
