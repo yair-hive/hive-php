@@ -80,6 +80,10 @@ if(!empty($_POST['category']) && !empty($_POST['action']) || !empty($NEW_POST['c
                 }
                 $respons['msg'] = 'ok';
                 print_r(json_encode($respons));
+                $action_name = $action . ' ' . $category;
+                if (!preg_match("/^get/", $action_name, $match)){
+                    create_action_log($action_name);
+                }
             } catch (Exception $e) {
                 $respons['msg'] = $e->getMessage();
                 print_r(json_encode($respons));

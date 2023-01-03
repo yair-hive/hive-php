@@ -34,7 +34,7 @@ export const guest = {
         .then(res => {return res.data})
     },
     create: (req)=>{
-        var action_params = {category: 'guest', action: 'get_all_and_ditails'}
+        var action_params = {category: 'guest', action: 'create'}
         var req_body = Object.assign(action_params, req)
         options.body = JSON.stringify(req_body)  
         return fetch(api_url, options)
@@ -47,7 +47,23 @@ export const guest = {
         //     console.log(res)
         //     return res.msg
         // })
-        .then(()=> alert())
+        // .then(()=> alert())
+    },
+    create_multi: (req)=>{
+        var action_params = {category: 'guest', action: 'create_multi'}
+        var req_body = Object.assign(action_params, req)
+        options.body = JSON.stringify(req_body)  
+        return fetch(api_url, options)
+        .then(res => res.text())
+        .then(res => console.log(res))
+        // .then(res => alert(res))
+        // .then(res => res.json())
+        // .then((res)=>{
+        //     if(res.msg == 'ok') return
+        //     console.log(res)
+        //     return res.msg
+        // })
+        // .then(()=> alert())
     },
     update: (data, map_id, guest_id)=>{
         const options = {

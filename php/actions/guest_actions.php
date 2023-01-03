@@ -9,7 +9,6 @@ function createDefaultGroup($map_id, $group_name){
 function getGroupId($map_id, $group_name){
     $query_string = "SELECT * FROM guests_groups WHERE group_name = '{$group_name}' AND belong = '{$map_id}'";
     $result = db_get_one($query_string);
-    print_r($result);
     if($result){
         return $result['id'];
     }else{
@@ -31,6 +30,24 @@ $guest_actions['create'] = function () {
     check_exists($query_string);               
     $query_string = "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group_id}', '{$map_id}')";
     db_post($query_string);
+};
+$guest_actions['create_multi'] = function () {
+    global $NEW_POST;
+    check_parameters(['data', 'map_id'], $NEW_POST);
+    $data = $NEW_POST['data'];
+    $map_id = $NEW_POST['map_id'];
+    $query_string = "";
+    foreach($data as $guest){
+        $first_name = $guest[0];
+        $last_name = $guest[1];
+        $guest_group = $guest[2];
+        $guest_group_id = getGroupId($map_id, $guest_group);
+        $s_query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}' AND guest_group='{$guest_group}' AND belong='{$map_id}'";
+        if(check_not_exists_f($s_query_string)){
+            $query_string .= "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group_id}', '{$map_id}');";
+        }
+    }
+    db_post_multi($query_string);
 };
 $guest_actions['get_all'] = function () {
     global $NEW_POST;

@@ -11,7 +11,6 @@ function db_post_multi($query_string){
             mysqli_free_result($result);
         }
     } while(mysqli_next_result($connection));
-    mysqli_close($connection);
 }
 function db_get($query_string, $breake = false){
     global $connection;
@@ -43,6 +42,11 @@ function check_exists($query_string){
         throw new Exception('exists');
     }      
 }
+function check_not_exists_f($query_string){
+    global $connection;
+    $result = mysqli_query($connection, $query_string);
+    return mysqli_num_rows($result) == 0; 
+}
 function check_parameters($parameters, $req = false){
     if (!$req) {$req = $_POST;}
     foreach($parameters as $param){
@@ -53,4 +57,9 @@ function check_parameters($parameters, $req = false){
             throw new Exception('חסר פרמטר');
         }
     }
+}
+function create_action_log($action_name){
+    $user_name = $_SESSION['user_name'];
+    $query_string = "INSERT INTO actions_log(action_name, user_name) VALUES('{$action_name}', '{$user_name}')";
+    db_post($query_string);
 }

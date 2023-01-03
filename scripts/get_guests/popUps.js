@@ -109,22 +109,27 @@ function import_guests(){
                 var file = document.getElementById('file').files[0]    
                 readXlsxFile(file)
                 .then((rows)=>{
-                    for(let i = 0; i < rows.length; i++){
-                        var row = rows[i]
-                        var req = {
-                            map_id: map_id,
-                            first_name: row[0],
-                            last_name: row[1],
-                            guest_group: row[2]
-                        }
-                        api.guest.create(req)
-                        .then(()=>{
-                            if(i == (rows.length -1)) {
-                                pop_up.close()
-                                location.reload()
-                            }
-                        })
-                    }
+                    api.guest.create_multi({map_id: map_id, data: rows})
+                    .then(()=>{
+                        pop_up.close()
+                        location.reload()
+                    })
+                //     for(let i = 0; i < rows.length; i++){
+                //         var row = rows[i]
+                //         var req = {
+                //             map_id: map_id,
+                //             first_name: row[0],
+                //             last_name: row[1],
+                //             guest_group: row[2]
+                //         }
+                //         api.guest.create(req)
+                //         .then(()=>{
+                //             if(i == (rows.length -1)) {
+                //                 pop_up.close()
+                //                 location.reload()
+                //             }
+                //         })
+                //     }
                 })
             })
         })
