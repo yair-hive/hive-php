@@ -118,8 +118,6 @@ window.setInterval(async ()=>{
     var new_action_data = await api.user.get_last_action()
     var action_date = new_action_data.data[0].action_date
     action_date = new Date(action_date)
-    console.log(action_date)
-    console.log(last_action_date)
     if(action_date > last_action_date){
         location.reload()
     }

@@ -182,14 +182,14 @@ async function onAddCol(){
 }
 export function onAddGuest(ele){
     if(ele.getAttribute('guest_id')){
-        var map = document.getElementById('map').getAttribute('map_id')
+        var map_id = mainBord.getAttribute('map_id')
         var guest_id = ele.getAttribute('guest_id')
         var seat_id = ele.getAttribute('seat')
         var name_box = document.querySelector(`.name_box[seat_id="${seat_id}"]`)
         var guest_ele = document.querySelector(`.match_list[guest_id="${guest_id}"]`)
         var guest_name = guest_ele.getAttribute('guest_name')
         var guest_group = guest_ele.getAttribute('guest_group')   
-        api.guest.create_belong(guest_id, seat_id, map)
+        api.guest.create_belong(guest_id, seat_id, map_id)
         .then((res)=>{
             if(res.msg === 'belong'){
                 if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
