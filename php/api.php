@@ -70,6 +70,11 @@ $sys_actions['get_all_actions'] = function(){
     }
     return $all_actions;
 };
+$sys_actions['get_last_action'] = function () {
+    $query_string = "SELECT id, action_date FROM actions_log INNER JOIN(SELECT id, MAX(action_date) AS up_time FROM actions_log GROUP BY id) AS t1 USING(action_date, id)";
+    $query_string = "SELECT * FROM actions_log ORDER BY action_date DESC LIMIT 1";
+    return db_get($query_string);
+};
 $actions['sys'] = $sys_actions;
  
 if(!empty($_POST['category']) && !empty($_POST['action']) || !empty($NEW_POST['category']) && !empty($NEW_POST['action'])){

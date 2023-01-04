@@ -149,7 +149,7 @@ $map_actions['get'] = function () {
     return db_get($query_string);
 };
 $map_actions['delete_row'] = function(){
-    check_parameters(['map_id, row']);
+    check_parameters(['map_id', 'row']);
     $map_id = $_POST['map_id'];
     $row = $_POST['row'];
     removeRow($map_id); 
@@ -157,14 +157,14 @@ $map_actions['delete_row'] = function(){
     seatMoveRowUp($row, $map_id);
 };
 $map_actions['add_row'] = function(){
-    check_parameters(['map_id, row']);
+    check_parameters(['map_id', 'row']);
     $map_id = $_POST['map_id'];
     $row = $_POST['row'];
     addRow($map_id); 
     seatMoveRowDown($row, $map_id);
 };
 $map_actions['delete_col'] = function(){
-    check_parameters(['map_id, col']);
+    check_parameters(['map_id', 'col']);
     $map_id = $_POST['map_id'];
     $col = $_POST['col'];
     removeCol($map_id); 
@@ -172,7 +172,7 @@ $map_actions['delete_col'] = function(){
     seatMoveColUp($col, $map_id);
 };
 $map_actions['add_col'] = function () {
-    check_parameters(['map_id, col']);
+    check_parameters(['map_id', 'col']);
     $map_id = $_POST['map_id'];
     $col = $_POST['col'];
     addCol($map_id); 

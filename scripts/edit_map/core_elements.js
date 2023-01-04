@@ -2,6 +2,8 @@ import { onSeatName } from "./eventListeners.js"
 import "../lib/jquery.min.js"
 import { zoom } from "./tooles.js"
 
+const mainBord = document.getElementById('mainBord')
+
 export function cell(row, col){
     var cellContainer = document.createElement('div')
     var cell = document.createElement('div')
@@ -13,38 +15,33 @@ export function cell(row, col){
     cellContainer.append(cell)
     return cellContainer
 }
-export function map(map){
+export function map(rows_number, columns_number){
     const map_ele = document.createElement('div')
-    map_ele.setAttribute('map_name', map.map_name)
-    map_ele.setAttribute('map_id', map.id)
     map_ele.setAttribute('id', 'map')
     map_ele.setAttribute('selectables', 'cell')
     map_ele.setAttribute('isZoomed', 'false')
     map_ele.setAttribute('edit', 'no')
     map_ele.classList.add('map')
-    map_ele.setAttribute('rows', map.rows_number)
-    map_ele.setAttribute('cols', map.columns_number)
-    map_ele.style.setProperty('--map-rows', map.rows_number)
-    map_ele.style.setProperty('--map-cols', map.columns_number)
+    map_ele.style.setProperty('--map-rows', rows_number)
+    map_ele.style.setProperty('--map-cols', columns_number)
     zoom('mainBord')
     return map_ele
 }
-export function seat(seat_data){
-    var map_ele = document.getElementById('map')
-    var groups = JSON.parse(map_ele.getAttribute('groups'))
+export function seat(seat_data, guest){
+    var groups = JSON.parse(mainBord.getAttribute('groups'))
     var seat_ele = document.createElement('div')
     seat_ele.setAttribute('seat_id', seat_data.id)
     var num_box = document.createElement('div')
     var name_box = document.createElement('div')
-    if(seat_data.guest) {
-        seat_data.guest.group_data = groups[seat_data.guest.guest_group]
-        seat_data.guest.full_name = seat_data.guest.last_name  + " " + seat_data.guest.first_name
-        name_box.setAttribute('guest_id', seat_data.guest.id)
-        name_box.setAttribute('guest_name', seat_data.guest.full_name)
-        name_box.setAttribute('guest_group', seat_data.guest.group_data.group_name)
-        name_box.textContent = seat_data.guest.full_name
-        if(seat_data.guest.full_name.length > 15) name_box.style.fontSize = '11px';
-        name_box.style.backgroundColor = seat_data.guest.group_data.color
+    if(guest) {
+        guest.group_data = groups[guest.guest_group]
+        guest.full_name = guest.last_name  + " " + guest.first_name
+        name_box.setAttribute('guest_id', guest.id)
+        name_box.setAttribute('guest_name', guest.full_name)
+        name_box.setAttribute('guest_group', guest.group_data.group_name)
+        name_box.textContent = guest.full_name
+        if(guest.full_name.length > 15) name_box.style.fontSize = '11px';
+        name_box.style.backgroundColor = guest.group_data.color
     }
     num_box.classList.add('num_box')
     name_box.classList.add('name_box')

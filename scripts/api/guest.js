@@ -87,7 +87,6 @@ export const guest = {
         const options = {
             method: 'POST',
             body: "category=guest&action=add&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_id="+map_id,
-            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -102,7 +101,6 @@ export const guest = {
         const options = {
             method: 'POST',
             body: "category=guest&action=update_belong&guest_id="+selected_guest_id+"&seat_id="+selected_seat_class+"&map_id="+map_id,
-            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -116,7 +114,6 @@ export const guest = {
         const options = {
             method: 'POST',
             body: "category=guest&action=update_belong_multiple&data="+data+"&map_id="+map_id,
-            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -142,7 +139,6 @@ export const guest = {
         const options = {
             method: 'POST',
             body: "category=guest&action=get_all_groups&map_id="+map_id,
-            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',

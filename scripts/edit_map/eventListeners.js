@@ -1,11 +1,11 @@
 import dropDown from "../hiveElements/dropDown.js"
-import { add_col, add_elements, add_guests, add_row, add_seats } from "./elements.js"
+import { add_col, add_elements, add_row, add_seats } from "./elements.js"
 import api from "../api/api.js"
 import scrolling_list from '../hiveElements/scrolling_list.js'
 import { add_col_group_score, proximity_score, scheduling } from "./schedulingActions.js"
 import { dragToScroll, loader, selection } from "./switchs.js"
 
-var mainBord = document.getElementById('mainBord')
+const mainBord = document.getElementById('mainBord')
 
 const menu = new dropDown(mainBord)
 const guest_scrolling_list = new scrolling_list(menu.drop_element)
@@ -25,16 +25,16 @@ export function on_show_score(){
     })
 }
 function getGroupColor(guest_group){
-    var groups = JSON.parse(document.getElementById('map').getAttribute('groups'))
+    var groups = JSON.parse(mainBord.getAttribute('groups'))
     return groups[guest_group].color
 }
-const clearSelection = ()=>{
+function clearSelection(){
     selection.clearSelection(); 
     document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
 }
 function create_col_group(group_name){
     var selected = selection.getSelection()
-    var map_id = document.getElementById('map').getAttribute('map_id')
+    var map_id = mainBord.getAttribute('map_id')
     selected.forEach(seat => {
         var seat_id = seat.getAttribute('seat_id')
         api.seat_groups.add_col(seat_id, group_name, map_id)
@@ -42,32 +42,30 @@ function create_col_group(group_name){
 }
 
 export function on_show_tags(){
-    return new Promise(async (resolve) => {
-        document.querySelectorAll('.seat').forEach(seat => {
-            var tags_cont = document.createElement('div')
-            tags_cont.classList.add('tags_cont')
-            seat.children[1].replaceChildren(tags_cont)
-            var seat_tags = JSON.parse(seat.getAttribute('tags'))
-            if(seat_tags){
-                for(let tag of seat_tags){
-                    var tag_box = document.createElement('div')
-                    tag_box.classList.add('tag_box')
-                    tag_box.style.backgroundColor = tag.color
-                    tag_box.textContent = tag.tag_name
-                    var name_box = seat.children[1]
-                    tags_cont.append(tag_box)
-                    var p = name_box.getBoundingClientRect()
-                    var c = tags_cont.getBoundingClientRect()
-                    var scale = 1
-                    while(p.width < c.width){
-                        scale = scale - 0.01
-                        tags_cont.style.transform = `scale(${scale})`
-                        p = name_box.getBoundingClientRect()
-                        c = tags_cont.getBoundingClientRect()
-                    }
+    document.querySelectorAll('.seat').forEach(seat => {
+        var tags_cont = document.createElement('div')
+        tags_cont.classList.add('tags_cont')
+        seat.children[1].replaceChildren(tags_cont)
+        var seat_tags = JSON.parse(seat.getAttribute('tags'))
+        if(seat_tags){
+            for(let tag of seat_tags){
+                var tag_box = document.createElement('div')
+                tag_box.classList.add('tag_box')
+                tag_box.style.backgroundColor = tag.color
+                tag_box.textContent = tag.tag_name
+                var name_box = seat.children[1]
+                tags_cont.append(tag_box)
+                var p = name_box.getBoundingClientRect()
+                var c = tags_cont.getBoundingClientRect()
+                var scale = 1
+                while(p.width < c.width){
+                    scale = scale - 0.01
+                    tags_cont.style.transform = `scale(${scale})`
+                    p = name_box.getBoundingClientRect()
+                    c = tags_cont.getBoundingClientRect()
                 }
             }
-        })
+        }
     })
 }
 export function onScheduling(){
@@ -76,7 +74,7 @@ export function onScheduling(){
 function onAddSeats(){
     // loader.start()
     var selected = selection.getSelection()
-    var map_id = document.getElementById('map').getAttribute('map_id')
+    var map_id = mainBord.getAttribute('map_id')
     // var i = 0
     // selected.forEach((cell) => {
     //     i++
@@ -147,8 +145,8 @@ function onAddElement(){
     var from_col = cols[0]
     var to_row = rows[rows.length -1]
     var to_col = cols[cols.length -1]
-    var map = document.getElementById('map').getAttribute('map_id')
-    api.map_elements.add(name, from_row, from_col, to_row, to_col, map)
+    var map_id = mainBord.getAttribute('map_id')
+    api.map_elements.add(name, from_row, from_col, to_row, to_col, map_id)
     .then(()=>{
         add_elements()
     })
@@ -156,7 +154,7 @@ function onAddElement(){
 function onAddTag(){
     var selected = selection.getSelection()
     var group_name = prompt('הכנס שם תווית')
-    var map_id = document.getElementById('map').getAttribute('map_id')
+    var map_id = mainBord.getAttribute('map_id')
     for(let i = 0; i < selected.length; i++){
         var seat = selected[i]
         var seat_id = seat.getAttribute('seat_id')
@@ -168,25 +166,21 @@ function onAddTag(){
         })
     }
 }
-function onAddRow(){
+async function onAddRow(){
     var map = document.getElementById('map')
-    var map_id = map.getAttribute('map_id')
+    var map_id = mainBord.getAttribute('map_id')
     var row = map.getAttribute('to_delete')
-    return api.map.add_row(row, map_id)
-    .then(()=>{
-        add_row(row)
-    })
+    await api.map.add_row(row, map_id)
+    add_row(row)
 }
-function onAddCol(){
+async function onAddCol(){
     var map = document.getElementById('map')
-    var map_id = map.getAttribute('map_id')
+    var map_id = mainBord.getAttribute('map_id')
     var col = map.getAttribute('to_delete')
-    return api.map.add_col(col, map_id)
-    .then(()=> {
-        add_col(col)
-    })
+    await api.map.add_col(col, map_id)
+    add_col(col)
 }
-export const onAddGuest = (ele)=>{
+export function onAddGuest(ele){
     if(ele.getAttribute('guest_id')){
         var map = document.getElementById('map').getAttribute('map_id')
         var guest_id = ele.getAttribute('guest_id')
@@ -229,7 +223,7 @@ export const onAddGuest = (ele)=>{
         })
     }
 }
-export const onMapAdd = ()=>{
+export function onMapAdd(){
     var map = document.getElementById('map')
     var selectables = map.getAttribute('selectables')
     if(selectables === 'cell'){
@@ -264,39 +258,33 @@ function onDeleteCell(){
     // api.map.delete_col(col, map_id)
     // console.log(map.getAttribute('to_delete'))
 }
-function onDeleteSeat(){
-    return new Promise(async (resolve) => {
-        var selected = selection.getSelection()
-        for(let seat of selected){
-            var seat_id = seat.getAttribute('seat_id')
-            await api.seat.delete(seat_id)
-            await api.seat.delete_belong(seat_id)
-        }
-        resolve()
-    })
+async function onDeleteSeat(){
+    var selected = selection.getSelection()
+    for(let seat of selected){
+        var seat_id = seat.getAttribute('seat_id')
+        await api.seat.delete(seat_id)
+        await api.seat.delete_belong(seat_id)
+    }
 } 
-function onDeleteElement(){
-    return new Promise(async (resolve) => {
-        var selected = selection.getSelection()
-        for(let ob of selected){
-            var ob_id = ob.getAttribute('ob_id')
-            if(ob_id) await api.map_elements.delete(ob_id)
-        }
-        resolve()
-    })
+async function onDeleteElement(){
+    var selected = selection.getSelection()
+    for(let ob of selected){
+        var ob_id = ob.getAttribute('ob_id')
+        if(ob_id) await api.map_elements.delete(ob_id)
+    }
 }
 function onDeleteTag(){
     console.log('TODO delete tag')
 }
 function onDeleteRow(){
     var map = document.getElementById('map')
-    var map_id = map.getAttribute('map_id')
+    var map_id = mainBord.getAttribute('map_id')
     var row = map.getAttribute('to_delete')
     return api.map.delete_row(row, map_id)
 }
 function onDeleteCol(){
     var map = document.getElementById('map')
-    var map_id = map.getAttribute('map_id')
+    var map_id = mainBord.getAttribute('map_id')
     var col = map.getAttribute('to_delete')
     return api.map.delete_col(col, map_id)
 }
@@ -338,7 +326,7 @@ export function onMapDelete(){
         .then(()=> location.reload())
     }
 }
-export const onClickOutside = (event)=>{
+export function onClickOutside(event){
     var map = document.getElementById('map')
     var edit = map.getAttribute('edit')
     if(edit == 'no'){
@@ -376,7 +364,7 @@ export const onClickOutside = (event)=>{
         }
     }
 }
-export const onKeyBordDown = (event)=>{
+export function onKeyBordDown(event){
     if(event.keyCode == 13){
         document.activeElement.blur()
     }
@@ -399,7 +387,7 @@ export const onKeyBordDown = (event)=>{
         document.getElementById('map').setAttribute('isZoomed', 'true')
     }
 }
-export const onKeyBordUp = ()=>{
+export function onKeyBordUp(){
     var map = document.getElementById('map')
     var edit = map.getAttribute('edit')
     if(edit == 'yes'){
@@ -408,7 +396,7 @@ export const onKeyBordUp = ()=>{
         document.getElementById('map').setAttribute('isZoomed', 'false')
     }
 }
-export const onSeatName = (event)=>{
+export function onSeatName(event){
     const inputBox = document.getElementById('inputBox')
     var guest_name = event.target.getAttribute('guest_name')
     guest_scrolling_list.onItem = function(item){
@@ -430,7 +418,7 @@ export const onSeatName = (event)=>{
         inputBox.style.display = 'none'
     }
     function createMatchList(input_str){
-        var guests_data = JSON.parse(document.getElementById('map').getAttribute('guests')) 
+        var guests_data = JSON.parse(mainBord.getAttribute('guests')) 
         var match_list = []
         var search_str = '^'+input_str
         if(input_str.length != 0){
@@ -445,15 +433,17 @@ export const onSeatName = (event)=>{
         return match_list
     }
     function createGuestsList(input_str){
+        var groups = JSON.parse(mainBord.getAttribute('groups'))
         var arr = []
         var seat = event.target.getAttribute('seat_id')           
         var guestsList = document.createElement('ul')
         guestsList.setAttribute('id', 'guestsList')
         var MatchList = createMatchList(input_str)
         for(let corrent of MatchList){
+            var group_name = groups[corrent.guest_group].group_name
             corrent.name = corrent.last_name+' '+corrent.first_name
             var li = document.createElement('li') 
-            li.innerHTML = corrent.name+' <span class="group_name">'+corrent.guest_group+'   |</span>'
+            li.innerHTML = corrent.name+' <span class="group_name">'+ group_name +'   |</span>'
             li.classList.add('match_list')
             li.setAttribute('guest_id', corrent.id)
             li.setAttribute('guest_name', corrent.name)
@@ -508,16 +498,24 @@ export function onGuestList(event){
         }
         return match_list
     }
-    var map = document.getElementById('map')
-    var guest_list = map.getAttribute('guests')
-    var groups = JSON.parse(map.getAttribute('groups'))
+    var belongs = JSON.parse(mainBord.getAttribute('seats_belongs'))
+    var guest_list = JSON.parse(mainBord.getAttribute('guests'))
+    var groups = JSON.parse(mainBord.getAttribute('groups'))
+    var seats = JSON.parse(mainBord.getAttribute('seats'))
+    var new_belongs = {}
+    var new_seats = {}
+    belongs.map(bel => {new_belongs[bel.guest] = bel})
+    seats.map(seat => {new_seats[seat.id] = seat})
     var guests_with_belong = []
-    guest_list = JSON.parse(guest_list)
     for(let guest of guest_list){
-        if(guest.seat) {
+        var seat = new_belongs[guest.id]
+        if(seat) {
+            seat = seat.seat
+            var seat_number = new_seats[seat].seat_number
             guest.group_id = guest.guest_group
             guest.guest_group = groups[guest.group_id].group_name
             guest.full_name = guest.last_name  + ' ' + guest.first_name
+            guest.seat_number = seat_number
             guests_with_belong.push(guest)
         }
     }
@@ -526,7 +524,7 @@ export function onGuestList(event){
     var matchList = createMatchList(guests_with_belong, event.target)
     for(let match of matchList){
         var li = document.createElement('li')
-        li.innerHTML = '<span>'+match.full_name+'</span><span><span class="seat_number"> | '+match.seat.seat_number+' | </span>' + ' <span class="guest_group"> '+match.guest_group+'</span></span>'
+        li.innerHTML = '<span>'+match.full_name+'</span><span><span class="seat_number"> | '+match.seat_number+' | </span>' + ' <span class="guest_group"> '+match.guest_group+'</span></span>'
         results.append(li)
     }
 }

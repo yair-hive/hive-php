@@ -153,4 +153,20 @@ export const user = {
         // .then(res => console.log(res))
         .then(res => res.json())
     },
+    get_last_action : (data)=>{
+        var param = {
+            category: 'sys', 
+            action: 'get_last_action'
+        }
+        var data_a = Object.assign(param, data)
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(data_a),
+            headers: {}
+        }
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
+        .then(res => res.json())
+    },
 }

@@ -36,9 +36,9 @@ $seat_actions['get_all_and_all'] = function(){
     return $results;
 };
 $seat_actions['get_belong'] = function () {
-    check_parameters(['seat_id']);
-    $seat_id = $_POST['seat_id'];
-    $query_string = "SELECT * FROM belong WHERE seat='{$seat_id}'";
+    check_parameters(['map_id']);
+    $map_id = $_POST['map_id'];
+    $query_string = "SELECT * FROM belong WHERE map_belong='{$map_id}'";
     return db_get($query_string);
 };
 $seat_actions['get_number'] = function(){

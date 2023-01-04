@@ -1,8 +1,10 @@
 import { create_selection, DragToScroll } from "./tooles.js"
-import { add_guests, } from "./elements.js"
+// import { add_guests, } from "./elements.js"
 import api from "../api/api.js"
 import MBloader from "../hiveElements/MBloader.js"
 import { on_show_score, on_show_tags } from "./eventListeners.js"
+
+const mainBord = document.getElementById('mainBord')
 
 export const loader = new MBloader()
 export const selection = create_selection()
@@ -38,8 +40,8 @@ export function onEditSwitch(active){
     var map = document.getElementById('map')
     var edit_menu = document.getElementById('edit_menu')
     var map_menu = document.getElementById('map_menu')
-    var map_rows = Number(map.getAttribute('rows'))
-    var map_cols = Number(map.getAttribute('cols')) 
+    var map_rows = Number(mainBord.getAttribute('rows'))
+    var map_cols = Number(mainBord.getAttribute('cols')) 
     switch (active) {
         case 'edit':
             document.querySelectorAll('.row_selector').forEach(e => e.classList.remove('active'))      
@@ -92,10 +94,8 @@ export function onEditSwitch(active){
             edit_menu.style.display = 'none'
             map_menu.style.display = 'flex'
             map.setAttribute('edit', 'no')
-            var map_id = document.getElementById('map').getAttribute('map_id')
             document.querySelectorAll('.name_box').forEach(e => e.textContent = '')
-            api.guest.get_all({map_id: map_id})
-            .then(guests => add_guests(guests))
+            add_guests(guests)
             break;
     }
 }
@@ -126,9 +126,7 @@ export function onSelecteblsSwitch(active){
 export function onShowSwitch(active){
     switch (active) {
         case 'tags':
-            loader.start()
             on_show_tags()
-            .then(loader.stop)
             break;
         case 'score':
             on_show_score()

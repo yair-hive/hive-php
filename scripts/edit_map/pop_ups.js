@@ -3,9 +3,11 @@ import { resizeAllInputs } from "../scripts.js"
 import { on_show_tags } from "./eventListeners.js"
 import api from "../api/api.js"
 
+const mainBord = document.getElementById('mainBord')
+
 function tags(){
     function tags_list_script(pop_up){
-        const map_id = document.getElementById('map').getAttribute('map_id')
+        const map_id = mainBord.getAttribute('map_id')
         const table = document.getElementById('tags_table')
         function add_td_color(group, pop_up){
             var td_color = document.createElement('td')

@@ -1,12 +1,14 @@
 import api from "../api/api.js"
 import { loader } from "./switchs.js"
 
+const mainBord = document.getElementById('mainBord')
+
 export function proximity_score(){
     return new Promise((resolve) => {
         var score, map, map_rows, map_cols, seat, cols_middle, i, col_num, row_num, cols_middle2
         map = document.getElementById('map')
-        map_rows = map.getAttribute('rows')
-        map_cols = map.getAttribute('cols')
+        map_rows = mainBord.getAttribute('rows')
+        map_cols = mainBord.getAttribute('cols')
         map_cols = Number(map_cols)
         cols_middle = Math.round(map_cols / 2)
         cols_middle2 = Math.floor(map_cols / 2)
@@ -90,7 +92,7 @@ export function add_col_group_score(){
     return new Promise((resolve) => {
         var names = []
         var seats_array = []
-        var map_id = document.getElementById('map').getAttribute('map_id')
+        var map_id = mainBord.getAttribute('map_id')
         api.seat_groups.get_groups_cols(map_id)
         .then(res => {
             for(let group_name of res){
@@ -144,9 +146,8 @@ export function add_col_group_score(){
     })
 }
 export function scheduling(){
-    const map = document.getElementById('map')
-    const guests_list = JSON.parse(map.getAttribute('guests'))
-    const map_tags = JSON.parse(map.getAttribute('tags'))
+    const guests_list = JSON.parse(mainBord.getAttribute('guests'))
+    const map_tags = JSON.parse(mainBord.getAttribute('tags'))
     const seats_list = document.querySelectorAll('.seat')
     function getRandomNumber(max) {
         let min = 0
@@ -158,7 +159,7 @@ export function scheduling(){
     function add_m(arr){
         return new Promise(async (resolve) => {
             console.log(arr)
-            var map_id = document.getElementById('map').getAttribute('map_id')
+            var map_id = mainBord.getAttribute('map_id')
             await api.guest.update_belong_multiple(map_id, arr)
             resolve()
         })
