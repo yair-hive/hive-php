@@ -25,8 +25,8 @@ export const guest = {
     get_all_and_ditails: (req)=>{
         var action_params = {category: 'guest', action: 'get_all_and_ditails'}
         var req_body = Object.assign(action_params, req)
-        options.data = req_body 
-        options.dataType = "json" 
+        options.body = JSON.stringify(req_body) 
+        // options.dataType = "json" 
         return fetch(api_url, options)
         // .then(res => res.text())
         // .then(res => console.log(res))

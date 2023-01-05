@@ -85,6 +85,7 @@ export function add_seats(){
     }
 }
 export function add_elements(){
+    const map_ele = document.getElementById('map')
     var res = JSON.parse(mainBord.getAttribute('map_elements'))
     for(let ob of res){
         ob.from_row = Number(ob.from_row)

@@ -40,6 +40,7 @@ function add_row(name){
     return tr
 }
 function add_rows(guests){
+    console.log(guests)
     return new Promise((resolve) => {
         if(guests.length == 0) resolve()
         for (let i = 0; i < guests.length; i++){          
