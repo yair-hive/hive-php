@@ -27,6 +27,7 @@ $files =
 'map_obs.sql',
 'tags.sql',
 'guests_requests.sql',
+'actions_log.sql',
 'users.sql',];
 
 function update($filename, $link){
