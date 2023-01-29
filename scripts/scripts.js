@@ -1,6 +1,5 @@
 import SelectionArea from "./lib/viselect.esm.js"
 import "./lib/jquery.min.js"
-import { selection } from "./main.js"
 
 class dragClass {
     constructor(){
@@ -84,6 +83,7 @@ export const offsetCalculate = (box)=>{
     var list_width_over = 60
     var list_width_over_d = list_width_over / 2
     var drop_down_top = parent.bottom
+    var drop_down_width = parent_width + list_width_over
     var drop_down_left = parent.left - list_width_over_d 
     var name_box_input = document.getElementById('name_box_input')
     name_box_input.style.position = 'absolute'
@@ -93,8 +93,7 @@ export const offsetCalculate = (box)=>{
     name_box_input.style.left = parent.left+'px'
     var drop_down = document.getElementById('drop_down')
     drop_down.style.position = 'absolute'
-    document.body.style.setProperty('--box-width', parent_width) 
-    document.body.style.setProperty('--drop-width', list_width_over)
+    drop_down.style.width = drop_down_width+'px'
     drop_down.style.top = drop_down_top+'px'
     drop_down.style.left = drop_down_left+'px'
     drop_down.style.overflow = 'auto'
@@ -167,10 +166,10 @@ export const sortTable = (td)=>{
         shouldSwitch = false;
         /* Get the two elements you want to compare,
         one from current row and one from the next: */
-        x = rows[i].getElementsByTagName("TD")[td];
-        y = rows[i + 1].getElementsByTagName("TD")[td];
+        x = rows[i].getElementsByTagName("TD")[td].childNodes[0];
+        y = rows[i + 1].getElementsByTagName("TD")[td].childNodes[0];
         // Check if the two rows should switch place:
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        if (x.value.toLowerCase() > y.value.toLowerCase()) {
           // If so, mark as a switch and break the loop:
           shouldSwitch = true;
           break;
@@ -184,28 +183,83 @@ export const sortTable = (td)=>{
       }
     }
 }
-export const startMBLoader = ()=>{
-    document.getElementById('MBloader').style.display = 'block'
-    document.getElementById('MBloader-container').style.display = 'block'
+export const sortTableNumber = (td)=>{
+    var table, rows, switching, i, x, y, shouldSwitch;
+    table = document.getElementById("names_table");
+    switching = true;
+    /* Make a loop that will continue until
+    no switching has been done: */
+    while (switching) {
+      // Start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      /* Loop through all table rows (except the
+      first, which contains table headers): */
+      for (i = 1; i < (rows.length - 1); i++) {
+        // Start by saying there should be no switching:
+        shouldSwitch = false;
+        /* Get the two elements you want to compare,
+        one from current row and one from the next: */
+        x = rows[i].getElementsByTagName("TD")[td];
+        y = rows[i + 1].getElementsByTagName("TD")[td];
+        // Check if the two rows should switch place:
+        if (Number(x.innerHTML) > Number(y.innerHTML)) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+      if (shouldSwitch) {
+        /* If a switch has been marked, make the switch
+        and mark that a switch has been done: */
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+      }
+    }
 }
-export const stopMBLoader = ()=>{
-    document.getElementById('MBloader').style.display = 'none'
-    document.getElementById('MBloader-container').style.display = 'none'
+export function exportTableToExcel(tableSelect, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
 }
-export const respondToVisibility = (element, callback)=>{
-    var options = {
-      root: document.documentElement,
-    };
-  
-    var observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        callback(entry.intersectionRatio > 0);
-      });
-    }, options);
-  
-    observer.observe(element);
-}
-export const clearSelection = ()=>{
-    selection.clearSelection(); 
-    document.querySelectorAll('.selected').forEach(e => e.classList.remove("selected"))
+export function resizeAllInputs(){       
+    function resizeInput() {
+        var l = Number(this.value.length)
+        l = l + 3
+      this.style.width = l + "ch";
+    }
+    return new Promise((resolve) => {
+        var inputs = document.querySelectorAll('td > input')
+        if(inputs.length == 0) resolve()
+        for(let i = 0; i < inputs.length; i++){
+            var input = inputs[i]
+            input.addEventListener('input', resizeInput); 
+            resizeInput.call(input)
+            if(i == (inputs.length -1)) resolve()
+        }
+    })
 }

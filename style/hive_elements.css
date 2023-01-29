@@ -9,28 +9,44 @@
     font-size: 20px;
     font-weight: bold;
     padding: 10px;
-    margin: 10px;
+    margin: 5px;
     border: solid 0.5px rgb(87, 87, 87);
     background-color: rgb(119, 224, 224);
 }
 .hive-button:hover{
     background-color: #7a93b9;
 }
-.hive-switch, .hive-switch:hover{
+.hive-switch{
+    border-radius: 5px;
+    user-select: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    margin: 5px;
     border: none;
-    background-color:  rgb(120, 140, 228);
+    background-color:  rgba(0, 0, 0, 0);
     padding: 0px;
     display: flex;
-    align-items: stretch;
-    justify-content: stretch;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.hive-switch > .active{
+    background-color: rgb(91, 209, 130);
 }
 .hive-switch > div{
-    width: 100%;
+    white-space: nowrap;
+    height: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 15px;
-    padding: 0;
+    padding-left: 5px;
+    padding-right: 5px;
     margin: 0;
 }
 .hive-switch > div:hover{
@@ -41,9 +57,9 @@
     border-radius: 5px 0 0 5px;
 }
 .hive-switch-r{
-    border-left: none;
     border-radius: 0 5px 5px 0;
 }
 .hive-switch-m{
+    border-right: none;
     border-radius: 0;
 }

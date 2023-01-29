@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/drop_down.css">
+	<link rel="stylesheet" href="../style/style.css">
+	<link rel="stylesheet" href="../style/popUp.css">
     <link rel="stylesheet" href="../style/loader.css">
     <link rel="stylesheet" href="../style/hive_elements.css">
     <link rel="stylesheet" href="../style/scrollbar.css">
     <link rel="stylesheet" href="../style/table.css">
     <script src="../scripts/main.js" type="module" defer></script>
-    <script src="../scripts/pages/get_guests.js" type="module" defer></script>
+    <script src="../scripts/get_guests/main.js" type="module" defer></script>
     <script defer>
         const parsedUrl = new URL(window.location.href)
         const map_name = parsedUrl.searchParams.get("map_name")
@@ -19,34 +21,50 @@
         table{
             user-select: none;
         }
+        input{
+            padding: 5px;
+            text-align: center;
+        }
     </style>
     <title> hive | שמות </title>
 </head>
 <body>
     <div id="content">
         <div id="topBar">
-            <div id="user_element" class="user_icon" onclick="location.href='http://localhost/hive-php/html/login.html'"> לא מחובר </div>
+            <div id="user_element" class="user_icon" onclick="location.href='/html/login.html'"> לא מחובר </div>
             <ul>
-                <li><a href="http://localhost/hive-php/html/maps.html" class="hive-button"> מפות </a></li>                
+                <li><div id="get_maps_button" class="hive-button"> מפות </div></li>
             </ul>
         </div>
         <div id="mainBord">
-            <table id="names_table" dir="rtl">
+            <table id="names_table" dir="rtl" tags_switch="all" groups_switch="all" belong_switch="all">
                 <tr>
-                    <th> סטטוס </th>
+                    <th id="status"> סטטוס </th>
+                    <th id="tags"> תגיות </th>
                     <th id="first"> שם משפחה </th>
                     <th id="last"> שם פרטי </th>
                     <th id="group"> שיעור </th>
+                    <th id="score"> ניקוד </th>
+                    <th id="arequests"> בקשות </th>
                     <th> X </th>
                 </tr>
             </table>
         </div>
         <div id="mneu">
-            <div onclick="location.href='http://localhost/hive-php/html/add_guests.html?map_name='+map_name" class="hive-button"> הוסף בחורים </div>
-            <div class="hive-switch hive-button">
-                <div id="ShowOnlyWthBelong" class="hive-button hive-switch-l"> משובצים </div>
-                <div id="ShowOnlyWthoutBelong" class="hive-button hive-switch-m"> לא משובצים </div>
-                <div id="ShowAll" class="hive-button hive-switch-r" style="background-color: #7a93b9;"> הכל </div>
+            <div onclick="location.href='/html/edit_map.html?map_name='+map_name" class="hive-button"> חזור למפה </div>
+            <div id="add_guests_button" class="hive-button"> הוסף בחורים </div>
+            <div id="import_guests_button" class="hive-button"> ייבא בחורים </div>
+            <div id="groups_list_button" class="hive-button"> קבוצות </div>
+            <div id="belongSwitch" class="hive-switch">
+                <div id="all"> הכל </div>
+                <div id="belong"> משובצים </div>
+                <div id="no_belong"> לא משובצים </div>
+            </div>
+            <div id="groupsSwitch" class="hive-switch">
+                <div id="all"> הכל </div>
+            </div>
+            <div id="tagsSwitch" class="hive-switch">
+                <div id="all"> הכל </div>
             </div>
             <div id='export' class='hive-button'> יצא </div>
         </div>

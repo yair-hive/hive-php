@@ -1,3 +1,11 @@
+#content{
+    z-index: 30;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 8% 92%;
+    grid-template-columns: 75% 25%;
+}
 #table-container{
     height: 100%;
     width: 100%;
@@ -6,11 +14,11 @@
     justify-content: center;
 }
 table {
-    margin: 15px;
     border: 3px solid black;
     text-align: center;
     border-collapse: collapse;
     table-layout: fixed;
+    margin: 5px;
 }
 th {
     border: 1px solid black;
@@ -19,15 +27,74 @@ th {
     padding: 10px;
     font-size: 15px;
     height: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 th:hover{
     background-color: rgb(97, 96, 96);
     color: aqua;
 }
+#groups_table > tr > td{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+#tags_table > tr > td{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 td { 
-    border: 1px solid black;
-    padding: 5px;
-    background-color: rgb(120, 154, 216);
-    font-size: 20px;
     height: 20px;
+    border: 1px solid black;
+    background-color: rgb(120, 154, 216);
+    font-size: 18px;
+}
+td > input{
+    padding: 2px;
+    height: 20px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    background-color: rgb(120, 154, 216);
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.tags_cont{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tag_box{
+    white-space: nowrap;
+    background-color: #4f90f2;
+    margin: 1px;
+    padding: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 14px;
+}
+.td_color{
+    padding: 0 !important;
+}
+#mainBord{
+    display: flex;
+    justify-content: center;
+    align-items:flex-start;
+}
+#tags_table > tr > td > input{
+    padding: 0;
+    text-align: center;
+    min-width: 70px;
+}
+.no_show{
+    display: none;
+}
+[belong = 'belong'] > .seat_num{
+    background-color: green;
+}
+[belong = 'no belong'] > .seat_num{
+    background-color: grey;
 }

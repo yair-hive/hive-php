@@ -1,6 +1,7 @@
-input{
+.inputBox{
     z-index: 10;
     margin: 7px;
+    border: none;
 }
 input:focus{
     border: none;
@@ -10,7 +11,6 @@ input:focus{
     position: absolute;
     color: black;
     z-index: 10;
-    width: calc(var(--box-width) + var(--drop-width));
     font-size: 11px;
     text-align: right;
     font-weight: bold;
@@ -39,7 +39,7 @@ input:focus{
 .group_name{
     color: rgb(124, 116, 116);
 }
-#name_box_input{
+.inputBox{
     margin: 0;
     padding: 0;
     position: absolute;

@@ -4,15 +4,27 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/table.css">
+	<link rel="stylesheet" href="../style/style.css">
+	<link rel="stylesheet" href="../style/popUp.css">
     <link rel="stylesheet" href="../style/loader.css">
     <link rel="stylesheet" href="../style/hive_elements.css">
     <link rel="stylesheet" href="../style/scrollbar.css">
     <link rel="stylesheet" href="../style/drop_down.css">
     <link rel="stylesheet" href="../style/map.css">
-    <link rel="stylesheet" href="../style/guests_groups.css">
+    <style>
+    #map_menu > input{
+        height: 30px;
+        text-align: center;
+        margin: 5px;
+        padding: 0;
+        border-radius: 5px;
+        font-size: 15px;
+        font-weight: bold;
+    }
+    </style>
     <script src="../scripts/main.js" type='module' defer></script>  
-    <script src="../scripts/pages/edit_map.js" type="module" defer></script>
+    <script src="../scripts/edit_map/main.js" type="module" defer></script>
     <script defer>
         const parsedUrl = new URL(window.location.href)
         const map_name = parsedUrl.searchParams.get("map_name")
@@ -22,19 +34,41 @@
 <body>
     <div id="content">
         <div id="topBar">
-            <div id="user_element" class="user_icon" onclick="location.href='http://localhost/hive-php/html/login.html'"> לא מחובר </div>
+            <div id="user_element" class="user_icon" onclick="location.href='/html/login.html'"> לא מחובר </div>
             <ul>
-                <li><a href="http://localhost/hive-php/html/maps.html" class="hive-button"> מפות </a></li>
+                <li><div id="get_maps_button" class="hive-button"> מפות </div></li>
             </ul>
         </div>
-        <div id="mainBord"></div>
+        <div id="mainBord">
+            <div id="map_container" class="map_container"></div>
+            <input id="inputBox" class="name_box inputBox" type="text" autocomplete="off" style="display: none;">
+        </div>
         <div id="mneu">
-            <div class="hive-switch hive-button">
-                <div id='select_seats' class='hive-button hive-switch-l'> כיסאות </div>
-                <div id='select_cells' class='hive-button hive-switch-r'> תאים </div>
+            <div id='editSwitch' class="hive-switch">
+                <div id='no_edit'> אל תערוך </div>
+                <div id='edit'> ערוך </div>
             </div>
-            <div id='add_button' class='hive-button'> הוסף </div>
-            <div onclick="location.href='http://localhost/hive-php/html/get_guests.html?map_name='+map_name" class="hive-button"> שמות </div>
+            <div id="edit_menu" class="side_menu" style="display: none;">
+                <div id='selecteblsSwitch' class="hive-switch selecteblsSwitch">
+                    <div id='seats'> כיסאות </div>
+                    <div id='cells'> תאים </div>
+                    <div id="elements"> אלמנטים </div>
+                    <div id="tags"> תגיות </div>
+                </div>
+                <div id='showSwitch' class="hive-switch">
+                    <div id='score'> ניקוד </div>
+                    <div id='tags'> תגיות </div>
+                </div>
+                <div id='add_button' class='hive-button'> הוסף </div>
+                <div id='delete_button' class='hive-button'> מחק </div>  
+                <div id="tags_list_button" class="hive-button"> תגיות </div>             
+            </div>
+            <div id="map_menu" class="side_menu" dir="rtl">
+                <div onclick="location.href='/html/get_guests.html?map_name='+map_name" class="hive-button"> שמות </div>
+                <div id="scheduling_button" class="hive-button"> שבץ </div>
+                <input id="guest_list_input" type="text">
+                <ul id="results"></ul>
+            </div>
         </div>
     </div>
 </body>

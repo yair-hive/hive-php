@@ -1,13 +1,12 @@
 import "../lib/jquery.min.js"
 
-const api_url = 'http://localhost/hive-php/php/api.php'
+const api_url = '/php/api.php'
 
 export const seat = {
     get_all: (map_id)=>{
         const options = {
             method: 'POST',
             body: "category=seat&action=get_all&map_id="+map_id,
-            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -15,6 +14,8 @@ export const seat = {
         };
           
         return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
         .then(res => res.json())
         .then((res)=>{
             if(res.msg == 'ok') return res.data
@@ -22,11 +23,30 @@ export const seat = {
             return res.msg
         })
     },
-    get_belong: (seat_id)=>{
+    get_all_and_all: (map_id)=>{
         const options = {
             method: 'POST',
-            body: "category=seat&action=get_belong&seat_id="+seat_id,
-            mode: 'no-cors',
+            body: "category=seat&action=get_all_and_all&map_id="+map_id,
+            credentials: 'include',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        };
+          
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => alert(res))
+        .then(res => res.json())
+        .then((res)=>{
+            if(res.msg == 'ok') return res.data
+            alert(res.msg)
+            return res.msg
+        })
+    },
+    get_belong: (map_id)=>{
+        const options = {
+            method: 'POST',
+            body: "category=seat&action=get_belong&map_id="+map_id,
             credentials: 'include',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -45,7 +65,6 @@ export const seat = {
         const options = {
             method: 'POST',
             body: "category=seat&action=get_number&seat_id="+seat_id,
-            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -64,7 +83,6 @@ export const seat = {
         const options = {
             method: 'POST',
             body: "category=seat&action=delete_belong&seat_id="+seat_id,
-            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -83,7 +101,6 @@ export const seat = {
         const options = {
             method: 'POST',
             body: "category=seat&action=add_number&seat_id="+seat_id+"&seat_number="+seat_number,
-            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -96,7 +113,6 @@ export const seat = {
         const options = {
             method: 'POST',
             body: "category=seat&action=create&map_id="+map_id+"&row="+row+"&col="+col,
-            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -114,13 +130,34 @@ export const seat = {
         const options = {
             method: 'POST',
             body: "category=seat&action=create_multiple&map_id="+map_id+"&data="+data,
-            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             }
         }
         return fetch(api_url, options)
+        // .then((res)=> res.text())
+        // .then((res)=> console.log(res))
+        .then(res => res.json())
+        .then((res)=>{
+            console.log(res)
+            // if(res.msg == 'ok') return
+            // alert(res.msg)
+            // return res.msg
+        })
+    },
+    delete: (seat_id)=>{
+        const options = {
+            method: 'POST',
+            body: "category=seat&action=delete&seat_id="+seat_id,
+            credentials: 'include',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }
+        return fetch(api_url, options)
+        // .then(res => res.text())
+        // .then(res => console.log(res))
         .then(res => res.json())
         .then((res)=>{
             if(res.msg == 'ok') return

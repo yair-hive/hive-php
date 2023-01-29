@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');
-
 html, body{
     width: 100%;
     height: 100%;
     margin: 0;
     font-size: 13px;
     color: white;
-    font-family: 'Open Sans', sans-serif;
+    font-family: sans-serif;
 }
 form{
     margin: 10px;
@@ -14,6 +12,7 @@ form{
 a, label{
     color: white;
     font-size: 20px;
+    text-align: center;
 }
 a:hover{
     color: yellow;
@@ -24,7 +23,7 @@ a:hover{
     height: 100%;
     display: grid;
     grid-template-rows: 8% 92%;
-    grid-template-columns: 85% 15%;
+    grid-template-columns: 78% 22%;
 }
 #topBar{
     display: flex;
@@ -62,13 +61,41 @@ a:hover{
 }
 #mneu{
     z-index: 20;
-    overflow: auto;
-    padding: 20px;
+    padding: 10px;
     background-color: rgb(120, 140, 228);
+}
+.side_menu{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background-color: rgb(95, 122, 239);
+}
+.selecteblsSwitch{
+    background-color: rgb(95, 122, 239);
 }
 #select_seats{
     background-color: gray;
 }
 #select_cells{
     background-color: tomato;
+}
+.guest_group{
+    color: yellow;
+}
+.side_menu{
+    border-radius: 5px;
+}
+#results{
+    margin: 5px;
+    border-radius: 5px;
+    padding: 10px;
+    overflow: auto;
+    max-height: 40vh;
+    background-color: rgb(171, 150, 255);
+}
+#results > li{
+    padding-top: 1px;
+    padding-bottom: 1px;
+    display: flex;
+    justify-content: space-between;
 }

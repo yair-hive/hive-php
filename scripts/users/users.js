@@ -1,8 +1,7 @@
-import { onAddPermission } from "../eventListeners.js"
-import { user } from "../api/user.js"
-import "../lib/jquery.min.js"
+import { onAddPermission } from "./eventListeners.js"
+import api from '../api/api.js'
 var users_table = document.getElementById('users_table')
-user.get_all()
+api.user.get_all()
 .then((users)=>{
     for(let user of users){
         var tr = document.createElement('tr')
@@ -23,6 +22,6 @@ user.get_all()
         td_permissions.append(list_td)
         tr.append(td_user_name)
         tr.append(td_permissions)
-        $(users_table).append(tr)                
+        users_table.append(tr)                
     }
 })

@@ -6,10 +6,11 @@ $permissions_list[] = 'reading';
 $permissions_list[] = 'writing';
 
 $user_actions['login'] = function(){
-    global $connection;              
-    if(!empty($_POST['user_name'])){
-        $user_name = $_POST['user_name']; 
-        $password = $_POST['password'];
+    global $NEW_POST;
+    global $connection;             
+    if(!empty($NEW_POST['user_name'])){
+        $user_name = $NEW_POST['user_name']; 
+        $password = $NEW_POST['password'];
         $query_string = "SELECT * FROM users WHERE user_name='{$user_name}'";
         if($result = mysqli_query($connection, $query_string)){
             if(mysqli_num_rows($result) != 0){
@@ -25,35 +26,26 @@ $user_actions['login'] = function(){
                             }
                         }
                     }
-                    $_SESSION['user_name'] = $_POST['user_name'];
+                    $_SESSION['user_name'] = $NEW_POST['user_name'];
                     $_SESSION['permissions'] = $permissions;
-                    $respons['msg'] = 'all ok';
-                    print_r(json_encode($respons));
                 }else{
-                    $respons['msg'] = 'login faild';
-                    print_r(json_encode($respons));
+                    throw new Exception('login faild');
                 }
             }else{
-                $respons['msg'] = 'no user';
-                print_r(json_encode($respons));
+                throw new Exception('no user');
             }
         }else{
-            $respons['msg'] = 'db error';
-            print_r(json_encode($respons));
+            throw new Exception('db error');
         }
     }else{
-        $respons['msg'] = 'parameter misseng';
-        print_r(json_encode($respons));
+        throw new Exception('parameter misseng');
     }
 };
 $user_actions['get'] = function(){
     if(!empty($_SESSION['user_name'])){
-        $respons['msg'] = 'all ok';
-        $respons['user_name'] = $_SESSION['user_name'];
-        print_r(json_encode($respons));
+        return $_SESSION['user_name'];
     }else{
-        $respons['msg'] = 'parameter misseng';
-        print_r(json_encode($respons));
+        throw new Exception('parameter misseng');
     }
 };
 $user_actions['get_all'] = function(){
@@ -91,31 +83,26 @@ $user_actions['logout'] = function(){
     print_r(json_encode($respons));
 };
 $user_actions['sginup'] = function(){
-    global $connection;  
-    if(!empty($_POST['user_name']) && !empty($_POST['password'])){
-        $user_name = $_POST['user_name'];
-        $password = $_POST['password'];
+    global $connection; 
+    global $NEW_POST; 
+    if(!empty($NEW_POST['user_name']) && !empty($NEW_POST['password'])){
+        $user_name = $NEW_POST['user_name'];
+        $password = $NEW_POST['password'];
         $password = password_hash($password, PASSWORD_DEFAULT);
         $query_string = "INSERT INTO users(user_name, password) VALUES('{$user_name}', '{$password}')";
         db_post($query_string);
     }else{
-        $respons['msg'] = $_POST;
+        $respons['msg'] = $NEW_POST;
         print_r(json_encode($respons));
     }
 };
 $user_actions['add_permission'] = function(){  
-    global $connection;
-    if(allowed("super")){               
-        if(!empty($_POST['user_id']) && !empty($_POST['permission'])){
-            $user_id = $_POST['user_id'];
-            $permission = $_POST['permission'];        
-            $query_string = "INSERT INTO permissions(user, permission) VALUES('{$user_id}', '{$permission}')";
-            db_post($query_string);
-        }
-    }else{
-        $respons['msg'] = 'faild';
-        print_r(json_encode($respons));
-    }
+    global $connection;              
+    check_parameters(['user_id', 'permission']);
+    $user_id = $_POST['user_id'];
+    $permission = $_POST['permission'];        
+    $query_string = "INSERT INTO permissions(user, permission) VALUES('{$user_id}', '{$permission}')";
+    db_post($query_string);
 };
 $user_actions['get_permissions_list'] = function(){
     global $permissions_list;
@@ -145,4 +132,27 @@ $user_actions['get_permission'] = function(){
         $respons['msg'] = 'parameter misseng';
         print_r(json_encode($respons));
     }
+};
+$user_actions['create_group'] = function(){
+    $group_name = $_POST['group_name'];
+    $query_string = "SELECT * FROM users_groups WHERE group_name = '{$group_name}'";
+    check_exists($query_string);
+    $query_string = "INSERT INTO users_groups(group_name) VALUES('{$group_name}')";
+    db_post($query_string);
+};
+$user_actions['add_permission_to_group'] = function(){
+    $action_name = $_POST['action_name'];
+    $group_id = $_POST['group_id'];
+    $query_string = "SELECT * FROM user_group_permissions WHERE action_name = '{$action_name}' AND group_id = '{$group_id }'";
+    check_exists($query_string);
+    $query_string = "INSERT INTO user_group_permissions(action_name, group_id) VALUES ('{$action_name}', '{$group_id}')";
+    db_post($query_string);
+};
+$user_actions['add_user_to_group'] = function(){
+    $user_id = $_POST['user_id'];
+    $group_id = $_POST['group_id'];
+    $query_string = "SELECT * FROM user_group_belong WHERE user_id = '{$user_id}' AND group_id = '{$group_id}'";
+    check_exists($query_string);
+    $query_string = "INSERT INTO user_group_belong(user_id, group_id) VALUES('{$user_id}', '{$group_id}')";
+    db_post($query_string);
 };

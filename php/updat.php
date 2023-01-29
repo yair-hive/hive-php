@@ -21,6 +21,13 @@ $files =
 'guests.sql',
 'belong.sql',
 'permissions.sql',
+'guests_groups.sql',
+'seats_groups.sql',
+'seat_groups_belong.sql',
+'map_obs.sql',
+'tags.sql',
+'guests_requests.sql',
+'actions_log.sql',
 'users.sql',];
 
 function update($filename, $link){
@@ -34,12 +41,11 @@ function update($filename, $link){
         if (substr($line, 0, 2) == '--' || $line == '')
             continue;
 
-        // Add this line to the current segment
         $tempLine .= $line;
         // If its semicolon at the end, so that is the end of one query
         if (substr(trim($line), -1, 1) == ';')  {
             // Perform the query
-            mysqli_query($link, $tempLine) or print("Error in " . $tempLine .":". mysqli_error());
+            mysqli_query($link, $tempLine) or print("Error in " . $tempLine .":". mysqli_error($link));
             // Reset temp variable to empty
             $tempLine = '';
         }
@@ -50,5 +56,5 @@ function update($filename, $link){
 foreach($files as $filename){
     update($filename, $connection);
 }
-header("Location: http://localhost/hive-php/html/maps.html");
+header("Location: /html/edit_map.html");
 ?>
