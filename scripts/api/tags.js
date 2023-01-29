@@ -1,4 +1,4 @@
-const api_url = '/hive-php/php/api.php'
+const api_url = '/php/api.php'
 
 export const tags = {
     add: (seat, group, map)=>{

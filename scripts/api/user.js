@@ -1,6 +1,6 @@
 import "../lib/jquery.min.js"
 
-const api_url = '/hive-php/php/api.php'
+const api_url = '/php/api.php'
 
 export const user = {
     get: ()=>{

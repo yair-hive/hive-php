@@ -1,7 +1,7 @@
 import api from './api/api.js'
 import PopUp from './hiveElements/PopUp.js'
 
-const api_url = '/hive-php/php/api.php'
+const api_url = '/php/api.php'
 
 function test(){
     const options = {
@@ -49,7 +49,7 @@ function add_create_map_form_scripts(pop_up){
         form_data.forEach((value, key) => (formDataObj[key] = value));
         var map_name = formDataObj.map_name
         api.map.create(formDataObj)
-        .then(()=> location.replace(`/hive-php/html/edit_map.html?map_name=${map_name}`))
+        .then(()=> location.replace(`/html/edit_map.html?map_name=${map_name}`))
     })
 }
 function add_maps_list(){
@@ -123,3 +123,14 @@ window.setInterval(async ()=>{
     }
     
 }, 5000)
+
+function ws_test(){
+    const hive_socket = new WebSocket('ws://hive.com:3001')
+    hive_socket.onopen = function() {
+        hive_socket.send('array');
+    };
+    hive_socket.onmessage = function(mss){
+        console.log(mss)
+    }
+}
+// ws_test()

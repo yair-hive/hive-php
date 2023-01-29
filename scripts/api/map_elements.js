@@ -1,4 +1,4 @@
-const api_url = '/hive-php/php/api.php'
+const api_url = '/php/api.php'
 
 export const map_elements = {
     add: (name, from_row, from_col, to_row, to_col, map)=>{

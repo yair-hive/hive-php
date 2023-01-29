@@ -1,7 +1,12 @@
 <?php 
 $allowedOrigins = [
    'http://localhost',
-   'http://localhost:3000' 
+   'http://localhost:3000',
+   'http://10.100.102.5:3000',
+   'http://10.100.102.5',
+   'http://hive.com',
+   'http://hive.com:3000', 
+   'http://react.hive.com'
 ];
  
 if(in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)){

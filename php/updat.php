@@ -56,5 +56,5 @@ function update($filename, $link){
 foreach($files as $filename){
     update($filename, $connection);
 }
-header("Location: /hive-php/html/edit_map.html");
+header("Location: /html/edit_map.html");
 ?>

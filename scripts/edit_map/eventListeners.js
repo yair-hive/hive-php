@@ -191,7 +191,7 @@ export function onAddGuest(ele){
         var guest_group = guest_ele.getAttribute('guest_group')   
         api.guest.create_belong(guest_id, seat_id, map_id)
         .then((res)=>{
-            if(res.msg === 'belong'){
+            if(res.msg === 'exists'){
                 if(confirm('המשתמש כבר משובץ האם אתה רוצה לשבץ מחדש?')){
                     api.guest.update_belong(guest_id, seat_id, map)
                     .then((res)=>{
