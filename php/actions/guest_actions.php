@@ -206,3 +206,24 @@ $guest_actions['update_guest_score'] = function(){
     $query_string = "UPDATE guests SET score = '{$score}' WHERE id = '{$guest_id}'";
     db_post($query_string);
 };
+$guest_actions['update_first_name'] = function(){
+    check_parameters(['guest_id', 'first_name']);
+    $guest_id = $_POST['guest_id'];
+    $first_name = $_POST['first_name'];
+    $query_string = "UPDATE guests SET first_name = '{$first_name}' WHERE id = '{$guest_id}'";
+    db_post($query_string);
+};
+$guest_actions['update_last_name'] = function(){
+    check_parameters(['guest_id', 'last_name']);
+    $guest_id = $_POST['guest_id'];
+    $last_name = $_POST['last_name'];
+    $query_string = "UPDATE guests SET last_name = '{$last_name}' WHERE id = '{$guest_id}'";
+    db_post($query_string);
+};
+$guest_actions['update_group_name'] = function(){
+    check_parameters(['guest_id', 'group_name']);
+    $guest_id = $_POST['guest_id'];
+    $group_name = $_POST['group_name'];
+    $query_string = "UPDATE guests SET score = '{$group_name}' WHERE id = '{$guest_id}'";
+    db_post($query_string);
+};
