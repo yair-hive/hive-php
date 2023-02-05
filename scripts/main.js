@@ -134,3 +134,19 @@ function ws_test(){
     }
 }
 // ws_test()
+
+function test69(){
+    const options = {
+        method: 'POST',
+        credentials: 'include',
+        body: '',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    };
+    fetch('https://hive.com/api/', options)
+    .then(res => res.text())
+    .then(console.log)
+}
+
+// test69()

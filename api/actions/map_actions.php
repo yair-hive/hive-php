@@ -134,9 +134,9 @@ $map_actions['create'] = function () {
     check_parameters(['map_name', 'rows_number', 'columns_number'], $NEW_POST);
     $map_name = $NEW_POST['map_name'];
     $rows_number = $NEW_POST['rows_number'];
-    $columns_number = $NEW_POST['columns_number'];
+    $columns_number = $NEW_POST['columns_number']; 
     $query_string = "SELECT * FROM maps WHERE map_name = '{$map_name}'";
-    check_exists($query_string);              
+    check_exists($query_string);             
     $query_string = "INSERT INTO maps(map_name, rows_number, columns_number) VALUES('{$map_name}', '{$rows_number}', '{$columns_number}')";
     db_post($query_string);
 };
@@ -151,31 +151,35 @@ $map_actions['get'] = function () {
     return db_get($query_string);
 };
 $map_actions['delete_row'] = function(){
-    check_parameters(['map_id', 'row']);
-    $map_id = $_POST['map_id'];
+    check_parameters(['map_name', 'row']);
+    $map_name = $_POST['map_name'];
+    $map_id = get_map_id($map_name); 
     $row = $_POST['row'];
     removeRow($map_id); 
     seatDeleteByRow($row, $map_id);
     seatMoveRowUp($row, $map_id);
 };
 $map_actions['add_row'] = function(){
-    check_parameters(['map_id', 'row']);
-    $map_id = $_POST['map_id'];
+    check_parameters(['map_name', 'row']);
+    $map_name = $_POST['map_name'];
+    $map_id = get_map_id($map_name); 
     $row = $_POST['row'];
     addRow($map_id); 
     seatMoveRowDown($row, $map_id);
 };
 $map_actions['delete_col'] = function(){
-    check_parameters(['map_id', 'col']);
-    $map_id = $_POST['map_id'];
+    check_parameters(['map_name', 'col']);
+    $map_name = $_POST['map_name'];
+    $map_id = get_map_id($map_name); 
     $col = $_POST['col'];
     removeCol($map_id); 
     seatDeleteByCol($col, $map_id);
     seatMoveColUp($col, $map_id);
 };
 $map_actions['add_col'] = function () {
-    check_parameters(['map_id', 'col']);
-    $map_id = $_POST['map_id'];
+    check_parameters(['map_name', 'col']);
+    $map_name = $_POST['map_name'];
+    $map_id = get_map_id($map_name); 
     $col = $_POST['col'];
     addCol($map_id); 
     seatMoveColDown($col, $map_id);
