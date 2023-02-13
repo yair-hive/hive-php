@@ -11,7 +11,7 @@ const menu = new dropDown(mainBord)
 const guest_scrolling_list = new scrolling_list(menu.drop_element)
 
 export function on_show_score(){
-    proximity_score
+    proximity_score()
     .then(add_col_group_score)
     .then(()=>{
         document.querySelectorAll('.seat').forEach(seat => {

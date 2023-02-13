@@ -57,13 +57,14 @@ $guest_actions['get_all'] = function () {
     $map_name = $NEW_POST['map_name'];
     $map_id = get_map_id($map_name);  
     $query_string = "SELECT * FROM guests WHERE belong='{$map_id}'";
-    $results = db_get($query_string);
-    $new_results = [];
-    foreach($results as $row){
-        $row['name'] = $row['last_name'].' '.$row['first_name'];
-        $new_results[$row['id']] = $row;
-    }
-    return $new_results;
+    // $results = db_get($query_string);
+    // $new_results = [];
+    // foreach($results as $row){
+    //     $row['name'] = $row['last_name'].' '.$row['first_name'];
+    //     $new_results[$row['id']] = $row;
+    // }
+    // return $new_results;
+    return db_get($query_string);
 };
 $guest_actions['get_all_and_ditails'] = function () {
     global $NEW_POST;

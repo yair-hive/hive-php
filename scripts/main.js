@@ -150,3 +150,29 @@ function test69(){
 }
 
 // test69()
+
+function test70(){
+    var a = ['p', 'o']
+    console.log(a)
+    var b = ['lopp', 'koo']
+    a.push(...b)
+    console.log(a)
+}
+// test70()
+function test71(){
+    const api_url1 = '/api/index.php'
+    const options = {
+        method: 'POST',
+        body: "category=seat_groups&action=get_seats_by_cols&map_name=test17",
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
+    }
+    return fetch(api_url1, options)
+    // .then(res => res.text())
+    // .then(res => console.log(res))
+    .then(res => res.json())
+    .then(res => console.log(res))
+}
+test71()

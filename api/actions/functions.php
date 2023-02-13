@@ -11,6 +11,7 @@ function db_post_multi($query_string){
             mysqli_free_result($result);
         }
     } while(mysqli_next_result($connection));
+    return 'pop';
 }
 function db_get($query_string, $breake = false){
     global $connection;

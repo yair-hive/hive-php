@@ -6,7 +6,9 @@ $allowedOrigins = [
    'http://10.100.102.5',
    'http://hive.com',
    'http://hive.com:3000', 
-   'http://react.hive.com'
+   'http://react.hive.com',
+   'http://192.168.76.166',
+   'http://192.168.76.166:3000'
 ];
  
 if(in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)){

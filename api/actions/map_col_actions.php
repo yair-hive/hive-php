@@ -63,3 +63,21 @@ $map_col_actions['get_seats_cols'] = function(){
     $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_id = '{$group_id}' AND group_type = 'col'";
     return db_get($query_string);
 };
+$map_col_actions['get_seats_by_cols'] = function(){
+    $map_name = $_POST['map_name'];
+    $map_id = get_map_id($map_name); 
+    $query_string = "SELECT * FROM seats_groups WHERE belong = '{$map_id}'";
+    $results = db_get($query_string);
+    $new_results = [];
+    foreach($results as $group){
+        $group_id = $group['id'];
+        $query_string = "SELECT seat FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_id = '{$group_id}' AND group_type = 'col'";
+        $seats = db_get($query_string);
+        $new_seats = [];
+        foreach($seats as $seat){
+            $new_seats[] = $seat['seat'];
+        }
+        $new_results[] = $new_seats;
+    }
+    return $new_results;
+};

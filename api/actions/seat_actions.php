@@ -48,12 +48,13 @@ $seat_actions['get_belong'] = function () {
     $map_name = $_POST['map_name'];
     $map_id = get_map_id($map_name); 
     $query_string = "SELECT * FROM belong WHERE map_belong='{$map_id}'";
-    $results = db_get($query_string);
-    $new_results = [];
-    foreach($results as $row){
-        $new_results[$row['seat']] = $row;
-    }
-    return $new_results;
+    // $results = db_get($query_string);
+    // $new_results = [];
+    // foreach($results as $row){
+    //     $new_results[$row['seat']] = $row;
+    // }
+    // return $new_results;
+    return db_get($query_string);
 };
 $seat_actions['get_number'] = function(){
     check_parameters(['seat_id']);
@@ -83,7 +84,16 @@ $seat_actions['create_multiple'] = function () {
     foreach($data as $seat){
         $query_string .= "INSERT INTO seats(belong, row_num, col_num) VALUES('{$map_id}', '{$seat->row}', '{$seat->col}');";
     }       
-    db_post_multi($query_string);
+    return db_post_multi($query_string);
+};
+$seat_actions['add_multiple_numbers'] = function () {
+    check_parameters(['data']);  
+    $data = json_decode($_POST['data']);
+    $query_string = "";
+    foreach($data as $seat){
+        $query_string .= "UPDATE seats SET seat_number = '{$seat->number}' WHERE id = '{$seat->id}';";
+    }       
+    return db_post_multi($query_string);
 };
 $seat_actions['delete'] = function () {
     check_parameters(['seat_id']);

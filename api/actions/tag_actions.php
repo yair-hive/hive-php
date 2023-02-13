@@ -19,6 +19,22 @@ function createDefaultTag($tag_name, $map){
     $query_string = "INSERT INTO tags(tag_name, color, score, belong) VALUES('{$name}', '{$color}', '{$score}', '{$belong}')";
     mysqli_query($connection, $query_string);
 }
+$tag_actions['add_multiple_tags'] = function () {
+    $seats = json_decode($_POST['seats']);
+    $group_name = $_POST['group'];
+    $map_name = $_POST['map_name'];
+    $map_id = get_map_id($map_name);  
+    $group_id = getTagId($group_name, $map_id);
+    if(!$group_id){
+        createDefaultTag($group_name, $map_id);
+        $group_id = getTagId($group_name, $map_id);
+    }
+    $query_string = "";
+    foreach($seats as $seat){
+        $query_string .= "INSERT INTO seat_groups_belong(seat, group_id, group_type, belong) VALUES('{$seat}', '{$group_id}', 'tag', '{$map_id}');";
+    }       
+    return db_post_multi($query_string);
+};
 $tag_actions['add_tag'] = function(){
     $seat = $_POST['seat'];
     $group_name = $_POST['group'];
@@ -75,10 +91,19 @@ $tag_actions['add_request'] = function(){
         db_post($query_string);
     }
 };
+$tag_actions['delete_request'] = function(){
+    global $NEW_POST;
+    check_parameters(['request_id'], $NEW_POST);
+    $request_id = $NEW_POST['request_id'];
+    $query_string = "DELETE FROM guests_requests WHERE id = '{$request_id}'";
+    db_post($query_string);
+};
 $tag_actions['get_requests'] = function(){
     global $NEW_POST;
-    $guest_id = $NEW_POST['guest_id'];
-    $query_string = "SELECT * FROM guests_requests WHERE guest = '{$guest_id}'";
+    check_parameters(['map_name'], $NEW_POST);    
+    $map_name = $NEW_POST['map_name'];
+    $map_id = get_map_id($map_name); 
+    $query_string = "SELECT * FROM guests_requests WHERE belong = '{$map_id}'";
     return db_get($query_string);
 };
 $tag_actions['delete_tag'] = function(){
