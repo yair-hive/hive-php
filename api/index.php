@@ -58,6 +58,8 @@ include_once 'actions/user_actions.php';
 include_once 'actions/map_col_actions.php';
 include_once 'actions/tag_actions.php';
 include_once 'actions/map_element_actions.php';
+include_once 'actions/project_actions.php';
+include_once 'actions/request_actions.php';
 
 $actions['map'] = $map_actions;
 $actions['seat'] = $seat_actions;
@@ -66,6 +68,7 @@ $actions['user'] = $user_actions;
 $actions['tag'] = $tag_actions;
 $actions['map_element'] = $map_element_actions;
 $actions['seat_groups'] = $map_col_actions;
+$actions['project'] = $project_actions;
 $sys_actions['get_all_actions'] = function(){
     global $actions;
     $all_actions = [];
@@ -106,7 +109,7 @@ if(!empty($_POST['category']) && !empty($_POST['action']) || !empty($NEW_POST['c
                 print_r(json_encode($respons));
                 $action_name = $action . ' ' . $category;
                 if (!preg_match("/^get/", $action_name, $match)){
-                    create_action_log($action_name);
+                    // create_action_log($action_name);
                 }
             } catch (Exception $e) {
                 $respons['msg'] = $e->getMessage();

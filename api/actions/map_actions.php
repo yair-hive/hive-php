@@ -130,14 +130,14 @@ function seatDeleteByRow($row, $map_id){
     }
 }
 $map_actions['create'] = function () {
-    global $NEW_POST;
-    check_parameters(['map_name', 'rows_number', 'columns_number'], $NEW_POST);
-    $map_name = $NEW_POST['map_name'];
-    $rows_number = $NEW_POST['rows_number'];
-    $columns_number = $NEW_POST['columns_number']; 
-    $query_string = "SELECT * FROM maps WHERE map_name = '{$map_name}'";
+    check_parameters(['map_name', 'rows', 'cols', 'project']);
+    $map_name = $_POST['map_name'];
+    $rows_number = $_POST['rows'];
+    $columns_number = $_POST['cols']; 
+    $project_id = get_project_id($_POST['project']);
+    $query_string = "SELECT * FROM maps WHERE map_name = '{$map_name}' AND project = '{$project_id}'";
     check_exists($query_string);             
-    $query_string = "INSERT INTO maps(map_name, rows_number, columns_number) VALUES('{$map_name}', '{$rows_number}', '{$columns_number}')";
+    $query_string = "INSERT INTO maps(map_name, rows_number, columns_number, project) VALUES('{$map_name}', '{$rows_number}', '{$columns_number}', '{$project_id}')";
     db_post($query_string);
 };
 $map_actions['get_all'] = function(){   
@@ -145,15 +145,23 @@ $map_actions['get_all'] = function(){
     return db_get($query_string);
 };
 $map_actions['get'] = function () {
-    check_parameters(['map_name']);
-    $map_name = $_POST['map_name'];     
-    $query_string = "SELECT * FROM maps WHERE map_name='{$map_name}'";
+    check_parameters(['map_name', 'project_name']);
+    $map_name = $_POST['map_name'];
+    $project_name = $_POST['project_name']; 
+    $map_id = get_map_id($map_name, $project_name);    
+    $query_string = "SELECT * FROM maps WHERE id='{$map_id}'";
+    return db_get($query_string);
+};
+$map_actions['get_all_2'] = function(){
+    check_parameters(['project']);
+    $project_id = get_project_id($_POST['project']);     
+    $query_string = "SELECT * FROM maps WHERE project='{$project_id}'";
     return db_get($query_string);
 };
 $map_actions['delete_row'] = function(){
     check_parameters(['map_name', 'row']);
     $map_name = $_POST['map_name'];
-    $map_id = get_map_id($map_name); 
+    $map_id = get_project_id($map_name);   
     $row = $_POST['row'];
     removeRow($map_id); 
     seatDeleteByRow($row, $map_id);
@@ -162,7 +170,7 @@ $map_actions['delete_row'] = function(){
 $map_actions['add_row'] = function(){
     check_parameters(['map_name', 'row']);
     $map_name = $_POST['map_name'];
-    $map_id = get_map_id($map_name); 
+    $map_id = get_project_id($map_name);     
     $row = $_POST['row'];
     addRow($map_id); 
     seatMoveRowDown($row, $map_id);
@@ -170,7 +178,7 @@ $map_actions['add_row'] = function(){
 $map_actions['delete_col'] = function(){
     check_parameters(['map_name', 'col']);
     $map_name = $_POST['map_name'];
-    $map_id = get_map_id($map_name); 
+    $map_id = get_project_id($map_name);   
     $col = $_POST['col'];
     removeCol($map_id); 
     seatDeleteByCol($col, $map_id);
@@ -179,7 +187,7 @@ $map_actions['delete_col'] = function(){
 $map_actions['add_col'] = function () {
     check_parameters(['map_name', 'col']);
     $map_name = $_POST['map_name'];
-    $map_id = get_map_id($map_name); 
+    $map_id = get_project_id($map_name);    
     $col = $_POST['col'];
     addCol($map_id); 
     seatMoveColDown($col, $map_id);

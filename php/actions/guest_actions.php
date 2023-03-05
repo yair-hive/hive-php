@@ -221,9 +221,12 @@ $guest_actions['update_last_name'] = function(){
     db_post($query_string);
 };
 $guest_actions['update_group_name'] = function(){
-    check_parameters(['guest_id', 'group_name']);
+    check_parameters(['guest_id', 'group_name', 'map_name']);
     $guest_id = $_POST['guest_id'];
     $group_name = $_POST['group_name'];
-    $query_string = "UPDATE guests SET score = '{$group_name}' WHERE id = '{$guest_id}'";
+    $map_name = $_POST['map_name'];
+    $map_id = get_map_id($map_name); 
+    $group_id = getGroupId($map_id, $group_name);
+    $query_string = "UPDATE guests SET guest_group = '{$group_id}' WHERE id = '{$guest_id}'";
     db_post($query_string);
 };

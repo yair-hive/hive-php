@@ -11,6 +11,7 @@ function db_post_multi($query_string){
             mysqli_free_result($result);
         }
     } while(mysqli_next_result($connection));
+    return 'pop';
 }
 function db_get($query_string, $breake = false){
     global $connection;
@@ -63,7 +64,47 @@ function create_action_log($action_name){
     $query_string = "INSERT INTO actions_log(action_name, user_name) VALUES('{$action_name}', '{$user_name}')";
     db_post($query_string);
 }
-function get_map_id($map_name){
-    $query_string = "SELECT id FROM maps WHERE map_name = '{$map_name}'";
+function get_project_id($name){
+    $query_string = "SELECT id FROM projects WHERE name = '{$name}'";
     return db_get($query_string)[0]['id'];
+}
+function get_map_id($map_name, $project_name){
+    $project_id = get_project_id($project_name);
+    $query_string = "SELECT id FROM maps WHERE map_name = '{$map_name}' AND project = '{$project_id}'";
+    return db_get($query_string)[0]['id'];
+}
+
+function create_default_group($project_id, $group_name){
+    global $connection; 
+    $color = '#2b4e81';
+    $score = 0;
+    $query_string = "INSERT INTO guests_groups(group_name, color, score, belong) VALUES('{$group_name}', '{$color}', '{$score}', '{$project_id}')";
+    mysqli_query($connection, $query_string);
+}
+function get_group_id($project_id, $group_name){
+    $query_string = "SELECT * FROM guests_groups WHERE group_name = '{$group_name}' AND belong = '{$project_id}'";
+    $result = db_get_one($query_string);
+    if($result){
+        return $result['id'];
+    }else{
+        create_default_group($project_id, $group_name);
+        $query_string = "SELECT * FROM guests_groups WHERE group_name = '{$group_name}' AND belong = '{$project_id}'";
+        $result = db_get_one($query_string);
+        return $result['id'];
+    }
+}
+function get_tag_id($tag_name, $project_name){
+    $project_id = get_project_id($project_name);
+    $query_string = "SELECT id FROM tags WHERE name = '{$tag_name}' AND project = '{$project_id}'";
+    $result = db_get_one($query_string);
+    if(!$result){
+        create_default_tag($tag_name, $project_name);
+        $result = db_get_one($query_string);
+    }
+    return $result['id'];
+};
+function create_default_tag($tag_name, $project_name){
+    $project_id = get_project_id($project_name);
+    $query_string = "INSERT INTO tags(name, color, score, project) VALUES('{$tag_name}', '#2b4e81', '0', '{$project_id}')";
+    db_post($query_string);
 }

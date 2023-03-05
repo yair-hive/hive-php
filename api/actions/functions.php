@@ -64,7 +64,12 @@ function create_action_log($action_name){
     $query_string = "INSERT INTO actions_log(action_name, user_name) VALUES('{$action_name}', '{$user_name}')";
     db_post($query_string);
 }
-function get_map_id($map_name){
-    $query_string = "SELECT id FROM maps WHERE map_name = '{$map_name}'";
+function get_project_id($name){
+    $query_string = "SELECT id FROM projects WHERE name = '{$name}'";
+    return db_get($query_string)[0]['id'];
+}
+function get_map_id($map_name, $project_name){
+    $project_id = get_project_id($project_name);
+    $query_string = "SELECT id FROM maps WHERE map_name = '{$map_name}' AND project = '{$project_id}'";
     return db_get($query_string)[0]['id'];
 }

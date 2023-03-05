@@ -1,137 +1,69 @@
 <?php
-function createDefaultGroup($map_id, $group_name){
+function createDefaultGroup($project_id, $group_name){
     global $connection; 
     $color = '#2b4e81';
     $score = 0;
-    $query_string = "INSERT INTO guests_groups(group_name, color, score, belong) VALUES('{$group_name}', '{$color}', '{$score}', '{$map_id}')";
+    $query_string = "INSERT INTO guests_groups(group_name, color, score, belong) VALUES('{$group_name}', '{$color}', '{$score}', '{$project_id}')";
     mysqli_query($connection, $query_string);
 }
-function getGroupId($map_id, $group_name){
-    $query_string = "SELECT * FROM guests_groups WHERE group_name = '{$group_name}' AND belong = '{$map_id}'";
+function getGroupId($project_id, $group_name){
+    $query_string = "SELECT * FROM guests_groups WHERE group_name = '{$group_name}' AND belong = '{$project_id}'";
     $result = db_get_one($query_string);
     if($result){
         return $result['id'];
     }else{
-        createDefaultGroup($map_id, $group_name);
-        $query_string = "SELECT * FROM guests_groups WHERE group_name = '{$group_name}' AND belong = '{$map_id}'";
+        createDefaultGroup($project_id, $group_name);
+        $query_string = "SELECT * FROM guests_groups WHERE group_name = '{$group_name}' AND belong = '{$project_id}'";
         $result = db_get_one($query_string);
         return $result['id'];
     }
 }
 $guest_actions['create'] = function () {
     global $NEW_POST;
-    check_parameters(['first_name', 'last_name', 'guest_group'], $NEW_POST);
+    check_parameters(['first_name', 'last_name', 'guest_group', 'project'], $NEW_POST);
     $first_name = $NEW_POST['first_name'];
     $last_name = $NEW_POST['last_name'];
     $guest_group = $NEW_POST['guest_group']; 
-    $map_name = $NEW_POST['map_name'];
-    $map_id = get_map_id($map_name); 
-    $guest_group_id = getGroupId($map_id, $guest_group);
-    $query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}' AND guest_group='{$guest_group}' AND belong='{$map_id}'";
+    $project = $NEW_POST['project'];
+    $project_id = get_project_id($project); 
+    $guest_group_id = getGroupId($project_id, $guest_group);
+    $query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}' AND guest_group='{$guest_group}' AND belong='{$project_id}'";
     check_exists($query_string);               
-    $query_string = "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group_id}', '{$map_id}')";
+    $query_string = "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group_id}', '{$project_id}')";
     db_post($query_string);
 };
 $guest_actions['create_multi'] = function () {
     global $NEW_POST;
-    check_parameters(['data', 'map_name'], $NEW_POST);
+    check_parameters(['data', 'project'], $NEW_POST);
     $data = $NEW_POST['data'];
-    $map_name = $NEW_POST['map_name'];
-    $map_id = get_map_id($map_name); 
+    $project = $NEW_POST['project'];
+    $project_id = get_project_id($project); 
     $query_string = "";
     foreach($data as $guest){
         $first_name = $guest[0];
         $last_name = $guest[1];
         $guest_group = $guest[2];
-        $guest_group_id = getGroupId($map_id, $guest_group);
-        $s_query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}' AND guest_group='{$guest_group}' AND belong='{$map_id}'";
+        $guest_group_id = getGroupId($project_id, $guest_group);
+        $s_query_string = "SELECT * FROM guests WHERE first_name='{$first_name}' AND last_name='{$last_name}' AND guest_group='{$guest_group}' AND belong='{$project_id}'";
         if(check_not_exists_f($s_query_string)){
-            $query_string .= "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group_id}', '{$map_id}');";
+            $query_string .= "INSERT INTO guests(first_name, last_name, guest_group, belong) VALUES('{$first_name}', '{$last_name}', '{$guest_group_id}', '{$project_id}');";
         }
     }
     db_post_multi($query_string);
 };
 $guest_actions['get_all'] = function () {
     global $NEW_POST;
-    check_parameters(['map_name'], $NEW_POST);
-    $map_name = $NEW_POST['map_name'];
-    $map_id = get_map_id($map_name);  
-    $query_string = "SELECT * FROM guests WHERE belong='{$map_id}'";
-    // $results = db_get($query_string);
-    // $new_results = [];
-    // foreach($results as $row){
-    //     $row['name'] = $row['last_name'].' '.$row['first_name'];
-    //     $new_results[$row['id']] = $row;
-    // }
-    // return $new_results;
+    check_parameters(['project'], $NEW_POST);
+    $project = $NEW_POST['project'];
+    $project_id = get_project_id($project);  
+    $query_string = "SELECT * FROM guests WHERE belong='{$project_id}'";
     return db_get($query_string);
 };
-$guest_actions['get_all_and_ditails'] = function () {
-    global $NEW_POST;
-    check_parameters(['map_name'], $NEW_POST);
-    $map_name = $NEW_POST['map_name'];
-    $map_id = get_map_id($map_name); 
-    $guests_query = "SELECT * FROM guests WHERE belong='{$map_id}'";
-    $belongs_query = "SELECT * FROM belong WHERE map_belong = '{$map_id}'";
-    $seats_query = "SELECT * FROM seats WHERE belong = '{$map_id}'";
-    $tags_query = "SELECT * FROM seat_groups_belong WHERE belong = '{$map_id}' AND group_type = 'tag'";
-    $requests_query = "SELECT * FROM guests_requests WHERE belong = '{$map_id}'";
-    $guests_results = db_get($guests_query);
-    $belongs_results = db_get($belongs_query);
-    $seats_results = db_get($seats_query);
-    $tags_results = db_get($tags_query);
-    $requests_results = db_get($requests_query);
-    $new_belongs_results = [];
-    foreach($belongs_results as $belong){
-        $new_belongs_results[$belong['guest']] = $belong;
-    }
-    $new_seats_results = [];
-    foreach($seats_results as $seat){
-        $new_seats_results[$seat['id']] = $seat;
-    }
-    $new_tags_results = [];
-    foreach($tags_results as $tag){
-        $new_tags_results[$tag['seat']] = [];
-    }
-    foreach($tags_results as $tag){
-        $new_tags_results[$tag['seat']][] = $tag;
-    }
-    $new_requests_results = [];
-    foreach($requests_results as $request){
-        $new_requests_results[$request['guest']] = [];
-    }
-    foreach($requests_results as $request){
-        $new_requests_results[$request['guest']][] = $request['request'];
-    }
-    $new_guests_results = [];
-    foreach($guests_results as $guest){
-        $guest_id = $guest['id'];
-        if(array_key_exists($guest_id, $new_belongs_results)){
-            $seat_id = $new_belongs_results[$guest_id]['seat'];
-            $seat = $new_seats_results[$seat_id];
-            if(array_key_exists($seat_id, $new_tags_results)){
-                $seat['tags'] = $new_tags_results[$seat_id];
-            }
-            $guest['seat'] = $seat;
-        }
-        if(array_key_exists($guest_id, $new_requests_results)){
-            $guest['requets'] = $new_requests_results[$guest_id];
-        }
-        $new_guests_results[] = $guest;
-    }
-    return $new_guests_results;
-};
-$guest_actions['get_belong'] = function(){
-    check_parameters(['guest_id']);
-    $guest_id = $_POST['guest_id'];
-    $query_string = "SELECT * FROM belong WHERE guest='{$guest_id}'";
-    return db_get($query_string); 
-};
 $guest_actions['get_belongs'] = function(){
-    check_parameters(['map_name']);
-    $map_name = $_POST['map_name'];
-    $map_id = get_map_id($map_name); 
-    $query_string = "SELECT * FROM belong WHERE map_belong='{$map_id}'";
+    check_parameters(['project']);
+    $project = $_POST['project'];
+    $project_id = get_project_id($project); 
+    $query_string = "SELECT * FROM belong WHERE map_belong='{$project_id}'";
     $results = db_get($query_string);
     $new_results = [];
     foreach($results as $row){
@@ -140,34 +72,34 @@ $guest_actions['get_belongs'] = function(){
     return $new_results;
 };
 $guest_actions['add'] = function () {
-    check_parameters(['map_name', 'seat_id', 'guest_id']);  
-    $map_name = $_POST['map_name'];
-    $map_id = get_map_id($map_name); 
+    check_parameters(['project', 'seat_id', 'guest_id']);  
+    $project = $_POST['project'];
+    $project_id = get_project_id($project);   
     $seat_id = $_POST['seat_id'];
     $guest_id = $_POST['guest_id'];
     $query_string = "DELETE FROM belong WHERE seat='{$seat_id}'";
     db_post($query_string);
     $query_string = "SELECT * FROM belong WHERE guest='{$guest_id}'";
     check_exists($query_string);
-    $query_string = "INSERT INTO belong(guest, seat, map_belong) VALUES('{$guest_id }', '{$seat_id}', '{$map_id}')";
+    $query_string = "INSERT INTO belong(guest, seat, map_belong) VALUES('{$guest_id }', '{$seat_id}', '{$project_id}')";
     db_post($query_string);
 };
 $guest_actions['update_belong'] = function () {
-    check_parameters(['map_name', 'seat_id', 'guest_id']);
-    $map_name = $_POST['map_name'];
-    $map_id = get_map_id($map_name); 
+    check_parameters(['project', 'seat_id', 'guest_id']);
+    $project = $_POST['project'];
+    $project_id = get_project_id($project);   
     $seat_id = $_POST['seat_id'];
     $guest_id = $_POST['guest_id'];
     $query_string = "";
     $query_string .= "DELETE FROM belong WHERE guest='{$guest_id}';";
     $query_string .= "DELETE FROM belong WHERE seat='{$seat_id}';";
-    $query_string .= "INSERT INTO belong(guest, seat, map_belong) VALUES('{$guest_id }', '{$seat_id}', '{$map_id}');";
+    $query_string .= "INSERT INTO belong(guest, seat, map_belong) VALUES('{$guest_id }', '{$seat_id}', '{$project_id}');";
     db_post_multi($query_string);
 };
 $guest_actions['update_belong_multiple'] = function(){  
-    check_parameters(['map_name']);
-    $map_name = $_POST['map_name'];
-    $map_id = get_map_id($map_name); 
+    check_parameters(['project']);
+    $project = $_POST['project'];
+    $project_id = get_project_id($project);   
     $data = json_decode($_POST['data']);
     $query_string = "";
     foreach($data as $row){
@@ -175,7 +107,7 @@ $guest_actions['update_belong_multiple'] = function(){
         $seat = $row->seat;
         $query_string .= "DELETE FROM belong WHERE guest='{$guest}';";
         $query_string .= "DELETE FROM belong WHERE seat='{$seat}';";
-        $query_string .= "INSERT INTO belong(guest, seat, map_belong) VALUES('{$guest}', '{$seat}', '{$map_id}');";
+        $query_string .= "INSERT INTO belong(guest, seat, map_belong) VALUES('{$guest}', '{$seat}', '{$project_id}');";
     }
     db_post_multi($query_string);
 };
@@ -188,22 +120,22 @@ $guest_actions['delete'] = function () {
     db_post($query_string);
 };
 $guest_actions['update'] = function () {
-    check_parameters(['first_name', 'last_name', 'guest_group', 'guest_id', 'map_name']);
+    check_parameters(['first_name', 'last_name', 'guest_group', 'guest_id', 'project']);
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
     $guest_group = $_POST['guest_group'];
     $guest_id = $_POST['guest_id'];
-    $map_name = $_POST['map_name'];
-    $map_id = get_map_id($map_name);   
-    $guest_group_id = getGroupId($map_id, $guest_group);
-    $query_string = "UPDATE guests SET first_name = '{$first_name}', last_name = '{$last_name}', guest_group = '{$guest_group_id}', belong = '{$map_id}' WHERE id= '{$guest_id}'";
+    $project = $_POST['project'];
+    $project_id = get_project_id($project);     
+    $guest_group_id = getGroupId($project_id, $guest_group);
+    $query_string = "UPDATE guests SET first_name = '{$first_name}', last_name = '{$last_name}', guest_group = '{$guest_group_id}', belong = '{$project_id}' WHERE id= '{$guest_id}'";
     db_post($query_string);
 };
 $guest_actions['get_all_groups'] = function () {
-    check_parameters(['map_name']);       
-    $map_name = $_POST['map_name'];
-    $map_id = get_map_id($map_name);  
-    $query_string = "SELECT * FROM guests_groups WHERE belong='{$map_id}'";
+    check_parameters(['project']);       
+    $project = $_POST['project'];
+    $project_id = get_project_id($project); 
+    $query_string = "SELECT * FROM guests_groups WHERE belong='{$project_id}'";
     $results = db_get($query_string);
     $new_results = [];
     foreach($results as $row){
@@ -254,9 +186,13 @@ $guest_actions['update_last_name'] = function(){
     db_post($query_string);
 };
 $guest_actions['update_group_name'] = function(){
-    check_parameters(['guest_id', 'group_name']);
+    check_parameters(['guest_id', 'group_name', 'project']);
     $guest_id = $_POST['guest_id'];
     $group_name = $_POST['group_name'];
-    $query_string = "UPDATE guests SET score = '{$group_name}' WHERE id = '{$guest_id}'";
+    $project = $_POST['project'];
+    $project_id = get_project_id($project);  
+    $group_id = getGroupId($project_id, $group_name);
+    print_r($group_id);
+    $query_string = "UPDATE guests SET guest_group = '{$group_id}' WHERE id = '{$guest_id}'";
     db_post($query_string);
 };

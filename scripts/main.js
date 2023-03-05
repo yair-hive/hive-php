@@ -160,7 +160,7 @@ function test70(){
 }
 // test70()
 function test71(){
-    const api_url1 = '/api/index.php'
+    const api_url1 = '/api/index_new.php'
     const options = {
         method: 'POST',
         body: "category=seat_groups&action=get_seats_by_cols&map_name=test17",
@@ -175,4 +175,31 @@ function test71(){
     .then(res => res.json())
     .then(res => console.log(res))
 }
-test71()
+// test71()
+
+function test72(){
+    function convertToFormType(object){
+        var as_array = Object.entries(object)
+        var strings_array = []
+        for(let [key, value] of as_array){
+            strings_array.push(`${key}=${value}`)
+        }
+        return strings_array.join('&')
+    }
+    
+    var test = {
+        bop: 'dwqgw',
+        hhh: 'ee'
+    }
+    
+    console.log(convertToFormType(test))
+}
+// test72()
+
+function test73(){
+    var as = 'gop'
+    var top = 'יהו'
+    var fop = {as, top}
+    console.log(fop)
+}
+test73()
