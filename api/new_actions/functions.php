@@ -78,17 +78,17 @@ function create_default_group($project_id, $group_name){
     global $connection; 
     $color = '#2b4e81';
     $score = 0;
-    $query_string = "INSERT INTO guests_groups(group_name, color, score, belong) VALUES('{$group_name}', '{$color}', '{$score}', '{$project_id}')";
+    $query_string = "INSERT INTO guests_groups(name, color, score, project) VALUES('{$group_name}', '{$color}', '{$score}', '{$project_id}')";
     mysqli_query($connection, $query_string);
 }
 function get_group_id($project_id, $group_name){
-    $query_string = "SELECT * FROM guests_groups WHERE group_name = '{$group_name}' AND belong = '{$project_id}'";
+    $query_string = "SELECT * FROM guests_groups WHERE name = '{$group_name}' AND project = '{$project_id}'";
     $result = db_get_one($query_string);
     if($result){
         return $result['id'];
     }else{
         create_default_group($project_id, $group_name);
-        $query_string = "SELECT * FROM guests_groups WHERE group_name = '{$group_name}' AND belong = '{$project_id}'";
+        $query_string = "SELECT * FROM guests_groups WHERE name = '{$group_name}' AND project = '{$project_id}'";
         $result = db_get_one($query_string);
         return $result['id'];
     }

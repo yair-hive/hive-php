@@ -1,7 +1,8 @@
 <?php
 $guests['create'] = function(){
     check_parameters(['guests', 'project_name']);
-    $data = $_POST['guests'];
+    $guests = $_POST['guests'];
+    $data = json_decode($guests);
     $project_name = $_POST['project_name'];
     $project_id = get_project_id($project_name); 
     $query_string = "";

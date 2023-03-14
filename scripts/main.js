@@ -202,4 +202,12 @@ function test73(){
     var fop = {as, top}
     console.log(fop)
 }
-test73()
+// test73()
+
+function test74(){
+    var arr = [1,2,5,4,3]
+    arr.sort(function(a, b) { return a - b; });
+    arr.reverse()
+    console.log(arr)
+}
+test74()

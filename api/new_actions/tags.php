@@ -14,9 +14,9 @@ $tags['get_all'] = function(){
 $tags['delete'] = function(){
     check_parameters(['tag_id']);
     $tag_id = $_POST['tag_id'];
-    $query_string = "DELETE FROM tags WHERE id = '{$tag_id}'";
-    $query_string .= "DELETE FROM guests_requests WHERE request = '{$tag_id}'";
-    $query_string .= "DELETE FROM tag_belongs WHERE tag = '{$tag_id}'";
+    $query_string = "DELETE FROM tags WHERE id = '{$tag_id}';";
+    $query_string .= "DELETE FROM guests_requests WHERE request = '{$tag_id}';";
+    $query_string .= "DELETE FROM tag_belongs WHERE tag = '{$tag_id}';";
     db_post_multi($query_string);
 };
 $tags['update'] = function(){
