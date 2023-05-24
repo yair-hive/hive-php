@@ -82,6 +82,9 @@ function create_default_group($project_id, $group_name){
     mysqli_query($connection, $query_string);
 }
 function get_group_id($project_id, $group_name){
+    if(mb_strlen($group_name, 'utf-8') == 0){
+        $group_name = 'ללא קבוצה';
+    }
     $query_string = "SELECT * FROM guests_groups WHERE name = '{$group_name}' AND project = '{$project_id}'";
     $result = db_get_one($query_string);
     if($result){

@@ -12,10 +12,14 @@ $guest_groups['get_all'] = function(){
     return $new_results;
 };
 $guest_groups['delete'] = function(){
-    check_parameters(['group_id']);
-    $group_id = $_POST['group_id'];  
-    $query_string = "DELETE FROM guests_groups WHERE id='{$group_id}'";
-    db_post($query_string);
+    check_parameters(['group_id', 'project_name']);
+    $group_id = $_POST['group_id'];
+    $project_id = get_project_id($_POST['project_name']);
+    $query_string = "";
+    $und_group_id = get_group_id($project_id, 'ללא קבוצה');
+    $query_string .= "UPDATE guests SET guest_group = '{$und_group_id}' WHERE guest_group = '{$group_id}';"; 
+    $query_string .= "DELETE FROM guests_groups WHERE id='{$group_id}';";
+    db_post_multi($query_string);
 };
 $guest_groups['update'] = function(){
     $filds['name'] = function(){

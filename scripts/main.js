@@ -210,4 +210,17 @@ function test74(){
     arr.reverse()
     console.log(arr)
 }
-test74()
+// test74()
+async function test75(){
+
+    const options = {
+        // mode: 'no-cors'
+    };
+
+    var res = await fetch('https://navid0583285502.strangled.net/api/v1/entries.json?token=yair-44ee8835e5ce9cb8', options)
+    console.log(res)
+    var res_json = await res.json()
+    console.log(res_json)
+}
+
+test75()
